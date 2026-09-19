@@ -1,1 +1,971 @@
+```html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+<title>Médiathèque Horizon</title>
+
+<style>
+
+/* =========================
+   BASE
+========================= */
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif;
+    background: #f5f3ef;
+    color: #20252a;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+header {
+    height: 82px;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 6%;
+    border-bottom: 1px solid #e5e2dc;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    cursor: pointer;
+}
+
+.logo-symbol {
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #244f4b;
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.logo-text strong {
+    display: block;
+    font-size: 15px;
+    letter-spacing: 1.5px;
+}
+
+.logo-text span {
+    display: block;
+    font-size: 11px;
+    letter-spacing: 3px;
+    color: #8b6b45;
+    margin-top: 3px;
+}
+
+nav {
+    display: flex;
+    align-items: center;
+    gap: 28px;
+}
+
+nav a {
+    text-decoration: none;
+    color: #303638;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+nav a:hover {
+    color: #244f4b;
+}
+
+.login-button {
+    background: #244f4b;
+    color: white !important;
+    padding: 12px 20px;
+    border-radius: 4px;
+}
+
+.login-button:hover {
+    background: #193c39;
+}
+
+/* =========================
+   PAGE ACCUEIL
+========================= */
+
+#homePage {
+    display: block;
+}
+
+.hero {
+    min-height: 570px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 70px 8%;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(245,243,239,1) 0%,
+            rgba(245,243,239,.92) 45%,
+            rgba(245,243,239,.45) 100%
+        ),
+        linear-gradient(
+            135deg,
+            #d7d0c4,
+            #eeeae3
+        );
+}
+
+.hero-content {
+    max-width: 680px;
+}
+
+.small-title {
+    color: #8b6b45;
+    font-weight: bold;
+    font-size: 12px;
+    letter-spacing: 3px;
+    margin-bottom: 18px;
+}
+
+.hero h1 {
+    font-family: Georgia, serif;
+    font-size: clamp(42px, 6vw, 72px);
+    line-height: 1.04;
+    font-weight: normal;
+    margin: 0;
+}
+
+.hero h1 span {
+    color: #244f4b;
+}
+
+.description {
+    max-width: 560px;
+    margin-top: 28px;
+
+    font-size: 18px;
+    line-height: 1.7;
+
+    color: #60676a;
+}
+
+.buttons {
+    display: flex;
+    gap: 14px;
+    margin-top: 32px;
+}
+
+.primary-button,
+.secondary-button {
+    text-decoration: none;
+
+    padding: 15px 23px;
+
+    border-radius: 4px;
+
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.primary-button {
+    background: #244f4b;
+    color: white;
+}
+
+.secondary-button {
+    border: 1px solid #244f4b;
+    color: #244f4b;
+}
+
+.primary-button:hover {
+    background: #193c39;
+}
+
+.secondary-button:hover {
+    background: #244f4b;
+    color: white;
+}
+
+/* =========================
+   CARTES
+========================= */
+
+.cards {
+    display: grid;
+
+    grid-template-columns:
+        repeat(3, 1fr);
+
+    gap: 22px;
+
+    max-width: 1100px;
+
+    margin: -45px auto 80px;
+
+    padding: 0 25px;
+
+    position: relative;
+}
+
+.card {
+    background: white;
+
+    padding: 30px;
+
+    border-radius: 6px;
+
+    box-shadow:
+        0 8px 30px rgba(0,0,0,.06);
+}
+
+.card-icon {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.card h2 {
+    font-family: Georgia, serif;
+    font-weight: normal;
+    margin: 0 0 10px;
+}
+
+.card p {
+    color: #707679;
+    line-height: 1.6;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+footer {
+    background: #244f4b;
+    color: white;
+
+    padding: 40px 8%;
+
+    display: flex;
+    justify-content: space-between;
+
+    gap: 30px;
+}
+
+footer p {
+    opacity: .75;
+}
+
+.footer-links {
+    display: flex;
+    gap: 25px;
+}
+
+.footer-links a {
+    color: white;
+    text-decoration: none;
+    opacity: .85;
+}
+
+/* =========================
+   PAGE CONNEXION
+========================= */
+
+#loginPage {
+    display: none;
+
+    min-height:
+        calc(100vh - 82px);
+
+    justify-content: center;
+    align-items: center;
+
+    padding: 50px 20px;
+}
+
+.login-box {
+    width: 100%;
+    max-width: 460px;
+
+    background: white;
+
+    padding: 45px;
+
+    border-radius: 6px;
+
+    box-shadow:
+        0 12px 45px rgba(0,0,0,.08);
+}
+
+.login-logo {
+    width: 55px;
+    height: 55px;
+
+    border-radius: 50%;
+
+    background: #244f4b;
+    color: white;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    font-weight: bold;
+
+    margin-bottom: 28px;
+}
+
+.login-box h1 {
+    font-family: Georgia, serif;
+
+    font-size: 38px;
+
+    font-weight: normal;
+
+    margin:
+        5px 0 10px;
+}
+
+.login-description {
+    color: #707679;
+
+    margin-bottom: 30px;
+}
+
+.login-box label {
+    display: block;
+
+    font-size: 14px;
+
+    font-weight: bold;
+
+    margin:
+        18px 0 8px;
+}
+
+.login-box input {
+    width: 100%;
+
+    padding: 14px;
+
+    border:
+        1px solid #d7d4ce;
+
+    border-radius: 4px;
+
+    font-size: 15px;
+
+    outline: none;
+}
+
+.login-box input:focus {
+    border-color: #244f4b;
+}
+
+.login-submit {
+    width: 100%;
+
+    margin-top: 25px;
+
+    padding: 15px;
+
+    border: 0;
+
+    border-radius: 4px;
+
+    background: #244f4b;
+
+    color: white;
+
+    font-size: 15px;
+
+    cursor: pointer;
+}
+
+.login-submit:hover {
+    background: #193c39;
+}
+
+#errorMessage {
+    color: #b23a3a;
+
+    font-size: 13px;
+
+    min-height: 18px;
+
+    margin:
+        12px 0 0;
+}
+
+.back-home {
+    display: block;
+
+    text-align: center;
+
+    margin-top: 25px;
+
+    color: #244f4b;
+
+    text-decoration: none;
+
+    font-size: 14px;
+
+    cursor: pointer;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 800px) {
+
+    header {
+        height: auto;
+
+        padding:
+            18px 5%;
+
+        flex-wrap: wrap;
+
+        gap: 18px;
+    }
+
+    nav {
+        width: 100%;
+
+        overflow-x: auto;
+
+        gap: 18px;
+    }
+
+    nav a:not(.login-button) {
+        display: none;
+    }
+
+    .hero {
+        padding:
+            70px 7%;
+    }
+
+    .cards {
+        grid-template-columns: 1fr;
+
+        margin-top: 30px;
+    }
+
+    footer {
+        flex-direction: column;
+    }
+
+    .login-box {
+        padding:
+            30px 25px;
+    }
+
+    .buttons {
+        flex-direction: column;
+    }
+}
+
+</style>
+</head>
+
+
+<body>
+
+
+<!-- ==================================================
+     PAGE PRINCIPALE
+================================================== -->
+
+<div id="homePage">
+
+    <header>
+
+        <div
+            class="logo"
+            onclick="showHome()"
+        >
+
+            <div class="logo-symbol">
+                MH
+            </div>
+
+            <div class="logo-text">
+
+                <strong>
+                    MÉDIATHÈQUE
+                </strong>
+
+                <span>
+                    HORIZON
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <a href="#">
+                Accueil
+            </a>
+
+            <a href="#">
+                Catalogue
+            </a>
+
+            <a href="#">
+                Animations
+            </a>
+
+            <a href="#">
+                Infos pratiques
+            </a>
+
+            <a
+                class="login-button"
+                onclick="showLogin()"
+            >
+                Se connecter
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <main>
+
+        <section class="hero">
+
+            <div class="hero-content">
+
+                <p class="small-title">
+                    BIENVENUE
+                </p>
+
+                <h1>
+
+                    Votre médiathèque,
+                    <br>
+
+                    <span>
+                        un monde à découvrir.
+                    </span>
+
+                </h1>
+
+                <p class="description">
+
+                    Livres, films, musique, jeux
+                    et découvertes : retrouvez
+                    toute notre sélection au
+                    même endroit.
+
+                </p>
+
+
+                <div class="buttons">
+
+                    <a
+                        class="primary-button"
+                        href="#"
+                    >
+                        Découvrir le catalogue
+                    </a>
+
+                    <a
+                        class="secondary-button"
+                        href="#"
+                    >
+                        Nos animations
+                    </a>
+
+                </div>
+
+            </div>
+
+        </section>
+
+
+        <section class="cards">
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    📚
+                </div>
+
+                <h2>
+                    Catalogue
+                </h2>
+
+                <p>
+                    Découvrez nos livres,
+                    BD, mangas et magazines.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    🎬
+                </div>
+
+                <h2>
+                    Multimédia
+                </h2>
+
+                <p>
+                    Films, musique et
+                    contenus numériques.
+                </p>
+
+            </div>
+
+
+            <div class="card">
+
+                <div class="card-icon">
+                    🎮
+                </div>
+
+                <h2>
+                    Jeunesse
+                </h2>
+
+                <p>
+                    Des activités et
+                    découvertes pour tous.
+                </p>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+    <footer>
+
+        <div>
+
+            <strong>
+                Médiathèque Horizon
+            </strong>
+
+            <p>
+                Un espace fictif créé
+                pour ce projet.
+            </p>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <a href="#">
+                Contact
+            </a>
+
+            <a href="#">
+                Horaires
+            </a>
+
+            <a href="#">
+                Mentions légales
+            </a>
+
+        </div>
+
+    </footer>
+
+</div>
+
+
+
+<!-- ==================================================
+     PAGE DE CONNEXION
+================================================== -->
+
+<div id="loginPage">
+
+
+    <div class="login-box">
+
+
+        <div class="login-logo">
+            MH
+        </div>
+
+
+        <p class="small-title">
+            ESPACE PERSONNEL
+        </p>
+
+
+        <h1>
+            Se connecter
+        </h1>
+
+
+        <p class="login-description">
+
+            Connectez-vous à votre
+            espace personnel.
+
+        </p>
+
+
+        <form id="loginForm">
+
+
+            <label for="username">
+                Identifiant
+            </label>
+
+            <input
+                type="text"
+                id="username"
+                placeholder="Votre identifiant"
+                autocomplete="off"
+            >
+
+
+            <label for="password">
+                Mot de passe
+            </label>
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Votre mot de passe"
+            >
+
+
+            <p id="errorMessage"></p>
+
+
+            <button
+                type="submit"
+                class="login-submit"
+            >
+                Se connecter
+            </button>
+
+
+        </form>
+
+
+        <a
+            class="back-home"
+            onclick="showHome()"
+        >
+            ← Retour à l'accueil
+        </a>
+
+
+    </div>
+
+</div>
+
+
+
+<script>
+
+/* ==================================================
+   CONFIGURATION
+================================================== */
+
+
+/*
+   IDENTIFIANT DE DÉMONSTRATION
+
+   Tu peux modifier cette valeur.
+*/
+
+const DEMO_USERNAME = "ClemSQPT";
+
+
+/*
+   MOT DE PASSE DE DÉMONSTRATION
+
+   Remplace CHANGE-MOI par celui que tu veux.
+
+   Attention :
+   cette méthode n'est PAS une véritable sécurité
+   car le code JavaScript est visible dans le navigateur.
+*/
+
+const DEMO_PASSWORD = "CHANGE-MOI";
+
+
+/*
+   URL DU DEUXIÈME SITE
+
+   Quand ton deuxième site sera créé,
+   remplace cette adresse.
+
+   Exemple :
+
+   https://mon-site-jeux.github.io/
+*/
+
+const PRIVATE_SITE =
+    "https://TON-DEUXIEME-SITE.github.io/";
+
+
+/* ==================================================
+   AFFICHER L'ACCUEIL
+================================================== */
+
+function showHome() {
+
+    document.getElementById("homePage")
+        .style.display = "block";
+
+    document.getElementById("loginPage")
+        .style.display = "none";
+
+    window.scrollTo(0, 0);
+}
+
+
+/* ==================================================
+   AFFICHER LA CONNEXION
+================================================== */
+
+function showLogin() {
+
+    document.getElementById("homePage")
+        .style.display = "none";
+
+    document.getElementById("loginPage")
+        .style.display = "flex";
+
+    window.scrollTo(0, 0);
+
+    document.getElementById("username")
+        .focus();
+}
+
+
+/* ==================================================
+   CONNEXION
+================================================== */
+
+document
+    .getElementById("loginForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            const username =
+                document
+                    .getElementById("username")
+                    .value
+                    .trim();
+
+
+            const password =
+                document
+                    .getElementById("password")
+                    .value;
+
+
+            const error =
+                document
+                    .getElementById("errorMessage");
+
+
+            /*
+               IDENTIFIANTS CORRECTS
+            */
+
+            if (
+                username === DEMO_USERNAME &&
+                password === DEMO_PASSWORD
+            ) {
+
+                /*
+                   REDIRECTION VERS
+                   LE DEUXIÈME SITE
+                */
+
+                window.location.href =
+                    PRIVATE_SITE;
+
+                return;
+            }
+
+
+            /*
+               IDENTIFIANTS INCORRECTS
+            */
+
+            error.textContent =
+                "Identifiant ou mot de passe incorrect.";
+
+
+            /*
+               Retour automatique
+               vers l'accueil après 1,2 seconde.
+            */
+
+            setTimeout(
+                function() {
+
+                    showHome();
+
+                    error.textContent = "";
+
+                },
+                1200
+            );
+
+        }
+    );
+
+
+/* ==================================================
+   DÉMARRAGE
+================================================== */
+
+showHome();
+
+</script>
+
+</body>
+</html>
+```
