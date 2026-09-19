@@ -532,6 +532,339 @@ body{
 }
 
 /* =========================
+   PAGE DES JEUX
+========================= */
+
+#gamesPage{
+    display:none;
+    min-height:100vh;
+    background:#111;
+    color:#eee;
+}
+
+.games-header{
+    height:88px;
+    background:#181818;
+    border-bottom:1px solid #292929;
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 5%;
+
+    position:sticky;
+    top:0;
+    z-index:50;
+}
+
+.games-brand{
+    display:flex;
+    align-items:center;
+    gap:14px;
+}
+
+.games-logo{
+    width:46px;
+    height:46px;
+
+    background:#315b57;
+    color:white;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    border-radius:4px;
+
+    font-weight:bold;
+    font-family:Georgia,serif;
+}
+
+.games-title{
+    font-family:Georgia,serif;
+    font-size:24px;
+}
+
+.games-subtitle{
+    color:#888;
+    font-size:12px;
+    margin-top:3px;
+}
+
+.games-actions{
+    display:flex;
+    align-items:center;
+    gap:10px;
+}
+
+.games-button{
+    border:1px solid #3a3a3a;
+    background:#202020;
+    color:#eee;
+
+    padding:10px 15px;
+
+    border-radius:5px;
+
+    cursor:pointer;
+
+    font-size:13px;
+
+    transition:.2s;
+}
+
+.games-button:hover{
+    background:#2c2c2c;
+}
+
+.games-button.green{
+    background:#315b57;
+    border-color:#315b57;
+}
+
+.games-button.green:hover{
+    background:#234641;
+}
+
+.games-content{
+    max-width:1150px;
+    margin:0 auto;
+
+    padding:55px 25px 80px;
+}
+
+.games-heading{
+    margin-bottom:35px;
+}
+
+.games-eyebrow{
+    color:#9b7549;
+    font-size:11px;
+    font-weight:bold;
+    letter-spacing:3px;
+    margin-bottom:12px;
+}
+
+.games-main-title{
+    font-family:Georgia,serif;
+    font-weight:normal;
+    font-size:48px;
+    margin-bottom:12px;
+}
+
+.games-description{
+    color:#8e8e8e;
+    max-width:650px;
+    line-height:1.7;
+}
+
+.games-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:20px;
+}
+
+.game-card{
+    min-height:220px;
+
+    background:#1b1b1b;
+    border:1px solid #292929;
+
+    border-radius:8px;
+
+    padding:30px;
+
+    cursor:pointer;
+
+    transition:
+        transform .2s,
+        border-color .2s,
+        background .2s;
+}
+
+.game-card:hover{
+    transform:translateY(-4px);
+    border-color:#315b57;
+    background:#202020;
+}
+
+.game-number{
+    color:#9b7549;
+    font-size:12px;
+    font-weight:bold;
+    letter-spacing:2px;
+    margin-bottom:18px;
+}
+
+.game-icon{
+    font-size:38px;
+    margin-bottom:15px;
+}
+
+.game-title{
+    font-family:Georgia,serif;
+    font-size:27px;
+    font-weight:normal;
+    margin-bottom:10px;
+}
+
+.game-text{
+    color:#8d8d8d;
+    line-height:1.6;
+    font-size:14px;
+}
+
+.game-tag{
+    display:inline-block;
+
+    margin-top:20px;
+
+    padding:6px 10px;
+
+    background:#252525;
+    border:1px solid #333;
+
+    border-radius:4px;
+
+    color:#aaa;
+
+    font-size:11px;
+}
+
+/* =========================
+   LOGS
+========================= */
+
+#logsPanel{
+    display:none;
+
+    position:fixed;
+
+    top:88px;
+    right:20px;
+
+    width:430px;
+    max-width:calc(100vw - 40px);
+
+    max-height:calc(100vh - 110px);
+
+    overflow:auto;
+
+    background:#171717;
+    border:1px solid #353535;
+
+    border-radius:8px;
+
+    box-shadow:0 20px 60px rgba(0,0,0,.55);
+
+    z-index:100;
+}
+
+.logs-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:18px 20px;
+
+    border-bottom:1px solid #303030;
+
+    position:sticky;
+    top:0;
+
+    background:#171717;
+}
+
+.logs-title{
+    font-family:Georgia,serif;
+    font-size:20px;
+}
+
+.logs-close{
+    background:none;
+    border:none;
+    color:#aaa;
+    font-size:22px;
+    cursor:pointer;
+}
+
+.logs-info{
+    padding:15px 20px;
+
+    color:#888;
+
+    font-size:12px;
+    line-height:1.5;
+
+    border-bottom:1px solid #292929;
+}
+
+.logs-list{
+    padding:10px 20px 20px;
+}
+
+.log-entry{
+    padding:13px 0;
+
+    border-bottom:1px solid #292929;
+
+    font-size:12px;
+}
+
+.log-entry:last-child{
+    border-bottom:none;
+}
+
+.log-username{
+    color:#eee;
+    font-weight:bold;
+}
+
+.log-time{
+    color:#777;
+    margin-top:4px;
+}
+
+.log-result{
+    margin-top:5px;
+}
+
+.log-success{
+    color:#6fb59c;
+}
+
+.log-failed{
+    color:#c77878;
+}
+
+.logs-empty{
+    color:#777;
+    text-align:center;
+    padding:25px 0;
+}
+
+.logs-clear{
+    margin:0 20px 20px;
+
+    width:calc(100% - 40px);
+
+    height:38px;
+
+    border:1px solid #383838;
+    border-radius:4px;
+
+    background:#202020;
+    color:#ccc;
+
+    cursor:pointer;
+}
+
+.logs-clear:hover{
+    background:#2a2a2a;
+}
+
+/* =========================
    MOBILE
 ========================= */
 
@@ -587,6 +920,30 @@ body{
     .footer{
         flex-direction:column;
     }
+
+    .games-grid{
+        grid-template-columns:1fr;
+    }
+
+    .games-main-title{
+        font-size:40px;
+    }
+
+    .games-header{
+        height:auto;
+        min-height:80px;
+        padding:15px 5%;
+        gap:15px;
+    }
+
+    .games-actions{
+        flex-wrap:wrap;
+        justify-content:flex-end;
+    }
+
+    #logsPanel{
+        top:90px;
+    }
 }
 
 @media(max-width:500px){
@@ -611,15 +968,31 @@ body{
     .login-title{
         font-size:34px;
     }
+
+    .games-title{
+        font-size:20px;
+    }
+
+    .games-main-title{
+        font-size:34px;
+    }
+
+    .games-actions{
+        width:100%;
+    }
+
+    .games-button{
+        padding:9px 11px;
+    }
 }
 </style>
 </head>
 
 <body>
 
-<!-- =========================
+<!-- =========================================================
      PAGE PRINCIPALE
-========================= -->
+========================================================= -->
 
 <div id="homePage">
 
@@ -854,9 +1227,9 @@ body{
 </div>
 
 
-<!-- =========================
+<!-- =========================================================
      PAGE DE CONNEXION
-========================= -->
+========================================================= -->
 
 <div id="loginPage">
 
@@ -881,8 +1254,6 @@ body{
 
         <form id="loginForm">
 
-            <!-- IDENTIFIANT -->
-
             <label
                 class="login-label"
                 for="username"
@@ -898,8 +1269,6 @@ body{
                 autocomplete="off"
             >
 
-
-            <!-- MOT DE PASSE -->
 
             <label
                 class="login-label"
@@ -937,9 +1306,261 @@ body{
 
         <div class="login-note">
             Portail de démonstration personnel.
-            Les informations saisies ne sont pas
-            enregistrées ni transmises.
+            Le mot de passe saisi n'est ni enregistré
+            ni transmis.
         </div>
+
+    </div>
+
+</div>
+
+
+<!-- =========================================================
+     PAGE DES JEUX
+========================================================= -->
+
+<div id="gamesPage">
+
+    <header class="games-header">
+
+        <div class="games-brand">
+
+            <div class="games-logo">
+                G
+            </div>
+
+            <div>
+
+                <div class="games-title">
+                    GAMEZONE
+                </div>
+
+                <div class="games-subtitle">
+                    Espace de jeux
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="games-actions">
+
+            <button
+                class="games-button"
+                onclick="showLogs()"
+            >
+                Logs
+            </button>
+
+            <button
+                class="games-button"
+                onclick="showHome()"
+            >
+                Accueil
+            </button>
+
+        </div>
+
+    </header>
+
+
+    <main class="games-content">
+
+        <section class="games-heading">
+
+            <div class="games-eyebrow">
+                ESPACE JEUX
+            </div>
+
+            <h1 class="games-main-title">
+                Choisis ton jeu
+            </h1>
+
+            <p class="games-description">
+                Sélectionne un jeu dans la liste ci-dessous.
+                De nouveaux jeux pourront être ajoutés
+                progressivement.
+            </p>
+
+        </section>
+
+
+        <section class="games-grid">
+
+
+            <!-- JEU 1 -->
+
+            <div
+                class="game-card"
+                onclick="openGame('jeu1.html')"
+            >
+
+                <div class="game-number">
+                    JEU 01
+                </div>
+
+                <div class="game-icon">
+                    ◼
+                </div>
+
+                <h2 class="game-title">
+                    Attrape le carré
+                </h2>
+
+                <p class="game-text">
+                    Clique sur le carré le plus rapidement
+                    possible pendant 30 secondes.
+                    Le carré devient progressivement plus petit.
+                </p>
+
+                <span class="game-tag">
+                    30 secondes
+                </span>
+
+            </div>
+
+
+            <!-- JEU 2 -->
+
+            <div
+                class="game-card"
+                onclick="comingSoon()"
+            >
+
+                <div class="game-number">
+                    JEU 02
+                </div>
+
+                <div class="game-icon">
+                    ?
+                </div>
+
+                <h2 class="game-title">
+                    Bientôt...
+                </h2>
+
+                <p class="game-text">
+                    Un nouveau jeu sera disponible
+                    prochainement.
+                </p>
+
+                <span class="game-tag">
+                    À venir
+                </span>
+
+            </div>
+
+
+            <!-- JEU 3 -->
+
+            <div
+                class="game-card"
+                onclick="comingSoon()"
+            >
+
+                <div class="game-number">
+                    JEU 03
+                </div>
+
+                <div class="game-icon">
+                    ?
+                </div>
+
+                <h2 class="game-title">
+                    Bientôt...
+                </h2>
+
+                <p class="game-text">
+                    Un nouveau jeu sera disponible
+                    prochainement.
+                </p>
+
+                <span class="game-tag">
+                    À venir
+                </span>
+
+            </div>
+
+
+            <!-- JEU 4 -->
+
+            <div
+                class="game-card"
+                onclick="comingSoon()"
+            >
+
+                <div class="game-number">
+                    JEU 04
+                </div>
+
+                <div class="game-icon">
+                    ?
+                </div>
+
+                <h2 class="game-title">
+                    Bientôt...
+                </h2>
+
+                <p class="game-text">
+                    Un nouveau jeu sera disponible
+                    prochainement.
+                </p>
+
+                <span class="game-tag">
+                    À venir
+                </span>
+
+            </div>
+
+
+        </section>
+
+    </main>
+
+
+    <!-- =====================================================
+         PANNEAU LOGS
+    ====================================================== -->
+
+    <div id="logsPanel">
+
+        <div class="logs-header">
+
+            <div class="logs-title">
+                Logs de connexion
+            </div>
+
+            <button
+                class="logs-close"
+                onclick="hideLogs()"
+            >
+                ×
+            </button>
+
+        </div>
+
+
+        <div class="logs-info">
+            Les logs enregistrent uniquement l'identifiant,
+            le résultat et l'heure. Les mots de passe ne sont
+            jamais enregistrés.
+        </div>
+
+
+        <div
+            id="logsList"
+            class="logs-list"
+        >
+        </div>
+
+
+        <button
+            class="logs-clear"
+            onclick="clearLogs()"
+        >
+            Effacer les logs
+        </button>
 
     </div>
 
@@ -948,9 +1569,9 @@ body{
 
 <script>
 
-/* =========================
+/* =========================================================
    CONFIGURATION
-========================= */
+========================================================= */
 
 const OFFICIAL_SITE =
     "https://mediatheques.saintgermainenlaye.fr/fr/";
@@ -958,13 +1579,10 @@ const OFFICIAL_SITE =
 const SPECIAL_USERNAME =
     "Clemsupp";
 
-const GAMES_SITE =
-    "https://clemsupp.github.io/jeuxvideo/";
 
-
-/* =========================
+/* =========================================================
    SITE OFFICIEL
-========================= */
+========================================================= */
 
 function goOfficial(){
 
@@ -974,9 +1592,9 @@ function goOfficial(){
 }
 
 
-/* =========================
-   AFFICHER CONNEXION
-========================= */
+/* =========================================================
+   AFFICHER LA CONNEXION
+========================================================= */
 
 function showLogin(){
 
@@ -985,8 +1603,14 @@ function showLogin(){
         .style.display = "none";
 
     document
+        .getElementById("gamesPage")
+        .style.display = "none";
+
+    document
         .getElementById("loginPage")
         .style.display = "flex";
+
+    hideLogs();
 
     window.scrollTo(0,0);
 
@@ -1001,9 +1625,9 @@ function showLogin(){
 }
 
 
-/* =========================
-   RETOUR ACCUEIL
-========================= */
+/* =========================================================
+   AFFICHER L'ACCUEIL
+========================================================= */
 
 function showHome(){
 
@@ -1012,78 +1636,419 @@ function showHome(){
         .style.display = "none";
 
     document
+        .getElementById("gamesPage")
+        .style.display = "none";
+
+    document
         .getElementById("homePage")
         .style.display = "block";
+
+    hideLogs();
 
     window.scrollTo(0,0);
 
 }
 
 
-/* =========================
+/* =========================================================
+   AFFICHER LES JEUX
+========================================================= */
+
+function showGames(){
+
+    document
+        .getElementById("homePage")
+        .style.display = "none";
+
+    document
+        .getElementById("loginPage")
+        .style.display = "none";
+
+    document
+        .getElementById("gamesPage")
+        .style.display = "block";
+
+    hideLogs();
+
+    window.scrollTo(0,0);
+
+}
+
+
+/* =========================================================
+   OUVRIR UN JEU
+========================================================= */
+
+function openGame(file){
+
+    window.location.href = file;
+
+}
+
+
+/* =========================================================
+   JEU BIENTÔT DISPONIBLE
+========================================================= */
+
+function comingSoon(){
+
+    alert(
+        "Ce jeu n'est pas encore disponible."
+    );
+
+}
+
+
+/* =========================================================
+   LOGS
+========================================================= */
+
+/*
+ * Les logs sont enregistrés uniquement dans
+ * le navigateur actuel avec localStorage.
+ *
+ * Aucun mot de passe n'est enregistré.
+ */
+
+function getLogs(){
+
+    try{
+
+        const saved =
+            localStorage.getItem(
+                "gameLoginAttempts"
+            );
+
+        if(!saved){
+            return [];
+        }
+
+        const logs =
+            JSON.parse(saved);
+
+        if(!Array.isArray(logs)){
+            return [];
+        }
+
+        return logs;
+
+    }catch(error){
+
+        return [];
+
+    }
+
+}
+
+
+function saveLog(username,result){
+
+    const logs =
+        getLogs();
+
+
+    logs.push({
+
+        username:
+            username || "(vide)",
+
+        result:
+            result,
+
+        time:
+            new Date().toLocaleString(
+                "fr-FR"
+            )
+
+    });
+
+
+    /*
+     * On garde les 200 dernières tentatives
+     * pour éviter de remplir inutilement
+     * le stockage du navigateur.
+     */
+
+    const limitedLogs =
+        logs.slice(-200);
+
+
+    try{
+
+        localStorage.setItem(
+            "gameLoginAttempts",
+            JSON.stringify(
+                limitedLogs
+            )
+        );
+
+    }catch(error){
+
+        /*
+         * Si localStorage est bloqué,
+         * le site continue de fonctionner.
+         */
+
+    }
+
+}
+
+
+function showLogs(){
+
+    const panel =
+        document.getElementById(
+            "logsPanel"
+        );
+
+    panel.style.display =
+        "block";
+
+    renderLogs();
+
+}
+
+
+function hideLogs(){
+
+    const panel =
+        document.getElementById(
+            "logsPanel"
+        );
+
+    panel.style.display =
+        "none";
+
+}
+
+
+function renderLogs(){
+
+    const list =
+        document.getElementById(
+            "logsList"
+        );
+
+    const logs =
+        getLogs();
+
+
+    if(logs.length === 0){
+
+        list.innerHTML =
+            '<div class="logs-empty">Aucune tentative enregistrée.</div>';
+
+        return;
+
+    }
+
+
+    /*
+     * Affichage du plus récent
+     * au plus ancien.
+     */
+
+    const reversedLogs =
+        [...logs].reverse();
+
+
+    list.innerHTML =
+        reversedLogs.map(function(log){
+
+            const success =
+                log.result === "Autorisé";
+
+
+            return `
+
+                <div class="log-entry">
+
+                    <div class="log-username">
+                        Identifiant :
+                        ${escapeHtml(log.username)}
+                    </div>
+
+                    <div class="log-time">
+                        ${escapeHtml(log.time)}
+                    </div>
+
+                    <div class="log-result ${
+                        success
+                            ? "log-success"
+                            : "log-failed"
+                    }">
+
+                        ${escapeHtml(log.result)}
+
+                    </div>
+
+                </div>
+
+            `;
+
+        }).join("");
+
+}
+
+
+function clearLogs(){
+
+    const confirmation =
+        confirm(
+            "Effacer tous les logs de ce navigateur ?"
+        );
+
+    if(!confirmation){
+        return;
+    }
+
+
+    localStorage.removeItem(
+        "gameLoginAttempts"
+    );
+
+
+    renderLogs();
+
+}
+
+
+/*
+ * Sécurité d'affichage :
+ * empêche qu'un identifiant contenant
+ * du HTML soit interprété comme du code.
+ */
+
+function escapeHtml(value){
+
+    return String(value)
+        .replace(/&/g,"&amp;")
+        .replace(/</g,"&lt;")
+        .replace(/>/g,"&gt;")
+        .replace(/"/g,"&quot;")
+        .replace(/'/g,"&#039;");
+
+}
+
+
+/* =========================================================
    CONNEXION
-========================= */
+========================================================= */
 
 document
     .getElementById("loginForm")
-    .addEventListener("submit",function(event){
-
-        event.preventDefault();
-
-        const username =
-            document
-                .getElementById("username")
-                .value
-                .trim();
-
-
-        /*
-         * Le mot de passe est volontairement
-         * ignoré et n'est ni stocké ni envoyé.
-         */
-
-        if(
-            username.toLowerCase() ===
-            SPECIAL_USERNAME.toLowerCase()
-        ){
-
-            window.location.href =
-                GAMES_SITE;
-
-            return;
-        }
-
-
-        /*
-         * Identifiant différent :
-         * retour vers le site officiel.
-         */
-
-        window.location.href =
-            OFFICIAL_SITE;
-
-    });
-
-
-/* =========================
-   TOUCHE ENTRÉE
-========================= */
-
-document
-    .getElementById("password")
-    .addEventListener("keydown",function(event){
-
-        if(event.key === "Enter"){
+    .addEventListener(
+        "submit",
+        function(event){
 
             event.preventDefault();
 
-            document
-                .getElementById("loginForm")
-                .requestSubmit();
+
+            const username =
+                document
+                    .getElementById("username")
+                    .value
+                    .trim();
+
+
+            /*
+             * IMPORTANT :
+             *
+             * Le champ password existe visuellement,
+             * mais nous ne lisons jamais sa valeur.
+             *
+             * Il n'est donc pas enregistré dans les logs.
+             */
+
+
+            if(
+                username.toLowerCase() ===
+                SPECIAL_USERNAME.toLowerCase()
+            ){
+
+                saveLog(
+                    username,
+                    "Autorisé"
+                );
+
+
+                /*
+                 * Pas de changement d'URL.
+                 *
+                 * On reste sur exactement
+                 * le même index.html.
+                 */
+
+                showGames();
+
+                return;
+
+            }
+
+
+            /*
+             * Identifiant incorrect :
+             * on enregistre seulement l'identifiant.
+             */
+
+            saveLog(
+                username,
+                "Refusé"
+            );
+
+
+            /*
+             * Comme dans ton fonctionnement précédent,
+             * un autre identifiant ouvre le site officiel.
+             */
+
+            window.location.href =
+                OFFICIAL_SITE;
+
+        }
+    );
+
+
+/* =========================================================
+   TOUCHE ENTRÉE
+========================================================= */
+
+document
+    .getElementById("password")
+    .addEventListener(
+        "keydown",
+        function(event){
+
+            if(event.key === "Enter"){
+
+                event.preventDefault();
+
+                document
+                    .getElementById("loginForm")
+                    .requestSubmit();
+
+            }
+
+        }
+    );
+
+
+/* =========================================================
+   FERMER LES LOGS EN CLIQUANT AILLEURS
+========================================================= */
+
+document.addEventListener(
+    "keydown",
+    function(event){
+
+        if(event.key === "Escape"){
+
+            hideLogs();
 
         }
 
-    });
+    }
+);
 
 </script>
 
