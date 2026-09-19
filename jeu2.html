@@ -2,408 +2,4574 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Minecraft Clicker</title>
+
 <style>
-*{box-sizing:border-box}:root{--bg:#0d0f10;--p:#15191b;--p2:#1c2225;--b:#30383c;--t:#f1f1f1;--m:#8e999e;--g:#55d66b;--gd:#2f9e44;--y:#ffd54a;--r:#ff5d5d;--bl:#56b4ff;--pu:#b276ff}
-body{margin:0;font-family:Arial,Helvetica,sans-serif;background:radial-gradient(circle at 50% -10%,#26332a 0,#0d0f10 45%);color:var(--t);min-height:100vh}button{font:inherit;cursor:pointer}
-.topbar{position:sticky;top:0;z-index:50;min-height:64px;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:8px 22px;background:#0d0f10f5;border-bottom:1px solid var(--b);backdrop-filter:blur(10px)}
-.logo{display:flex;align-items:center;gap:12px;font-weight:900;letter-spacing:1px}.logoBlock{width:32px;height:32px;border:2px solid #59625d;background:linear-gradient(135deg,#747c75 25%,#505750 25% 50%,#686f68 50% 75%,#424742 75%);box-shadow:inset 0 0 0 3px #343934}
-.topButtons{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}.smallBtn,.actionBtn{border:1px solid var(--b);background:#181d1f;color:#ddd;padding:9px 13px;border-radius:8px;cursor:pointer}.smallBtn:hover,.actionBtn:hover{background:#232a2d;border-color:#485258}.adminBtn{border-color:#734646;color:#ffb1b1;background:#291919}
-.container{width:min(1500px,96%);margin:auto;padding:20px 0 50px}.stats{display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:15px}.stat{background:linear-gradient(#1b2123,#141819);border:1px solid var(--b);border-radius:12px;padding:15px}.statLabel{color:var(--m);font-size:12px;text-transform:uppercase;letter-spacing:1px}.statValue{font-size:23px;font-weight:900;margin-top:5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-.gameGrid{display:grid;grid-template-columns:390px 1fr 340px;gap:15px;align-items:start}.panel{background:linear-gradient(#171c1e,#121617);border:1px solid var(--b);border-radius:13px;overflow:hidden}.panelTitle{padding:14px 16px;border-bottom:1px solid var(--b);font-size:15px;font-weight:900;display:flex;justify-content:space-between;align-items:center}.panelBody{padding:15px}
-.clickPanel{min-height:590px}.blockStage{min-height:390px;display:flex;align-items:center;justify-content:center;flex-direction:column;position:relative;overflow:hidden}.blockStage:before{content:"";position:absolute;inset:0;background-image:linear-gradient(#ffffff05 1px,transparent 1px),linear-gradient(90deg,#ffffff05 1px,transparent 1px);background-size:28px 28px;pointer-events:none}
-.currentBlock{width:190px;height:190px;border:5px solid #0006;box-shadow:inset 0 0 0 8px #ffffff14,0 18px 50px #0000008c;cursor:pointer;position:relative;transition:transform .08s;user-select:none}.currentBlock:active{transform:scale(.91)}.blockTexture{width:100%;height:100%;position:absolute;inset:0;background-size:32px 32px}.blockName{margin-top:18px;font-size:23px;font-weight:900;position:relative}.clickPower{color:var(--g);margin-top:5px;position:relative}.progressWrap{margin:10px 5px 0;background:#0b0d0e;height:11px;border-radius:20px;overflow:hidden;border:1px solid #293033}.progress{height:100%;width:0;background:linear-gradient(90deg,#38a94e,#76e687);transition:width .15s}.progressText{text-align:center;color:var(--m);font-size:12px;margin-top:5px}.combo{position:absolute;top:22px;right:22px;color:var(--y);font-weight:bold;opacity:0;transform:translateY(8px);transition:.2s}.combo.show{opacity:1;transform:translateY(0)}.floatText{position:fixed;pointer-events:none;color:#fff;font-weight:900;animation:f .8s ease forwards;text-shadow:0 2px 3px #000;z-index:500}@keyframes f{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-70px) scale(1.25)}}
-.buildingList{max-height:690px;overflow:auto;padding:8px}.building{border:1px solid #2b3336;background:#181d1f;border-radius:9px;margin-bottom:8px;padding:11px;display:grid;grid-template-columns:48px 1fr auto;gap:10px;align-items:center}.building:hover{border-color:#455157}.buildIcon{width:45px;height:45px;border-radius:7px;background:#242b2e;display:flex;align-items:center;justify-content:center;font-size:25px;border:1px solid #3b4549}.buildName{font-weight:900;font-size:14px}.buildDesc{color:var(--m);font-size:11px;margin-top:3px}.buildInfo{font-size:11px;color:#aeb7bb;margin-top:4px}.buyBtn{border:1px solid #396442;background:#1d3823;color:#a9f5b5;border-radius:7px;padding:8px 10px;cursor:pointer;font-weight:bold;min-width:105px}.buyBtn:hover:not(:disabled){background:#28512f}.buyBtn:disabled,.upgrade button:disabled,.rebirth button:disabled,.prestigeUpgrade button:disabled,.miniGame button:disabled{opacity:.35;cursor:not-allowed}
-.buyModes{display:flex;gap:5px;padding:8px 8px 3px;flex-wrap:wrap}.modeBtn{border:1px solid #30393d;background:#171c1e;color:#aaa;border-radius:6px;padding:6px 9px;cursor:pointer;font-size:12px}.modeBtn.active{background:#29432f;color:#c5ffcc;border-color:#3c7547}
-.section{margin-bottom:14px}.upgradeList{max-height:360px;overflow:auto}.upgrade{border:1px solid #2c3437;background:#191e20;border-radius:8px;padding:10px;margin-bottom:8px}.upgradeTop{display:flex;gap:9px;align-items:center}.upgradeIcon{font-size:22px}.upgradeName{font-weight:900;font-size:13px}.upgradeDesc{color:var(--m);font-size:11px;margin:4px 0 8px}.upgrade button{width:100%;padding:7px;border:1px solid #555;background:#252c2f;color:#eee;border-radius:6px;cursor:pointer;font-size:12px}
-.rebirth{border:1px solid #633c86;background:linear-gradient(135deg,#21162b,#17131d)}.rebirthValue{font-size:24px;font-weight:900;color:#d1a0ff;margin:5px 0}.rebirth button{width:100%;border:1px solid #8051a8;background:#402452;color:#efdfff;padding:10px;border-radius:7px;cursor:pointer;font-weight:900}.prestigeBtn{width:100%;margin-top:8px;border:1px solid #596a8e;background:#202b42;color:#c8d9ff;padding:9px;border-radius:7px;cursor:pointer;font-weight:bold}
-.achievement{display:flex;align-items:center;gap:9px;border-bottom:1px solid #272e31;padding:8px 0}.achievementIcon{width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:6px;background:#242a2d;filter:grayscale(1);opacity:.5}.achievement.done .achievementIcon{filter:none;opacity:1;background:#344e38}.achievementName{font-size:12px;font-weight:bold}.achievementDesc{font-size:10px;color:var(--m)}
-.miniGame{border:1px solid #39434a;background:#171d20;border-radius:8px;padding:10px;margin-bottom:8px}.miniGameTitle{font-size:13px;font-weight:900}.miniGameDesc{color:var(--m);font-size:10px;margin:4px 0 8px}.miniGame button{width:100%;padding:8px;border:1px solid #46535a;background:#242c30;color:#eee;border-radius:6px;cursor:pointer}
-.modal{position:fixed;inset:0;z-index:100;background:#000000b8;display:none;align-items:center;justify-content:center;padding:20px}.modal.show{display:flex}.modalBox{width:min(850px,100%);max-height:90vh;overflow:auto;background:#171c1e;border:1px solid #3a4448;border-radius:13px;box-shadow:0 20px 80px #000}.modalHead{padding:16px;border-bottom:1px solid #30383b;display:flex;justify-content:space-between;align-items:center}.modalHead h2{margin:0}.closeBtn{border:0;background:transparent;color:#aaa;font-size:24px;cursor:pointer}.modalBody{padding:18px}.saveText{width:100%;min-height:180px;resize:vertical;background:#0c0f10;border:1px solid #333c40;color:#8e999e;border-radius:8px;padding:12px;font-family:monospace;font-size:12px}.modalActions,.adminRow,.stockRow{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.actionBtn.primary{background:#285633;border-color:#3d804c}.actionBtn.danger,.adminDanger{background:#432020!important;border-color:#733737!important}.notice{padding:10px;border-radius:7px;background:#202629;color:#aab3b7;font-size:12px;line-height:1.5;margin-bottom:12px}.toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(20px);background:#202629;border:1px solid #465055;color:#fff;padding:11px 17px;border-radius:8px;opacity:0;pointer-events:none;transition:.2s;z-index:300}.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.event{border:1px solid #715e29;background:#302916;color:#ffe69b;border-radius:8px;padding:10px;font-size:12px;margin-bottom:10px;display:none}.event.show{display:block}
-.prestigeGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.prestigeUpgrade{border:1px solid #443455;background:#211a29;border-radius:9px;padding:11px}.prestigeUpgrade.locked{opacity:.55}.prestigeUpgrade h3{margin:0 0 5px;font-size:13px}.prestigeUpgrade p{margin:0 0 8px;color:#aaa0b5;font-size:11px;line-height:1.4}.prestigeUpgrade button{width:100%;border:1px solid #684d7e;background:#342443;color:#eadbff;padding:7px;border-radius:6px;cursor:pointer}
-.stockPrice{font-size:28px;font-weight:900;margin:8px 0}.stockOwned{color:#9fa9ad;font-size:12px}.stockRow button{flex:1}.magicSpell{border:1px solid #44345c;background:#201a2b;border-radius:8px;padding:10px;margin-bottom:8px}.magicSpell h3{margin:0 0 4px;font-size:13px}.magicSpell p{color:#aaa0b5;font-size:11px;margin:0 0 8px}.magicSpell button{width:100%}
-.adminBox{border-color:#693f3f}.adminWarning{border:1px solid #6b3d3d;background:#2b1818;color:#ffb0b0;padding:10px;border-radius:8px;font-size:12px;margin-bottom:12px}.adminGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.adminCard{background:#191e20;border:1px solid #343d40;border-radius:9px;padding:12px}.adminCard h3{margin:0 0 8px;font-size:13px}.adminInput{width:100%;padding:9px;background:#0c0f10;border:1px solid #394246;border-radius:6px;color:white;outline:none}.adminRow button{flex:1}
-@media(max-width:1250px){.stats{grid-template-columns:repeat(3,1fr)}.gameGrid{grid-template-columns:1fr 1fr}.clickPanel{grid-column:1/-1}}@media(max-width:800px){.stats{grid-template-columns:1fr 1fr}.gameGrid{grid-template-columns:1fr}.clickPanel{grid-column:auto}.buildingList{max-height:none}.topbar{padding:8px 10px}.logo span{display:none}.prestigeGrid,.adminGrid{grid-template-columns:1fr}}
+*{
+    box-sizing:border-box;
+}
+
+html,body{
+    margin:0;
+    padding:0;
+    min-height:100%;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#111;
+    color:#eee;
+}
+
+body{
+    overflow-x:hidden;
+}
+
+button{
+    font-family:inherit;
+}
+
+.topbar{
+    position:sticky;
+    top:0;
+    z-index:50;
+    height:64px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:0 18px;
+    background:#181818;
+    border-bottom:2px solid #292929;
+    box-shadow:0 3px 15px rgba(0,0,0,.45);
+}
+
+.logo{
+    font-weight:900;
+    font-size:21px;
+    color:#fff;
+}
+
+.logo span{
+    color:#55c94f;
+}
+
+.topButtons{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.topBtn{
+    border:1px solid #3b3b3b;
+    background:#222;
+    color:#eee;
+    padding:9px 12px;
+    border-radius:7px;
+    cursor:pointer;
+    font-weight:700;
+}
+
+.topBtn:hover{
+    background:#303030;
+}
+
+.topBtn.admin{
+    border-color:#884444;
+    color:#ffb0b0;
+}
+
+.container{
+    width:min(1450px,96%);
+    margin:20px auto;
+}
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:10px;
+    margin-bottom:15px;
+}
+
+.stat{
+    background:#1b1b1b;
+    border:1px solid #303030;
+    border-radius:10px;
+    padding:12px;
+}
+
+.statTitle{
+    color:#999;
+    font-size:12px;
+    margin-bottom:5px;
+}
+
+.statValue{
+    font-size:20px;
+    font-weight:900;
+}
+
+.main{
+    display:grid;
+    grid-template-columns:430px 1fr;
+    gap:16px;
+}
+
+.card{
+    background:#191919;
+    border:1px solid #303030;
+    border-radius:12px;
+    overflow:hidden;
+}
+
+.cardHeader{
+    padding:13px 15px;
+    font-weight:900;
+    font-size:17px;
+    border-bottom:1px solid #303030;
+    background:#1d1d1d;
+}
+
+.clickArea{
+    min-height:680px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    position:relative;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at center,#262626 0%,#191919 45%,#151515 100%);
+}
+
+.resourceAmount{
+    font-size:31px;
+    font-weight:900;
+    margin-bottom:3px;
+}
+
+.resourceLabel{
+    color:#999;
+    margin-bottom:28px;
+}
+
+.blockButton{
+    width:230px;
+    height:230px;
+    border:0;
+    padding:0;
+    background:transparent;
+    cursor:pointer;
+    position:relative;
+    transform:translateY(0) scale(1);
+    transition:transform .08s ease;
+    user-select:none;
+    -webkit-user-select:none;
+}
+
+.blockButton:active{
+    transform:translateY(5px) scale(.94);
+}
+
+.blockFace{
+    width:100%;
+    height:100%;
+    border-radius:8px;
+    border:7px solid rgba(0,0,0,.25);
+    box-shadow:
+        inset 0 0 0 4px rgba(255,255,255,.08),
+        inset -20px -20px 35px rgba(0,0,0,.25),
+        0 18px 40px rgba(0,0,0,.55);
+    position:relative;
+    overflow:hidden;
+}
+
+.blockFace::after{
+    content:"";
+    position:absolute;
+    inset:0;
+    background:
+        linear-gradient(45deg,rgba(255,255,255,.05) 25%,transparent 25%),
+        linear-gradient(-45deg,rgba(0,0,0,.04) 25%,transparent 25%);
+    background-size:18px 18px;
+    pointer-events:none;
+}
+
+.blockTexture-dirt{
+    background:
+        radial-gradient(circle at 20% 25%,#666 0 3px,transparent 4px),
+        radial-gradient(circle at 70% 35%,#4a3323 0 4px,transparent 5px),
+        radial-gradient(circle at 35% 75%,#5b3c27 0 4px,transparent 5px),
+        linear-gradient(#735334,#4c3525);
+}
+
+.blockTexture-wood{
+    background:
+        repeating-linear-gradient(
+            90deg,
+            #744a28 0 12px,
+            #8b5b31 12px 20px,
+            #5e3c23 20px 26px
+        );
+}
+
+.blockTexture-stone{
+    background:
+        radial-gradient(circle at 25% 25%,#999 0 3px,transparent 4px),
+        radial-gradient(circle at 70% 60%,#555 0 5px,transparent 6px),
+        linear-gradient(135deg,#777,#4f4f4f);
+}
+
+.blockTexture-coal{
+    background:
+        radial-gradient(circle at 20% 30%,#111 0 7px,transparent 8px),
+        radial-gradient(circle at 70% 70%,#090909 0 8px,transparent 9px),
+        linear-gradient(#777,#484848);
+}
+
+.blockTexture-iron{
+    background:
+        radial-gradient(circle at 25% 25%,#d2b08d 0 5px,transparent 6px),
+        radial-gradient(circle at 70% 60%,#b68f6a 0 4px,transparent 5px),
+        linear-gradient(#777,#4e4e4e);
+}
+
+.blockTexture-gold{
+    background:
+        radial-gradient(circle at 25% 25%,#ffe65c 0 5px,transparent 6px),
+        radial-gradient(circle at 75% 65%,#d49d00 0 6px,transparent 7px),
+        linear-gradient(#777,#555);
+}
+
+.blockTexture-redstone{
+    background:
+        radial-gradient(circle at 20% 25%,#ff2929 0 6px,transparent 7px),
+        radial-gradient(circle at 65% 70%,#b50000 0 7px,transparent 8px),
+        linear-gradient(#686868,#3c3c3c);
+}
+
+.blockTexture-lapis{
+    background:
+        radial-gradient(circle at 25% 25%,#3c8cff 0 6px,transparent 7px),
+        radial-gradient(circle at 75% 65%,#153d9e 0 6px,transparent 7px),
+        linear-gradient(#656565,#414141);
+}
+
+.blockTexture-diamond{
+    background:
+        radial-gradient(circle at 25% 25%,#b7ffff 0 6px,transparent 7px),
+        radial-gradient(circle at 70% 65%,#34d9e8 0 7px,transparent 8px),
+        linear-gradient(#777,#444);
+}
+
+.blockTexture-emerald{
+    background:
+        radial-gradient(circle at 25% 25%,#55ff8a 0 6px,transparent 7px),
+        radial-gradient(circle at 75% 65%,#159b48 0 7px,transparent 8px),
+        linear-gradient(#777,#444);
+}
+
+.blockTexture-quartz{
+    background:
+        radial-gradient(circle at 20% 30%,#fff 0 5px,transparent 6px),
+        radial-gradient(circle at 75% 65%,#ddd 0 6px,transparent 7px),
+        linear-gradient(#eee,#aaa);
+}
+
+.blockTexture-obsidian{
+    background:
+        radial-gradient(circle at 25% 25%,#673f91 0 5px,transparent 6px),
+        radial-gradient(circle at 70% 65%,#291f3f 0 7px,transparent 8px),
+        linear-gradient(#282031,#100e16);
+}
+
+.blockTexture-nether{
+    background:
+        radial-gradient(circle at 25% 25%,#ff5a39 0 5px,transparent 6px),
+        radial-gradient(circle at 70% 65%,#9d211d 0 7px,transparent 8px),
+        linear-gradient(#6b2521,#381818);
+}
+
+.blockTexture-ice{
+    background:
+        radial-gradient(circle at 30% 25%,#fff 0 5px,transparent 6px),
+        linear-gradient(135deg,#dffaff,#79d9ff,#b5f2ff);
+}
+
+.blockTexture-ancient{
+    background:
+        radial-gradient(circle at 25% 25%,#f6b44a 0 5px,transparent 6px),
+        radial-gradient(circle at 70% 65%,#6d321e 0 6px,transparent 7px),
+        linear-gradient(#4b352d,#241c1a);
+}
+
+.blockTexture-netherite{
+    background:
+        radial-gradient(circle at 25% 25%,#888 0 5px,transparent 6px),
+        radial-gradient(circle at 70% 65%,#444 0 7px,transparent 8px),
+        linear-gradient(#474747,#171717);
+}
+
+.blockTexture-end{
+    background:
+        radial-gradient(circle at 25% 25%,#dd8aff 0 5px,transparent 6px),
+        radial-gradient(circle at 75% 65%,#71399b 0 7px,transparent 8px),
+        linear-gradient(#352044,#171321);
+}
+
+.blockTexture-shulker{
+    background:
+        radial-gradient(circle at 25% 25%,#ffb1ff 0 5px,transparent 6px),
+        radial-gradient(circle at 70% 65%,#9d58a6 0 7px,transparent 8px),
+        linear-gradient(#703e76,#352039);
+}
+
+.blockTexture-dimension{
+    background:
+        radial-gradient(circle at center,#d5ffff 0 4px,transparent 5px),
+        radial-gradient(circle at 25% 30%,#62caff 0 6px,transparent 7px),
+        linear-gradient(135deg,#171f48,#352b6e,#11152c);
+}
+
+.blockTexture-quantum{
+    background:
+        radial-gradient(circle at 50% 50%,#fff 0 3px,transparent 4px),
+        repeating-conic-gradient(from 0deg,#5c38ff 0deg 20deg,#16102e 20deg 40deg);
+}
+
+.blockTexture-reactor{
+    background:
+        radial-gradient(circle at center,#fff 0 10px,#ff7a00 11px 22px,transparent 23px),
+        linear-gradient(#551500,#170700);
+}
+
+.blockTexture-primordial{
+    background:
+        radial-gradient(circle at 50% 50%,#fff 0 8px,#6cffd2 9px 20px,transparent 21px),
+        linear-gradient(135deg,#073b37,#031817);
+}
+
+.blockTexture-infinite{
+    background:
+        radial-gradient(circle at center,#fff 0 12px,#8b7cff 13px 27px,transparent 28px),
+        conic-gradient(#160f39,#4c2981,#111,#7137a4,#160f39);
+}
+
+.clickHint{
+    margin-top:22px;
+    color:#aaa;
+    font-size:14px;
+}
+
+.blockName{
+    margin-top:8px;
+    font-weight:900;
+}
+
+.blockProgress{
+    width:300px;
+    max-width:80%;
+    height:10px;
+    background:#303030;
+    border-radius:20px;
+    overflow:hidden;
+    margin-top:14px;
+}
+
+.blockProgressFill{
+    height:100%;
+    width:0%;
+    background:#55c94f;
+    transition:width:.2s;
+}
+
+.clickFloat{
+    position:absolute;
+    pointer-events:none;
+    font-size:18px;
+    font-weight:900;
+    color:#72ff6a;
+    animation:floatUp .85s ease-out forwards;
+    text-shadow:0 2px 4px #000;
+    z-index:20;
+}
+
+.clickFloat.crit{
+    color:#ffd84d;
+    font-size:24px;
+}
+
+@keyframes floatUp{
+    0%{
+        opacity:1;
+        transform:translate(-50%,0) scale(.8);
+    }
+    100%{
+        opacity:0;
+        transform:translate(-50%,-100px) scale(1.2);
+    }
+}
+
+.clickBurst{
+    position:absolute;
+    width:8px;
+    height:8px;
+    border-radius:50%;
+    background:#fff;
+    pointer-events:none;
+    animation:burst .65s ease-out forwards;
+}
+
+@keyframes burst{
+    from{
+        opacity:1;
+        transform:translate(0,0) scale(1);
+    }
+    to{
+        opacity:0;
+        transform:translate(var(--x),var(--y)) scale(.1);
+    }
+}
+
+.shake{
+    animation:blockShake .18s ease;
+}
+
+@keyframes blockShake{
+    0%{transform:translate(0,0) scale(.97)}
+    25%{transform:translate(-5px,2px) scale(.98)}
+    50%{transform:translate(5px,-2px) scale(.97)}
+    75%{transform:translate(-3px,1px) scale(.98)}
+    100%{transform:translate(0,0) scale(1)}
+}
+
+.rightColumn{
+    display:grid;
+    gap:16px;
+}
+
+.buildingsList,
+.upgradesList,
+.achievementsList{
+    padding:10px;
+    max-height:510px;
+    overflow:auto;
+}
+
+.building{
+    display:grid;
+    grid-template-columns:48px 1fr auto;
+    gap:10px;
+    align-items:center;
+    padding:11px;
+    margin-bottom:8px;
+    background:#202020;
+    border:1px solid #303030;
+    border-radius:9px;
+}
+
+.building.locked{
+    opacity:.48;
+}
+
+.buildingIcon{
+    width:48px;
+    height:48px;
+    border-radius:7px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#292929;
+    font-size:25px;
+    border:1px solid #444;
+}
+
+.buildingName{
+    font-weight:900;
+}
+
+.buildingDesc{
+    color:#999;
+    font-size:12px;
+    margin-top:3px;
+}
+
+.buildingCount{
+    color:#6ee765;
+    font-weight:900;
+}
+
+.buildingActions{
+    display:flex;
+    flex-direction:column;
+    gap:5px;
+}
+
+.buyBtn{
+    border:1px solid #3e6c3b;
+    background:#254224;
+    color:#d8ffd5;
+    padding:7px 9px;
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:800;
+    white-space:nowrap;
+}
+
+.buyBtn:hover:not(:disabled){
+    background:#315d2f;
+}
+
+.buyBtn:disabled{
+    opacity:.4;
+    cursor:not-allowed;
+}
+
+.modeButtons{
+    display:flex;
+    gap:6px;
+    padding:10px;
+    border-bottom:1px solid #303030;
+    flex-wrap:wrap;
+}
+
+.modeBtn{
+    background:#242424;
+    border:1px solid #393939;
+    color:#ddd;
+    padding:7px 11px;
+    border-radius:6px;
+    cursor:pointer;
+}
+
+.modeBtn.active{
+    background:#356431;
+    border-color:#4c8c45;
+}
+
+.upgrade{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    background:#202020;
+    border:1px solid #303030;
+    border-radius:9px;
+    padding:10px;
+    margin-bottom:8px;
+}
+
+.upgradeIcon{
+    width:45px;
+    height:45px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background:#292929;
+    border-radius:7px;
+    font-size:23px;
+}
+
+.upgradeInfo{
+    flex:1;
+}
+
+.upgradeName{
+    font-weight:900;
+}
+
+.upgradeDesc{
+    color:#999;
+    font-size:12px;
+    margin-top:3px;
+}
+
+.achievement{
+    padding:10px;
+    margin-bottom:7px;
+    background:#202020;
+    border:1px solid #303030;
+    border-radius:8px;
+}
+
+.achievement.done{
+    border-color:#527c4e;
+    background:#1e2a1d;
+}
+
+.achievementTitle{
+    font-weight:900;
+}
+
+.achievementDesc{
+    color:#999;
+    font-size:12px;
+    margin-top:3px;
+}
+
+.achievementReward{
+    color:#ffd75e;
+    font-size:12px;
+    margin-top:5px;
+}
+
+.modalOverlay{
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.78);
+    z-index:100;
+    display:none;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modalOverlay.open{
+    display:flex;
+}
+
+.modal{
+    width:min(900px,100%);
+    max-height:90vh;
+    overflow:auto;
+    background:#191919;
+    border:1px solid #3a3a3a;
+    border-radius:12px;
+    box-shadow:0 20px 70px rgba(0,0,0,.7);
+}
+
+.modalHeader{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    padding:15px;
+    border-bottom:1px solid #333;
+    font-weight:900;
+    font-size:19px;
+}
+
+.closeBtn{
+    border:0;
+    background:#292929;
+    color:#fff;
+    border-radius:6px;
+    padding:7px 11px;
+    cursor:pointer;
+}
+
+.modalBody{
+    padding:15px;
+}
+
+.saveBox{
+    width:100%;
+    min-height:160px;
+    background:#101010;
+    color:#ddd;
+    border:1px solid #383838;
+    border-radius:8px;
+    padding:10px;
+    resize:vertical;
+    font-family:monospace;
+}
+
+.modalButtons{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+    margin-top:10px;
+}
+
+.actionBtn{
+    border:1px solid #444;
+    background:#292929;
+    color:#eee;
+    padding:9px 12px;
+    border-radius:7px;
+    cursor:pointer;
+    font-weight:800;
+}
+
+.actionBtn:hover{
+    background:#373737;
+}
+
+.actionBtn.green{
+    background:#284d26;
+    border-color:#4c7e47;
+}
+
+.actionBtn.red{
+    background:#512525;
+    border-color:#824343;
+}
+
+.prestigeInfo{
+    background:#202020;
+    border:1px solid #303030;
+    border-radius:9px;
+    padding:14px;
+    margin-bottom:12px;
+}
+
+.fragmentCount{
+    color:#ffd75e;
+    font-size:24px;
+    font-weight:900;
+}
+
+.prestigeGrid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.prestigeItem{
+    background:#202020;
+    border:1px solid #353535;
+    border-radius:9px;
+    padding:12px;
+}
+
+.prestigeItem.locked{
+    opacity:.5;
+}
+
+.prestigeTitle{
+    font-weight:900;
+}
+
+.prestigeLevel{
+    color:#72d86b;
+    margin:5px 0;
+}
+
+.prestigeDesc{
+    color:#999;
+    font-size:12px;
+    min-height:35px;
+}
+
+.miniGrid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:12px;
+}
+
+.miniCard{
+    background:#202020;
+    border:1px solid #343434;
+    border-radius:10px;
+    padding:15px;
+}
+
+.miniCard h3{
+    margin-top:0;
+}
+
+.miniCard p{
+    color:#aaa;
+    font-size:13px;
+    line-height:1.5;
+}
+
+.market{
+    background:#202020;
+    border:1px solid #363636;
+    padding:15px;
+    border-radius:9px;
+}
+
+.marketPrice{
+    font-size:32px;
+    font-weight:900;
+}
+
+.marketOwned{
+    color:#aaa;
+    margin:6px 0 14px;
+}
+
+.marketButtons{
+    display:flex;
+    gap:8px;
+    flex-wrap:wrap;
+}
+
+.magicEnergy{
+    height:16px;
+    background:#303030;
+    border-radius:20px;
+    overflow:hidden;
+    margin:10px 0 15px;
+}
+
+.magicEnergyFill{
+    height:100%;
+    width:0;
+    background:#a768ff;
+}
+
+.spell{
+    background:#202020;
+    border:1px solid #353535;
+    border-radius:9px;
+    padding:11px;
+    margin-bottom:8px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:10px;
+}
+
+.spellName{
+    font-weight:900;
+}
+
+.spellDesc{
+    color:#999;
+    font-size:12px;
+    margin-top:4px;
+}
+
+.adminGrid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+}
+
+.adminBox{
+    background:#202020;
+    border:1px solid #383838;
+    border-radius:9px;
+    padding:12px;
+}
+
+.adminBox h3{
+    margin:0 0 10px;
+}
+
+.input{
+    width:100%;
+    background:#111;
+    color:#eee;
+    border:1px solid #444;
+    padding:9px;
+    border-radius:6px;
+    outline:none;
+    margin-bottom:7px;
+}
+
+.adminStatus{
+    padding:10px;
+    background:#161616;
+    border:1px solid #333;
+    border-radius:8px;
+    margin-bottom:12px;
+    color:#aaa;
+}
+
+.toast{
+    position:fixed;
+    right:18px;
+    bottom:18px;
+    z-index:300;
+    background:#242424;
+    border:1px solid #444;
+    color:#fff;
+    padding:12px 15px;
+    border-radius:8px;
+    box-shadow:0 8px 25px rgba(0,0,0,.5);
+    transform:translateY(120px);
+    opacity:0;
+    transition:.25s;
+}
+
+.toast.show{
+    transform:translateY(0);
+    opacity:1;
+}
+
+.hidden{
+    display:none!important;
+}
+
+@media(max-width:1050px){
+    .main{
+        grid-template-columns:1fr;
+    }
+
+    .clickArea{
+        min-height:560px;
+    }
+}
+
+@media(max-width:750px){
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .topbar{
+        height:auto;
+        padding:10px;
+        gap:10px;
+        align-items:flex-start;
+        flex-direction:column;
+    }
+
+    .prestigeGrid,
+    .miniGrid,
+    .adminGrid{
+        grid-template-columns:1fr;
+    }
+}
 </style>
 </head>
+
 <body>
 
 <header class="topbar">
-<div class="logo"><div class="logoBlock"></div><span>MINECRAFT CLICKER</span></div>
-<div class="topButtons">
-<button class="smallBtn" onclick="openSave()">💾 Sauvegarde</button>
-<button class="smallBtn" onclick="openStats()">📊 Stats</button>
-<button class="smallBtn" onclick="openPrestige()">♻️ Prestige</button>
-<button class="smallBtn" onclick="openMiniGames()">🎮 Mini-jeux</button>
-<button class="smallBtn adminBtn" onclick="openAdmin()">⚙️ Admin</button>
-<button class="smallBtn" onclick="location.href='index.html'">← Menu</button>
-</div>
+    <div class="logo">Minecraft <span>Clicker</span></div>
+
+    <div class="topButtons">
+        <button class="topBtn" onclick="openSave()">Sauvegarde</button>
+        <button class="topBtn" onclick="openStats()">Stats</button>
+        <button class="topBtn" onclick="openPrestige()">Prestige</button>
+        <button class="topBtn" onclick="openMinigames()">Mini-jeux</button>
+        <button class="topBtn admin" onclick="openAdmin()">Admin</button>
+        <button class="topBtn" onclick="goMenu()">Menu</button>
+    </div>
 </header>
 
-<main class="container">
-<div class="stats">
-<div class="stat"><div class="statLabel">Ressources</div><div class="statValue" id="money">0</div></div>
-<div class="stat"><div class="statLabel">Par seconde</div><div class="statValue" id="cps">0</div></div>
-<div class="stat"><div class="statLabel">Par clic</div><div class="statValue" id="clickPower">1</div></div>
-<div class="stat"><div class="statLabel">Renaissance</div><div class="statValue" id="rebirthLevel">0</div></div>
-<div class="stat"><div class="statLabel">Fragments</div><div class="statValue" id="fragmentDisplay">0</div></div>
+<div class="container">
+
+    <div class="stats">
+        <div class="stat">
+            <div class="statTitle">RESSOURCES</div>
+            <div class="statValue" id="topMoney">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="statTitle">PAR SECONDE</div>
+            <div class="statValue" id="topCps">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="statTitle">PAR CLIC</div>
+            <div class="statValue" id="topClick">1</div>
+        </div>
+
+        <div class="stat">
+            <div class="statTitle">RENAISSANCES</div>
+            <div class="statValue" id="topRebirth">0</div>
+        </div>
+
+        <div class="stat">
+            <div class="statTitle">FRAGMENTS</div>
+            <div class="statValue" id="topFragments">0</div>
+        </div>
+    </div>
+
+    <div class="main">
+
+        <section class="card">
+            <div class="cardHeader">Bloc de ressources</div>
+
+            <div class="clickArea" id="clickArea">
+
+                <div class="resourceAmount" id="resourceAmount">0</div>
+                <div class="resourceLabel">ressources</div>
+
+                <button class="blockButton" id="blockButton" onclick="clickBlock(event)">
+                    <div id="blockFace" class="blockFace blockTexture-dirt"></div>
+                </button>
+
+                <div class="blockName" id="blockName">Bloc de terre</div>
+
+                <div class="blockProgress">
+                    <div class="blockProgressFill" id="blockProgressFill"></div>
+                </div>
+
+                <div class="clickHint">
+                    Clique sur le bloc pour produire des ressources
+                </div>
+            </div>
+        </section>
+
+        <div class="rightColumn">
+
+            <section class="card">
+                <div class="cardHeader">Bâtiments</div>
+
+                <div class="modeButtons">
+                    <button class="modeBtn active" id="mode1" onclick="setBuyMode(1)">x1</button>
+                    <button class="modeBtn" id="mode10" onclick="setBuyMode(10)">x10</button>
+                    <button class="modeBtn" id="mode100" onclick="setBuyMode(100)">x100</button>
+                    <button class="modeBtn" id="modeMax" onclick="setBuyMode('max')">MAX</button>
+                </div>
+
+                <div class="buildingsList" id="buildingsList"></div>
+            </section>
+
+            <section class="card">
+                <div class="cardHeader">Améliorations</div>
+                <div class="upgradesList" id="upgradesList"></div>
+            </section>
+
+            <section class="card">
+                <div class="cardHeader">Succès</div>
+                <div class="achievementsList" id="achievementsList"></div>
+            </section>
+
+        </div>
+    </div>
 </div>
 
-<div id="event" class="event"></div>
+<!-- SAUVEGARDE -->
+<div class="modalOverlay" id="saveModal">
+    <div class="modal">
+        <div class="modalHeader">
+            Sauvegarde
+            <button class="closeBtn" onclick="closeModal('saveModal')">X</button>
+        </div>
 
-<div class="gameGrid">
-<section class="panel clickPanel">
-<div class="panelTitle"><span>⛏️ Extraction</span><span id="blockTierText">Niveau 1</span></div>
-<div class="panelBody">
-<div class="blockStage" id="blockStage">
-<div id="combo" class="combo">COMBO ×1</div>
-<div id="currentBlock" class="currentBlock"><div id="blockTexture" class="blockTexture"></div></div>
-<div id="blockName" class="blockName">Bloc de terre</div>
-<div id="clickPowerText" class="clickPower">+1 par clic</div>
-<div style="width:100%;margin-top:25px"><div class="progressWrap"><div id="blockProgress" class="progress"></div></div><div id="progressText" class="progressText">0 / 100</div></div>
+        <div class="modalBody">
+            <textarea class="saveBox" id="saveText"></textarea>
+
+            <div class="modalButtons">
+                <button class="actionBtn green" onclick="generateSave()">Générer</button>
+                <button class="actionBtn" onclick="importSave()">Importer</button>
+                <button class="actionBtn" onclick="copySave()">Copier</button>
+                <button class="actionBtn" onclick="saveGame()">Sauvegarder localement</button>
+                <button class="actionBtn red" onclick="resetGame()">Réinitialiser</button>
+            </div>
+        </div>
+    </div>
 </div>
-<div style="text-align:center;color:#747e82;font-size:12px">Clique sur le bloc pour extraire des ressources.</div>
+
+<!-- STATS -->
+<div class="modalOverlay" id="statsModal">
+    <div class="modal">
+        <div class="modalHeader">
+            Statistiques
+            <button class="closeBtn" onclick="closeModal('statsModal')">X</button>
+        </div>
+
+        <div class="modalBody" id="statsBody"></div>
+    </div>
 </div>
-</section>
 
-<section class="panel">
-<div class="panelTitle"><span>🏗️ Bâtiments</span><span id="buildingCount">0</span></div>
-<div class="buyModes">
-<button class="modeBtn active" data-mode="1">×1</button>
-<button class="modeBtn" data-mode="10">×10</button>
-<button class="modeBtn" data-mode="25">×25</button>
-<button class="modeBtn" data-mode="max">MAX</button>
+<!-- PRESTIGE -->
+<div class="modalOverlay" id="prestigeModal">
+    <div class="modal">
+        <div class="modalHeader">
+            Renaissance
+            <button class="closeBtn" onclick="closeModal('prestigeModal')">X</button>
+        </div>
+
+        <div class="modalBody">
+
+            <div class="prestigeInfo">
+                <div>Fragments disponibles</div>
+                <div class="fragmentCount" id="prestigeFragments">0</div>
+                <div id="prestigeRequirement"></div>
+
+                <div class="modalButtons">
+                    <button class="actionBtn green" onclick="doPrestige()">
+                        Faire une renaissance
+                    </button>
+                </div>
+            </div>
+
+            <div class="prestigeGrid" id="prestigeGrid"></div>
+
+        </div>
+    </div>
 </div>
-<div id="buildingList" class="buildingList"></div>
-</section>
 
-<aside>
-<section class="panel section">
-<div class="panelTitle">🔧 Améliorations</div>
-<div class="panelBody upgradeList" id="upgradeList"></div>
-</section>
+<!-- MINI JEUX -->
+<div class="modalOverlay" id="minigamesModal">
+    <div class="modal">
+        <div class="modalHeader">
+            Mini-jeux
+            <button class="closeBtn" onclick="closeModal('minigamesModal')">X</button>
+        </div>
 
-<section class="panel section rebirth">
-<div class="panelTitle">♻️ Renaissance</div>
-<div class="panelBody">
-<div style="color:#a995b6;font-size:11px">Fragments disponibles</div>
-<div id="rebirthGain" class="rebirthValue">0</div>
-<div style="font-size:11px;color:#a99aaa;line-height:1.5;margin-bottom:12px">Première renaissance à <strong>1 Qa</strong> de ressources cumulées. Les fragments sont conservés et servent uniquement au prestige.</div>
-<button id="rebirthButton" onclick="doRebirth()" disabled>Faire renaître mon monde</button>
-<button class="prestigeBtn" onclick="openPrestige()">✨ Arbre de prestige</button>
+        <div class="modalBody">
+
+            <div class="miniGrid">
+
+                <div class="miniCard">
+                    <h3>Marché dimensionnel</h3>
+                    <p>
+                        Achète et revends des actions dimensionnelles.
+                        Le prix évolue régulièrement.
+                    </p>
+
+                    <button class="actionBtn green" onclick="openStock()">
+                        Ouvrir le marché
+                    </button>
+                </div>
+
+                <div class="miniCard">
+                    <h3>Tour des arcanes</h3>
+                    <p>
+                        Utilise ton énergie magique pour lancer des sorts
+                        qui peuvent améliorer temporairement ta production.
+                    </p>
+
+                    <button class="actionBtn" onclick="openMagic()">
+                        Ouvrir la tour
+                    </button>
+                </div>
+
+                <div class="miniCard">
+                    <h3>Expédition minière</h3>
+                    <p>
+                        Envoie une expédition pour obtenir une petite quantité
+                        de ressources avec un délai.
+                    </p>
+
+                    <button class="actionBtn" onclick="startExpedition()">
+                        Lancer
+                    </button>
+                </div>
+
+                <div class="miniCard">
+                    <h3>Événement mondial</h3>
+                    <p>
+                        Certains événements peuvent temporairement modifier
+                        ta production.
+                    </p>
+
+                    <button class="actionBtn" onclick="triggerRandomEvent()">
+                        Déclencher
+                    </button>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </div>
-</section>
 
-<section class="panel">
-<div class="panelTitle"><span>🏆 Succès</span><span id="achievementCount">0/0</span></div>
-<div class="panelBody" id="achievementList"></div>
-</section>
-</aside>
+<!-- STOCK -->
+<div class="modalOverlay" id="stockModal">
+    <div class="modal">
+        <div class="modalHeader">
+            Marché dimensionnel
+            <button class="closeBtn" onclick="closeModal('stockModal')">X</button>
+        </div>
+
+        <div class="modalBody">
+
+            <div class="market">
+                <div>Prix actuel</div>
+                <div class="marketPrice" id="stockPrice">0</div>
+
+                <div class="marketOwned">
+                    Actions possédées :
+                    <span id="stockOwned">0</span>
+                </div>
+
+                <div class="marketButtons">
+                    <button class="actionBtn green" onclick="buyStock(1)">Acheter x1</button>
+                    <button class="actionBtn green" onclick="buyStock(10)">Acheter x10</button>
+                    <button class="actionBtn red" onclick="sellStock(1)">Vendre x1</button>
+                    <button class="actionBtn red" onclick="sellStock(10)">Vendre x10</button>
+                    <button class="actionBtn" onclick="sellStock('all')">Tout vendre</button>
+                </div>
+
+                <div id="stockInfo" style="margin-top:15px;color:#999"></div>
+            </div>
+
+        </div>
+    </div>
 </div>
-</main>
 
-<div id="saveModal" class="modal"><div class="modalBox"><div class="modalHead"><h2>💾 Sauvegarde</h2><button class="closeBtn" onclick="closeSave()">×</button></div><div class="modalBody"><div class="notice">Sauvegarde automatique dans ton navigateur. Le format est compatible avec les nouvelles fonctions du jeu et tente également de charger les anciennes sauvegardes.</div><textarea id="saveText" class="saveText" spellcheck="false"></textarea><div class="modalActions"><button class="actionBtn primary" onclick="copySave()">📋 Copier</button><button class="actionBtn" onclick="importSave()">📥 Importer</button><button class="actionBtn" onclick="generateSave()">🔄 Générer</button><button class="actionBtn danger" onclick="resetGame()">🗑️ Nouvelle partie</button></div></div></div></div>
+<!-- MAGIE -->
+<div class="modalOverlay" id="magicModal">
+    <div class="modal">
+        <div class="modalHeader">
+            Tour des arcanes
+            <button class="closeBtn" onclick="closeModal('magicModal')">X</button>
+        </div>
 
-<div id="statsModal" class="modal"><div class="modalBox"><div class="modalHead"><h2>📊 Statistiques</h2><button class="closeBtn" onclick="closeStats()">×</button></div><div class="modalBody" id="statsContent"></div></div></div>
+        <div class="modalBody">
 
-<div id="prestigeModal" class="modal"><div class="modalBox"><div class="modalHead"><h2>♻️ Arbre de prestige</h2><button class="closeBtn" onclick="closePrestige()">×</button></div><div class="modalBody"><div class="notice">Les Fragments de l'End sont permanents. Ils ne sont jamais dépensés par une renaissance.<br><br>Certaines améliorations débloquent également des systèmes entiers du jeu.</div><div style="font-size:13px;margin-bottom:12px">Fragments disponibles : <strong id="prestigeFragments">0</strong></div><div id="prestigeList" class="prestigeGrid"></div></div></div></div>
+            <div>
+                Énergie magique :
+                <strong id="magicText">0 / 100</strong>
+            </div>
 
-<div id="miniGameModal" class="modal"><div class="modalBox"><div class="modalHead"><h2>🎮 Mini-jeux</h2><button class="closeBtn" onclick="closeMiniGames()">×</button></div><div class="modalBody"><div class="notice">Les mini-jeux sont des systèmes secondaires. Ils deviennent progressivement importants avec le prestige.</div><div id="miniGameContent"></div></div></div></div>
+            <div class="magicEnergy">
+                <div class="magicEnergyFill" id="magicEnergyFill"></div>
+            </div>
 
-<div id="stockModal" class="modal"><div class="modalBox"><div class="modalHead"><h2>📈 Bourse des ressources</h2><button class="closeBtn" onclick="closeStock()">×</button></div><div class="modalBody"><div class="notice">Le prix change régulièrement. Achète bas et revends plus haut.</div><div style="color:#8e999e;font-size:11px">Prix actuel</div><div id="stockPrice" class="stockPrice">100</div><div id="stockOwned" class="stockOwned">Tu possèdes 0 unité.</div><div class="stockRow"><button class="actionBtn primary" onclick="buyStock(1)">Acheter ×1</button><button class="actionBtn primary" onclick="buyStock(10)">Acheter ×10</button></div><div class="stockRow"><button class="actionBtn" onclick="sellStock(1)">Vendre ×1</button><button class="actionBtn" onclick="sellStock(10)">Vendre ×10</button></div></div></div></div>
+            <div id="spellsList"></div>
 
-<div id="magicModal" class="modal"><div class="modalBox"><div class="modalHead"><h2>🧙 Tours de magie</h2><button class="closeBtn" onclick="closeMagic()">×</button></div><div class="modalBody"><div class="notice">La magie se régénère progressivement. Chaque sort possède un effet différent.</div><div>Magie : <strong id="magicAmount">100</strong> / <strong id="magicMax">100</strong></div><div id="magicList" style="margin-top:12px"></div></div></div></div>
+        </div>
+    </div>
+</div>
 
-<div id="adminModal" class="modal"><div class="modalBox adminBox"><div class="modalHead"><h2>⚙️ Panel administrateur</h2><button class="closeBtn" onclick="closeAdmin()">×</button></div><div class="modalBody">
-<div id="adminLogin"><div class="adminWarning">Panel administrateur local. Le mot de passe est vérifié uniquement dans cette page.</div><input id="adminPassword" class="adminInput" type="password" placeholder="Mot de passe admin"><div class="modalActions"><button class="actionBtn primary" onclick="adminLogin()">Connexion</button></div></div>
-<div id="adminPanel" style="display:none"><div class="notice">Mode administrateur activé.</div><div class="adminGrid">
-<div class="adminCard"><h3>💰 Ressources</h3><input id="adminMoney" class="adminInput" type="text" placeholder="Montant"><div class="adminRow"><button class="actionBtn primary" onclick="adminAddMoney()">Ajouter</button><button class="actionBtn" onclick="adminSetMoney()">Définir</button></div></div>
-<div class="adminCard"><h3>💎 Fragments</h3><input id="adminFragments" class="adminInput" type="text" placeholder="Nombre"><div class="adminRow"><button class="actionBtn primary" onclick="adminAddFragments()">Ajouter</button><button class="actionBtn" onclick="adminSetFragments()">Définir</button></div></div>
-<div class="adminCard"><h3>♻️ Renaissance</h3><input id="adminRebirth" class="adminInput" type="number" min="0" placeholder="Nombre"><div class="adminRow"><button class="actionBtn" onclick="adminSetRebirth()">Définir</button></div></div>
-<div class="adminCard"><h3>🏗️ Tous les bâtiments</h3><div class="adminRow"><button class="actionBtn primary" onclick="adminAddBuildings(10)">+10</button><button class="actionBtn primary" onclick="adminAddBuildings(100)">+100</button><button class="actionBtn" onclick="adminAddBuildings(1000)">+1000</button></div></div>
-<div class="adminCard"><h3>⛏️ Bloc</h3><input id="adminBlock" class="adminInput" type="number" min="0" max="23" placeholder="Niveau 0-23"><div class="adminRow"><button class="actionBtn" onclick="adminSetBlock()">Définir</button></div></div>
-<div class="adminCard"><h3>📈 Débloquer les systèmes</h3><div class="adminRow"><button class="actionBtn primary" onclick="adminUnlockStock()">Bourse</button><button class="actionBtn primary" onclick="adminUnlockMagic()">Magie</button></div></div>
-<div class="adminCard"><h3>⚡ Multiplicateurs</h3><input id="adminMultiplier" class="adminInput" type="number" min="1" placeholder="Ex: 10"><div class="adminRow"><button class="actionBtn" onclick="adminSetMultiplier()">Production ×</button></div></div>
-<div class="adminCard"><h3>🧹 Réinitialisation</h3><div class="adminRow"><button class="actionBtn adminDanger" onclick="adminResetNormal()">Reset progression</button><button class="actionBtn adminDanger" onclick="resetGame()">Reset total</button></div></div>
-</div></div></div></div></div>
+<!-- ADMIN -->
+<div class="modalOverlay" id="adminModal">
+    <div class="modal">
+        <div class="modalHeader">
+            Panel administrateur
+            <button class="closeBtn" onclick="closeModal('adminModal')">X</button>
+        </div>
 
-<div id="toast" class="toast"></div>
+        <div class="modalBody">
+
+            <div class="adminStatus" id="adminStatus">
+                Panel administrateur chargé.
+            </div>
+
+            <div class="adminGrid">
+
+                <div class="adminBox">
+                    <h3>Ressources</h3>
+
+                    <input class="input" id="adminMoney"
+                           type="text"
+                           placeholder="Ex : 5.2B">
+
+                    <button class="actionBtn green"
+                            onclick="adminAddMoney()">
+                        Ajouter
+                    </button>
+
+                    <button class="actionBtn"
+                            onclick="adminSetMoney()">
+                        Définir
+                    </button>
+                </div>
+
+                <div class="adminBox">
+                    <h3>Fragments</h3>
+
+                    <input class="input"
+                           id="adminFragments"
+                           type="number"
+                           placeholder="Nombre">
+
+                    <button class="actionBtn green"
+                            onclick="adminAddFragments()">
+                        Ajouter
+                    </button>
+
+                    <button class="actionBtn"
+                            onclick="adminSetFragments()">
+                        Définir
+                    </button>
+                </div>
+
+                <div class="adminBox">
+                    <h3>Prestige</h3>
+
+                    <input class="input"
+                           id="adminRebirths"
+                           type="number"
+                           placeholder="Renaissances">
+
+                    <button class="actionBtn"
+                            onclick="adminSetRebirths()">
+                        Définir
+                    </button>
+                </div>
+
+                <div class="adminBox">
+                    <h3>Bâtiments</h3>
+
+                    <input class="input"
+                           id="adminBuildingId"
+                           type="number"
+                           min="1"
+                           max="24"
+                           placeholder="ID bâtiment 1-24">
+
+                    <input class="input"
+                           id="adminBuildingCount"
+                           type="number"
+                           min="0"
+                           placeholder="Quantité">
+
+                    <button class="actionBtn"
+                            onclick="adminSetBuilding()">
+                        Définir
+                    </button>
+
+                    <button class="actionBtn green"
+                            onclick="adminUnlockBuildings()">
+                        Débloquer tous
+                    </button>
+                </div>
+
+                <div class="adminBox">
+                    <h3>Améliorations</h3>
+
+                    <button class="actionBtn green"
+                            onclick="adminUnlockUpgrades()">
+                        Acheter toutes
+                    </button>
+                </div>
+
+                <div class="adminBox">
+                    <h3>Prestige</h3>
+
+                    <button class="actionBtn green"
+                            onclick="adminUnlockPrestige()">
+                        Débloquer arbre
+                    </button>
+
+                    <button class="actionBtn"
+                            onclick="adminUnlockMinigames()">
+                        Débloquer mini-jeux
+                    </button>
+                </div>
+
+                <div class="adminBox">
+                    <h3>Événement</h3>
+
+                    <button class="actionBtn green"
+                            onclick="adminProductionEvent()">
+                        Production x10
+                    </button>
+
+                    <button class="actionBtn"
+                            onclick="adminMagic()">
+                        Énergie magique max
+                    </button>
+                </div>
+
+                <div class="adminBox">
+                    <h3>Danger</h3>
+
+                    <button class="actionBtn red"
+                            onclick="resetGame()">
+                        Réinitialiser le jeu
+                    </button>
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
 
 <script>
-const KEY="minecraftClickerSaveV2",SECRET="MC_CLICKER_V2_X9_7K",ADMIN_PASSWORD="yo";
-let buyMode=1,expeditionUntil=0;
 
-const blocks=[
-["Bloc de terre","🟫",0,"linear-gradient(135deg,#785532 25%,#634527 25% 50%,#805d38 50% 75%,#5b4025 75%)"],
-["Bloc d'herbe","🌱",500,"linear-gradient(180deg,#5caa48 0 25%,#75512f 25% 100%)"],
-["Bloc de pierre","🪨",5e3,"linear-gradient(135deg,#777 25%,#686868 25% 50%,#838383 50% 75%,#606060 75%)"],
-["Bloc de charbon","⬛",5e4,"linear-gradient(135deg,#333 20%,#171717 20% 45%,#303030 45% 70%,#111 70%)"],
-["Bloc de fer","⚙️",5e5,"linear-gradient(135deg,#b7b7b7 25%,#898989 25% 50%,#c4c4c4 50% 75%,#8f8f8f 75%)"],
-["Bloc d'or","🟨",5e6,"linear-gradient(135deg,#ffe36a 25%,#d19b13 25% 50%,#f5cc35 50% 75%,#bb8510 75%)"],
-["Bloc de redstone","🔴",5e7,"linear-gradient(135deg,#d54a3d 25%,#812522 25% 50%,#c53c32 50% 75%,#72201e 75%)"],
-["Bloc de lapis","🔵",5e8,"linear-gradient(135deg,#3c70ca 25%,#17366e 25% 50%,#2d5cb2 50% 75%,#122b5b 75%)"],
-["Bloc de diamant","💎",5e9,"linear-gradient(135deg,#74fff2 25%,#2aa8a0 25% 50%,#59e5dc 50% 75%,#258f8a 75%)"],
-["Bloc d'émeraude","🟩",5e10,"linear-gradient(135deg,#43df83 25%,#168143 25% 50%,#31c970 50% 75%,#126a38 75%)"],
-["Bloc de quartz","⬜",5e11,"linear-gradient(135deg,#f5f1e7 25%,#c9c4b8 25% 50%,#eee9de 50% 75%,#bbb5aa 75%)"],
-["Bloc d'obsidienne","🟪",5e12,"linear-gradient(135deg,#574171 25%,#21162e 25% 50%,#47345e 50% 75%,#19111f 75%)"],
-["Bloc de magma","🔥",5e13,"linear-gradient(135deg,#ffb22e 25%,#b42c17 25% 50%,#f06b20 50% 75%,#8d2115 75%)"],
-["Bloc de glace bleue","🧊",5e14,"linear-gradient(135deg,#c3f4ff 25%,#6bbbdc 25% 50%,#a5eaff 50% 75%,#5ba4c5 75%)"],
-["Bloc de débris antiques","🟫",5e15,"linear-gradient(135deg,#806356 25%,#49352e 25% 50%,#725448 50% 75%,#3c2b26 75%)"],
-["Bloc de netherite","⬛",5e16,"linear-gradient(135deg,#6f6977 25%,#39353e 25% 50%,#5d5864 50% 75%,#302d34 75%)"],
-["Bloc de sculk","🟦",5e17,"radial-gradient(circle at 20% 30%,#5ed4cf 0 4%,transparent 5%),radial-gradient(circle at 70% 65%,#287a8c 0 5%,transparent 6%),#123e4b"],
-["Bloc d'écho","🔷",5e18,"linear-gradient(135deg,#5f91b5 25%,#263f54 25% 50%,#466e8d 50% 75%,#1d3040 75%)"],
-["Bloc du Néant","🌑",5e19,"radial-gradient(circle,#4c3c64 1px,transparent 2px),#111117"],
-["Bloc céleste","✨",5e20,"radial-gradient(circle at 30% 30%,#fff 0 2%,transparent 3%),radial-gradient(circle at 75% 65%,#c4b7ff 0 2%,transparent 3%),#39315d"],
-["Bloc de bedrock","🪨",5e21,"linear-gradient(135deg,#454545 25%,#171717 25% 50%,#383838 50% 75%,#111 75%)"],
-["Bedrock renforcée","⬛",5e22,"repeating-linear-gradient(45deg,#27272a 0 10px,#111 10px 20px)"],
-["Bloc primordial","💠",5e23,"linear-gradient(135deg,#a57af5 25%,#493184 25% 50%,#845ad9 50% 75%,#382563 75%)"],
-["Bloc infini","♾️",5e24,"radial-gradient(circle at 50% 50%,#9f6cff 0 4%,transparent 5%),radial-gradient(circle at 30% 30%,#4ee6cb 0 2%,transparent 3%),#111"]
-].map((x,i)=>({id:i,name:x[0],icon:x[1],need:x[2],texture:x[3]}));
+/* =========================================================
+   CONFIGURATION
+========================================================= */
 
-const buildingData=[
-["🌳","Ferme à bois","Production de ressources de base.",15,.1],["⛏️","Mine de charbon","Une petite mine automatisée.",100,.5],["🪨","Carrière de pierre","Extraction automatique.",500,4],["🌾","Ferme de blé","Une production régulière.",3000,10],["⚙️","Mine de fer","Produit du fer automatiquement.",1e4,40],["🟨","Mine d'or","L'or commence à couler.",4e4,100],["🔴","Ferme de redstone","Énergie automatisée.",2e5,400],["🔵","Mine de lapis","Extraction de lapis.",1666667,6666],["💎","Mine de diamant","Enfin des diamants.",123456789,12345],["🟩","Ferme d'émeraudes","Commerce automatisé.",987654321,98765],["⬜","Mine de quartz","Ressources du Nether.",1e10,1e6],["🟪","Générateur d'obsidienne","Production extrêmement résistante.",1e11,1e7],["🔥","Forteresse du Nether","Une production infernale.",1e12,1e8],["🧊","Ferme de glace","Une machine frigorifique.",1e13,1e9],["🏚️","Ancienne cité","Technologie oubliée.",1e14,1e10],["🟫","Mine de débris antiques","Extraction extrêmement rare.",1e15,1e11],["⚫","Forge de netherite","Transformation ultime.",1e16,1e12],["🐉","Ferme de l'End","Ressources venues de l'End.",1e17,1e13],["🐚","Ferme à shulkers","Composants extrêmement rares.",1e18,1e14],["🌌","Portail dimensionnel","Une production d'un autre monde.",1e19,1e15],["🧪","Laboratoire quantique","Manipule les ressources.",1e20,1e16],["⚡","Réacteur du Nether","Énergie gigantesque.",1e21,1e17],["🔮","Générateur primordial","Une machine presque impossible.",1e22,1e18],["♾️","Machine infinie","La fin de la progression normale.",1e23,1e19]
+const SAVE_KEY = "minecraftClickerSaveV3";
+
+const ADMIN_PASSWORD = "MCADMIN";
+
+/*
+    Le panel admin fonctionne localement.
+    Le mot de passe est :
+    MCADMIN
+*/
+
+const buildingScale = 1.15;
+
+
+/* =========================================================
+   BLOCS
+========================================================= */
+
+const blocks = [
+
+    {name:"Bloc de terre", texture:"dirt", need:0},
+    {name:"Bois", texture:"wood", need:500},
+    {name:"Pierre", texture:"stone", need:5000},
+    {name:"Charbon", texture:"coal", need:50000},
+    {name:"Fer", texture:"iron", need:500000},
+    {name:"Or", texture:"gold", need:5000000},
+    {name:"Redstone", texture:"redstone", need:50000000},
+    {name:"Lapis", texture:"lapis", need:500000000},
+    {name:"Diamant", texture:"diamond", need:5000000000},
+    {name:"Émeraude", texture:"emerald", need:50000000000},
+    {name:"Quartz", texture:"quartz", need:500000000000},
+    {name:"Obsidienne", texture:"obsidian", need:5000000000000},
+    {name:"Nether", texture:"nether", need:50000000000000},
+    {name:"Glace", texture:"ice", need:500000000000000},
+    {name:"Cité antique", texture:"ancient", need:5000000000000000},
+    {name:"Netherite", texture:"netherite", need:50000000000000000},
+    {name:"End", texture:"end", need:500000000000000000},
+    {name:"Shulker", texture:"shulker", need:5000000000000000000},
+    {name:"Dimension", texture:"dimension", need:50000000000000000000},
+    {name:"Quantique", texture:"quantum", need:500000000000000000000},
+    {name:"Réacteur", texture:"reactor", need:5000000000000000000000},
+    {name:"Primordial", texture:"primordial", need:50000000000000000000000},
+    {name:"Infini", texture:"infinite", need:500000000000000000000000},
+    {name:"Singularité", texture:"infinite", need:5000000000000000000000000}
+
 ];
 
-const upgradeData=[
-["⛏️","Pioche en pierre","Production du clic ×2",1e3,s=>s.clickMultiplier*=2],["⛏️","Pioche en fer","Production du clic ×3",1e5,s=>s.clickMultiplier*=3],["⛏️","Pioche en diamant","Production du clic ×5",1e7,s=>s.clickMultiplier*=5],["✨","Fortune I","15% de chance de doubler",5e8,s=>s.critChance+=.15],["✨","Fortune II","15% supplémentaires",5e10,s=>s.critChance+=.15],["✨","Fortune III","20% supplémentaires",5e12,s=>s.critChance+=.2],["⚡","Efficacité","Production globale ×2",1e14,s=>s.globalMultiplier*=2],["⚡","Efficacité II","Production globale ×2",1e16,s=>s.globalMultiplier*=2],["🏭","Industrialisation","Bâtiments ×2",1e18,s=>s.buildingMultiplier*=2],["🏭","Automatisation","Bâtiments ×3",1e20,s=>s.buildingMultiplier*=3],["🌌","Énergie de l'End","Production globale ×5",1e22,s=>s.globalMultiplier*=5],["♾️","Singularité","Production globale ×10",1e24,s=>s.globalMultiplier*=10]
+
+/* =========================================================
+   BÂTIMENTS
+========================================================= */
+
+const buildings = [
+
+    {name:"Ferme à bois", icon:"🌲", desc:"Produit automatiquement du bois.", cost:15, cps:.1},
+    {name:"Mine de charbon", icon:"⬛", desc:"Une petite mine automatisée.", cost:100, cps:.5},
+    {name:"Carrière de pierre", icon:"⛏️", desc:"Extrait de la pierre.", cost:500, cps:4},
+    {name:"Ferme de blé", icon:"🌾", desc:"Produit régulièrement des ressources.", cost:3000, cps:10},
+    {name:"Mine de fer", icon:"⚙️", desc:"Une mine industrielle.", cost:10000, cps:40},
+    {name:"Mine d'or", icon:"🟨", desc:"Produit de l'or.", cost:40000, cps:100},
+    {name:"Ferme de redstone", icon:"🔴", desc:"Produit de la redstone.", cost:200000, cps:400},
+    {name:"Mine de lapis", icon:"🔵", desc:"Une grande exploitation.", cost:1666667, cps:6666},
+    {name:"Mine de diamant", icon:"💎", desc:"Produit des diamants.", cost:123456789, cps:12345},
+    {name:"Ferme d'émeraudes", icon:"💚", desc:"Production d'émeraudes.", cost:987654321, cps:98765},
+    {name:"Mine de quartz", icon:"⬜", desc:"Production du Nether.", cost:1e10, cps:1e6},
+    {name:"Générateur d'obsidienne", icon:"🟪", desc:"Production massive.", cost:1e11, cps:1e7},
+    {name:"Forteresse du Nether", icon:"🏰", desc:"Une forteresse entièrement automatisée.", cost:1e12, cps:1e8},
+    {name:"Ferme de glace", icon:"❄️", desc:"Une production glaciale.", cost:1e13, cps:1e9},
+    {name:"Ancienne cité", icon:"🏛️", desc:"Une source extrêmement rare.", cost:1e14, cps:1e10},
+    {name:"Mine de débris antiques", icon:"🔥", desc:"Débris antiques automatisés.", cost:1e15, cps:1e11},
+    {name:"Forge de netherite", icon:"⚒️", desc:"Forge industrielle.", cost:1e16, cps:1e12},
+    {name:"Ferme de l'End", icon:"🟣", desc:"Exploite les ressources de l'End.", cost:1e17, cps:1e13},
+    {name:"Ferme à shulkers", icon:"🟪", desc:"Production de grande dimension.", cost:1e18, cps:1e14},
+    {name:"Portail dimensionnel", icon:"🌀", desc:"Produit grâce aux dimensions.", cost:1e19, cps:1e15},
+    {name:"Laboratoire quantique", icon:"⚛️", desc:"Production quantique.", cost:1e20, cps:1e16},
+    {name:"Réacteur du Nether", icon:"☢️", desc:"Une énergie colossale.", cost:1e21, cps:1e17},
+    {name:"Générateur primordial", icon:"🌌", desc:"Une source primordiale.", cost:1e22, cps:1e18},
+    {name:"Machine infinie", icon:"♾️", desc:"La production ultime.", cost:1e23, cps:1e19}
+
 ];
 
-const prestigeData=[
-["🌙","Production nocturne","Débloque la production hors-ligne.",[5,25,100,500,2500],"offline"],
-["⏳","Longue absence","Augmente la durée maximale hors-ligne.",[10,50,250,1000,5000],"offlineCap"],
-["⛏️","Maîtrise minière","Production des bâtiments +10% par niveau.",[25,100,500,2500,10000,50000,250000],"building"],
-["💰","Fortune de l'End","Production globale +10% par niveau.",[50,250,1000,5000,25000,100000,500000],"global"],
-["💎","Cristaux instables","Chance critique +5% par niveau.",[100,500,2500,10000,50000,250000],"crit"],
-["🖱️","Main du joueur","Puissance du clic +25% par niveau.",[10,50,250,1000,5000,25000,100000],"click"],
-["📈","Marché dimensionnel","Débloque la Bourse.",[250,1000,5000],"stock"],
-["🧙","Académie des arcanes","Débloque les Tours de magie.",[500,2500,10000,50000],"magic"],
-["♻️","Âme éternelle","Chaque niveau ajoute +5% de production après renaissance.",[1000,5000,25000,100000,500000,2500000],"rebirth"],
-["🧠","Mémoire des mondes","Commence chaque renaissance avec un petit bonus de ressources.",[5000,25000,100000,500000],"startMoney"],
-["🏭","Architecture parfaite","Réduit légèrement la croissance du prix des bâtiments.",[10000,50000,250000,1000000,5000000],"costReduction"]
-].map(x=>({icon:x[0],name:x[1],desc:x[2],costs:x[3],effect:x[4]}));
 
-const achievementData=[
-["⛏️","Premier coup","Clique une fois.",s=>s.totalClicks>=1],["🪵","Petit constructeur","Possède 10 bâtiments.",s=>s.totalBuildingsBought>=10],["💰","Première fortune","Gagne 1 000 ressources.",s=>s.totalEarned>=1e3],["💎","Diamant","Atteins le bloc de diamant.",s=>s.blockTier>=8],["🟩","Milliardaire","Gagne 1 milliard.",s=>s.totalEarned>=1e9],["🔥","Nether","Atteins le bloc de magma.",s=>s.blockTier>=12],["⚫","Netherite","Atteins le bloc de netherite.",s=>s.blockTier>=15],["🏚️","Ancien","Atteins le bloc de sculk.",s=>s.blockTier>=16],["🪨","Bedrock","Atteins la bedrock.",s=>s.blockTier>=20],["♻️","Renaissance","Effectue une renaissance.",s=>s.rebirths>=1],["🌌","Voyageur","Atteins 10 renaissances.",s=>s.rebirths>=10],["📈","Investisseur","Débloque la Bourse.",s=>s.unlockedStock],["🧙","Mage","Débloque les Tours de magie.",s=>s.unlockedMagic],["♾️","Infini","Atteins le bloc infini.",s=>s.blockTier>=23]
+/* =========================================================
+   AMÉLIORATIONS
+========================================================= */
+
+const upgrades = [
+
+    {
+        name:"Pioche en pierre",
+        icon:"⛏️",
+        cost:1000,
+        desc:"Double la puissance des clics.",
+        type:"click",
+        value:2
+    },
+
+    {
+        name:"Pioche en fer",
+        icon:"⛏️",
+        cost:100000,
+        desc:"Triple la puissance des clics.",
+        type:"click",
+        value:3
+    },
+
+    {
+        name:"Pioche en diamant",
+        icon:"💎",
+        cost:10000000,
+        desc:"Multiplie les clics par 5.",
+        type:"click",
+        value:5
+    },
+
+    {
+        name:"Fortune I",
+        icon:"🍀",
+        cost:500000000,
+        desc:"+15% de chance de coup critique.",
+        type:"crit",
+        value:.15
+    },
+
+    {
+        name:"Fortune II",
+        icon:"🍀",
+        cost:50000000000,
+        desc:"+15% de chance de coup critique.",
+        type:"crit",
+        value:.15
+    },
+
+    {
+        name:"Fortune III",
+        icon:"🍀",
+        cost:5000000000000,
+        desc:"+20% de chance de coup critique.",
+        type:"crit",
+        value:.20
+    },
+
+    {
+        name:"Efficacité",
+        icon:"⚡",
+        cost:1e14,
+        desc:"Double toute la production.",
+        type:"global",
+        value:2
+    },
+
+    {
+        name:"Efficacité II",
+        icon:"⚡",
+        cost:1e16,
+        desc:"Double encore toute la production.",
+        type:"global",
+        value:2
+    },
+
+    {
+        name:"Industrialisation",
+        icon:"🏭",
+        cost:1e18,
+        desc:"Double la production des bâtiments.",
+        type:"building",
+        value:2
+    },
+
+    {
+        name:"Automatisation",
+        icon:"⚙️",
+        cost:1e20,
+        desc:"Triple la production des bâtiments.",
+        type:"building",
+        value:3
+    },
+
+    {
+        name:"Énergie de l'End",
+        icon:"🌌",
+        cost:1e22,
+        desc:"Multiplie toute la production par 5.",
+        type:"global",
+        value:5
+    },
+
+    {
+        name:"Singularité",
+        icon:"🕳️",
+        cost:1e24,
+        desc:"Multiplie toute la production par 10.",
+        type:"global",
+        value:10
+    }
+
 ];
 
-const D=()=>({
-money:0,totalEarned:0,totalClicks:0,totalBuildingsBought:0,playTime:0,
-rebirths:0,endFragments:0,lifetimeFragments:0,blockTier:0,
-clickLevel:0,clickMultiplier:1,critChance:0,critMultiplier:2,
-globalMultiplier:1,buildingMultiplier:1,combo:0,maxCombo:0,lastClick:0,
-eventMultiplier:1,eventUntil:0,offlinePercent:0,offlineCap:0,lastOnline:Date.now(),
-stock:{price:100,owned:0,best:100,worst:100},magic:100,magicMax:100,magicLevel:0,lastMagicTick:Date.now(),
-unlockedStock:false,unlockedMagic:false,buildings:buildings(),upgrades:upgrades(),prestige:prestige(),achievements:achievements()
-});
 
-function buildings(){return buildingData.map((x,i)=>({id:i,icon:x[0],name:x[1],desc:x[2],baseCost:x[3],baseCps:x[4],count:0}))}
-function upgrades(){return upgradeData.map((x,i)=>({id:i,icon:x[0],name:x[1],desc:x[2],cost:x[3],bought:false}))}
-function prestige(){return prestigeData.map((x,i)=>({id:i,level:0}))}
-function achievements(){return achievementData.map((x,i)=>({id:i,icon:x[0],name:x[1],desc:x[2],done:false}))}
-let state=D();
+/* =========================================================
+   PRESTIGE
+========================================================= */
 
-function n(x){x=Number(x);return Number.isFinite(x)?Math.max(0,x):0}
-function fmt(x){
- x=n(x);if(x<1e3)return Math.abs(x-Math.round(x))<1e-4?String(Math.round(x)):x.toFixed(2).replace(/\.?0+$/,"");
- const u=[[1e3,"K"],[1e6,"M"],[1e9,"B"],[1e12,"T"],[1e15,"Qa"],[1e18,"Qi"],[1e21,"Sx"],[1e24,"Sp"],[1e27,"Oc"],[1e30,"No"],[1e33,"Dc"],[1e36,"Ud"],[1e39,"Dd"],[1e42,"Td"],[1e45,"Qad"],[1e48,"Qid"],[1e51,"Sxd"],[1e54,"Spd"],[1e57,"Ocd"],[1e60,"Nod"]];
- for(let i=u.length-1;i>=0;i--)if(x>=u[i][0])return(x/u[i][0]).toFixed(2).replace(/\.?0+$/,"")+u[i][1];
- return x.toExponential(2)
+const prestigeUpgrades = [
+
+    {
+        name:"Production nocturne",
+        icon:"🌙",
+        costs:[5,25,100,500,2500],
+        desc:"Augmente la production gagnée hors ligne.",
+        type:"offline"
+    },
+
+    {
+        name:"Longue absence",
+        icon:"⏱️",
+        costs:[10,50,250,1000,5000],
+        desc:"Augmente la durée maximale du gain hors ligne.",
+        type:"cap"
+    },
+
+    {
+        name:"Maîtrise minière",
+        icon:"⛏️",
+        costs:[25,100,500,2500,10000],
+        desc:"+10% de production des bâtiments par niveau.",
+        type:"building"
+    },
+
+    {
+        name:"Fortune de l'End",
+        icon:"💜",
+        costs:[50,250,1000,5000,25000],
+        desc:"+10% de production globale par niveau.",
+        type:"global"
+    },
+
+    {
+        name:"Cristaux instables",
+        icon:"💠",
+        costs:[100,500,2500,10000,50000],
+        desc:"+5% de chance de critique par niveau.",
+        type:"crit"
+    },
+
+    {
+        name:"Main du joueur",
+        icon:"✋",
+        costs:[10,50,250,1000,5000],
+        desc:"+25% de puissance de clic par niveau.",
+        type:"click"
+    },
+
+    {
+        name:"Marché dimensionnel",
+        icon:"📈",
+        costs:[250,1000,5000],
+        desc:"Débloque le mini-jeu du marché.",
+        type:"stock"
+    },
+
+    {
+        name:"Académie des arcanes",
+        icon:"🔮",
+        costs:[500,2500,10000],
+        desc:"Débloque la Tour des arcanes.",
+        type:"magic"
+    },
+
+    {
+        name:"Âme éternelle",
+        icon:"✨",
+        costs:[1000,5000,25000,100000],
+        desc:"+5% de production par renaissance.",
+        type:"soul"
+    }
+
+];
+
+
+/* =========================================================
+   SUCCÈS
+========================================================= */
+
+const achievements = [
+
+    {id:"click100",name:"Premiers coups",desc:"Faire 100 clics.",reward:1},
+    {id:"click1000",name:"Mineur",desc:"Faire 1 000 clics.",reward:1},
+    {id:"click10000",name:"Acharné",desc:"Faire 10 000 clics.",reward:1},
+
+    {id:"money1m",name:"Millionnaire",desc:"Gagner 1 million.",reward:1},
+    {id:"money1b",name:"Milliardaire",desc:"Gagner 1 milliard.",reward:1},
+    {id:"money1t",name:"Trillionnaire",desc:"Gagner 1 trillion.",reward:3},
+
+    {id:"building10",name:"Petit empire",desc:"Posséder 10 bâtiments.",reward:1},
+    {id:"building100",name:"Grand empire",desc:"Posséder 100 bâtiments.",reward:1},
+    {id:"building500",name:"Industrie",desc:"Posséder 500 bâtiments.",reward:3},
+
+    {id:"rebirth1",name:"Renaissance",desc:"Effectuer une renaissance.",reward:3},
+    {id:"rebirth10",name:"Cycle éternel",desc:"Effectuer 10 renaissances.",reward:5},
+
+    {id:"allupgrades",name:"Technologie maximale",desc:"Acheter toutes les améliorations normales.",reward:5}
+
+];
+
+
+/* =========================================================
+   ÉTAT
+========================================================= */
+
+const defaultState = {
+
+    money:0,
+    totalEarned:0,
+    totalClicks:0,
+
+    totalBuildingsBought:0,
+
+    playTime:0,
+
+    rebirths:0,
+
+    endFragments:0,
+    lifetimeFragments:0,
+
+    blockTier:0,
+
+    clickLevel:0,
+    clickMultiplier:1,
+
+    critChance:.05,
+    critMultiplier:2,
+
+    globalMultiplier:1,
+    buildingMultiplier:1,
+
+    combo:0,
+    maxCombo:0,
+    lastClick:0,
+
+    eventMultiplier:1,
+    eventUntil:0,
+
+    upgrades:Array(upgrades.length).fill(false),
+
+    buildings:Array(buildings.length).fill(0),
+
+    achievements:{},
+
+    prestige:Array(prestigeUpgrades.length).fill(0),
+
+    offlinePercent:.15,
+    offlineCap:8*3600,
+
+    lastOnline:Date.now(),
+
+    stock:{
+        price:100,
+        owned:0,
+        best:100,
+        worst:100
+    },
+
+    magic:0,
+    magicMax:100,
+    magicLevel:1,
+    lastMagicTick:Date.now(),
+
+    unlockedStock:false,
+    unlockedMagic:false,
+
+    expeditionEnd:0
+
+};
+
+let state = JSON.parse(JSON.stringify(defaultState));
+
+let buyMode = 1;
+
+let stockInterval = null;
+let gameInterval = null;
+
+
+/* =========================================================
+   OUTILS
+========================================================= */
+
+function cloneDefault(){
+
+    return JSON.parse(JSON.stringify(defaultState));
+
 }
 
-function pLevel(e){let p=state.prestige.find(x=>prestigeData[x.id].effect===e);return p?p.level:0}
+function safeNumber(value, fallback=0){
+
+    const n = Number(value);
+
+    if(!Number.isFinite(n)){
+        return fallback;
+    }
+
+    return n;
+
+}
+
+function formatNumber(value){
+
+    value = safeNumber(value);
+
+    if(value === 0){
+        return "0";
+    }
+
+    const abs = Math.abs(value);
+
+    if(abs < 1000){
+
+        if(abs >= 100){
+            return Math.floor(value).toString();
+        }
+
+        if(abs >= 10){
+            return value.toFixed(1).replace(".0","");
+        }
+
+        return value.toFixed(2).replace(/0+$/,"").replace(/\.$/,"");
+    }
+
+    const units = [
+        ["Tg",1e21],
+        ["T",1e12],
+        ["B",1e9],
+        ["M",1e6],
+        ["k",1e3]
+    ];
+
+    for(const [unit,div] of units){
+
+        if(abs >= div){
+
+            let n = value/div;
+
+            let decimals = 2;
+
+            if(Math.abs(n) >= 100) decimals=0;
+            else if(Math.abs(n) >= 10) decimals=1;
+
+            return n.toFixed(decimals)
+                .replace(/\.00$/,"")
+                .replace(/(\.\d)0$/,"") + unit;
+        }
+    }
+
+    return value.toString();
+
+}
+
+
+function parseAmount(text){
+
+    if(text === undefined || text === null){
+        return 0;
+    }
+
+    let s = String(text)
+        .trim()
+        .replace(/\s/g,"")
+        .replace(",",".")
+        .toUpperCase();
+
+    const suffixes = {
+
+        K:1e3,
+        M:1e6,
+        B:1e9,
+        T:1e12,
+        Q:1e15,
+        QA:1e18,
+        TG:1e21
+
+    };
+
+    for(const suffix in suffixes){
+
+        if(s.endsWith(suffix)){
+
+            const numberPart = s.slice(0,-suffix.length);
+
+            const n = parseFloat(numberPart);
+
+            if(!Number.isFinite(n)){
+                return 0;
+            }
+
+            return n * suffixes[suffix];
+
+        }
+
+    }
+
+    const n = parseFloat(s);
+
+    return Number.isFinite(n) ? n : 0;
+
+}
+
+
+function showToast(message){
+
+    const el = document.getElementById("toast");
+
+    el.textContent = message;
+
+    el.classList.add("show");
+
+    clearTimeout(showToast.timer);
+
+    showToast.timer = setTimeout(()=>{
+
+        el.classList.remove("show");
+
+    },2200);
+
+}
+
+
+function openModal(id){
+
+    document.getElementById(id).classList.add("open");
+
+}
+
+function closeModal(id){
+
+    document.getElementById(id).classList.remove("open");
+
+}
+
+
+/* =========================================================
+   PRODUCTION
+========================================================= */
+
+function getBuildingCps(id){
+
+    const b = buildings[id];
+
+    const count = state.buildings[id] || 0;
+
+    return count * b.cps;
+
+}
+
+
+function getBuildingsCps(){
+
+    let cps = 0;
+
+    for(let i=0;i<buildings.length;i++){
+
+        cps += getBuildingCps(i);
+
+    }
+
+    return cps * state.buildingMultiplier;
+
+}
+
+
+function getPrestigeMultiplier(){
+
+    const level = state.prestige[8] || 0;
+
+    return 1 + (state.rebirths * .05) + (level * .05);
+
+}
+
 
 function getCps(){
- let t=0,m=1;state.buildings.forEach(b=>{t+=b.count*b.baseCps;if(b.count>=10)m*=1.01;if(b.count>=25)m*=1.02;if(b.count>=50)m*=1.03;if(b.count>=100)m*=1.05;if(b.count>=200)m*=1.1});
- t*=m*state.buildingMultiplier*(1+pLevel("building")*.1)*state.globalMultiplier*(1+pLevel("global")*.1)*(state.eventUntil>Date.now()?state.eventMultiplier:1)*(1+state.rebirths*.08)*(1+pLevel("rebirth")*.05);return t
-}
-function getClick(){return(1+state.clickLevel*2)*state.clickMultiplier*(1+pLevel("click")*.25)*state.globalMultiplier*(1+state.rebirths*.08)*(1+pLevel("rebirth")*.05)}
-function crit(){return Math.min(.85,state.critChance+pLevel("crit")*.05)}
 
-function growth(){return Math.max(1.12,1.15-pLevel("costReduction")*.005)}
-function bCost(b){return b.baseCost*Math.pow(growth(),b.count)}
-function cost(b,a){if(a<=0)return 0;let g=growth(),f=bCost(b);return a===1?f:f*(Math.pow(g,a)-1)/(g-1)}
-function maxBuy(b){
- let f=bCost(b);if(state.money<f)return 0;let g=growth(),a=Math.floor(Math.log(1+state.money*(g-1)/f)/Math.log(g));
- a=Math.max(0,Math.min(a,1e5));while(a&&cost(b,a)>state.money)a--;while(cost(b,a+1)<=state.money&&a<1e5)a++;return a
-}
-function buyBuilding(i){
- let b=state.buildings[i],a=buyMode==="max"?maxBuy(b):+buyMode;if(!a)return toast("Pas assez de ressources.");
- let c=cost(b,a);if(c>state.money)return toast("Pas assez de ressources.");
- state.money-=c;b.count+=a;state.totalBuildingsBought+=a;if(b.id>=19)state.unlockedStock=true;if(b.id>=20)state.unlockedMagic=true;ui();save()
+    let cps = getBuildingsCps();
+
+    cps *= state.globalMultiplier;
+
+    cps *= getPrestigeMultiplier();
+
+    cps *= state.eventMultiplier;
+
+    return cps;
+
 }
 
-function buyUpgrade(i){
- let u=state.upgrades[i];if(u.bought)return;if(state.money<u.cost)return toast("Pas assez de ressources.");
- state.money-=u.cost;u.bought=true;upgradeData[i][4](state);ui();save();toast("Amélioration : "+u.name)
+
+function getBaseClick(){
+
+    let value = 1;
+
+    value *= state.clickMultiplier;
+
+    value *= 1 + ((state.prestige[5] || 0) * .25);
+
+    value *= state.globalMultiplier;
+
+    value *= getPrestigeMultiplier();
+
+    return value;
+
 }
 
-function clickBlock(e){
- let now=Date.now(),power=getClick();state.combo=now-state.lastClick<900?state.combo+1:1;state.maxCombo=Math.max(state.maxCombo,state.combo);state.lastClick=now;
- if(state.combo>=5)power*=1+Math.min(state.combo,50)*.01;
- let c=false;if(Math.random()<crit()){power*=state.critMultiplier;c=true}
- state.money+=power;state.totalEarned+=power;state.totalClicks++;float(e.clientX,e.clientY,"+"+fmt(power)+(c?" CRITIQUE !":""),c);tier();ach();ui()
+
+/* =========================================================
+   COÛTS BÂTIMENTS
+========================================================= */
+
+function buildingCost(id,count){
+
+    const b = buildings[id];
+
+    return b.cost * Math.pow(buildingScale,count);
+
 }
 
-function tier(){let t=0;for(let i=0;i<blocks.length;i++)if(state.totalEarned>=blocks[i].need)t=i;state.blockTier=t}
-function blockUI(){
- let b=blocks[state.blockTier],el=id("blockName"),next=blocks[state.blockTier+1];el.textContent=b.name;id("blockTierText").textContent="Niveau "+(state.blockTier+1);id("blockTexture").style.background=b.texture;
- if(!next){id("blockProgress").style.width="100%";return}
- let pct=(state.totalEarned-b.need)/(next.need-b.need)*100;id("blockProgress").style.width=Math.max(0,Math.min(100,pct))+"%";id("progressText").textContent=fmt(Math.max(0,state.totalEarned-b.need))+" / "+fmt(next.need-b.need)+" avant "+next.name
-}
-function comboUI(){let e=id("combo");e.textContent="COMBO ×"+state.combo;e.classList.toggle("show",state.combo>=2)}
-function float(x,y,t,c){let e=document.createElement("div");e.className="floatText";e.textContent=t;if(c){e.style.color="#ffd54a";e.style.fontSize="20px"}e.style.left=x-20+"px";e.style.top=y-20+"px";document.body.appendChild(e);setTimeout(()=>e.remove(),800)}
 
-function event(){
- if(Math.random()>.08)return;
- let a=[["💎 Ruée vers les diamants !",5,20],["🔥 Surcharge du Nether !",8,12],["⚡ Énergie instable !",3,30],["🌌 Faille dimensionnelle !",15,8]][Math.floor(Math.random()*4)];
- state.eventMultiplier=a[1];state.eventUntil=Date.now()+a[2]*1e3;toast(a[0]);eventUI()
-}
-function eventUI(){
- let e=id("event");if(state.eventUntil>Date.now()){e.textContent="⚡ Événement actif : production ×"+state.eventMultiplier+" • "+Math.ceil((state.eventUntil-Date.now())/1e3)+"s";e.classList.add("show")}else e.classList.remove("show")
-}
+function buildingTotalCost(id,amount){
 
-function fragments(){return state.totalEarned<1e15?0:Math.floor(Math.pow(state.totalEarned/1e15,.35))}
-function doRebirth(){
- let g=fragments();if(!g)return toast("Il faut atteindre 1 Qa.");
- if(!confirm("RENAISSANCE\n\nGain : "+g+" Fragment(s)\n\nTa progression normale sera remise à zéro.\nTon prestige sera conservé.\n\nContinuer ?"))return;
- state.rebirths++;state.endFragments+=g;state.lifetimeFragments+=g;Object.assign(state,{money:0,totalEarned:0,totalClicks:0,totalBuildingsBought:0,blockTier:0,clickLevel:0,clickMultiplier:1,critChance:0,critMultiplier:2,globalMultiplier:1,buildingMultiplier:1,combo:0,maxCombo:0,eventMultiplier:1,eventUntil:0});state.upgrades=upgrades();state.buildings=buildings();let l=pLevel("startMoney");if(l)state.money=10**(l*3);state.lastOnline=Date.now();tier();ui();save();toast("♻️ Renaissance ! +"+g+" Fragment(s)");openPrestige()
+    if(amount <= 0){
+        return 0;
+    }
+
+    const b = buildings[id];
+
+    const current = state.buildings[id] || 0;
+
+    const first = b.cost * Math.pow(buildingScale,current);
+
+    return first *
+        ((Math.pow(buildingScale,amount)-1)/(buildingScale-1));
+
 }
 
-function pCost(i){let p=state.prestige[i],d=prestigeData[i];return p.level>=d.costs.length?Infinity:d.costs[p.level]}
-function buyPrestige(i){
- let p=state.prestige[i],d=prestigeData[i],c=pCost(i);if(c===Infinity)return;if(state.endFragments<c)return toast("Il te faut "+fmt(c)+" fragments.");
- state.endFragments-=c;p.level++;let e=d.effect;if(e==="offline")state.offlinePercent=Math.min(.75,p.level*.15);if(e==="offlineCap")state.offlineCap=p.level*8*3600;if(e==="stock")state.unlockedStock=true;if(e==="magic")state.unlockedMagic=true;toast("✨ "+d.name+" niveau "+p.level);ui();save()
-}
-function renderPrestige(){
- id("prestigeFragments").textContent=fmt(state.endFragments);id("prestigeList").innerHTML=prestigeData.map((d,i)=>{
- let p=state.prestige[i],c=pCost(i),tx=d.desc;if(d.effect==="offline")tx+=" Niveau actuel : "+Math.round(state.offlinePercent*100)+"%";if(d.effect==="offlineCap")tx+=" Cap actuel : "+Math.round(state.offlineCap/3600)+"h";
- return `<div class="prestigeUpgrade ${c===Infinity?"locked":""}"><h3>${d.icon} ${d.name} <span style="color:#8f78a5">Lv.${p.level}</span></h3><p>${tx}</p><button onclick="buyPrestige(${i})" ${c===Infinity||state.endFragments<c?"disabled":""}>${c===Infinity?"MAX":"Acheter • "+fmt(c)+" fragments"}</button></div>`
- }).join("")
-}
-function openPrestige(){renderPrestige();show("prestigeModal")}function closePrestige(){hide("prestigeModal")}
 
-function offline(){
- if(state.offlinePercent<=0||!state.lastOnline||!state.offlineCap)return;
- let sec=Math.min(Math.max(0,(Date.now()-state.lastOnline)/1e3),state.offlineCap);if(sec<10)return;
- let gain=getCps()*sec*state.offlinePercent;if(gain<=0)return;state.money+=gain;state.totalEarned+=gain;setTimeout(()=>toast("🌙 Retour ! +"+fmt(gain)+" hors-ligne."),500)
+function maxAffordable(id){
+
+    const money = state.money;
+
+    const b = buildings[id];
+
+    const current = state.buildings[id] || 0;
+
+    if(money < buildingCost(id,current)){
+        return 0;
+    }
+
+    let amount =
+        Math.floor(
+            Math.log(
+                1 + money*(buildingScale-1) /
+                (b.cost*Math.pow(buildingScale,current))
+            )
+            /
+            Math.log(buildingScale)
+        );
+
+    if(!Number.isFinite(amount) || amount < 0){
+        amount=0;
+    }
+
+    while(
+        amount > 0 &&
+        buildingTotalCost(id,amount) > money
+    ){
+        amount--;
+    }
+
+    while(
+        buildingTotalCost(id,amount+1) <= money
+    ){
+        amount++;
+    }
+
+    return amount;
+
 }
+
+
+function buyBuilding(id){
+
+    let amount = buyMode === "max"
+        ? maxAffordable(id)
+        : Number(buyMode);
+
+    if(amount <= 0){
+
+        showToast("Pas assez de ressources.");
+
+        return;
+
+    }
+
+    const cost = buildingTotalCost(id,amount);
+
+    if(cost > state.money){
+
+        showToast("Pas assez de ressources.");
+
+        return;
+
+    }
+
+    state.money -= cost;
+
+    state.buildings[id] += amount;
+
+    state.totalBuildingsBought += amount;
+
+    render();
+
+    saveGame();
+
+}
+
+
+/* =========================================================
+   ACHATS
+========================================================= */
+
+function buyUpgrade(id){
+
+    if(state.upgrades[id]){
+
+        showToast("Déjà achetée.");
+
+        return;
+
+    }
+
+    const upgrade = upgrades[id];
+
+    if(state.money < upgrade.cost){
+
+        showToast("Pas assez de ressources.");
+
+        return;
+
+    }
+
+    state.money -= upgrade.cost;
+
+    state.upgrades[id]=true;
+
+    applyUpgrade(upgrade);
+
+    checkAchievements();
+
+    render();
+
+    saveGame();
+
+    showToast("Amélioration achetée !");
+
+}
+
+
+function applyUpgrade(upgrade){
+
+    if(upgrade.type==="click"){
+
+        state.clickMultiplier *= upgrade.value;
+
+    }
+
+    if(upgrade.type==="crit"){
+
+        state.critChance += upgrade.value;
+
+    }
+
+    if(upgrade.type==="global"){
+
+        state.globalMultiplier *= upgrade.value;
+
+    }
+
+    if(upgrade.type==="building"){
+
+        state.buildingMultiplier *= upgrade.value;
+
+    }
+
+}
+
+
+/* =========================================================
+   CLIC
+========================================================= */
+
+function clickBlock(event){
+
+    const now = Date.now();
+
+    if(now - state.lastClick <= 1500){
+
+        state.combo++;
+
+    }else{
+
+        state.combo=1;
+
+    }
+
+    state.lastClick=now;
+
+    if(state.combo > state.maxCombo){
+
+        state.maxCombo=state.combo;
+
+    }
+
+    let amount = getBaseClick();
+
+    let crit=false;
+
+    if(Math.random() < state.critChance){
+
+        amount *= state.critMultiplier;
+
+        crit=true;
+
+    }
+
+    /*
+       Petit bonus de combo mais plafonné pour éviter
+       une explosion trop rapide de la progression.
+    */
+
+    const comboMultiplier =
+        1 + Math.min(state.combo,50)*.01;
+
+    amount *= comboMultiplier;
+
+    amount = Math.max(amount,0);
+
+    state.money += amount;
+
+    state.totalEarned += amount;
+
+    state.totalClicks++;
+
+    animateClick(event,amount,crit);
+
+    checkBlockTier();
+
+    checkAchievements();
+
+    render();
+
+}
+
+
+function animateClick(event,amount,crit){
+
+    const area = document.getElementById("clickArea");
+
+    const button = document.getElementById("blockButton");
+
+    button.classList.remove("shake");
+
+    void button.offsetWidth;
+
+    button.classList.add("shake");
+
+    const rect = area.getBoundingClientRect();
+
+    let x;
+
+    let y;
+
+    if(event && typeof event.clientX==="number"){
+
+        x = event.clientX - rect.left;
+        y = event.clientY - rect.top;
+
+    }else{
+
+        x = rect.width/2;
+        y = rect.height/2;
+
+    }
+
+    const float = document.createElement("div");
+
+    float.className = "clickFloat" + (crit ? " crit":"");
+
+    float.textContent =
+        "+" + formatNumber(amount) +
+        (crit ? " CRITIQUE !" : "");
+
+    float.style.left=x+"px";
+
+    float.style.top=y+"px";
+
+    area.appendChild(float);
+
+    setTimeout(()=>float.remove(),900);
+
+    for(let i=0;i<6;i++){
+
+        const particle=document.createElement("div");
+
+        particle.className="clickBurst";
+
+        particle.style.left=x+"px";
+        particle.style.top=y+"px";
+
+        particle.style.setProperty(
+            "--x",
+            ((Math.random()-.5)*130)+"px"
+        );
+
+        particle.style.setProperty(
+            "--y",
+            ((Math.random()-.5)*130)+"px"
+        );
+
+        area.appendChild(particle);
+
+        setTimeout(()=>particle.remove(),700);
+
+    }
+
+}
+
+
+/* =========================================================
+   BLOCS
+========================================================= */
+
+function checkBlockTier(){
+
+    let tier=state.blockTier;
+
+    for(let i=blocks.length-1;i>=0;i--){
+
+        if(state.totalEarned >= blocks[i].need){
+
+            tier=i;
+
+            break;
+
+        }
+
+    }
+
+    if(tier !== state.blockTier){
+
+        state.blockTier=tier;
+
+        showToast(
+            "Nouveau bloc : " +
+            blocks[tier].name
+        );
+
+    }
+
+}
+
+
+function updateBlockVisual(){
+
+    const block = blocks[state.blockTier] || blocks[0];
+
+    const face = document.getElementById("blockFace");
+
+    face.className =
+        "blockFace blockTexture-" +
+        block.texture;
+
+    document.getElementById("blockName").textContent =
+        block.name;
+
+    let next = blocks[state.blockTier+1];
+
+    const progress =
+        document.getElementById("blockProgressFill");
+
+    if(!next){
+
+        progress.style.width="100%";
+
+        return;
+
+    }
+
+    const currentNeed = block.need;
+
+    const nextNeed = next.need;
+
+    const ratio =
+        ((state.totalEarned-currentNeed) /
+        (nextNeed-currentNeed))*100;
+
+    progress.style.width =
+        Math.max(0,Math.min(100,ratio))+"%";
+
+}
+
+
+/* =========================================================
+   ACHIEVEMENTS
+========================================================= */
+
+function hasAllBuildings(){
+
+    return state.buildings.every(x=>x>0);
+
+}
+
+
+function checkAchievements(){
+
+    const conditions = {
+
+        click100: state.totalClicks>=100,
+        click1000: state.totalClicks>=1000,
+        click10000: state.totalClicks>=10000,
+
+        money1m: state.totalEarned>=1e6,
+        money1b: state.totalEarned>=1e9,
+        money1t: state.totalEarned>=1e12,
+
+        building10:
+            state.buildings.reduce((a,b)=>a+b,0)>=10,
+
+        building100:
+            state.buildings.reduce((a,b)=>a+b,0)>=100,
+
+        building500:
+            state.buildings.reduce((a,b)=>a+b,0)>=500,
+
+        rebirth1:state.rebirths>=1,
+        rebirth10:state.rebirths>=10,
+
+        allupgrades:
+            state.upgrades.every(Boolean)
+
+    };
+
+    for(const achievement of achievements){
+
+        if(
+            conditions[achievement.id] &&
+            !state.achievements[achievement.id]
+        ){
+
+            state.achievements[achievement.id]=true;
+
+            state.endFragments += achievement.reward;
+
+            state.lifetimeFragments += achievement.reward;
+
+            showToast(
+                "Succès : " +
+                achievement.name +
+                "  +" +
+                achievement.reward +
+                " fragment(s)"
+            );
+
+        }
+
+    }
+
+}
+
+
+/* =========================================================
+   PRESTIGE
+========================================================= */
+
+function calculatePrestigeFragments(){
+
+    if(state.totalEarned < 1e15){
+
+        return 0;
+
+    }
+
+    return Math.floor(
+        Math.pow(
+            state.totalEarned/1e15,
+            .35
+        )
+    );
+
+}
+
+
+function doPrestige(){
+
+    const fragments = calculatePrestigeFragments();
+
+    if(fragments <= 0){
+
+        showToast(
+            "Il faut au moins 1 quadrillion de ressources gagnées."
+        );
+
+        return;
+
+    }
+
+    if(!confirm(
+        "Faire une renaissance ?\n\n" +
+        "Tu gagneras " +
+        fragments +
+        " fragment(s).\n\n" +
+        "Les bâtiments et ressources seront réinitialisés."
+    )){
+
+        return;
+
+    }
+
+    state.endFragments += fragments;
+
+    state.lifetimeFragments += fragments;
+
+    state.rebirths++;
+
+    state.money=0;
+
+    state.totalEarned=0;
+
+    state.totalClicks=0;
+
+    state.totalBuildingsBought=0;
+
+    state.blockTier=0;
+
+    state.clickLevel=0;
+
+    state.clickMultiplier=1;
+
+    state.critChance=.05;
+
+    state.critMultiplier=2;
+
+    state.globalMultiplier=1;
+
+    state.buildingMultiplier=1;
+
+    state.combo=0;
+
+    state.maxCombo=0;
+
+    state.upgrades=Array(upgrades.length).fill(false);
+
+    state.buildings=Array(buildings.length).fill(0);
+
+    state.eventMultiplier=1;
+
+    state.eventUntil=0;
+
+    state.lastOnline=Date.now();
+
+    /*
+       On conserve :
+       - fragments
+       - prestige
+       - renaissances
+       - succès
+       - progression permanente
+    */
+
+    applyAllPurchasedUpgrades();
+
+    checkAchievements();
+
+    saveGame();
+
+    render();
+
+    openPrestige();
+
+    showToast(
+        "Renaissance effectuée : +" +
+        fragments +
+        " fragments"
+    );
+
+}
+
+
+function applyAllPurchasedUpgrades(){
+
+    /*
+       Les améliorations normales sont reset après renaissance,
+       donc aucune ne doit être appliquée ici.
+    */
+
+    state.clickMultiplier=1;
+    state.globalMultiplier=1;
+    state.buildingMultiplier=1;
+    state.critChance=.05;
+
+}
+
+
+/* =========================================================
+   PRESTIGE UPGRADES
+========================================================= */
+
+function prestigeLevel(id){
+
+    return state.prestige[id] || 0;
+
+}
+
+
+function buyPrestigeUpgrade(id){
+
+    const upgrade = prestigeUpgrades[id];
+
+    const level = prestigeLevel(id);
+
+    if(level >= upgrade.costs.length){
+
+        showToast("Niveau maximum.");
+
+        return;
+
+    }
+
+    const cost = upgrade.costs[level];
+
+    if(state.endFragments < cost){
+
+        showToast("Pas assez de fragments.");
+
+        return;
+
+    }
+
+    state.endFragments -= cost;
+
+    state.prestige[id]++;
+
+    if(upgrade.type==="offline"){
+
+        state.offlinePercent =
+            .15 + state.prestige[id]*.15;
+
+    }
+
+    if(upgrade.type==="cap"){
+
+        state.offlineCap =
+            8*3600 +
+            state.prestige[id]*8*3600;
+
+    }
+
+    if(upgrade.type==="stock"){
+
+        state.unlockedStock=true;
+
+    }
+
+    if(upgrade.type==="magic"){
+
+        state.unlockedMagic=true;
+
+        state.magicMax =
+            100 +
+            state.prestige[id]*25;
+
+    }
+
+    render();
+
+    saveGame();
+
+    showToast(
+        upgrade.name +
+        " niveau " +
+        state.prestige[id]
+    );
+
+}
+
+
+/* =========================================================
+   HORS LIGNE
+========================================================= */
+
+function calculateOffline(){
+
+    const now=Date.now();
+
+    const last=safeNumber(
+        state.lastOnline,
+        now
+    );
+
+    let seconds=(now-last)/1000;
+
+    if(seconds < 5){
+
+        return 0;
+
+    }
+
+    seconds=Math.min(
+        seconds,
+        state.offlineCap
+    );
+
+    const gain =
+        getCps() *
+        seconds *
+        state.offlinePercent;
+
+    if(gain > 0){
+
+        state.money += gain;
+
+        state.totalEarned += gain;
+
+    }
+
+    return gain;
+
+}
+
+
+/* =========================================================
+   MARCHÉ
+========================================================= */
 
 function updateStock(){
- if(!state.unlockedStock)return;state.stock.price=Math.max(5,Math.min(1e6,state.stock.price*(1+(Math.random()-.48)*.2)));state.stock.best=Math.max(state.stock.best,state.stock.price);state.stock.worst=Math.min(state.stock.worst,state.stock.price);stockUI()
-}
-function buyStock(a){let c=state.stock.price*a;if(state.money<c)return toast("Pas assez de ressources.");state.money-=c;state.stock.owned+=a;stockUI();ui();save()}
-function sellStock(a){if(state.stock.owned<a)return toast("Tu n'as pas assez d'unités.");state.stock.owned-=a;state.money+=state.stock.price*a;stockUI();ui();save()}
-function stockUI(){id("stockPrice").textContent=fmt(state.stock.price);id("stockOwned").textContent="Tu possèdes "+state.stock.owned+" unité"+(state.stock.owned>1?"s":".")}
-function openStock(){if(!state.unlockedStock)return toast("Débloque le Marché dimensionnel dans le prestige.");stockUI();show("stockModal")}function closeStock(){hide("stockModal")}
 
-const spells=[
-["⚡","Surcharge",20,"Production ×5 pendant 20 secondes.",()=>{state.eventMultiplier=5;state.eventUntil=Date.now()+2e4}],
-["💎","Fortune magique",30,"Ajoute une grosse quantité de ressources.",()=>{let g=Math.max(100,getCps()*60);state.money+=g;state.totalEarned+=g}],
-["⛏️","Main du mage",15,"Donne immédiatement 50 clics.",()=>{let g=getClick()*50;state.money+=g;state.totalEarned+=g}],
-["🌌","Faille",60,"Production ×15 pendant 10 secondes.",()=>{state.eventMultiplier=15;state.eventUntil=Date.now()+1e4}]
+    if(!state.unlockedStock){
+
+        return;
+
+    }
+
+    const variation =
+        .80 +
+        Math.random()*.40;
+
+    state.stock.price *= variation;
+
+    state.stock.price =
+        Math.max(
+            5,
+            Math.min(
+                1e12,
+                state.stock.price
+            )
+        );
+
+    state.stock.best =
+        Math.max(
+            state.stock.best,
+            state.stock.price
+        );
+
+    state.stock.worst =
+        Math.min(
+            state.stock.worst,
+            state.stock.price
+        );
+
+    renderStock();
+
+}
+
+
+function buyStock(amount){
+
+    if(!state.unlockedStock){
+
+        showToast("Marché non débloqué.");
+
+        return;
+
+    }
+
+    const cost =
+        state.stock.price*amount;
+
+    if(state.money < cost){
+
+        showToast("Pas assez de ressources.");
+
+        return;
+
+    }
+
+    state.money -= cost;
+
+    state.stock.owned += amount;
+
+    render();
+
+    renderStock();
+
+}
+
+
+function sellStock(amount){
+
+    if(!state.unlockedStock){
+
+        return;
+
+    }
+
+    if(amount==="all"){
+
+        amount=state.stock.owned;
+
+    }
+
+    amount=Math.min(
+        Number(amount),
+        state.stock.owned
+    );
+
+    if(amount<=0){
+
+        return;
+
+    }
+
+    const gain =
+        state.stock.price*amount;
+
+    state.stock.owned-=amount;
+
+    state.money+=gain;
+
+    /*
+       IMPORTANT :
+       La vente d'actions ne compte pas comme
+       production réelle pour le prestige.
+    */
+
+    render();
+
+    renderStock();
+
+}
+
+
+function openStock(){
+
+    if(!state.unlockedStock){
+
+        showToast(
+            "Débloque Marché dimensionnel dans le prestige."
+        );
+
+        return;
+
+    }
+
+    closeModal("minigamesModal");
+
+    renderStock();
+
+    openModal("stockModal");
+
+}
+
+
+function renderStock(){
+
+    document.getElementById("stockPrice").textContent =
+        formatNumber(state.stock.price);
+
+    document.getElementById("stockOwned").textContent =
+        formatNumber(state.stock.owned);
+
+    document.getElementById("stockInfo").innerHTML =
+        "Plus haut : <b>" +
+        formatNumber(state.stock.best) +
+        "</b> · Plus bas : <b>" +
+        formatNumber(state.stock.worst) +
+        "</b>";
+
+}
+
+
+/* =========================================================
+   MAGIE
+========================================================= */
+
+const spells = [
+
+    {
+        name:"Éclair du Nether",
+        cost:20,
+        duration:20,
+        multiplier:2,
+        desc:"Double la production pendant 20 secondes."
+    },
+
+    {
+        name:"Rituel de l'End",
+        cost:50,
+        duration:30,
+        multiplier:5,
+        desc:"Multiplie la production par 5 pendant 30 secondes."
+    },
+
+    {
+        name:"Singularité arcanique",
+        cost:100,
+        duration:20,
+        multiplier:15,
+        desc:"Multiplie la production par 15 pendant 20 secondes."
+    }
+
 ];
-function regen(){let now=Date.now(),d=(now-state.lastMagicTick)/1e3;if(d>0){state.magic=Math.min(state.magicMax,state.magic+d*(1+state.magicLevel*.25+pLevel("magic")*.25));state.lastMagicTick=now}}
-function spell(i){regen();let s=spells[i];if(state.magic<s[2])return toast("Pas assez de magie.");state.magic-=s[2];s[4]();toast(s[0]+" "+s[1]+" lancé !");magicUI();ui();save()}
-function magicUI(){regen();id("magicAmount").textContent=Math.floor(state.magic);id("magicMax").textContent=state.magicMax;id("magicList").innerHTML=spells.map((s,i)=>`<div class="magicSpell"><h3>${s[0]} ${s[1]}</h3><p>${s[3]}<br>Coût : ${s[2]} magie</p><button class="actionBtn" onclick="spell(${i})" ${state.magic<s[2]?"disabled":""}>Lancer</button></div>`).join("")}
-function openMagic(){if(!state.unlockedMagic)return toast("Débloque l'Académie des arcanes dans le prestige.");magicUI();show("magicModal")}function closeMagic(){hide("magicModal")}
 
-function openMiniGames(){miniUI();show("miniGameModal")}function closeMiniGames(){hide("miniGameModal")}
-function miniUI(){id("miniGameContent").innerHTML=`
-<div class="miniGame"><div class="miniGameTitle">📈 Bourse dimensionnelle</div><div class="miniGameDesc">Achète et revends des unités dont le prix varie régulièrement.</div><button onclick="closeMiniGames();openStock()" ${state.unlockedStock?"":"disabled"}>${state.unlockedStock?"Ouvrir la Bourse":"Nécessite le prestige"}</button></div>
-<div class="miniGame"><div class="miniGameTitle">🧙 Tours de magie</div><div class="miniGameDesc">Utilise ta réserve de magie pour lancer des sorts temporaires.</div><button onclick="closeMiniGames();openMagic()" ${state.unlockedMagic?"":"disabled"}>${state.unlockedMagic?"Ouvrir les Tours":"Nécessite le prestige"}</button></div>
-<div class="miniGame"><div class="miniGameTitle">🧭 Expédition</div><div class="miniGameDesc">Envoie une équipe explorer les dimensions. Une expédition prend du temps mais peut rapporter un gros bonus.</div><button onclick="startExpedition()">Lancer une expédition</button></div>`}
-function startExpedition(){if(expeditionUntil>Date.now())return toast("Une expédition est déjà en cours.");let d=60+Math.floor(Math.random()*180);expeditionUntil=Date.now()+d*1e3;toast("🧭 Expédition lancée pour "+Math.ceil(d/60)+" minute(s).");save()}
 
-function ach(){
- let ch=false;state.achievements.forEach((a,i)=>{if(!a.done&&achievementData[i][3](state)){a.done=true;ch=true;toast("🏆 Succès : "+a.name)}});if(ch)achUI()
-}
-function achUI(){let d=0;id("achievementList").innerHTML=state.achievements.map(a=>{if(a.done)d++;return`<div class="achievement ${a.done?"done":""}"><div class="achievementIcon">${a.icon}</div><div><div class="achievementName">${a.name}</div><div class="achievementDesc">${a.desc}</div></div></div>`}).join("");id("achievementCount").textContent=d+"/"+state.achievements.length}
+function regenerateMagic(){
 
-function buildingsUI(){
- let total=0;id("buildingList").innerHTML=state.buildings.map(b=>{
- total+=b.count;let c=bCost(b),a=buyMode==="max"?maxBuy(b):+buyMode,tc=cost(b,a);
- return`<div class="building"><div class="buildIcon">${b.icon}</div><div><div class="buildName">${b.name} <span style="color:#6f797d">×${b.count}</span></div><div class="buildDesc">${b.desc}</div><div class="buildInfo">${fmt(b.baseCps)}/s chacun • prochain : ${fmt(c)}${a>1?" • total : "+fmt(tc):""}</div></div><button class="buyBtn" onclick="buyBuilding(${b.id})" ${!a||tc>state.money?"disabled":""}>${buyMode==="max"?"MAX ×"+a:"Acheter ×"+a}</button></div>`
- }).join("");id("buildingCount").textContent=total
-}
-function upgradesUI(){id("upgradeList").innerHTML=state.upgrades.map(u=>`<div class="upgrade"><div class="upgradeTop"><div class="upgradeIcon">${u.icon}</div><div><div class="upgradeName">${u.name}</div><div style="font-size:10px;color:#747e82">${u.bought?"ACHETÉE":"Disponible"}</div></div></div><div class="upgradeDesc">${u.desc}</div><button onclick="buyUpgrade(${u.id})" ${u.bought||state.money<u.cost?"disabled":""}>${u.bought?"✓ Déjà achetée":"Acheter • "+fmt(u.cost)}</button></div>`).join("")}
+    if(!state.unlockedMagic){
 
-function openStats(){id("statsContent").innerHTML=`<div class="notice">Statistiques générales</div>
-<p>Ressources actuelles : <strong>${fmt(state.money)}</strong></p><p>Production : <strong>${fmt(getCps())}/s</strong></p><p>Puissance du clic : <strong>${fmt(getClick())}</strong></p><p>Clics : <strong>${fmt(state.totalClicks)}</strong></p><p>Ressources cumulées : <strong>${fmt(state.totalEarned)}</strong></p><p>Bâtiments achetés : <strong>${fmt(state.totalBuildingsBought)}</strong></p><p>Renaissances : <strong>${state.rebirths}</strong></p><p>Fragments obtenus : <strong>${fmt(state.lifetimeFragments)}</strong></p><p>Meilleur combo : <strong>×${state.maxCombo}</strong></p><p>Chance critique : <strong>${Math.round(crit()*100)}%</strong></p><p>Bonus hors-ligne : <strong>${Math.round(state.offlinePercent*100)}%</strong></p>`;show("statsModal")}
-function closeStats(){hide("statsModal")}
+        return;
 
-function xor(s,k){let o="";for(let i=0;i<s.length;i++)o+=String.fromCharCode(s.charCodeAt(i)^k.charCodeAt(i%k.length));return o}
-function encode(d){let b=new TextEncoder().encode(xor(JSON.stringify(d),SECRET)),x="";for(let i=0;i<b.length;i+=32768)x+=String.fromCharCode(...b.subarray(i,i+32768));return"MCX2."+btoa(x)}
-function decode(s){
- s=s.trim();if(s.startsWith("MCX2.")){let b=atob(s.slice(5)),u=Uint8Array.from(b,c=>c.charCodeAt(0));return JSON.parse(xor(new TextDecoder().decode(u),SECRET))}
- if(s.startsWith("MCX1.")){let b=atob(s.slice(5)),u=Uint8Array.from(b,c=>c.charCodeAt(0)),t=new TextDecoder().decode(u);for(let k of["MC_CLICKER_V1_X9_7K","MC_CLICKER_SAVE_V1"])try{return JSON.parse(xor(t,k))}catch(e){}}
- try{return JSON.parse(s)}catch(e){throw Error("Format de sauvegarde invalide.")}
-}
-function data(){return{version:2,money:state.money,totalEarned:state.totalEarned,totalClicks:state.totalClicks,totalBuildingsBought:state.totalBuildingsBought,playTime:state.playTime,rebirths:state.rebirths,endFragments:state.endFragments,lifetimeFragments:state.lifetimeFragments,blockTier:state.blockTier,clickLevel:state.clickLevel,clickMultiplier:state.clickMultiplier,critChance:state.critChance,critMultiplier:state.critMultiplier,globalMultiplier:state.globalMultiplier,buildingMultiplier:state.buildingMultiplier,combo:state.combo,maxCombo:state.maxCombo,lastClick:state.lastClick,eventMultiplier:state.eventMultiplier,eventUntil:state.eventUntil,upgrades:state.upgrades,buildings:state.buildings,achievements:state.achievements,prestige:state.prestige,offlinePercent:state.offlinePercent,offlineCap:state.offlineCap,lastOnline:Date.now(),stock:state.stock,magic:state.magic,magicMax:state.magicMax,magicLevel:state.magicLevel,lastMagicTick:state.lastMagicTick,unlockedStock:state.unlockedStock,unlockedMagic:state.unlockedMagic,expeditionUntil}}
-function save(){try{state.lastOnline=Date.now();localStorage.setItem(KEY,encode(data()))}catch(e){console.error(e)}}
+    }
 
-function loadData(d){
- if(!d||typeof d!="object")throw Error("Données invalides.");
- state.money=n(d.money);state.totalEarned=n(d.totalEarned);state.totalClicks=n(d.totalClicks);state.totalBuildingsBought=n(d.totalBuildingsBought);state.playTime=n(d.playTime);state.rebirths=n(d.rebirths);state.endFragments=n(d.endFragments);state.lifetimeFragments=n(d.lifetimeFragments);state.blockTier=Math.max(0,Math.min(23,+d.blockTier||0));state.clickLevel=n(d.clickLevel);state.clickMultiplier=n(d.clickMultiplier)||1;state.critChance=n(d.critChance);state.critMultiplier=n(d.critMultiplier)||2;state.globalMultiplier=n(d.globalMultiplier)||1;state.buildingMultiplier=n(d.buildingMultiplier)||1;state.combo=n(d.combo);state.maxCombo=n(d.maxCombo);state.lastClick=n(d.lastClick);state.eventMultiplier=n(d.eventMultiplier)||1;state.eventUntil=n(d.eventUntil);state.offlinePercent=n(d.offlinePercent);state.offlineCap=n(d.offlineCap);state.lastOnline=+d.lastOnline||Date.now();
- state.stock={price:n(d.stock?.price)||100,owned:n(d.stock?.owned),best:n(d.stock?.best)||100,worst:n(d.stock?.worst)||100};state.magic=n(d.magic);state.magicMax=n(d.magicMax)||100;state.magicLevel=n(d.magicLevel);state.lastMagicTick=+d.lastMagicTick||Date.now();state.unlockedStock=!!d.unlockedStock;state.unlockedMagic=!!d.unlockedMagic;expeditionUntil=+d.expeditionUntil||0;
- let ob=Array.isArray(d.buildings)?d.buildings:[];state.buildings=buildings();state.buildings.forEach((b,i)=>{if(ob[i])b.count=n(ob[i].count)});
- let ou=Array.isArray(d.upgrades)?d.upgrades:[];state.upgrades=upgrades();state.upgrades.forEach((u,i)=>{if(ou[i]?.bought)u.bought=true});
- let op=Array.isArray(d.prestige)?d.prestige:[];state.prestige=prestige();state.prestige.forEach((p,i)=>{if(op[i])p.level=Math.max(0,Math.min(prestigeData[i].costs.length,+op[i].level||0))});
- let oa=Array.isArray(d.achievements)?d.achievements:[];state.achievements=achievements();state.achievements.forEach((a,i)=>{if(oa[i]?.done)a.done=true});
- if(pLevel("stock"))state.unlockedStock=true;if(pLevel("magic"))state.unlockedMagic=true;
- state.clickMultiplier=1;state.critChance=0;state.globalMultiplier=1;state.buildingMultiplier=1;state.upgrades.forEach((u,i)=>{if(u.bought)upgradeData[i][4](state)});
- if(pLevel("offline"))state.offlinePercent=Math.min(.75,pLevel("offline")*.15);if(pLevel("offlineCap"))state.offlineCap=pLevel("offlineCap")*8*3600;tier()
-}
-function load(){let s=localStorage.getItem(KEY);if(!s)return false;try{loadData(decode(s));offline();return true}catch(e){console.error(e);toast("Ancienne sauvegarde illisible. Nouvelle partie chargée.");return false}}
-function generateSave(){id("saveText").value=encode(data())}
-async function copySave(){generateSave();try{await navigator.clipboard.writeText(id("saveText").value);toast("Sauvegarde copiée.")}catch(e){toast("Copie impossible. Sélectionne le texte manuellement.")}}
-function importSave(){let s=id("saveText").value.trim();if(!s)return toast("Colle d'abord une sauvegarde.");try{loadData(decode(s));save();ui();toast("Sauvegarde importée.")}catch(e){alert("Impossible de lire cette sauvegarde :\n\n"+e.message)}}
-function resetGame(){if(confirm("Supprimer toute la sauvegarde ?")){localStorage.removeItem(KEY);location.reload()}}
-function openSave(){generateSave();show("saveModal")}function closeSave(){hide("saveModal")}
+    const now=Date.now();
 
-function openAdmin(){show("adminModal");id("adminPassword").value=""}
-function closeAdmin(){hide("adminModal")}
-function adminLogin(){if(id("adminPassword").value!==ADMIN_PASSWORD)return toast("Mot de passe incorrect.");id("adminLogin").style.display="none";id("adminPanel").style.display="block";toast("Panel admin activé.")}
-function adminNum(x){let v=id(x).value.trim().replace(/\s/g,"").replace(",",".");if(!v)return 0;let m=v.toLowerCase().match(/^([0-9.]+)(k|m|b|t|qa|qi|sx|sp|oc|no)?$/);if(!m)return 0;return n(Number(m[1])*({k:1e3,m:1e6,b:1e9,t:1e12,qa:1e15,qi:1e18,sx:1e21,sp:1e24,oc:1e27,no:1e30}[m[2]]||1))}
-function adminAddMoney(){let x=adminNum("adminMoney");state.money+=x;ui();save();toast("+"+fmt(x)+" ressources.")}
-function adminSetMoney(){state.money=adminNum("adminMoney");ui();save()}
-function adminAddFragments(){let x=adminNum("adminFragments");state.endFragments+=x;state.lifetimeFragments+=x;ui();save();toast("+"+fmt(x)+" fragments.")}
-function adminSetFragments(){state.endFragments=adminNum("adminFragments");ui();save()}
-function adminSetRebirth(){state.rebirths=Math.max(0,+id("adminRebirth").value||0);ui();save()}
-function adminAddBuildings(x){state.buildings.forEach(b=>b.count+=x);state.totalBuildingsBought+=x*state.buildings.length;state.unlockedStock=true;state.unlockedMagic=true;ui();save();toast("+"+x+" à chaque bâtiment.")}
-function adminSetBlock(){let x=Math.max(0,Math.min(23,+id("adminBlock").value||0));state.blockTier=x;state.totalEarned=Math.max(state.totalEarned,blocks[x].need);ui();save()}
-function adminUnlockStock(){state.unlockedStock=true;ui();save();toast("Bourse débloquée.")}
-function adminUnlockMagic(){state.unlockedMagic=true;ui();save();toast("Tours de magie débloquées.")}
-function adminSetMultiplier(){let x=Math.max(1,+id("adminMultiplier").value||1);state.globalMultiplier=x;ui();save();toast("Production globale ×"+x)}
-function adminResetNormal(){if(!confirm("Réinitialiser uniquement la progression normale ?\n\nLe prestige et les fragments seront conservés."))return;Object.assign(state,{money:0,totalEarned:0,totalClicks:0,totalBuildingsBought:0,blockTier:0,clickLevel:0,clickMultiplier:1,critChance:0,critMultiplier:2,globalMultiplier:1,buildingMultiplier:1});state.upgrades=upgrades();state.buildings=buildings();ui();save();toast("Progression normale réinitialisée.")}
+    const delta =
+        Math.max(
+            0,
+            (now-state.lastMagicTick)/1000
+        );
 
-let toastTimer;
-function toast(t){let e=id("toast");e.textContent=t;e.classList.add("show");clearTimeout(toastTimer);toastTimer=setTimeout(()=>e.classList.remove("show"),2200)}
-function id(x){return document.getElementById(x)}function show(x){id(x).classList.add("show")}function hide(x){id(x).classList.remove("show")}
+    state.lastMagicTick=now;
 
-function ui(){
- regen();id("money").textContent=fmt(state.money);id("cps").textContent=fmt(getCps());id("clickPower").textContent=fmt(getClick());id("clickPowerText").textContent="+"+fmt(getClick())+" par clic";id("rebirthLevel").textContent=state.rebirths;id("fragmentDisplay").textContent=fmt(state.endFragments);id("rebirthGain").textContent=fmt(fragments());id("rebirthButton").disabled=!fragments();blockUI();comboUI();buildingsUI();upgradesUI();achUI();renderPrestige();stockUI();magicUI();eventUI()
+    /*
+       1 énergie / seconde.
+    */
+
+    state.magic =
+        Math.min(
+            state.magicMax,
+            state.magic + delta
+        );
+
 }
 
-let last=Date.now();
-function loop(){
- let now=Date.now(),d=Math.min(5,(now-last)/1e3);last=now,let gain=getCps()*d;if(gain){state.money+=gain;state.totalEarned+=gain}state.playTime+=d;regen();
- if(state.eventUntil&&state.eventUntil<=now){state.eventUntil=0;state.eventMultiplier=1}
- tier();
- if(expeditionUntil&&expeditionUntil<=now){expeditionUntil=0;let r=Math.max(100,getCps()*(30+Math.random()*120));state.money+=r;state.totalEarned+=r;toast("🧭 Expédition terminée ! +"+fmt(r))}
- if(state.lastClick&&now-state.lastClick>1200)state.combo=0;ui()
+
+function useMagicSpell(id){
+
+    if(!state.unlockedMagic){
+
+        showToast("Tour non débloquée.");
+
+        return;
+
+    }
+
+    const spell=spells[id];
+
+    if(state.magic < spell.cost){
+
+        showToast("Pas assez d'énergie magique.");
+
+        return;
+
+    }
+
+    state.magic-=spell.cost;
+
+    state.eventMultiplier =
+        Math.max(
+            state.eventMultiplier,
+            spell.multiplier
+        );
+
+    state.eventUntil =
+        Math.max(
+            state.eventUntil,
+            Date.now()+spell.duration*1000
+        );
+
+    showToast(
+        spell.name +
+        " lancé ! Production x" +
+        spell.multiplier
+    );
+
+    render();
+
 }
 
-setInterval(loop,100);setInterval(event,15000);setInterval(updateStock,5000);setInterval(save,10000);
-id("currentBlock").onclick=clickBlock;
-document.querySelectorAll(".modeBtn").forEach(b=>b.onclick=()=>{document.querySelectorAll(".modeBtn").forEach(x=>x.classList.remove("active"));b.classList.add("active");buyMode=b.dataset.mode==="max"?"max":+b.dataset.mode;buildingsUI()});
-document.querySelectorAll(".modal").forEach(m=>m.onclick=e=>{if(e.target===m)m.classList.remove("show")});
 
-let loaded=load();if(!loaded)state.lastOnline=Date.now();tier();ui();save();
+function openMagic(){
 
-document.addEventListener("visibilitychange",()=>{if(document.hidden)save();else{offline();state.lastOnline=Date.now();ui();save()}});
-window.addEventListener("beforeunload",save);
+    if(!state.unlockedMagic){
+
+        showToast(
+            "Débloque l'Académie des arcanes dans le prestige."
+        );
+
+        return;
+
+    }
+
+    closeModal("minigamesModal");
+
+    renderMagic();
+
+    openModal("magicModal");
+
+}
+
+
+function renderMagic(){
+
+    document.getElementById("magicText").textContent =
+        formatNumber(state.magic) +
+        " / " +
+        formatNumber(state.magicMax);
+
+    document.getElementById("magicEnergyFill").style.width =
+        Math.min(
+            100,
+            state.magic/state.magicMax*100
+        )+"%";
+
+    const container =
+        document.getElementById("spellsList");
+
+    container.innerHTML="";
+
+    spells.forEach((spell,id)=>{
+
+        const div=document.createElement("div");
+
+        div.className="spell";
+
+        div.innerHTML=`
+
+            <div>
+                <div class="spellName">
+                    ${spell.name}
+                </div>
+
+                <div class="spellDesc">
+                    ${spell.desc}
+                    Coût : ${spell.cost}
+                </div>
+            </div>
+
+            <button
+                class="actionBtn"
+                onclick="useMagicSpell(${id})">
+                Lancer
+            </button>
+
+        `;
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+/* =========================================================
+   EXPÉDITION
+========================================================= */
+
+function startExpedition(){
+
+    if(state.expeditionEnd > Date.now()){
+
+        const remaining =
+            Math.ceil(
+                (state.expeditionEnd-Date.now())/1000
+            );
+
+        showToast(
+            "Expédition en cours : " +
+            remaining +
+            " secondes."
+        );
+
+        return;
+
+    }
+
+    state.expeditionEnd =
+        Date.now()+60000;
+
+    showToast(
+        "Expédition lancée ! Reviens dans 60 secondes."
+    );
+
+}
+
+
+function checkExpedition(){
+
+    if(
+        state.expeditionEnd>0 &&
+        Date.now()>=state.expeditionEnd
+    ){
+
+        const reward =
+            Math.max(
+                100,
+                getCps()*120
+            );
+
+        state.money+=reward;
+
+        state.totalEarned+=reward;
+
+        state.expeditionEnd=0;
+
+        showToast(
+            "Expédition terminée : +" +
+            formatNumber(reward)
+        );
+
+    }
+
+}
+
+
+/* =========================================================
+   ÉVÉNEMENTS
+========================================================= */
+
+function triggerRandomEvent(){
+
+    const events=[
+
+        {
+            name:"Ruée vers l'or",
+            multiplier:3,
+            duration:30
+        },
+
+        {
+            name:"Portail instable",
+            multiplier:5,
+            duration:20
+        },
+
+        {
+            name:"Bénédiction de l'End",
+            multiplier:10,
+            duration:15
+        }
+
+    ];
+
+    const event =
+        events[
+            Math.floor(
+                Math.random()*events.length
+            )
+        ];
+
+    state.eventMultiplier=event.multiplier;
+
+    state.eventUntil =
+        Date.now()+
+        event.duration*1000;
+
+    showToast(
+        event.name +
+        " : production x" +
+        event.multiplier
+    );
+
+}
+
+
+function adminProductionEvent(){
+
+    state.eventMultiplier=10;
+
+    state.eventUntil=
+        Date.now()+5*60*1000;
+
+    render();
+
+    showToast("Production x10 pendant 5 minutes.");
+
+}
+
+
+/* =========================================================
+   ADMIN
+========================================================= */
+
+function openAdmin(){
+
+    const password=prompt(
+        "Mot de passe administrateur :"
+    );
+
+    if(password !== ADMIN_PASSWORD){
+
+        showToast("Mot de passe incorrect.");
+
+        return;
+
+    }
+
+    document.getElementById("adminStatus").textContent =
+        "Panel administrateur actif.";
+
+    openModal("adminModal");
+
+}
+
+
+function adminAddMoney(){
+
+    const value =
+        parseAmount(
+            document.getElementById("adminMoney").value
+        );
+
+    if(value<=0){
+
+        showToast("Valeur invalide.");
+
+        return;
+
+    }
+
+    state.money+=value;
+
+    state.totalEarned+=value;
+
+    render();
+
+    saveGame();
+
+    showToast(
+        "+"+formatNumber(value)+
+        " ressources"
+    );
+
+}
+
+
+function adminSetMoney(){
+
+    const value =
+        parseAmount(
+            document.getElementById("adminMoney").value
+        );
+
+    if(value<0){
+
+        return;
+
+    }
+
+    state.money=value;
+
+    render();
+
+    saveGame();
+
+}
+
+
+function adminAddFragments(){
+
+    const value =
+        safeNumber(
+            document.getElementById("adminFragments").value
+        );
+
+    if(value<=0){
+
+        return;
+
+    }
+
+    state.endFragments+=value;
+
+    state.lifetimeFragments+=value;
+
+    render();
+
+    saveGame();
+
+}
+
+
+function adminSetFragments(){
+
+    const value =
+        safeNumber(
+            document.getElementById("adminFragments").value
+        );
+
+    state.endFragments=Math.max(0,value);
+
+    render();
+
+    saveGame();
+
+}
+
+
+function adminSetRebirths(){
+
+    const value =
+        Math.max(
+            0,
+            Math.floor(
+                safeNumber(
+                    document.getElementById("adminRebirths").value
+                )
+            )
+        );
+
+    state.rebirths=value;
+
+    render();
+
+    saveGame();
+
+}
+
+
+function adminSetBuilding(){
+
+    const id =
+        Math.floor(
+            safeNumber(
+                document.getElementById("adminBuildingId").value
+            )
+        )-1;
+
+    const count =
+        Math.max(
+            0,
+            Math.floor(
+                safeNumber(
+                    document.getElementById("adminBuildingCount").value
+                )
+            )
+        );
+
+    if(id<0 || id>=buildings.length){
+
+        showToast("ID bâtiment invalide.");
+
+        return;
+
+    }
+
+    state.buildings[id]=count;
+
+    render();
+
+    saveGame();
+
+}
+
+
+function adminUnlockBuildings(){
+
+    state.buildings =
+        state.buildings.map(
+            ()=>100
+        );
+
+    render();
+
+    saveGame();
+
+    showToast("Tous les bâtiments ont été débloqués.");
+
+}
+
+
+function adminUnlockUpgrades(){
+
+    for(let i=0;i<upgrades.length;i++){
+
+        if(!state.upgrades[i]){
+
+            state.upgrades[i]=true;
+
+            applyUpgrade(upgrades[i]);
+
+        }
+
+    }
+
+    render();
+
+    saveGame();
+
+    showToast("Toutes les améliorations ont été achetées.");
+
+}
+
+
+function adminUnlockPrestige(){
+
+    state.prestige =
+        state.prestige.map(
+            (level,id)=>
+                Math.min(
+                    prestigeUpgrades[id].costs.length,
+                    999
+                )
+        );
+
+    state.unlockedStock=true;
+    state.unlockedMagic=true;
+
+    state.offlinePercent=.90;
+
+    state.offlineCap=72*3600;
+
+    state.magicMax=500;
+
+    render();
+
+    saveGame();
+
+    showToast("Arbre de prestige débloqué.");
+
+}
+
+
+function adminUnlockMinigames(){
+
+    state.unlockedStock=true;
+
+    state.unlockedMagic=true;
+
+    render();
+
+    saveGame();
+
+    showToast("Tous les mini-jeux sont débloqués.");
+
+}
+
+
+function adminMagic(){
+
+    state.magic=state.magicMax;
+
+    renderMagic();
+
+    showToast("Énergie magique remplie.");
+
+}
+
+
+/* =========================================================
+   RENDU BÂTIMENTS
+========================================================= */
+
+function renderBuildings(){
+
+    const container =
+        document.getElementById("buildingsList");
+
+    container.innerHTML="";
+
+    buildings.forEach((building,id)=>{
+
+        const count =
+            state.buildings[id] || 0;
+
+        const firstCost =
+            buildingCost(id,count);
+
+        const amount =
+            buyMode==="max"
+                ? maxAffordable(id)
+                : Number(buyMode);
+
+        const totalCost =
+            amount>0
+                ? buildingTotalCost(id,amount)
+                : firstCost;
+
+        const div =
+            document.createElement("div");
+
+        div.className="building";
+
+        if(
+            state.money < firstCost &&
+            count===0
+        ){
+
+            div.classList.add("locked");
+
+        }
+
+        div.innerHTML=`
+
+            <div class="buildingIcon">
+                ${building.icon}
+            </div>
+
+            <div>
+
+                <div class="buildingName">
+                    ${building.name}
+                </div>
+
+                <div class="buildingDesc">
+                    ${building.desc}
+                </div>
+
+                <div class="buildingDesc">
+                    +${formatNumber(building.cps)} / sec
+                </div>
+
+                <div class="buildingCount">
+                    Possédé : ${count}
+                </div>
+
+            </div>
+
+            <div class="buildingActions">
+
+                <button
+                    class="buyBtn"
+                    onclick="buyBuilding(${id})"
+                    ${amount<=0 ? "disabled":""}>
+                    Acheter ${buyMode==="max" ? "MAX":"x"+amount}
+                    <br>
+                    ${formatNumber(totalCost)}
+                </button>
+
+            </div>
+
+        `;
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+function setBuyMode(mode){
+
+    buyMode=mode;
+
+    document
+        .querySelectorAll(".modeBtn")
+        .forEach(btn=>{
+            btn.classList.remove("active");
+        });
+
+    if(mode===1){
+        document.getElementById("mode1").classList.add("active");
+    }
+
+    if(mode===10){
+        document.getElementById("mode10").classList.add("active");
+    }
+
+    if(mode===100){
+        document.getElementById("mode100").classList.add("active");
+    }
+
+    if(mode==="max"){
+        document.getElementById("modeMax").classList.add("active");
+    }
+
+    renderBuildings();
+
+}
+
+
+/* =========================================================
+   RENDU AMÉLIORATIONS
+========================================================= */
+
+function renderUpgrades(){
+
+    const container =
+        document.getElementById("upgradesList");
+
+    container.innerHTML="";
+
+    upgrades.forEach((upgrade,id)=>{
+
+        const bought =
+            state.upgrades[id];
+
+        const div =
+            document.createElement("div");
+
+        div.className="upgrade";
+
+        div.innerHTML=`
+
+            <div class="upgradeIcon">
+                ${upgrade.icon}
+            </div>
+
+            <div class="upgradeInfo">
+
+                <div class="upgradeName">
+                    ${upgrade.name}
+                    ${bought ? " ✓":""}
+                </div>
+
+                <div class="upgradeDesc">
+                    ${upgrade.desc}
+                </div>
+
+                <div class="upgradeDesc">
+                    ${bought
+                        ? "Déjà achetée"
+                        : formatNumber(upgrade.cost)}
+                </div>
+
+            </div>
+
+            <button
+                class="buyBtn"
+                onclick="buyUpgrade(${id})"
+                ${bought || state.money<upgrade.cost
+                    ? "disabled"
+                    : ""}>
+                ${bought ? "Acheté":"Acheter"}
+            </button>
+
+        `;
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+/* =========================================================
+   RENDU SUCCÈS
+========================================================= */
+
+function renderAchievements(){
+
+    const container =
+        document.getElementById("achievementsList");
+
+    container.innerHTML="";
+
+    achievements.forEach(achievement=>{
+
+        const done =
+            !!state.achievements[achievement.id];
+
+        const div =
+            document.createElement("div");
+
+        div.className=
+            "achievement" +
+            (done ? " done":"");
+
+        div.innerHTML=`
+
+            <div class="achievementTitle">
+                ${done ? "✓ ":""}${achievement.name}
+            </div>
+
+            <div class="achievementDesc">
+                ${achievement.desc}
+            </div>
+
+            <div class="achievementReward">
+                Récompense : ${achievement.reward} fragment(s)
+            </div>
+
+        `;
+
+        container.appendChild(div);
+
+    });
+
+}
+
+
+/* =========================================================
+   RENDU PRESTIGE
+========================================================= */
+
+function renderPrestige(){
+
+    const fragments =
+        calculatePrestigeFragments();
+
+    document.getElementById("prestigeFragments").textContent =
+        formatNumber(state.endFragments);
+
+    document.getElementById("prestigeRequirement").innerHTML =
+        "Cette partie donnera actuellement : <b>" +
+        fragments +
+        "</b> fragment(s).";
+
+    const grid =
+        document.getElementById("prestigeGrid");
+
+    grid.innerHTML="";
+
+    prestigeUpgrades.forEach((upgrade,id)=>{
+
+        const level =
+            prestigeLevel(id);
+
+        const max =
+            upgrade.costs.length;
+
+        const maxed =
+            level>=max;
+
+        const nextCost =
+            maxed
+                ? 0
+                : upgrade.costs[level];
+
+        const div =
+            document.createElement("div");
+
+        div.className=
+            "prestigeItem" +
+            (maxed ? " locked":"");
+
+        div.innerHTML=`
+
+            <div class="prestigeTitle">
+                ${upgrade.icon} ${upgrade.name}
+            </div>
+
+            <div class="prestigeLevel">
+                Niveau ${Math.min(level,max)} / ${max}
+            </div>
+
+            <div class="prestigeDesc">
+                ${upgrade.desc}
+            </div>
+
+            <div style="margin:8px 0;color:#ffd75e">
+                ${maxed
+                    ? "MAX"
+                    : "Coût : "+formatNumber(nextCost)+" fragments"}
+            </div>
+
+            <button
+                class="actionBtn"
+                onclick="buyPrestigeUpgrade(${id})"
+                ${maxed || state.endFragments<nextCost
+                    ? "disabled"
+                    : ""}>
+                ${maxed ? "Maximum":"Améliorer"}
+            </button>
+
+        `;
+
+        grid.appendChild(div);
+
+    });
+
+}
+
+
+/* =========================================================
+   STATS
+========================================================= */
+
+function openStats(){
+
+    renderStats();
+
+    openModal("statsModal");
+
+}
+
+
+function renderStats(){
+
+    const totalBuildings =
+        state.buildings.reduce(
+            (a,b)=>a+b,
+            0
+        );
+
+    const elapsed =
+        Math.floor(state.playTime);
+
+    const hours =
+        Math.floor(elapsed/3600);
+
+    const minutes =
+        Math.floor((elapsed%3600)/60);
+
+    const seconds =
+        elapsed%60;
+
+    document.getElementById("statsBody").innerHTML=`
+
+        <p>
+            <b>Ressources actuelles :</b>
+            ${formatNumber(state.money)}
+        </p>
+
+        <p>
+            <b>Total gagné cette partie :</b>
+            ${formatNumber(state.totalEarned)}
+        </p>
+
+        <p>
+            <b>Production :</b>
+            ${formatNumber(getCps())} / seconde
+        </p>
+
+        <p>
+            <b>Puissance d'un clic :</b>
+            ${formatNumber(getBaseClick())}
+        </p>
+
+        <p>
+            <b>Nombre de clics :</b>
+            ${formatNumber(state.totalClicks)}
+        </p>
+
+        <p>
+            <b>Combo maximum :</b>
+            ${formatNumber(state.maxCombo)}
+        </p>
+
+        <p>
+            <b>Bâtiments :</b>
+            ${formatNumber(totalBuildings)}
+        </p>
+
+        <p>
+            <b>Renaissances :</b>
+            ${state.rebirths}
+        </p>
+
+        <p>
+            <b>Fragments gagnés au total :</b>
+            ${formatNumber(state.lifetimeFragments)}
+        </p>
+
+        <p>
+            <b>Temps de jeu :</b>
+            ${hours}h ${minutes}m ${seconds}s
+        </p>
+
+        <p>
+            <b>Chance critique :</b>
+            ${(state.critChance*100).toFixed(1)}%
+        </p>
+
+        <p>
+            <b>Multiplicateur global :</b>
+            x${formatNumber(state.globalMultiplier)}
+        </p>
+
+        <p>
+            <b>Production bâtiments :</b>
+            x${formatNumber(state.buildingMultiplier)}
+        </p>
+
+    `;
+
+}
+
+
+/* =========================================================
+   SAUVEGARDE
+========================================================= */
+
+function byteStringFromBytes(bytes){
+
+    let result="";
+
+    const chunk=0x8000;
+
+    for(let i=0;i<bytes.length;i+=chunk){
+
+        result += String.fromCharCode(
+            ...bytes.subarray(
+                i,
+                Math.min(i+chunk,bytes.length)
+            )
+        );
+
+    }
+
+    return result;
+
+}
+
+
+function bytesFromByteString(str){
+
+    const bytes =
+        new Uint8Array(str.length);
+
+    for(let i=0;i<str.length;i++){
+
+        bytes[i]=str.charCodeAt(i);
+
+    }
+
+    return bytes;
+
+}
+
+
+function xorBytes(bytes,key){
+
+    const result =
+        new Uint8Array(bytes.length);
+
+    for(let i=0;i<bytes.length;i++){
+
+        result[i] =
+            bytes[i] ^
+            key.charCodeAt(i%key.length);
+
+    }
+
+    return result;
+
+}
+
+
+function checksum(str){
+
+    let hash=2166136261;
+
+    for(let i=0;i<str.length;i++){
+
+        hash ^= str.charCodeAt(i);
+
+        hash +=
+            (hash<<1)+
+            (hash<<4)+
+            (hash<<7)+
+            (hash<<8)+
+            (hash<<24);
+
+    }
+
+    return (
+        hash>>>0
+    ).toString(16);
+
+}
+
+
+function encodeSave(){
+
+    const data =
+        JSON.stringify(state);
+
+    const encoder =
+        new TextEncoder();
+
+    const bytes =
+        encoder.encode(data);
+
+    const encrypted =
+        xorBytes(
+            bytes,
+            SAVE_KEY
+        );
+
+    const binary =
+        byteStringFromBytes(encrypted);
+
+    const payload =
+        btoa(binary);
+
+    return "MCX3."+payload+"."+checksum(data);
+
+}
+
+
+function decodeSave(save){
+
+    if(
+        typeof save!=="string" ||
+        !save.startsWith("MCX3.")
+    ){
+
+        throw new Error(
+            "Format de sauvegarde invalide."
+        );
+
+    }
+
+    const parts=save.split(".");
+
+    if(parts.length!==3){
+
+        throw new Error(
+            "Sauvegarde corrompue."
+        );
+
+    }
+
+    const payload=parts[1];
+
+    const expectedChecksum=parts[2];
+
+    const binary=atob(payload);
+
+    const encrypted =
+        bytesFromByteString(binary);
+
+    const bytes =
+        xorBytes(
+            encrypted,
+            SAVE_KEY
+        );
+
+    const decoder =
+        new TextDecoder();
+
+    const data=decoder.decode(bytes);
+
+    if(
+        checksum(data)!==
+        expectedChecksum
+    ){
+
+        throw new Error(
+            "La sauvegarde a été modifiée ou est corrompue."
+        );
+
+    }
+
+    return JSON.parse(data);
+
+}
+
+
+function normalizeLoadedState(data){
+
+    const fresh =
+        cloneDefault();
+
+    if(!data || typeof data!=="object"){
+
+        throw new Error(
+            "Données invalides."
+        );
+
+    }
+
+    const result =
+        Object.assign(
+            fresh,
+            data
+        );
+
+    result.buildings =
+        Array.from(
+            {length:buildings.length},
+            (_,i)=>
+                Math.max(
+                    0,
+                    Math.floor(
+                        safeNumber(
+                            data.buildings?.[i],
+                            0
+                        )
+                    )
+                )
+        );
+
+    result.upgrades =
+        Array.from(
+            {length:upgrades.length},
+            (_,i)=>
+                Boolean(
+                    data.upgrades?.[i]
+                )
+        );
+
+    result.prestige =
+        Array.from(
+            {length:prestigeUpgrades.length},
+            (_,i)=>
+                Math.max(
+                    0,
+                    Math.floor(
+                        safeNumber(
+                            data.prestige?.[i],
+                            0
+                        )
+                    )
+                )
+        );
+
+    result.money=Math.max(
+        0,
+        safeNumber(data.money)
+    );
+
+    result.totalEarned=Math.max(
+        0,
+        safeNumber(data.totalEarned)
+    );
+
+    result.totalClicks=Math.max(
+        0,
+        Math.floor(
+            safeNumber(data.totalClicks)
+        )
+    );
+
+    result.rebirths=Math.max(
+        0,
+        Math.floor(
+            safeNumber(data.rebirths)
+        )
+    );
+
+    result.endFragments=Math.max(
+        0,
+        safeNumber(data.endFragments)
+    );
+
+    result.lifetimeFragments=Math.max(
+        0,
+        safeNumber(data.lifetimeFragments)
+    );
+
+    result.lastOnline =
+        safeNumber(
+            data.lastOnline,
+            Date.now()
+        );
+
+    result.stock =
+        Object.assign(
+            cloneDefault().stock,
+            data.stock || {}
+        );
+
+    result.magic=
+        Math.max(
+            0,
+            safeNumber(data.magic)
+        );
+
+    result.magicMax=
+        Math.max(
+            100,
+            safeNumber(data.magicMax,100)
+        );
+
+    result.achievements =
+        data.achievements &&
+        typeof data.achievements==="object"
+            ? data.achievements
+            : {};
+
+    return result;
+
+}
+
+
+function saveGame(){
+
+    try{
+
+        state.lastOnline=Date.now();
+
+        localStorage.setItem(
+            SAVE_KEY,
+            encodeSave()
+        );
+
+    }catch(error){
+
+        console.error(error);
+
+    }
+
+}
+
+
+function generateSave(){
+
+    document.getElementById("saveText").value =
+        encodeSave();
+
+    showToast("Sauvegarde générée.");
+
+}
+
+
+function importSave(){
+
+    const text =
+        document.getElementById("saveText").value.trim();
+
+    if(!text){
+
+        showToast("Aucune sauvegarde.");
+
+        return;
+
+    }
+
+    try{
+
+        const data =
+            decodeSave(text);
+
+        /*
+           Calcul du hors-ligne AVANT de remplacer
+           lastOnline par maintenant.
+        */
+
+        const oldState =
+            normalizeLoadedState(data);
+
+        state=oldState;
+
+        const offlineGain =
+            calculateOffline();
+
+        state.lastOnline=Date.now();
+
+        render();
+
+        saveGame();
+
+        if(offlineGain>0){
+
+            showToast(
+                "Bienvenue ! +" +
+                formatNumber(offlineGain) +
+                " ressources hors ligne."
+            );
+
+        }else{
+
+            showToast("Sauvegarde importée.");
+
+        }
+
+    }catch(error){
+
+        console.error(error);
+
+        showToast(
+            "Impossible de lire cette sauvegarde."
+        );
+
+    }
+
+}
+
+
+function copySave(){
+
+    const text =
+        document.getElementById("saveText").value;
+
+    if(!text){
+
+        generateSave();
+
+        return;
+
+    }
+
+    navigator.clipboard
+        ?.writeText(text)
+        .then(()=>{
+            showToast("Sauvegarde copiée.");
+        })
+        .catch(()=>{
+            showToast(
+                "Copie automatique impossible."
+            );
+        });
+
+}
+
+
+function openSave(){
+
+    document.getElementById("saveText").value =
+        encodeSave();
+
+    openModal("saveModal");
+
+}
+
+
+function loadLocal(){
+
+    const saved =
+        localStorage.getItem(SAVE_KEY);
+
+    if(!saved){
+
+        state=
+            cloneDefault();
+
+        return;
+
+    }
+
+    try{
+
+        const data =
+            decodeSave(saved);
+
+        state =
+            normalizeLoadedState(data);
+
+        const offlineGain =
+            calculateOffline();
+
+        state.lastOnline=Date.now();
+
+        if(offlineGain>0){
+
+            setTimeout(()=>{
+
+                showToast(
+                    "Gain hors ligne : +" +
+                    formatNumber(offlineGain)
+                );
+
+            },500);
+
+        }
+
+    }catch(error){
+
+        console.error(
+            "Sauvegarde locale invalide :",
+            error
+        );
+
+        state =
+            cloneDefault();
+
+    }
+
+}
+
+
+function resetGame(){
+
+    if(
+        !confirm(
+            "ATTENTION : supprimer toute la progression ?"
+        )
+    ){
+
+        return;
+
+    }
+
+    localStorage.removeItem(SAVE_KEY);
+
+    state =
+        cloneDefault();
+
+    render();
+
+    closeModal("saveModal");
+
+    closeModal("adminModal");
+
+    showToast("Progression réinitialisée.");
+
+}
+
+
+/* =========================================================
+   RENDU GLOBAL
+========================================================= */
+
+function render(){
+
+    checkBlockTier();
+
+    document.getElementById("topMoney").textContent =
+        formatNumber(state.money);
+
+    document.getElementById("topCps").textContent =
+        formatNumber(getCps());
+
+    document.getElementById("topClick").textContent =
+        formatNumber(getBaseClick());
+
+    document.getElementById("topRebirth").textContent =
+        formatNumber(state.rebirths);
+
+    document.getElementById("topFragments").textContent =
+        formatNumber(state.endFragments);
+
+    document.getElementById("resourceAmount").textContent =
+        formatNumber(state.money);
+
+    updateBlockVisual();
+
+    renderBuildings();
+
+    renderUpgrades();
+
+    renderAchievements();
+
+    renderPrestige();
+
+    renderStock();
+
+    renderMagic();
+
+}
+
+
+/* =========================================================
+   PRESTIGE / MINI-JEUX
+========================================================= */
+
+function openPrestige(){
+
+    renderPrestige();
+
+    openModal("prestigeModal");
+
+}
+
+
+function openMinigames(){
+
+    openModal("minigamesModal");
+
+}
+
+
+/* =========================================================
+   MENU
+========================================================= */
+
+function goMenu(){
+
+    window.location.href="index.html";
+
+}
+
+
+/* =========================================================
+   BOUCLE DU JEU
+========================================================= */
+
+let lastGameTick=Date.now();
+
+function gameLoop(){
+
+    const now=Date.now();
+
+    let delta =
+        (now-lastGameTick)/1000;
+
+    lastGameTick=now;
+
+    /*
+       Protection contre les gros sauts de temps
+       pendant lesquels la page serait bloquée.
+    */
+
+    delta=Math.min(delta,2);
+
+    const cps=getCps();
+
+    if(cps>0){
+
+        const gain=cps*delta;
+
+        state.money+=gain;
+
+        state.totalEarned+=gain;
+
+    }
+
+    state.playTime+=delta;
+
+    regenerateMagic();
+
+    checkExpedition();
+
+    if(
+        state.eventUntil>0 &&
+        Date.now()>=state.eventUntil
+    ){
+
+        state.eventUntil=0;
+
+        state.eventMultiplier=1;
+
+    }
+
+    render();
+
+}
+
+
+/* =========================================================
+   INITIALISATION
+========================================================= */
+
+function init(){
+
+    loadLocal();
+
+    render();
+
+    lastGameTick=Date.now();
+
+    gameInterval =
+        setInterval(
+            gameLoop,
+            250
+        );
+
+    stockInterval =
+        setInterval(
+            updateStock,
+            15000
+        );
+
+    setInterval(
+        ()=>{
+            saveGame();
+        },
+        10000
+    );
+
+    setInterval(
+        ()=>{
+            if(
+                document
+                    .getElementById("statsModal")
+                    .classList.contains("open")
+            ){
+                renderStats();
+            }
+        },
+        1000
+    );
+
+    document
+        .querySelectorAll(".modalOverlay")
+        .forEach(overlay=>{
+
+            overlay.addEventListener(
+                "click",
+                event=>{
+
+                    if(event.target===overlay){
+
+                        overlay.classList.remove("open");
+
+                    }
+
+                }
+            );
+
+        });
+
+    window.addEventListener(
+        "beforeunload",
+        ()=>{
+            saveGame();
+        }
+    );
+
+}
+
+init();
+
 </script>
+
 </body>
 </html>
