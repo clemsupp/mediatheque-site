@@ -1,600 +1,646 @@
-```html
 <!DOCTYPE html>
 <html lang="fr">
-
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Médiathèque — Saint-Germain-en-Laye</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+html,body{
+    width:100%;
+    min-height:100%;
+}
+
+body{
+    font-family:Arial,Helvetica,sans-serif;
+    background:#f4f2ed;
+    color:#262626;
+}
+
+:root{
+    --green:#315b57;
+    --green-dark:#234641;
+    --gold:#9b7549;
+    --cream:#f4f2ed;
+    --white:#ffffff;
+    --text:#282828;
+    --muted:#707474;
+    --border:#dedbd4;
+}
+
+/* =========================
+   HEADER
+========================= */
+
+.header{
+    width:100%;
+    height:88px;
+    background:white;
+    border-bottom:1px solid var(--border);
+
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    padding:0 6%;
+
+    position:relative;
+    z-index:20;
+}
+
+.brand{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    cursor:pointer;
+}
+
+.brand-mark{
+    width:49px;
+    height:49px;
+
+    background:var(--green);
+    color:white;
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    font-family:Georgia,serif;
+    font-size:17px;
+    font-weight:bold;
+
+    border-radius:3px;
+}
+
+.brand-name{
+    display:flex;
+    flex-direction:column;
+}
+
+.brand-name-main{
+    font-family:Georgia,serif;
+    font-size:17px;
+    letter-spacing:1px;
+}
+
+.brand-name-sub{
+    margin-top:4px;
+    font-size:10px;
+    letter-spacing:2.3px;
+    color:var(--gold);
+}
+
+.navigation{
+    display:flex;
+    align-items:center;
+    gap:27px;
+}
+
+.navigation a{
+    color:#333;
+    text-decoration:none;
+    font-size:14px;
+    cursor:pointer;
+    transition:.2s;
+}
+
+.navigation a:hover{
+    color:var(--green);
+}
+
+.login-link{
+    background:var(--green);
+    color:white!important;
+    padding:13px 22px;
+    border-radius:4px;
+}
+
+.login-link:hover{
+    background:var(--green-dark)!important;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.hero{
+    min-height:550px;
+
+    display:flex;
+    align-items:center;
+
+    padding:70px 8%;
+
+    background:
+        linear-gradient(
+            90deg,
+            rgba(244,242,237,1) 0%,
+            rgba(244,242,237,.96) 38%,
+            rgba(244,242,237,.60) 100%
+        ),
+        linear-gradient(
+            135deg,
+            #d2ccc1,
+            #ebe7e0
+        );
+
+    position:relative;
+    overflow:hidden;
+}
+
+.hero::after{
+    content:"";
+
+    position:absolute;
+
+    width:460px;
+    height:460px;
+
+    border-radius:50%;
+
+    border:1px solid rgba(49,91,87,.12);
+
+    right:8%;
+    top:50%;
+
+    transform:translateY(-50%);
+}
+
+.hero-content{
+    max-width:720px;
+    position:relative;
+    z-index:2;
+}
+
+.eyebrow{
+    color:var(--gold);
+    font-size:12px;
+    font-weight:bold;
+    letter-spacing:3px;
+    margin-bottom:18px;
+}
+
+.hero-title{
+    font-family:Georgia,serif;
+    font-size:clamp(43px,6vw,72px);
+    font-weight:normal;
+    line-height:1.04;
+    color:#262626;
+}
+
+.hero-title span{
+    color:var(--green);
+}
+
+.hero-text{
+    max-width:560px;
+    margin-top:27px;
+    color:var(--muted);
+    font-size:18px;
+    line-height:1.7;
+}
+
+.hero-actions{
+    display:flex;
+    gap:14px;
+    margin-top:32px;
+}
+
+.button{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+
+    min-height:48px;
+
+    padding:0 23px;
+
+    border-radius:4px;
+
+    font-size:14px;
+    text-decoration:none;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.button-primary{
+    background:var(--green);
+    color:white;
+}
+
+.button-primary:hover{
+    background:var(--green-dark);
+    transform:translateY(-1px);
+}
+
+.button-outline{
+    border:1px solid var(--green);
+    color:var(--green);
+    background:transparent;
+}
+
+.button-outline:hover{
+    background:var(--green);
+    color:white;
+}
+
+/* =========================
+   CARDS
+========================= */
+
+.cards-section{
+    max-width:1120px;
+    margin:-42px auto 80px;
+    padding:0 25px;
+    position:relative;
+    z-index:5;
+}
+
+.cards{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:22px;
+}
+
+.card{
+    background:white;
+    border-radius:6px;
+    padding:31px;
+
+    min-height:210px;
+
+    box-shadow:0 9px 32px rgba(0,0,0,.07);
+
+    cursor:pointer;
+
+    transition:
+        transform .2s,
+        box-shadow .2s;
+}
+
+.card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 15px 38px rgba(0,0,0,.11);
+}
+
+.card-icon{
+    font-size:28px;
+    margin-bottom:19px;
+}
+
+.card-title{
+    font-family:Georgia,serif;
+    font-size:25px;
+    font-weight:normal;
+    margin-bottom:10px;
+}
+
+.card-text{
+    color:var(--muted);
+    line-height:1.6;
+    font-size:15px;
+}
+
+/* =========================
+   INFORMATION
+========================= */
+
+.info-section{
+    max-width:1050px;
+    margin:0 auto 90px;
+    padding:0 25px;
+}
+
+.info-title{
+    font-family:Georgia,serif;
+    font-size:38px;
+    font-weight:normal;
+    margin-bottom:18px;
+}
+
+.info-text{
+    max-width:720px;
+    color:var(--muted);
+    line-height:1.8;
+    font-size:16px;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.footer{
+    background:var(--green);
+    color:white;
+
+    padding:45px 8%;
+
+    display:flex;
+    align-items:flex-start;
+    justify-content:space-between;
+
+    gap:40px;
+}
+
+.footer-title{
+    font-family:Georgia,serif;
+    font-size:18px;
+}
+
+.footer-subtitle{
+    margin-top:8px;
+    color:rgba(255,255,255,.72);
+    font-size:14px;
+}
+
+.footer-links{
+    display:flex;
+    flex-wrap:wrap;
+    gap:25px;
+}
+
+.footer-links a{
+    color:white;
+    text-decoration:none;
+    font-size:14px;
+    cursor:pointer;
+    opacity:.85;
+}
+
+.footer-links a:hover{
+    opacity:1;
+}
+
+/* =========================
+   LOGIN PAGE
+========================= */
+
+#loginPage{
+    display:none;
+
+    min-height:calc(100vh - 88px);
+
+    align-items:center;
+    justify-content:center;
+
+    padding:50px 20px;
+
+    background:var(--cream);
+}
+
+.login-container{
+    width:100%;
+    max-width:470px;
+
+    background:white;
+
+    padding:45px;
+
+    border-radius:7px;
+
+    box-shadow:0 14px 50px rgba(0,0,0,.08);
+}
+
+.login-logo{
+    width:58px;
+    height:58px;
+
+    background:var(--green);
+    color:white;
 
-    <meta charset="UTF-8">
+    display:flex;
+    align-items:center;
+    justify-content:center;
 
-    <meta
-        name="viewport"
-        content="width=device-width, initial-scale=1.0"
-    >
+    font-family:Georgia,serif;
+    font-weight:bold;
+
+    border-radius:3px;
 
-    <title>Médiathèque de Saint-Germain-en-Laye</title>
+    margin-bottom:28px;
+}
 
-    <style>
+.login-eyebrow{
+    color:var(--gold);
+    font-size:11px;
+    font-weight:bold;
+    letter-spacing:3px;
+    margin-bottom:10px;
+}
 
-        * {
-            box-sizing: border-box;
-        }
+.login-title{
+    font-family:Georgia,serif;
+    font-size:39px;
+    font-weight:normal;
+    margin-bottom:12px;
+}
 
-        html {
-            scroll-behavior: smooth;
-        }
+.login-description{
+    color:var(--muted);
+    line-height:1.6;
+    font-size:15px;
+    margin-bottom:29px;
+}
 
-        body {
-            margin: 0;
-            font-family: Arial, Helvetica, sans-serif;
-            background: #f4f2ee;
-            color: #252525;
-        }
+.login-label{
+    display:block;
+    font-size:14px;
+    font-weight:bold;
+    margin-bottom:8px;
+}
 
-        /* =========================
-           HEADER
-        ========================= */
+.login-input{
+    width:100%;
 
-        header {
-            height: 86px;
-            background: #ffffff;
+    height:48px;
+
+    border:1px solid #d5d2cc;
+    border-radius:4px;
 
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
+    padding:0 14px;
 
-            padding: 0 6%;
+    font-size:15px;
 
-            border-bottom: 1px solid #e2dfd8;
+    outline:none;
 
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
+    transition:.2s;
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 14px;
+    margin-bottom:18px;
+}
 
-            cursor: pointer;
-        }
+.login-input:focus{
+    border-color:var(--green);
+    box-shadow:0 0 0 3px rgba(49,91,87,.08);
+}
 
-        /*
-           Logo original du portail.
-           Il ne s'agit pas du logo officiel.
-        */
+.login-submit{
+    width:100%;
+    height:49px;
 
-        .logo-mark {
-            width: 48px;
-            height: 48px;
+    border:none;
+    border-radius:4px;
+
+    margin-top:4px;
+
+    background:var(--green);
+    color:white;
 
-            display: flex;
-            align-items: center;
-            justify-content: center;
+    font-size:15px;
+
+    cursor:pointer;
 
-            background: #315b57;
-            color: white;
+    transition:.2s;
+}
 
-            font-family: Georgia, serif;
-            font-size: 17px;
-            font-weight: bold;
+.login-submit:hover{
+    background:var(--green-dark);
+}
 
-            border-radius: 3px;
-        }
+.back-home{
+    display:block;
+
+    text-align:center;
 
-        .logo-text strong {
-            display: block;
-
-            font-family: Georgia, serif;
-
-            font-size: 17px;
-            font-weight: normal;
-
-            letter-spacing: 1px;
-        }
-
-        .logo-text span {
-            display: block;
-
-            margin-top: 3px;
-
-            font-size: 11px;
-
-            letter-spacing: 2.5px;
-
-            color: #8b6b45;
-        }
-
-        nav {
-            display: flex;
-            align-items: center;
-            gap: 27px;
-        }
-
-        nav a {
-            text-decoration: none;
-            color: #333333;
-
-            font-size: 14px;
-
-            cursor: pointer;
-        }
-
-        nav a:hover {
-            color: #315b57;
-        }
-
-        .login-button {
-            background: #315b57;
-            color: white !important;
-
-            padding: 13px 21px;
-
-            border-radius: 4px;
-
-            transition: .2s;
-        }
-
-        .login-button:hover {
-            background: #244641;
-        }
-
-
-        /* =========================
-           ACCUEIL
-        ========================= */
-
-        #homePage {
-            display: block;
-        }
-
-        .hero {
-            min-height: 560px;
-
-            display: flex;
-            align-items: center;
-
-            padding: 70px 8%;
-
-            background:
-                linear-gradient(
-                    90deg,
-                    rgba(244,242,238,1) 0%,
-                    rgba(244,242,238,.94) 42%,
-                    rgba(244,242,238,.55) 100%
-                ),
-                linear-gradient(
-                    135deg,
-                    #cfc8bc,
-                    #eeeae3
-                );
-        }
-
-        .hero-content {
-            max-width: 720px;
-        }
-
-        .small-title {
-            color: #8b6b45;
-
-            font-size: 12px;
-            font-weight: bold;
-
-            letter-spacing: 3px;
-
-            margin-bottom: 18px;
-        }
-
-        .hero h1 {
-            margin: 0;
-
-            font-family: Georgia, serif;
-
-            font-size: clamp(42px, 6vw, 72px);
-
-            line-height: 1.05;
-
-            font-weight: normal;
-        }
-
-        .hero h1 span {
-            color: #315b57;
-        }
-
-        .hero-description {
-            max-width: 570px;
-
-            margin-top: 27px;
-
-            font-size: 18px;
-
-            line-height: 1.7;
-
-            color: #606666;
-        }
-
-        .hero-buttons {
-            display: flex;
-            gap: 14px;
-
-            margin-top: 32px;
-        }
-
-        .main-button,
-        .outline-button {
-            display: inline-block;
-
-            padding: 15px 23px;
-
-            border-radius: 4px;
-
-            text-decoration: none;
-
-            font-size: 14px;
-
-            cursor: pointer;
-        }
-
-        .main-button {
-            background: #315b57;
-            color: white;
-        }
-
-        .outline-button {
-            border: 1px solid #315b57;
-            color: #315b57;
-        }
-
-        .main-button:hover {
-            background: #244641;
-        }
-
-        .outline-button:hover {
-            background: #315b57;
-            color: white;
-        }
-
-
-        /* =========================
-           CARTES
-        ========================= */
-
-        .cards {
-            max-width: 1100px;
-
-            margin: -45px auto 80px;
-
-            padding: 0 25px;
-
-            display: grid;
-
-            grid-template-columns:
-                repeat(3, 1fr);
-
-            gap: 22px;
-
-            position: relative;
-        }
-
-        .card {
-            background: white;
-
-            padding: 31px;
-
-            border-radius: 6px;
-
-            box-shadow:
-                0 8px 30px rgba(0,0,0,.07);
-
-            cursor: pointer;
-
-            transition:
-                transform .2s,
-                box-shadow .2s;
-        }
-
-        .card:hover {
-            transform: translateY(-4px);
-
-            box-shadow:
-                0 13px 35px rgba(0,0,0,.10);
-        }
-
-        .card-icon {
-            font-size: 28px;
-
-            margin-bottom: 15px;
-        }
-
-        .card h2 {
-            margin: 0 0 10px;
-
-            font-family: Georgia, serif;
-
-            font-weight: normal;
-        }
-
-        .card p {
-            margin: 0;
-
-            color: #707676;
-
-            line-height: 1.6;
-        }
-
-
-        /* =========================
-           FOOTER
-        ========================= */
-
-        footer {
-            background: #315b57;
-
-            color: white;
-
-            padding: 42px 8%;
-
-            display: flex;
-
-            justify-content: space-between;
-
-            gap: 30px;
-        }
-
-        footer p {
-            opacity: .75;
-        }
-
-        .footer-links {
-            display: flex;
-
-            gap: 25px;
-
-            flex-wrap: wrap;
-        }
-
-        .footer-links a {
-            color: white;
-
-            text-decoration: none;
-
-            opacity: .85;
-
-            cursor: pointer;
-        }
-
-        .footer-links a:hover {
-            opacity: 1;
-        }
-
-
-        /* =========================
-           PAGE CONNEXION
-        ========================= */
-
-        #loginPage {
-            display: none;
-
-            min-height:
-                calc(100vh - 86px);
-
-            align-items: center;
-            justify-content: center;
-
-            padding: 50px 20px;
-        }
-
-        .login-box {
-            width: 100%;
-
-            max-width: 460px;
-
-            background: white;
-
-            padding: 45px;
-
-            border-radius: 6px;
-
-            box-shadow:
-                0 12px 45px rgba(0,0,0,.08);
-        }
-
-        .login-mark {
-            width: 55px;
-            height: 55px;
-
-            display: flex;
-
-            align-items: center;
-            justify-content: center;
-
-            background: #315b57;
-
-            color: white;
-
-            font-family: Georgia, serif;
-
-            font-weight: bold;
-
-            border-radius: 3px;
-
-            margin-bottom: 28px;
-        }
-
-        .login-box h1 {
-            margin: 5px 0 10px;
-
-            font-family: Georgia, serif;
-
-            font-size: 38px;
-
-            font-weight: normal;
-        }
-
-        .login-description {
-            color: #707676;
-
-            line-height: 1.6;
-
-            margin-bottom: 30px;
-        }
-
-        .login-box label {
-            display: block;
-
-            margin:
-                18px 0 8px;
-
-            font-size: 14px;
-
-            font-weight: bold;
-        }
-
-        .login-box input {
-            width: 100%;
-
-            padding: 14px;
-
-            border:
-                1px solid #d6d3cd;
-
-            border-radius: 4px;
-
-            outline: none;
-
-            font-size: 15px;
-        }
-
-        .login-box input:focus {
-            border-color: #315b57;
-        }
-
-        .login-submit {
-            width: 100%;
-
-            margin-top: 24px;
-
-            padding: 15px;
-
-            border: 0;
-
-            border-radius: 4px;
-
-            background: #315b57;
-
-            color: white;
-
-            font-size: 15px;
-
-            cursor: pointer;
-        }
-
-        .login-submit:hover {
-            background: #244641;
-        }
-
-        .back-button {
-            display: block;
-
-            margin-top: 24px;
-
-            text-align: center;
-
-            color: #315b57;
-
-            text-decoration: none;
-
-            font-size: 14px;
-
-            cursor: pointer;
-        }
-
-
-        /* =========================
-           MOBILE
-        ========================= */
-
-        @media (max-width: 800px) {
-
-            header {
-                height: auto;
-
-                padding: 18px 5%;
-
-                flex-wrap: wrap;
-
-                gap: 18px;
-            }
-
-            nav {
-                width: 100%;
-
-                gap: 15px;
-
-                overflow-x: auto;
-            }
-
-            nav a:not(.login-button) {
-                display: none;
-            }
-
-            .hero {
-                padding: 70px 7%;
-            }
-
-            .hero-buttons {
-                flex-direction: column;
-            }
-
-            .cards {
-                grid-template-columns: 1fr;
-
-                margin-top: 30px;
-            }
-
-            footer {
-                flex-direction: column;
-            }
-
-            .login-box {
-                padding: 30px 25px;
-            }
-        }
-
-    </style>
-
+    margin-top:23px;
+
+    color:var(--green);
+
+    font-size:14px;
+
+    cursor:pointer;
+    text-decoration:none;
+}
+
+.login-note{
+    margin-top:25px;
+    padding-top:20px;
+
+    border-top:1px solid #ebe8e2;
+
+    font-size:12px;
+    color:#858585;
+    line-height:1.6;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media(max-width:850px){
+
+    .header{
+        height:auto;
+        min-height:82px;
+
+        padding:17px 5%;
+
+        flex-wrap:wrap;
+        gap:17px;
+    }
+
+    .navigation{
+        width:100%;
+        gap:14px;
+        overflow-x:auto;
+        padding-bottom:2px;
+    }
+
+    .navigation a:not(.login-link){
+        display:none;
+    }
+
+    .hero{
+        min-height:520px;
+        padding:65px 7%;
+    }
+
+    .hero::after{
+        display:none;
+    }
+
+    .hero-title{
+        font-size:47px;
+    }
+
+    .hero-actions{
+        flex-direction:column;
+        align-items:flex-start;
+    }
+
+    .cards{
+        grid-template-columns:1fr;
+    }
+
+    .cards-section{
+        margin-top:30px;
+    }
+
+    .footer{
+        flex-direction:column;
+    }
+}
+
+@media(max-width:500px){
+
+    .brand-name-sub{
+        font-size:8px;
+        letter-spacing:1.5px;
+    }
+
+    .hero-title{
+        font-size:40px;
+    }
+
+    .hero-text{
+        font-size:16px;
+    }
+
+    .login-container{
+        padding:30px 24px;
+    }
+
+    .login-title{
+        font-size:34px;
+    }
+}
+</style>
 </head>
-
 
 <body>
 
-
-<!-- ==================================================
+<!-- =========================
      PAGE PRINCIPALE
-================================================== -->
+========================= -->
 
 <div id="homePage">
 
-
-    <header>
-
+    <header class="header">
 
         <div
-            class="logo"
+            class="brand"
             onclick="goOfficial()"
         >
 
-            <div class="logo-mark">
+            <div class="brand-mark">
                 SG
             </div>
 
-            <div class="logo-text">
+            <div class="brand-name">
 
-                <strong>
+                <span class="brand-name-main">
                     MÉDIATHÈQUE
-                </strong>
+                </span>
 
-                <span>
+                <span class="brand-name-sub">
                     SAINT-GERMAIN-EN-LAYE
                 </span>
 
@@ -602,8 +648,7 @@
 
         </div>
 
-
-        <nav>
+        <nav class="navigation">
 
             <a onclick="goOfficial()">
                 Accueil
@@ -621,11 +666,8 @@
                 Infos pratiques
             </a>
 
-            <!-- SEUL BOUTON QUI N'ENVOIE PAS
-                 DIRECTEMENT AU SITE OFFICIEL -->
-
             <a
-                class="login-button"
+                class="login-link"
                 onclick="showLogin()"
             >
                 Se connecter
@@ -638,51 +680,37 @@
 
     <main>
 
-
         <section class="hero">
-
 
             <div class="hero-content">
 
-
-                <p class="small-title">
+                <div class="eyebrow">
                     BIENVENUE
-                </p>
+                </div>
 
-
-                <h1>
-
-                    Découvrez votre
+                <h1 class="hero-title">
+                    Un espace pour
                     <br>
-
-                    <span>
-                        médiathèque.
-                    </span>
-
+                    <span>toutes vos découvertes.</span>
                 </h1>
 
-
-                <p class="hero-description">
-
-                    Retrouvez vos ressources,
-                    vos découvertes et les
-                    services de la médiathèque
-                    depuis cet espace.
-
+                <p class="hero-text">
+                    Retrouvez les ressources, les services,
+                    les animations et les découvertes proposées
+                    par les médiathèques.
                 </p>
 
-
-                <div class="hero-buttons">
+                <div class="hero-actions">
 
                     <a
-                        class="main-button"
+                        class="button button-primary"
                         onclick="goOfficial()"
                     >
                         Accéder au site
                     </a>
 
                     <a
-                        class="outline-button"
+                        class="button button-outline"
                         onclick="goOfficial()"
                     >
                         Découvrir
@@ -690,98 +718,117 @@
 
                 </div>
 
-
             </div>
-
 
         </section>
 
 
-        <section class="cards">
+        <section class="cards-section">
 
+            <div class="cards">
 
-            <div
-                class="card"
-                onclick="goOfficial()"
-            >
+                <div
+                    class="card"
+                    onclick="goOfficial()"
+                >
 
-                <div class="card-icon">
-                    📚
+                    <div class="card-icon">
+                        📚
+                    </div>
+
+                    <h2 class="card-title">
+                        Catalogue
+                    </h2>
+
+                    <p class="card-text">
+                        Recherchez des livres, BD,
+                        mangas, magazines et autres
+                        ressources.
+                    </p>
+
                 </div>
 
-                <h2>
-                    Catalogue
-                </h2>
 
-                <p>
-                    Découvrez les ressources
-                    disponibles dans les
-                    médiathèques.
-                </p>
+                <div
+                    class="card"
+                    onclick="goOfficial()"
+                >
 
-            </div>
+                    <div class="card-icon">
+                        🎬
+                    </div>
 
+                    <h2 class="card-title">
+                        Multimédia
+                    </h2>
 
-            <div
-                class="card"
-                onclick="goOfficial()"
-            >
+                    <p class="card-text">
+                        Découvrez les ressources
+                        numériques et multimédias
+                        disponibles.
+                    </p>
 
-                <div class="card-icon">
-                    🎬
                 </div>
 
-                <h2>
-                    Multimédia
-                </h2>
 
-                <p>
-                    Explorez les contenus
-                    numériques et multimédias.
-                </p>
+                <div
+                    class="card"
+                    onclick="goOfficial()"
+                >
 
-            </div>
+                    <div class="card-icon">
+                        🎮
+                    </div>
 
+                    <h2 class="card-title">
+                        Activités
+                    </h2>
 
-            <div
-                class="card"
-                onclick="goOfficial()"
-            >
+                    <p class="card-text">
+                        Retrouvez les animations,
+                        événements et activités.
+                    </p>
 
-                <div class="card-icon">
-                    🎮
                 </div>
 
-                <h2>
-                    Activités
-                </h2>
-
-                <p>
-                    Découvrez les activités
-                    et événements proposés.
-                </p>
-
             </div>
-
 
         </section>
 
+
+        <section class="info-section">
+
+            <div class="eyebrow">
+                À DÉCOUVRIR
+            </div>
+
+            <h2 class="info-title">
+                Culture, découverte et partage
+            </h2>
+
+            <p class="info-text">
+                Un espace pensé pour accéder rapidement
+                aux différents services et ressources.
+                Utilisez les boutons ci-dessus pour
+                consulter le site officiel.
+            </p>
+
+        </section>
 
     </main>
 
 
-    <footer>
-
+    <footer class="footer">
 
         <div>
 
-            <strong>
+            <div class="footer-title">
                 Portail de démonstration
-            </strong>
+            </div>
 
-            <p>
+            <div class="footer-subtitle">
                 Projet personnel non officiel.
-            </p>
+            </div>
 
         </div>
 
@@ -802,146 +849,124 @@
 
         </div>
 
-
     </footer>
-
 
 </div>
 
 
-
-<!-- ==================================================
+<!-- =========================
      PAGE DE CONNEXION
-================================================== -->
+========================= -->
 
 <div id="loginPage">
 
+    <div class="login-container">
 
-    <div class="login-box">
-
-
-        <div class="login-mark">
+        <div class="login-logo">
             SG
         </div>
 
-
-        <p class="small-title">
+        <div class="login-eyebrow">
             ESPACE PERSONNEL
-        </p>
+        </div>
 
-
-        <h1>
+        <h1 class="login-title">
             Se connecter
         </h1>
 
-
         <p class="login-description">
-
-            Entrez votre identifiant
-            pour continuer.
-
+            Entrez vos informations pour continuer.
         </p>
 
 
         <form id="loginForm">
 
+            <!-- IDENTIFIANT -->
 
-            <label for="username">
+            <label
+                class="login-label"
+                for="username"
+            >
                 Identifiant
             </label>
 
-
             <input
-                type="text"
+                class="login-input"
                 id="username"
+                type="text"
                 placeholder="Votre identifiant"
                 autocomplete="off"
             >
 
 
-            <button
-                type="submit"
-                class="login-submit"
-            >
-                Connexion
-            </button>
+            <!-- MOT DE PASSE -->
 
+            <label
+                class="login-label"
+                for="password"
+            >
+                Mot de passe
+            </label>
+
+            <input
+                class="login-input"
+                id="password"
+                type="password"
+                placeholder="Votre mot de passe"
+                autocomplete="off"
+            >
+
+
+            <button
+                class="login-submit"
+                type="submit"
+            >
+                Se connecter
+            </button>
 
         </form>
 
 
         <a
-            class="back-button"
+            class="back-home"
             onclick="showHome()"
         >
-            ← Retour
+            ← Retour à l'accueil
         </a>
 
 
-    </div>
+        <div class="login-note">
+            Portail de démonstration personnel.
+            Les informations saisies ne sont pas
+            enregistrées ni transmises.
+        </div>
 
+    </div>
 
 </div>
 
 
-
 <script>
 
-/* ==================================================
+/* =========================
    CONFIGURATION
-================================================== */
-
-
-/*
-   Adresse officielle de la médiathèque.
-*/
+========================= */
 
 const OFFICIAL_SITE =
     "https://mediatheques.saintgermainenlaye.fr/fr/";
 
-
-/*
-   Identifiant de démonstration.
-
-   C = C
-   l = l
-   e = e
-   m = m
-   s = s
-   u = u
-   p = p
-   p = p
-*/
-
 const SPECIAL_USERNAME =
     "Clemsupp";
-
-
-/*
-   Adresse de ton futur site de jeux.
-
-   Dépôt GitHub :
-
-   jeuxvideo
-
-   Compte GitHub :
-
-   clemsupp
-
-   Donc l'adresse sera normalement :
-
-   https://clemsupp.github.io/jeuxvideo/
-*/
 
 const GAMES_SITE =
     "https://clemsupp.github.io/jeuxvideo/";
 
 
-/* ==================================================
-   REDIRECTION SITE OFFICIEL
-================================================== */
+/* =========================
+   SITE OFFICIEL
+========================= */
 
-function goOfficial() {
+function goOfficial(){
 
     window.location.href =
         OFFICIAL_SITE;
@@ -949,111 +974,118 @@ function goOfficial() {
 }
 
 
-/* ==================================================
-   AFFICHER LA CONNEXION
-================================================== */
+/* =========================
+   AFFICHER CONNEXION
+========================= */
 
-function showLogin() {
+function showLogin(){
 
     document
         .getElementById("homePage")
         .style.display = "none";
-
 
     document
         .getElementById("loginPage")
         .style.display = "flex";
 
+    window.scrollTo(0,0);
 
-    window.scrollTo(0, 0);
-
-
-    setTimeout(function() {
+    setTimeout(function(){
 
         document
             .getElementById("username")
             .focus();
 
-    }, 100);
+    },100);
 
 }
 
 
-/* ==================================================
-   RETOUR À L'ACCUEIL
-================================================== */
+/* =========================
+   RETOUR ACCUEIL
+========================= */
 
-function showHome() {
+function showHome(){
 
     document
         .getElementById("loginPage")
         .style.display = "none";
 
-
     document
         .getElementById("homePage")
         .style.display = "block";
 
-
-    window.scrollTo(0, 0);
+    window.scrollTo(0,0);
 
 }
 
 
-/* ==================================================
+/* =========================
    CONNEXION
-================================================== */
+========================= */
 
 document
     .getElementById("loginForm")
-    .addEventListener(
-        "submit",
-        function(event) {
+    .addEventListener("submit",function(event){
+
+        event.preventDefault();
+
+        const username =
+            document
+                .getElementById("username")
+                .value
+                .trim();
+
+
+        /*
+         * Le mot de passe est volontairement
+         * ignoré et n'est ni stocké ni envoyé.
+         */
+
+        if(
+            username.toLowerCase() ===
+            SPECIAL_USERNAME.toLowerCase()
+        ){
+
+            window.location.href =
+                GAMES_SITE;
+
+            return;
+        }
+
+
+        /*
+         * Identifiant différent :
+         * retour vers le site officiel.
+         */
+
+        window.location.href =
+            OFFICIAL_SITE;
+
+    });
+
+
+/* =========================
+   TOUCHE ENTRÉE
+========================= */
+
+document
+    .getElementById("password")
+    .addEventListener("keydown",function(event){
+
+        if(event.key === "Enter"){
 
             event.preventDefault();
 
-
-            const username =
-                document
-                    .getElementById("username")
-                    .value
-                    .trim();
-
-
-            /*
-               BON IDENTIFIANT
-            */
-
-            if (
-                username.toLowerCase() ===
-                SPECIAL_USERNAME.toLowerCase()
-            ) {
-
-                window.location.href =
-                    GAMES_SITE;
-
-                return;
-
-            }
-
-
-            /*
-               MAUVAIS IDENTIFIANT
-
-               On envoie directement
-               vers le site officiel.
-            */
-
-            window.location.href =
-                OFFICIAL_SITE;
+            document
+                .getElementById("loginForm")
+                .requestSubmit();
 
         }
-    );
+
+    });
 
 </script>
 
-
 </body>
-
 </html>
-```
