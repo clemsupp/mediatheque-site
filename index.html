@@ -284,5 +284,776 @@
             border-radius: 6px;
 
             box-shadow:
-                0 8px 30px rgba(0,0,
+                0 8px 30px rgba(0,0,0,.07);
+
+            cursor: pointer;
+
+            transition:
+                transform .2s,
+                box-shadow .2s;
+        }
+
+        .card:hover {
+            transform: translateY(-4px);
+
+            box-shadow:
+                0 13px 35px rgba(0,0,0,.10);
+        }
+
+        .card-icon {
+            font-size: 28px;
+
+            margin-bottom: 15px;
+        }
+
+        .card h2 {
+            margin: 0 0 10px;
+
+            font-family: Georgia, serif;
+
+            font-weight: normal;
+        }
+
+        .card p {
+            margin: 0;
+
+            color: #707676;
+
+            line-height: 1.6;
+        }
+
+
+        /* =========================
+           FOOTER
+        ========================= */
+
+        footer {
+            background: #315b57;
+
+            color: white;
+
+            padding: 42px 8%;
+
+            display: flex;
+
+            justify-content: space-between;
+
+            gap: 30px;
+        }
+
+        footer p {
+            opacity: .75;
+        }
+
+        .footer-links {
+            display: flex;
+
+            gap: 25px;
+
+            flex-wrap: wrap;
+        }
+
+        .footer-links a {
+            color: white;
+
+            text-decoration: none;
+
+            opacity: .85;
+
+            cursor: pointer;
+        }
+
+        .footer-links a:hover {
+            opacity: 1;
+        }
+
+
+        /* =========================
+           PAGE CONNEXION
+        ========================= */
+
+        #loginPage {
+            display: none;
+
+            min-height:
+                calc(100vh - 86px);
+
+            align-items: center;
+            justify-content: center;
+
+            padding: 50px 20px;
+        }
+
+        .login-box {
+            width: 100%;
+
+            max-width: 460px;
+
+            background: white;
+
+            padding: 45px;
+
+            border-radius: 6px;
+
+            box-shadow:
+                0 12px 45px rgba(0,0,0,.08);
+        }
+
+        .login-mark {
+            width: 55px;
+            height: 55px;
+
+            display: flex;
+
+            align-items: center;
+            justify-content: center;
+
+            background: #315b57;
+
+            color: white;
+
+            font-family: Georgia, serif;
+
+            font-weight: bold;
+
+            border-radius: 3px;
+
+            margin-bottom: 28px;
+        }
+
+        .login-box h1 {
+            margin: 5px 0 10px;
+
+            font-family: Georgia, serif;
+
+            font-size: 38px;
+
+            font-weight: normal;
+        }
+
+        .login-description {
+            color: #707676;
+
+            line-height: 1.6;
+
+            margin-bottom: 30px;
+        }
+
+        .login-box label {
+            display: block;
+
+            margin:
+                18px 0 8px;
+
+            font-size: 14px;
+
+            font-weight: bold;
+        }
+
+        .login-box input {
+            width: 100%;
+
+            padding: 14px;
+
+            border:
+                1px solid #d6d3cd;
+
+            border-radius: 4px;
+
+            outline: none;
+
+            font-size: 15px;
+        }
+
+        .login-box input:focus {
+            border-color: #315b57;
+        }
+
+        .login-submit {
+            width: 100%;
+
+            margin-top: 24px;
+
+            padding: 15px;
+
+            border: 0;
+
+            border-radius: 4px;
+
+            background: #315b57;
+
+            color: white;
+
+            font-size: 15px;
+
+            cursor: pointer;
+        }
+
+        .login-submit:hover {
+            background: #244641;
+        }
+
+        .back-button {
+            display: block;
+
+            margin-top: 24px;
+
+            text-align: center;
+
+            color: #315b57;
+
+            text-decoration: none;
+
+            font-size: 14px;
+
+            cursor: pointer;
+        }
+
+
+        /* =========================
+           MOBILE
+        ========================= */
+
+        @media (max-width: 800px) {
+
+            header {
+                height: auto;
+
+                padding: 18px 5%;
+
+                flex-wrap: wrap;
+
+                gap: 18px;
+            }
+
+            nav {
+                width: 100%;
+
+                gap: 15px;
+
+                overflow-x: auto;
+            }
+
+            nav a:not(.login-button) {
+                display: none;
+            }
+
+            .hero {
+                padding: 70px 7%;
+            }
+
+            .hero-buttons {
+                flex-direction: column;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+
+                margin-top: 30px;
+            }
+
+            footer {
+                flex-direction: column;
+            }
+
+            .login-box {
+                padding: 30px 25px;
+            }
+        }
+
+    </style>
+
+</head>
+
+
+<body>
+
+
+<!-- ==================================================
+     PAGE PRINCIPALE
+================================================== -->
+
+<div id="homePage">
+
+
+    <header>
+
+
+        <div
+            class="logo"
+            onclick="goOfficial()"
+        >
+
+            <div class="logo-mark">
+                SG
+            </div>
+
+            <div class="logo-text">
+
+                <strong>
+                    MÉDIATHÈQUE
+                </strong>
+
+                <span>
+                    SAINT-GERMAIN-EN-LAYE
+                </span>
+
+            </div>
+
+        </div>
+
+
+        <nav>
+
+            <a onclick="goOfficial()">
+                Accueil
+            </a>
+
+            <a onclick="goOfficial()">
+                Catalogue
+            </a>
+
+            <a onclick="goOfficial()">
+                Animations
+            </a>
+
+            <a onclick="goOfficial()">
+                Infos pratiques
+            </a>
+
+            <!-- SEUL BOUTON QUI N'ENVOIE PAS
+                 DIRECTEMENT AU SITE OFFICIEL -->
+
+            <a
+                class="login-button"
+                onclick="showLogin()"
+            >
+                Se connecter
+            </a>
+
+        </nav>
+
+    </header>
+
+
+    <main>
+
+
+        <section class="hero">
+
+
+            <div class="hero-content">
+
+
+                <p class="small-title">
+                    BIENVENUE
+                </p>
+
+
+                <h1>
+
+                    Découvrez votre
+                    <br>
+
+                    <span>
+                        médiathèque.
+                    </span>
+
+                </h1>
+
+
+                <p class="hero-description">
+
+                    Retrouvez vos ressources,
+                    vos découvertes et les
+                    services de la médiathèque
+                    depuis cet espace.
+
+                </p>
+
+
+                <div class="hero-buttons">
+
+                    <a
+                        class="main-button"
+                        onclick="goOfficial()"
+                    >
+                        Accéder au site
+                    </a>
+
+                    <a
+                        class="outline-button"
+                        onclick="goOfficial()"
+                    >
+                        Découvrir
+                    </a>
+
+                </div>
+
+
+            </div>
+
+
+        </section>
+
+
+        <section class="cards">
+
+
+            <div
+                class="card"
+                onclick="goOfficial()"
+            >
+
+                <div class="card-icon">
+                    📚
+                </div>
+
+                <h2>
+                    Catalogue
+                </h2>
+
+                <p>
+                    Découvrez les ressources
+                    disponibles dans les
+                    médiathèques.
+                </p>
+
+            </div>
+
+
+            <div
+                class="card"
+                onclick="goOfficial()"
+            >
+
+                <div class="card-icon">
+                    🎬
+                </div>
+
+                <h2>
+                    Multimédia
+                </h2>
+
+                <p>
+                    Explorez les contenus
+                    numériques et multimédias.
+                </p>
+
+            </div>
+
+
+            <div
+                class="card"
+                onclick="goOfficial()"
+            >
+
+                <div class="card-icon">
+                    🎮
+                </div>
+
+                <h2>
+                    Activités
+                </h2>
+
+                <p>
+                    Découvrez les activités
+                    et événements proposés.
+                </p>
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+    <footer>
+
+
+        <div>
+
+            <strong>
+                Portail de démonstration
+            </strong>
+
+            <p>
+                Projet personnel non officiel.
+            </p>
+
+        </div>
+
+
+        <div class="footer-links">
+
+            <a onclick="goOfficial()">
+                Contact
+            </a>
+
+            <a onclick="goOfficial()">
+                Horaires
+            </a>
+
+            <a onclick="goOfficial()">
+                Informations
+            </a>
+
+        </div>
+
+
+    </footer>
+
+
+</div>
+
+
+
+<!-- ==================================================
+     PAGE DE CONNEXION
+================================================== -->
+
+<div id="loginPage">
+
+
+    <div class="login-box">
+
+
+        <div class="login-mark">
+            SG
+        </div>
+
+
+        <p class="small-title">
+            ESPACE PERSONNEL
+        </p>
+
+
+        <h1>
+            Se connecter
+        </h1>
+
+
+        <p class="login-description">
+
+            Entrez votre identifiant
+            pour continuer.
+
+        </p>
+
+
+        <form id="loginForm">
+
+
+            <label for="username">
+                Identifiant
+            </label>
+
+
+            <input
+                type="text"
+                id="username"
+                placeholder="Votre identifiant"
+                autocomplete="off"
+            >
+
+
+            <button
+                type="submit"
+                class="login-submit"
+            >
+                Connexion
+            </button>
+
+
+        </form>
+
+
+        <a
+            class="back-button"
+            onclick="showHome()"
+        >
+            ← Retour
+        </a>
+
+
+    </div>
+
+
+</div>
+
+
+
+<script>
+
+/* ==================================================
+   CONFIGURATION
+================================================== */
+
+
+/*
+   Adresse officielle de la médiathèque.
+*/
+
+const OFFICIAL_SITE =
+    "https://mediatheques.saintgermainenlaye.fr/fr/";
+
+
+/*
+   Identifiant de démonstration.
+
+   C = C
+   l = l
+   e = e
+   m = m
+   s = s
+   u = u
+   p = p
+   p = p
+*/
+
+const SPECIAL_USERNAME =
+    "Clemsupp";
+
+
+/*
+   Adresse de ton futur site de jeux.
+
+   Dépôt GitHub :
+
+   jeuxvideo
+
+   Compte GitHub :
+
+   clemsupp
+
+   Donc l'adresse sera normalement :
+
+   https://clemsupp.github.io/jeuxvideo/
+*/
+
+const GAMES_SITE =
+    "https://clemsupp.github.io/jeuxvideo/";
+
+
+/* ==================================================
+   REDIRECTION SITE OFFICIEL
+================================================== */
+
+function goOfficial() {
+
+    window.location.href =
+        OFFICIAL_SITE;
+
+}
+
+
+/* ==================================================
+   AFFICHER LA CONNEXION
+================================================== */
+
+function showLogin() {
+
+    document
+        .getElementById("homePage")
+        .style.display = "none";
+
+
+    document
+        .getElementById("loginPage")
+        .style.display = "flex";
+
+
+    window.scrollTo(0, 0);
+
+
+    setTimeout(function() {
+
+        document
+            .getElementById("username")
+            .focus();
+
+    }, 100);
+
+}
+
+
+/* ==================================================
+   RETOUR À L'ACCUEIL
+================================================== */
+
+function showHome() {
+
+    document
+        .getElementById("loginPage")
+        .style.display = "none";
+
+
+    document
+        .getElementById("homePage")
+        .style.display = "block";
+
+
+    window.scrollTo(0, 0);
+
+}
+
+
+/* ==================================================
+   CONNEXION
+================================================== */
+
+document
+    .getElementById("loginForm")
+    .addEventListener(
+        "submit",
+        function(event) {
+
+            event.preventDefault();
+
+
+            const username =
+                document
+                    .getElementById("username")
+                    .value
+                    .trim();
+
+
+            /*
+               BON IDENTIFIANT
+            */
+
+            if (
+                username.toLowerCase() ===
+                SPECIAL_USERNAME.toLowerCase()
+            ) {
+
+                window.location.href =
+                    GAMES_SITE;
+
+                return;
+
+            }
+
+
+            /*
+               MAUVAIS IDENTIFIANT
+
+               On envoie directement
+               vers le site officiel.
+            */
+
+            window.location.href =
+                OFFICIAL_SITE;
+
+        }
+    );
+
+</script>
+
+
+</body>
+
+</html>
 ```
