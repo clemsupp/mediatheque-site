@@ -2,2052 +2,297 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Médiathèque — Saint-Germain-en-Laye</title>
-
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-}
-
-html,body{
-    width:100%;
-    min-height:100%;
-}
-
-body{
-    font-family:Arial,Helvetica,sans-serif;
-    background:#f4f2ed;
-    color:#262626;
-}
-
-:root{
-    --green:#315b57;
-    --green-dark:#234641;
-    --gold:#9b7549;
-    --cream:#f4f2ed;
-    --white:#ffffff;
-    --text:#282828;
-    --muted:#707474;
-    --border:#dedbd4;
-}
-
-/* =========================
-   HEADER
-========================= */
-
-.header{
-    width:100%;
-    height:88px;
-    background:white;
-    border-bottom:1px solid var(--border);
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    padding:0 6%;
-
-    position:relative;
-    z-index:20;
-}
-
-.brand{
-    display:flex;
-    align-items:center;
-    gap:14px;
-    cursor:pointer;
-}
-
-.brand-mark{
-    width:49px;
-    height:49px;
-
-    background:var(--green);
-    color:white;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-family:Georgia,serif;
-    font-size:17px;
-    font-weight:bold;
-
-    border-radius:3px;
-}
-
-.brand-name{
-    display:flex;
-    flex-direction:column;
-}
-
-.brand-name-main{
-    font-family:Georgia,serif;
-    font-size:17px;
-    letter-spacing:1px;
-}
-
-.brand-name-sub{
-    margin-top:4px;
-    font-size:10px;
-    letter-spacing:2.3px;
-    color:var(--gold);
-}
-
-.navigation{
-    display:flex;
-    align-items:center;
-    gap:27px;
-}
-
-.navigation a{
-    color:#333;
-    text-decoration:none;
-    font-size:14px;
-    cursor:pointer;
-    transition:.2s;
-}
-
-.navigation a:hover{
-    color:var(--green);
-}
-
-.login-link{
-    background:var(--green);
-    color:white!important;
-    padding:13px 22px;
-    border-radius:4px;
-}
-
-.login-link:hover{
-    background:var(--green-dark)!important;
-}
-
-/* =========================
-   HERO
-========================= */
-
-.hero{
-    min-height:550px;
-
-    display:flex;
-    align-items:center;
-
-    padding:70px 8%;
-
-    background:
-        linear-gradient(
-            90deg,
-            rgba(244,242,237,1) 0%,
-            rgba(244,242,237,.96) 38%,
-            rgba(244,242,237,.60) 100%
-        ),
-        linear-gradient(
-            135deg,
-            #d2ccc1,
-            #ebe7e0
-        );
-
-    position:relative;
-    overflow:hidden;
-}
-
-.hero::after{
-    content:"";
-
-    position:absolute;
-
-    width:460px;
-    height:460px;
-
-    border-radius:50%;
-
-    border:1px solid rgba(49,91,87,.12);
-
-    right:8%;
-    top:50%;
-
-    transform:translateY(-50%);
-}
-
-.hero-content{
-    max-width:720px;
-    position:relative;
-    z-index:2;
-}
-
-.eyebrow{
-    color:var(--gold);
-    font-size:12px;
-    font-weight:bold;
-    letter-spacing:3px;
-    margin-bottom:18px;
-}
-
-.hero-title{
-    font-family:Georgia,serif;
-    font-size:clamp(43px,6vw,72px);
-    font-weight:normal;
-    line-height:1.04;
-    color:#262626;
-}
-
-.hero-title span{
-    color:var(--green);
-}
-
-.hero-text{
-    max-width:560px;
-    margin-top:27px;
-    color:var(--muted);
-    font-size:18px;
-    line-height:1.7;
-}
-
-.hero-actions{
-    display:flex;
-    gap:14px;
-    margin-top:32px;
-}
-
-.button{
-    display:inline-flex;
-    align-items:center;
-    justify-content:center;
-
-    min-height:48px;
-
-    padding:0 23px;
-
-    border-radius:4px;
-
-    font-size:14px;
-    text-decoration:none;
-
-    cursor:pointer;
-
-    transition:.2s;
-}
-
-.button-primary{
-    background:var(--green);
-    color:white;
-}
-
-.button-primary:hover{
-    background:var(--green-dark);
-    transform:translateY(-1px);
-}
-
-.button-outline{
-    border:1px solid var(--green);
-    color:var(--green);
-    background:transparent;
-}
-
-.button-outline:hover{
-    background:var(--green);
-    color:white;
-}
-
-/* =========================
-   CARDS
-========================= */
-
-.cards-section{
-    max-width:1120px;
-    margin:-42px auto 80px;
-    padding:0 25px;
-    position:relative;
-    z-index:5;
-}
-
-.cards{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:22px;
-}
-
-.card{
-    background:white;
-    border-radius:6px;
-    padding:31px;
-
-    min-height:210px;
-
-    box-shadow:0 9px 32px rgba(0,0,0,.07);
-
-    cursor:pointer;
-
-    transition:
-        transform .2s,
-        box-shadow .2s;
-}
-
-.card:hover{
-    transform:translateY(-5px);
-    box-shadow:0 15px 38px rgba(0,0,0,.11);
-}
-
-.card-icon{
-    font-size:28px;
-    margin-bottom:19px;
-}
-
-.card-title{
-    font-family:Georgia,serif;
-    font-size:25px;
-    font-weight:normal;
-    margin-bottom:10px;
-}
-
-.card-text{
-    color:var(--muted);
-    line-height:1.6;
-    font-size:15px;
-}
-
-/* =========================
-   INFORMATION
-========================= */
-
-.info-section{
-    max-width:1050px;
-    margin:0 auto 90px;
-    padding:0 25px;
-}
-
-.info-title{
-    font-family:Georgia,serif;
-    font-size:38px;
-    font-weight:normal;
-    margin-bottom:18px;
-}
-
-.info-text{
-    max-width:720px;
-    color:var(--muted);
-    line-height:1.8;
-    font-size:16px;
-}
-
-/* =========================
-   FOOTER
-========================= */
-
-.footer{
-    background:var(--green);
-    color:white;
-
-    padding:45px 8%;
-
-    display:flex;
-    align-items:flex-start;
-    justify-content:space-between;
-
-    gap:40px;
-}
-
-.footer-title{
-    font-family:Georgia,serif;
-    font-size:18px;
-}
-
-.footer-subtitle{
-    margin-top:8px;
-    color:rgba(255,255,255,.72);
-    font-size:14px;
-}
-
-.footer-links{
-    display:flex;
-    flex-wrap:wrap;
-    gap:25px;
-}
-
-.footer-links a{
-    color:white;
-    text-decoration:none;
-    font-size:14px;
-    cursor:pointer;
-    opacity:.85;
-}
-
-.footer-links a:hover{
-    opacity:1;
-}
-
-/* =========================
-   LOGIN PAGE
-========================= */
-
-#loginPage{
-    display:none;
-
-    min-height:calc(100vh - 88px);
-
-    align-items:center;
-    justify-content:center;
-
-    padding:50px 20px;
-
-    background:var(--cream);
-}
-
-.login-container{
-    width:100%;
-    max-width:470px;
-
-    background:white;
-
-    padding:45px;
-
-    border-radius:7px;
-
-    box-shadow:0 14px 50px rgba(0,0,0,.08);
-}
-
-.login-logo{
-    width:58px;
-    height:58px;
-
-    background:var(--green);
-    color:white;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    font-family:Georgia,serif;
-    font-weight:bold;
-
-    border-radius:3px;
-
-    margin-bottom:28px;
-}
-
-.login-eyebrow{
-    color:var(--gold);
-    font-size:11px;
-    font-weight:bold;
-    letter-spacing:3px;
-    margin-bottom:10px;
-}
-
-.login-title{
-    font-family:Georgia,serif;
-    font-size:39px;
-    font-weight:normal;
-    margin-bottom:12px;
-}
-
-.login-description{
-    color:var(--muted);
-    line-height:1.6;
-    font-size:15px;
-    margin-bottom:29px;
-}
-
-.login-label{
-    display:block;
-    font-size:14px;
-    font-weight:bold;
-    margin-bottom:8px;
-}
-
-.login-input{
-    width:100%;
-
-    height:48px;
-
-    border:1px solid #d5d2cc;
-    border-radius:4px;
-
-    padding:0 14px;
-
-    font-size:15px;
-
-    outline:none;
-
-    transition:.2s;
-
-    margin-bottom:18px;
-}
-
-.login-input:focus{
-    border-color:var(--green);
-    box-shadow:0 0 0 3px rgba(49,91,87,.08);
-}
-
-.login-submit{
-    width:100%;
-    height:49px;
-
-    border:none;
-    border-radius:4px;
-
-    margin-top:4px;
-
-    background:var(--green);
-    color:white;
-
-    font-size:15px;
-
-    cursor:pointer;
-
-    transition:.2s;
-}
-
-.login-submit:hover{
-    background:var(--green-dark);
-}
-
-.back-home{
-    display:block;
-
-    text-align:center;
-
-    margin-top:23px;
-
-    color:var(--green);
-
-    font-size:14px;
-
-    cursor:pointer;
-    text-decoration:none;
-}
-
-.login-note{
-    margin-top:25px;
-    padding-top:20px;
-
-    border-top:1px solid #ebe8e2;
-
-    font-size:12px;
-    color:#858585;
-    line-height:1.6;
-}
-
-/* =========================
-   PAGE DES JEUX
-========================= */
-
-#gamesPage{
-    display:none;
-    min-height:100vh;
-    background:#111;
-    color:#eee;
-}
-
-.games-header{
-    height:88px;
-    background:#181818;
-    border-bottom:1px solid #292929;
-
-    display:flex;
-    align-items:center;
-    justify-content:space-between;
-
-    padding:0 5%;
-
-    position:sticky;
-    top:0;
-    z-index:50;
-}
-
-.games-brand{
-    display:flex;
-    align-items:center;
-    gap:14px;
-}
-
-.games-logo{
-    width:46px;
-    height:46px;
-
-    background:#315b57;
-    color:white;
-
-    display:flex;
-    align-items:center;
-    justify-content:center;
-
-    border-radius:4px;
-
-    font-weight:bold;
-    font-family:Georgia,serif;
-}
-
-.games-title{
-    font-family:Georgia,serif;
-    font-size:24px;
-}
-
-.games-subtitle{
-    color:#888;
-    font-size:12px;
-    margin-top:3px;
-}
-
-.games-actions{
-    display:flex;
-    align-items:center;
-    gap:10px;
-}
-
-.games-button{
-    border:1px solid #3a3a3a;
-    background:#202020;
-    color:#eee;
-
-    padding:10px 15px;
-
-    border-radius:5px;
-
-    cursor:pointer;
-
-    font-size:13px;
-
-    transition:.2s;
-}
-
-.games-button:hover{
-    background:#2c2c2c;
-}
-
-.games-button.green{
-    background:#315b57;
-    border-color:#315b57;
-}
-
-.games-button.green:hover{
-    background:#234641;
-}
-
-.games-content{
-    max-width:1150px;
-    margin:0 auto;
-
-    padding:55px 25px 80px;
-}
-
-.games-heading{
-    margin-bottom:35px;
-}
-
-.games-eyebrow{
-    color:#9b7549;
-    font-size:11px;
-    font-weight:bold;
-    letter-spacing:3px;
-    margin-bottom:12px;
-}
-
-.games-main-title{
-    font-family:Georgia,serif;
-    font-weight:normal;
-    font-size:48px;
-    margin-bottom:12px;
-}
-
-.games-description{
-    color:#8e8e8e;
-    max-width:650px;
-    line-height:1.7;
-}
-
-.games-grid{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:20px;
-}
-
-.game-card{
-    min-height:220px;
-
-    background:#1b1b1b;
-    border:1px solid #292929;
-
-    border-radius:8px;
-
-    padding:30px;
-
-    cursor:pointer;
-
-    transition:
-        transform .2s,
-        border-color .2s,
-        background .2s;
-}
-
-.game-card:hover{
-    transform:translateY(-4px);
-    border-color:#315b57;
-    background:#202020;
-}
-
-.game-number{
-    color:#9b7549;
-    font-size:12px;
-    font-weight:bold;
-    letter-spacing:2px;
-    margin-bottom:18px;
-}
-
-.game-icon{
-    font-size:38px;
-    margin-bottom:15px;
-}
-
-.game-title{
-    font-family:Georgia,serif;
-    font-size:27px;
-    font-weight:normal;
-    margin-bottom:10px;
-}
-
-.game-text{
-    color:#8d8d8d;
-    line-height:1.6;
-    font-size:14px;
-}
-
-.game-tag{
-    display:inline-block;
-
-    margin-top:20px;
-
-    padding:6px 10px;
-
-    background:#252525;
-    border:1px solid #333;
-
-    border-radius:4px;
-
-    color:#aaa;
-
-    font-size:11px;
-}
-
-/* =========================
-   LOGS
-========================= */
-
-#logsPanel{
-    display:none;
-
-    position:fixed;
-
-    top:88px;
-    right:20px;
-
-    width:430px;
-    max-width:calc(100vw - 40px);
-
-    max-height:calc(100vh - 110px);
-
-    overflow:auto;
-
-    background:#171717;
-    border:1px solid #353535;
-
-    border-radius:8px;
-
-    box-shadow:0 20px 60px rgba(0,0,0,.55);
-
-    z-index:100;
-}
-
-.logs-header{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-
-    padding:18px 20px;
-
-    border-bottom:1px solid #303030;
-
-    position:sticky;
-    top:0;
-
-    background:#171717;
-}
-
-.logs-title{
-    font-family:Georgia,serif;
-    font-size:20px;
-}
-
-.logs-close{
-    background:none;
-    border:none;
-    color:#aaa;
-    font-size:22px;
-    cursor:pointer;
-}
-
-.logs-info{
-    padding:15px 20px;
-
-    color:#888;
-
-    font-size:12px;
-    line-height:1.5;
-
-    border-bottom:1px solid #292929;
-}
-
-.logs-list{
-    padding:10px 20px 20px;
-}
-
-.log-entry{
-    padding:13px 0;
-
-    border-bottom:1px solid #292929;
-
-    font-size:12px;
-}
-
-.log-entry:last-child{
-    border-bottom:none;
-}
-
-.log-username{
-    color:#eee;
-    font-weight:bold;
-}
-
-.log-time{
-    color:#777;
-    margin-top:4px;
-}
-
-.log-result{
-    margin-top:5px;
-}
-
-.log-success{
-    color:#6fb59c;
-}
-
-.log-failed{
-    color:#c77878;
-}
-
-.logs-empty{
-    color:#777;
-    text-align:center;
-    padding:25px 0;
-}
-
-.logs-clear{
-    margin:0 20px 20px;
-
-    width:calc(100% - 40px);
-
-    height:38px;
-
-    border:1px solid #383838;
-    border-radius:4px;
-
-    background:#202020;
-    color:#ccc;
-
-    cursor:pointer;
-}
-
-.logs-clear:hover{
-    background:#2a2a2a;
-}
-
-/* =========================
-   MOBILE
-========================= */
-
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;min-height:100%}
+body{font-family:Arial,Helvetica,sans-serif;background:#f4f2ed;color:#262626}
+:root{--green:#315b57;--green-dark:#234641;--gold:#9b7549;--cream:#f4f2ed;--white:#fff;--text:#282828;--muted:#707474;--border:#dedbd4}
+.header{width:100%;height:88px;background:#fff;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;padding:0 6%;position:relative;z-index:20}
+.brand{display:flex;align-items:center;gap:14px;cursor:pointer}
+.brand-mark{width:49px;height:49px;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-size:17px;font-weight:bold;border-radius:3px}
+.brand-name{display:flex;flex-direction:column}
+.brand-name-main{font-family:Georgia,serif;font-size:17px;letter-spacing:1px}
+.brand-name-sub{margin-top:4px;font-size:10px;letter-spacing:2.3px;color:var(--gold)}
+.navigation{display:flex;align-items:center;gap:27px}
+.navigation a{color:#333;text-decoration:none;font-size:14px;cursor:pointer;transition:.2s}
+.navigation a:hover{color:var(--green)}
+.login-link{background:var(--green);color:#fff!important;padding:13px 22px;border-radius:4px}
+.login-link:hover{background:var(--green-dark)!important}
+.hero{min-height:550px;display:flex;align-items:center;padding:70px 8%;background:linear-gradient(90deg,rgba(244,242,237,1) 0%,rgba(244,242,237,.96) 38%,rgba(244,242,237,.60) 100%),linear-gradient(135deg,#d2ccc1,#ebe7e0);position:relative;overflow:hidden}
+.hero:after{content:"";position:absolute;width:460px;height:460px;border-radius:50%;border:1px solid rgba(49,91,87,.12);right:8%;top:50%;transform:translateY(-50%)}
+.hero-content{max-width:720px;position:relative;z-index:2}
+.eyebrow{color:var(--gold);font-size:12px;font-weight:bold;letter-spacing:3px;margin-bottom:18px}
+.hero-title{font-family:Georgia,serif;font-size:clamp(43px,6vw,72px);font-weight:normal;line-height:1.04;color:#262626}
+.hero-title span{color:var(--green)}
+.hero-text{max-width:560px;margin-top:27px;color:var(--muted);font-size:18px;line-height:1.7}
+.hero-actions{display:flex;gap:14px;margin-top:32px}
+.button{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:0 23px;border-radius:4px;font-size:14px;text-decoration:none;cursor:pointer;transition:.2s}
+.button-primary{background:var(--green);color:#fff}
+.button-primary:hover{background:var(--green-dark);transform:translateY(-1px)}
+.button-outline{border:1px solid var(--green);color:var(--green);background:transparent}
+.button-outline:hover{background:var(--green);color:#fff}
+.cards-section{max-width:1120px;margin:-42px auto 80px;padding:0 25px;position:relative;z-index:5}
+.cards{display:grid;grid-template-columns:repeat(3,1fr);gap:22px}
+.card{background:#fff;border-radius:6px;padding:31px;min-height:210px;box-shadow:0 9px 32px rgba(0,0,0,.07);cursor:pointer;transition:transform .2s,box-shadow .2s}
+.card:hover{transform:translateY(-5px);box-shadow:0 15px 38px rgba(0,0,0,.11)}
+.card-icon{font-size:28px;margin-bottom:19px}
+.card-title{font-family:Georgia,serif;font-size:25px;font-weight:normal;margin-bottom:10px}
+.card-text{color:var(--muted);line-height:1.6;font-size:15px}
+.info-section{max-width:1050px;margin:0 auto 90px;padding:0 25px}
+.info-title{font-family:Georgia,serif;font-size:38px;font-weight:normal;margin-bottom:18px}
+.info-text{max-width:720px;color:var(--muted);line-height:1.8;font-size:16px}
+.footer{background:var(--green);color:#fff;padding:45px 8%;display:flex;align-items:flex-start;justify-content:space-between;gap:40px}
+.footer-title{font-family:Georgia,serif;font-size:18px}
+.footer-subtitle{margin-top:8px;color:rgba(255,255,255,.72);font-size:14px}
+.footer-links{display:flex;flex-wrap:wrap;gap:25px}
+.footer-links a{color:#fff;text-decoration:none;font-size:14px;cursor:pointer;opacity:.85}
+.footer-links a:hover{opacity:1}
+#loginPage{display:none;min-height:calc(100vh - 88px);align-items:center;justify-content:center;padding:50px 20px;background:var(--cream)}
+.login-container{width:100%;max-width:470px;background:#fff;padding:45px;border-radius:7px;box-shadow:0 14px 50px rgba(0,0,0,.08)}
+.login-logo{width:58px;height:58px;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-weight:bold;border-radius:3px;margin-bottom:28px}
+.login-eyebrow{color:var(--gold);font-size:11px;font-weight:bold;letter-spacing:3px;margin-bottom:10px}
+.login-title{font-family:Georgia,serif;font-size:39px;font-weight:normal;margin-bottom:12px}
+.login-description{color:var(--muted);line-height:1.6;font-size:15px;margin-bottom:29px}
+.login-label{display:block;font-size:14px;font-weight:bold;margin-bottom:8px}
+.login-input{width:100%;height:48px;border:1px solid #d5d2cc;border-radius:4px;padding:0 14px;font-size:15px;outline:none;transition:.2s;margin-bottom:18px}
+.login-input:focus{border-color:var(--green);box-shadow:0 0 0 3px rgba(49,91,87,.08)}
+.login-submit{width:100%;height:49px;border:0;border-radius:4px;margin-top:4px;background:var(--green);color:#fff;font-size:15px;cursor:pointer;transition:.2s}
+.login-submit:hover{background:var(--green-dark)}
+.back-home{display:block;text-align:center;margin-top:23px;color:var(--green);font-size:14px;cursor:pointer;text-decoration:none}
+.login-note{margin-top:25px;padding-top:20px;border-top:1px solid #ebe8e2;font-size:12px;color:#858585;line-height:1.6}
+#gamesPage{display:none;min-height:100vh;background:#111;color:#eee}
+.games-header{height:88px;background:#181818;border-bottom:1px solid #292929;display:flex;align-items:center;justify-content:space-between;padding:0 5%;position:sticky;top:0;z-index:50}
+.games-brand{display:flex;align-items:center;gap:14px}
+.games-logo{width:46px;height:46px;background:#315b57;color:#fff;display:flex;align-items:center;justify-content:center;border-radius:4px;font-weight:bold;font-family:Georgia,serif}
+.games-title{font-family:Georgia,serif;font-size:24px}
+.games-subtitle{color:#888;font-size:12px;margin-top:3px}
+.games-actions{display:flex;align-items:center;gap:10px}
+.games-button{border:1px solid #3a3a3a;background:#202020;color:#eee;padding:10px 15px;border-radius:5px;cursor:pointer;font-size:13px;transition:.2s}
+.games-button:hover{background:#2c2c2c}
+.games-button.green{background:#315b57;border-color:#315b57}
+.games-button.green:hover{background:#234641}
+.games-content{max-width:1150px;margin:0 auto;padding:55px 25px 80px}
+.games-heading{margin-bottom:35px}
+.games-eyebrow{color:#9b7549;font-size:11px;font-weight:bold;letter-spacing:3px;margin-bottom:12px}
+.games-main-title{font-family:Georgia,serif;font-weight:normal;font-size:48px;margin-bottom:12px}
+.games-description{color:#8e8e8e;max-width:650px;line-height:1.7}
+.games-switch{display:flex;align-items:center;gap:14px;margin:25px 0 30px;color:#888;font-size:13px;font-weight:bold}
+.switch{width:65px;height:32px;background:#292929;border:1px solid #3b3b3b;border-radius:20px;position:relative;cursor:pointer;transition:.25s}
+.switch-dot{width:24px;height:24px;background:#9b7549;border-radius:50%;position:absolute;left:3px;top:3px;transition:.25s}
+.switch.active{background:#315b57}
+.switch.active .switch-dot{left:36px}
+.games-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:20px}
+.game-card{min-height:220px;background:#1b1b1b;border:1px solid #292929;border-radius:8px;padding:30px;cursor:pointer;transition:transform .2s,border-color .2s,background .2s}
+.game-card:hover{transform:translateY(-4px);border-color:#315b57;background:#202020}
+.game-number{color:#9b7549;font-size:12px;font-weight:bold;letter-spacing:2px;margin-bottom:18px}
+.game-icon{font-size:38px;margin-bottom:15px}
+.game-title{font-family:Georgia,serif;font-size:27px;font-weight:normal;margin-bottom:10px}
+.game-text{color:#8d8d8d;line-height:1.6;font-size:14px}
+.game-tag{display:inline-block;margin-top:20px;padding:6px 10px;background:#252525;border:1px solid #333;border-radius:4px;color:#aaa;font-size:11px}
+#logsPanel{display:none;position:fixed;top:88px;right:20px;width:430px;max-width:calc(100vw - 40px);max-height:calc(100vh - 110px);overflow:auto;background:#171717;border:1px solid #353535;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.55);z-index:100}
+.logs-header{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid #303030;position:sticky;top:0;background:#171717}
+.logs-title{font-family:Georgia,serif;font-size:20px}
+.logs-close{background:0;border:0;color:#aaa;font-size:22px;cursor:pointer}
+.logs-info{padding:15px 20px;color:#888;font-size:12px;line-height:1.5;border-bottom:1px solid #292929}
+.logs-list{padding:10px 20px 20px}
+.log-entry{padding:13px 0;border-bottom:1px solid #292929;font-size:12px}
+.log-entry:last-child{border-bottom:0}
+.log-username{color:#eee;font-weight:bold}
+.log-time{color:#777;margin-top:4px}
+.log-result{margin-top:5px}
+.log-success{color:#6fb59c}
+.log-failed{color:#c77878}
+.logs-empty{color:#777;text-align:center;padding:25px 0}
+.logs-clear{margin:0 20px 20px;width:calc(100% - 40px);height:38px;border:1px solid #383838;border-radius:4px;background:#202020;color:#ccc;cursor:pointer}
+.logs-clear:hover{background:#2a2a2a}
 @media(max-width:850px){
-
-    .header{
-        height:auto;
-        min-height:82px;
-
-        padding:17px 5%;
-
-        flex-wrap:wrap;
-        gap:17px;
-    }
-
-    .navigation{
-        width:100%;
-        gap:14px;
-        overflow-x:auto;
-        padding-bottom:2px;
-    }
-
-    .navigation a:not(.login-link){
-        display:none;
-    }
-
-    .hero{
-        min-height:520px;
-        padding:65px 7%;
-    }
-
-    .hero::after{
-        display:none;
-    }
-
-    .hero-title{
-        font-size:47px;
-    }
-
-    .hero-actions{
-        flex-direction:column;
-        align-items:flex-start;
-    }
-
-    .cards{
-        grid-template-columns:1fr;
-    }
-
-    .cards-section{
-        margin-top:30px;
-    }
-
-    .footer{
-        flex-direction:column;
-    }
-
-    .games-grid{
-        grid-template-columns:1fr;
-    }
-
-    .games-main-title{
-        font-size:40px;
-    }
-
-    .games-header{
-        height:auto;
-        min-height:80px;
-        padding:15px 5%;
-        gap:15px;
-    }
-
-    .games-actions{
-        flex-wrap:wrap;
-        justify-content:flex-end;
-    }
-
-    #logsPanel{
-        top:90px;
-    }
+.header{height:auto;min-height:82px;padding:17px 5%;flex-wrap:wrap;gap:17px}
+.navigation{width:100%;gap:14px;overflow-x:auto;padding-bottom:2px}
+.navigation a:not(.login-link){display:none}
+.hero{min-height:520px;padding:65px 7%}
+.hero:after{display:none}
+.hero-title{font-size:47px}
+.hero-actions{flex-direction:column;align-items:flex-start}
+.cards{grid-template-columns:1fr}
+.cards-section{margin-top:30px}
+.footer{flex-direction:column}
+.games-grid{grid-template-columns:1fr}
+.games-main-title{font-size:40px}
+.games-header{height:auto;min-height:80px;padding:15px 5%;gap:15px}
+.games-actions{flex-wrap:wrap;justify-content:flex-end}
+#logsPanel{top:90px}
 }
-
 @media(max-width:500px){
-
-    .brand-name-sub{
-        font-size:8px;
-        letter-spacing:1.5px;
-    }
-
-    .hero-title{
-        font-size:40px;
-    }
-
-    .hero-text{
-        font-size:16px;
-    }
-
-    .login-container{
-        padding:30px 24px;
-    }
-
-    .login-title{
-        font-size:34px;
-    }
-
-    .games-title{
-        font-size:20px;
-    }
-
-    .games-main-title{
-        font-size:34px;
-    }
-
-    .games-actions{
-        width:100%;
-    }
-
-    .games-button{
-        padding:9px 11px;
-    }
+.brand-name-sub{font-size:8px;letter-spacing:1.5px}
+.hero-title{font-size:40px}
+.hero-text{font-size:16px}
+.login-container{padding:30px 24px}
+.login-title{font-size:34px}
+.games-title{font-size:20px}
+.games-main-title{font-size:34px}
+.games-actions{width:100%}
+.games-button{padding:9px 11px}
 }
 </style>
 </head>
-
 <body>
 
-<!-- =========================================================
-     PAGE PRINCIPALE
-========================================================= -->
-
 <div id="homePage">
-
-    <header class="header">
-
-        <div
-            class="brand"
-            onclick="goOfficial()"
-        >
-
-            <div class="brand-mark">
-                SG
-            </div>
-
-            <div class="brand-name">
-
-                <span class="brand-name-main">
-                    MÉDIATHÈQUE
-                </span>
-
-                <span class="brand-name-sub">
-                    SAINT-GERMAIN-EN-LAYE
-                </span>
-
-            </div>
-
-        </div>
-
-        <nav class="navigation">
-
-            <a onclick="goOfficial()">
-                Accueil
-            </a>
-
-            <a onclick="goOfficial()">
-                Catalogue
-            </a>
-
-            <a onclick="goOfficial()">
-                Animations
-            </a>
-
-            <a onclick="goOfficial()">
-                Infos pratiques
-            </a>
-
-            <a
-                class="login-link"
-                onclick="showLogin()"
-            >
-                Se connecter
-            </a>
-
-        </nav>
-
-    </header>
-
-
-    <main>
-
-        <section class="hero">
-
-            <div class="hero-content">
-
-                <div class="eyebrow">
-                    BIENVENUE
-                </div>
-
-                <h1 class="hero-title">
-                    Un espace pour
-                    <br>
-                    <span>toutes vos découvertes.</span>
-                </h1>
-
-                <p class="hero-text">
-                    Retrouvez les ressources, les services,
-                    les animations et les découvertes proposées
-                    par les médiathèques.
-                </p>
-
-                <div class="hero-actions">
-
-                    <a
-                        class="button button-primary"
-                        onclick="goOfficial()"
-                    >
-                        Accéder au site
-                    </a>
-
-                    <a
-                        class="button button-outline"
-                        onclick="goOfficial()"
-                    >
-                        Découvrir
-                    </a>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <section class="cards-section">
-
-            <div class="cards">
-
-                <div
-                    class="card"
-                    onclick="goOfficial()"
-                >
-
-                    <div class="card-icon">
-                        📚
-                    </div>
-
-                    <h2 class="card-title">
-                        Catalogue
-                    </h2>
-
-                    <p class="card-text">
-                        Recherchez des livres, BD,
-                        mangas, magazines et autres
-                        ressources.
-                    </p>
-
-                </div>
-
-
-                <div
-                    class="card"
-                    onclick="goOfficial()"
-                >
-
-                    <div class="card-icon">
-                        🎬
-                    </div>
-
-                    <h2 class="card-title">
-                        Multimédia
-                    </h2>
-
-                    <p class="card-text">
-                        Découvrez les ressources
-                        numériques et multimédias
-                        disponibles.
-                    </p>
-
-                </div>
-
-
-                <div
-                    class="card"
-                    onclick="goOfficial()"
-                >
-
-                    <div class="card-icon">
-                        🎮
-                    </div>
-
-                    <h2 class="card-title">
-                        Activités
-                    </h2>
-
-                    <p class="card-text">
-                        Retrouvez les animations,
-                        événements et activités.
-                    </p>
-
-                </div>
-
-            </div>
-
-        </section>
-
-
-        <section class="info-section">
-
-            <div class="eyebrow">
-                À DÉCOUVRIR
-            </div>
-
-            <h2 class="info-title">
-                Culture, découverte et partage
-            </h2>
-
-            <p class="info-text">
-                
-            </p>
-
-        </section>
-
-    </main>
-
-
-    <footer class="footer">
-
-        <div>
-
-            <div class="footer-title">
-                Portail de la médiathèque de St-Germain-en-Laye
-            </div>
-
-            <div class="footer-subtitle">
-                site officiel 
-            </div>
-
-        </div>
-
-
-        <div class="footer-links">
-
-            <a onclick="goOfficial()">
-                Contact
-            </a>
-
-            <a onclick="goOfficial()">
-                Horaires
-            </a>
-
-            <a onclick="goOfficial()">
-                Informations
-            </a>
-
-        </div>
-
-    </footer>
-
+<header class="header">
+<div class="brand" onclick="goOfficial()"><div class="brand-mark">SG</div><div class="brand-name"><span class="brand-name-main">MÉDIATHÈQUE</span><span class="brand-name-sub">SAINT-GERMAIN-EN-LAYE</span></div></div>
+<nav class="navigation">
+<a onclick="goOfficial()">Accueil</a><a onclick="goOfficial()">Catalogue</a><a onclick="goOfficial()">Animations</a><a onclick="goOfficial()">Infos pratiques</a><a class="login-link" onclick="showLogin()">Se connecter</a>
+</nav>
+</header>
+<main>
+<section class="hero"><div class="hero-content"><div class="eyebrow">BIENVENUE</div><h1 class="hero-title">Un espace pour<br><span>toutes vos découvertes.</span></h1><p class="hero-text">Retrouvez les ressources, les services, les animations et les découvertes proposées par les médiathèques.</p><div class="hero-actions"><a class="button button-primary" onclick="goOfficial()">Accéder au site</a><a class="button button-outline" onclick="goOfficial()">Découvrir</a></div></div></section>
+<section class="cards-section"><div class="cards">
+<div class="card" onclick="goOfficial()"><div class="card-icon">📚</div><h2 class="card-title">Catalogue</h2><p class="card-text">Recherchez des livres, BD, mangas, magazines et autres ressources.</p></div>
+<div class="card" onclick="goOfficial()"><div class="card-icon">🎬</div><h2 class="card-title">Multimédia</h2><p class="card-text">Découvrez les ressources numériques et multimédias disponibles.</p></div>
+<div class="card" onclick="goOfficial()"><div class="card-icon">🎮</div><h2 class="card-title">Activités</h2><p class="card-text">Retrouvez les animations, événements et activités.</p></div>
+</div></section>
+<section class="info-section"><div class="eyebrow">À DÉCOUVRIR</div><h2 class="info-title">Culture, découverte et partage</h2><p class="info-text"></p></section>
+</main>
+<footer class="footer"><div><div class="footer-title">Portail de la médiathèque de St-Germain-en-Laye</div><div class="footer-subtitle">site officiel</div></div><div class="footer-links"><a onclick="goOfficial()">Contact</a><a onclick="goOfficial()">Horaires</a><a onclick="goOfficial()">Informations</a></div></footer>
 </div>
-
-
-<!-- =========================================================
-     PAGE DE CONNEXION
-========================================================= -->
 
 <div id="loginPage">
-
-    <div class="login-container">
-
-        <div class="login-logo">
-            SG
-        </div>
-
-        <div class="login-eyebrow">
-            ESPACE PERSONNEL
-        </div>
-
-        <h1 class="login-title">
-            Se connecter
-        </h1>
-
-        <p class="login-description">
-            Entrez vos informations pour continuer.
-        </p>
-
-
-        <form id="loginForm">
-
-            <label
-                class="login-label"
-                for="username"
-            >
-                Identifiant
-            </label>
-
-            <input
-                class="login-input"
-                id="username"
-                type="text"
-                placeholder="Votre identifiant"
-                autocomplete="off"
-            >
-
-
-            <label
-                class="login-label"
-                for="password"
-            >
-                Mot de passe
-            </label>
-
-            <input
-                class="login-input"
-                id="password"
-                type="password"
-                placeholder="Votre mot de passe"
-                autocomplete="off"
-            >
-
-
-            <button
-                class="login-submit"
-                type="submit"
-            >
-                Se connecter
-            </button>
-
-        </form>
-
-
-        <a
-            class="back-home"
-            onclick="showHome()"
-        >
-            ← Retour à l'accueil
-        </a>
-
-
-        <div class="login-note">
-            Le mot de passe saisi n'est ni enregistré
-            ni transmis.
-        </div>
-
-    </div>
-
+<div class="login-container">
+<div class="login-logo">SG</div><div class="login-eyebrow">ESPACE PERSONNEL</div><h1 class="login-title">Se connecter</h1><p class="login-description">Entrez vos informations pour continuer.</p>
+<form id="loginForm">
+<label class="login-label" for="username">Identifiant</label><input class="login-input" id="username" type="text" placeholder="Votre identifiant" autocomplete="off">
+<label class="login-label" for="password">Mot de passe</label><input class="login-input" id="password" type="password" placeholder="Votre mot de passe" autocomplete="off">
+<button class="login-submit" type="submit">Se connecter</button>
+</form>
+<a class="back-home" onclick="showHome()">← Retour à l'accueil</a>
+<div class="login-note">Le mot de passe saisi n'est ni enregistré ni transmis.</div>
 </div>
-
-
-<!-- =========================================================
-     PAGE DES JEUX
-========================================================= -->
+</div>
 
 <div id="gamesPage">
-
-    <header class="games-header">
-
-        <div class="games-brand">
-
-            <div class="games-logo">
-                G
-            </div>
-
-            <div>
-
-                <div class="games-title">
-                    GAMEZONE
-                </div>
-
-                <div class="games-subtitle">
-                    Espace de jeux
-                </div>
-
-            </div>
-
-        </div>
-
-
-        <div class="games-actions">
-
-            <button
-                class="games-button"
-                onclick="showLogs()"
-            >
-                Logs
-            </button>
-
-            <button
-                class="games-button"
-                onclick="showHome()"
-            >
-                Accueil
-            </button>
-
-        </div>
-
-    </header>
-
-
-    <main class="games-content">
-
-        <section class="games-heading">
-
-            <div class="games-eyebrow">
-                ESPACE JEUX
-            </div>
-
-            <h1 class="games-main-title">
-                Choisis ton jeu
-            </h1>
-
-            <p class="games-description">
-                Sélectionne un jeu dans la liste ci-dessous.
-                De nouveaux jeux pourront être ajoutés
-                progressivement.
-            </p>
-
-        </section>
-
-
-        <section class="games-grid">
-
-
-            <!-- JEU 1 -->
-
-            <div
-                class="game-card"
-                onclick="openGame('jeu1.html')"
-            >
-
-                <div class="game-number">
-                    JEU 01
-                </div>
-
-                <div class="game-icon">
-                    ◼
-                </div>
-
-                <h2 class="game-title">
-                    Attrape le carré
-                </h2>
-
-                <p class="game-text">
-                    Clique sur le carré le plus rapidement
-                    possible pendant 30 secondes.
-                    Le carré devient progressivement plus petit.
-                </p>
-
-                <span class="game-tag">
-                    30 secondes
-                </span>
-
-            </div>
-
-
-            <!-- JEU 2 -->
-
-            <div
-                class="game-card"
-                onclick="openGame('jeu2.html')"
-            >
-
-                <div class="game-number">
-                    JEU 02
-                </div>
-
-                <div class="game-icon">
-                    ⛏
-                </div>
-
-                <h2 class="game-title">
-                    Minecraft Clicker
-                </h2>
-
-                <p class="game-text">
-                    Construis ton empire minier, achète
-                    des bâtiments et progresse jusqu'au
-                    Bloc infini.
-                </p>
-
-                <span class="game-tag">
-                    Clicker
-                </span>
-
-            </div>
-
-
-            <!-- JEU 3 -->
-
-            <div
-                class="game-card"
-                onclick="comingSoon()"
-            >
-
-                <div class="game-number">
-                    JEU 03
-                </div>
-
-                <div class="game-icon">
-                    ?
-                </div>
-
-                <h2 class="game-title">
-                    Bientôt...
-                </h2>
-
-                <p class="game-text">
-                    Un nouveau jeu sera disponible
-                    prochainement.
-                </p>
-
-                <span class="game-tag">
-                    À venir
-                </span>
-
-            </div>
-
-
-            <!-- JEU 4 -->
-
-            <div
-                class="game-card"
-                onclick="comingSoon()"
-            >
-
-                <div class="game-number">
-                    JEU 04
-                </div>
-
-                <div class="game-icon">
-                    ?
-                </div>
-
-                <h2 class="game-title">
-                    Bientôt...
-                </h2>
-
-                <p class="game-text">
-                    Un nouveau jeu sera disponible
-                    prochainement.
-                </p>
-
-                <span class="game-tag">
-                    À venir
-                </span>
-
-            </div>
-
-
-        </section>
-
-    </main>
-
-
-    <!-- =====================================================
-         PANNEAU LOGS
-    ====================================================== -->
-
-    <div id="logsPanel">
-
-        <div class="logs-header">
-
-            <div class="logs-title">
-                Logs de connexion
-            </div>
-
-            <button
-                class="logs-close"
-                onclick="hideLogs()"
-            >
-                ×
-            </button>
-
-        </div>
-
-
-        <div class="logs-info">
-            Les logs enregistrent uniquement l'identifiant,
-            le résultat et l'heure. Les mots de passe ne sont
-            jamais enregistrés.
-        </div>
-
-
-        <div
-            id="logsList"
-            class="logs-list"
-        >
-        </div>
-
-
-        <button
-            class="logs-clear"
-            onclick="clearLogs()"
-        >
-            Effacer les logs
-        </button>
-
-    </div>
-
+<header class="games-header">
+<div class="games-brand"><div class="games-logo">G</div><div><div class="games-title">GAMEZONE</div><div class="games-subtitle">Espace de jeux</div></div></div>
+<div class="games-actions"><button class="games-button" onclick="showLogs()">Logs</button><button class="games-button" onclick="showHome()">Accueil</button></div>
+</header>
+
+<main class="games-content">
+<section class="games-heading">
+<div class="games-eyebrow">ESPACE JEUX</div>
+<h1 class="games-main-title">Choisis ton jeu</h1>
+<p class="games-description">Sélectionne un jeu dans la liste ci-dessous. De nouveaux jeux pourront être ajoutés progressivement.</p>
+
+<div class="games-switch">
+<span>JEUX</span>
+<div class="switch" id="gameSwitch" onclick="toggleMode()"><div class="switch-dot"></div></div>
+<span>SATISFAISANT</span>
+</div>
+</section>
+
+<section class="games-grid" id="gamesGrid"></section>
+</main>
+
+<div id="logsPanel">
+<div class="logs-header"><div class="logs-title">Logs de connexion</div><button class="logs-close" onclick="hideLogs()">×</button></div>
+<div class="logs-info">Les logs enregistrent uniquement l'identifiant, le résultat et l'heure. Les mots de passe ne sont jamais enregistrés.</div>
+<div id="logsList" class="logs-list"></div>
+<button class="logs-clear" onclick="clearLogs()">Effacer les logs</button>
+</div>
 </div>
 
-
 <script>
+const OFFICIAL_SITE="https://mediatheques.saintgermainenlaye.fr/fr/",SPECIAL_USERNAME="Clemsupp";
 
-/* =========================================================
-   CONFIGURATION
-========================================================= */
+function goOfficial(){location.href=OFFICIAL_SITE}
+function showLogin(){homePage.style.display="none";gamesPage.style.display="none";loginPage.style.display="flex";hideLogs();scrollTo(0,0);setTimeout(()=>username.focus(),100)}
+function showHome(){loginPage.style.display="none";gamesPage.style.display="none";homePage.style.display="block";hideLogs();scrollTo(0,0)}
+function showGames(){homePage.style.display="none";loginPage.style.display="none";gamesPage.style.display="block";hideLogs();scrollTo(0,0);renderGames()}
+function openGame(file){location.href=file}
+function comingSoon(){alert("Ce jeu n'est pas encore disponible.")}
 
-const OFFICIAL_SITE =
-    "https://mediatheques.saintgermainenlaye.fr/fr/";
+const games=[
+["◼","Attrape le carré","Clique sur le carré le plus rapidement possible pendant 30 secondes. Le carré devient progressivement plus petit.","30 secondes"],
+["⛏","Minecraft Clicker","Construis ton empire minier, achète des bâtiments et progresse jusqu'au Bloc infini.","Clicker"],
+["?","Bientôt...","Un nouveau jeu sera disponible prochainement.","À venir"],
+["?","Bientôt...","Un nouveau jeu sera disponible prochainement.","À venir"],
+["?","Bientôt...","Un nouveau jeu sera disponible prochainement.","À venir"],
+["?","Bientôt...","Un nouveau jeu sera disponible prochainement.","À venir"],
+["?","Bientôt...","Un nouveau jeu sera disponible prochainement.","À venir"],
+["?","Bientôt...","Un nouveau jeu sera disponible prochainement.","À venir"]
+];
 
-const SPECIAL_USERNAME =
-    "Clemsupp";
+const satisfying=[
+["◼","Le carré qui fuit","Approche ton doigt du carré. Il esquive doucement sans jamais se téléporter.","Satisfaisant"],
+["●","Bulles","Éclate les bulles et profite d'animations satisfaisantes.","Satisfaisant"],
+["🌀","Spirale","Fais tourner une spirale et crée des mouvements hypnotiques.","Satisfaisant"],
+["💧","Liquide","Manipule une matière liquide et observe ses mouvements.","Satisfaisant"],
+["●","Rebond","Fais rebondir des balles et crée des enchaînements.","Satisfaisant"],
+["🧲","Aimant","Attire et repousse des particules avec ton doigt.","Satisfaisant"],
+["✦","Particules","Déplace ton doigt et observe les particules réagir.","Satisfaisant"],
+["▦","Grille parfaite","Aligne et remplis une grille avec des mouvements précis.","Satisfaisant"]
+];
 
+let satisfyingMode=false;
 
-/* =========================================================
-   SITE OFFICIEL
-========================================================= */
-
-function goOfficial(){
-
-    window.location.href =
-        OFFICIAL_SITE;
-
+function toggleMode(){
+satisfyingMode=!satisfyingMode;
+gameSwitch.classList.toggle("active",satisfyingMode);
+renderGames();
 }
 
-
-/* =========================================================
-   AFFICHER LA CONNEXION
-========================================================= */
-
-function showLogin(){
-
-    document
-        .getElementById("homePage")
-        .style.display = "none";
-
-    document
-        .getElementById("gamesPage")
-        .style.display = "none";
-
-    document
-        .getElementById("loginPage")
-        .style.display = "flex";
-
-    hideLogs();
-
-    window.scrollTo(0,0);
-
-    setTimeout(function(){
-
-        document
-            .getElementById("username")
-            .focus();
-
-    },100);
-
+function renderGames(){
+const list=satisfyingMode?satisfying:games;
+gamesGrid.innerHTML=list.map((g,i)=>{
+const file=satisfyingMode?`satisfaisant${i+1}.html`:`jeu${i+1}.html`;
+return `<div class="game-card" onclick="openGame('${file}')"><div class="game-number">${satisfyingMode?"SATISFAISANT":"JEU"} ${String(i+1).padStart(2,"0")}</div><div class="game-icon">${g[0]}</div><h2 class="game-title">${g[1]}</h2><p class="game-text">${g[2]}</p><span class="game-tag">${g[3]}</span></div>`
+}).join("")
 }
-
-
-/* =========================================================
-   AFFICHER L'ACCUEIL
-========================================================= */
-
-function showHome(){
-
-    document
-        .getElementById("loginPage")
-        .style.display = "none";
-
-    document
-        .getElementById("gamesPage")
-        .style.display = "none";
-
-    document
-        .getElementById("homePage")
-        .style.display = "block";
-
-    hideLogs();
-
-    window.scrollTo(0,0);
-
-}
-
-
-/* =========================================================
-   AFFICHER LES JEUX
-========================================================= */
-
-function showGames(){
-
-    document
-        .getElementById("homePage")
-        .style.display = "none";
-
-    document
-        .getElementById("loginPage")
-        .style.display = "none";
-
-    document
-        .getElementById("gamesPage")
-        .style.display = "block";
-
-    hideLogs();
-
-    window.scrollTo(0,0);
-
-}
-
-
-/* =========================================================
-   OUVRIR UN JEU
-========================================================= */
-
-function openGame(file){
-
-    window.location.href = file;
-
-}
-
-
-/* =========================================================
-   JEU BIENTÔT DISPONIBLE
-========================================================= */
-
-function comingSoon(){
-
-    alert(
-        "Ce jeu n'est pas encore disponible."
-    );
-
-}
-
-
-/* =========================================================
-   LOGS
-========================================================= */
-
-/*
- * Les logs sont enregistrés uniquement dans
- * le navigateur actuel avec localStorage.
- *
- * Aucun mot de passe n'est enregistré.
- */
 
 function getLogs(){
-
-    try{
-
-        const saved =
-            localStorage.getItem(
-                "gameLoginAttempts"
-            );
-
-        if(!saved){
-            return [];
-        }
-
-        const logs =
-            JSON.parse(saved);
-
-        if(!Array.isArray(logs)){
-            return [];
-        }
-
-        return logs;
-
-    }catch(error){
-
-        return [];
-
-    }
-
+try{const x=JSON.parse(localStorage.getItem("gameLoginAttempts"));return Array.isArray(x)?x:[]}catch(e){return[]}
 }
-
 
 function saveLog(username,result){
-
-    const logs =
-        getLogs();
-
-
-    logs.push({
-
-        username:
-            username || "(vide)",
-
-        result:
-            result,
-
-        time:
-            new Date().toLocaleString(
-                "fr-FR"
-            )
-
-    });
-
-
-    /*
-     * On garde les 200 dernières tentatives
-     * pour éviter de remplir inutilement
-     * le stockage du navigateur.
-     */
-
-    const limitedLogs =
-        logs.slice(-200);
-
-
-    try{
-
-        localStorage.setItem(
-            "gameLoginAttempts",
-            JSON.stringify(
-                limitedLogs
-            )
-        );
-
-    }catch(error){
-
-        /*
-         * Si localStorage est bloqué,
-         * le site continue de fonctionner.
-         */
-
-    }
-
+const logs=getLogs();
+logs.push({username:username||"(vide)",result,time:new Date().toLocaleString("fr-FR")});
+try{localStorage.setItem("gameLoginAttempts",JSON.stringify(logs.slice(-200)))}catch(e){}
 }
 
-
-function showLogs(){
-
-    const panel =
-        document.getElementById(
-            "logsPanel"
-        );
-
-    panel.style.display =
-        "block";
-
-    renderLogs();
-
-}
-
-
-function hideLogs(){
-
-    const panel =
-        document.getElementById(
-            "logsPanel"
-        );
-
-    panel.style.display =
-        "none";
-
-}
-
+function showLogs(){logsPanel.style.display="block";renderLogs()}
+function hideLogs(){logsPanel.style.display="none"}
 
 function renderLogs(){
-
-    const list =
-        document.getElementById(
-            "logsList"
-        );
-
-    const logs =
-        getLogs();
-
-
-    if(logs.length === 0){
-
-        list.innerHTML =
-            '<div class="logs-empty">Aucune tentative enregistrée.</div>';
-
-        return;
-
-    }
-
-
-    /*
-     * Affichage du plus récent
-     * au plus ancien.
-     */
-
-    const reversedLogs =
-        [...logs].reverse();
-
-
-    list.innerHTML =
-        reversedLogs.map(function(log){
-
-            const success =
-                log.result === "Autorisé";
-
-
-            return `
-
-                <div class="log-entry">
-
-                    <div class="log-username">
-                        Identifiant :
-                        ${escapeHtml(log.username)}
-                    </div>
-
-                    <div class="log-time">
-                        ${escapeHtml(log.time)}
-                    </div>
-
-                    <div class="log-result ${
-                        success
-                            ? "log-success"
-                            : "log-failed"
-                    }">
-
-                        ${escapeHtml(log.result)}
-
-                    </div>
-
-                </div>
-
-            `;
-
-        }).join("");
-
+const logs=getLogs();
+if(!logs.length){logsList.innerHTML='<div class="logs-empty">Aucune tentative enregistrée.</div>';return}
+logsList.innerHTML=[...logs].reverse().map(log=>`<div class="log-entry"><div class="log-username">Identifiant : ${escapeHtml(log.username)}</div><div class="log-time">${escapeHtml(log.time)}</div><div class="log-result ${log.result==="Autorisé"?"log-success":"log-failed"}">${escapeHtml(log.result)}</div></div>`).join("")
 }
-
 
 function clearLogs(){
-
-    const confirmation =
-        confirm(
-            "Effacer tous les logs de ce navigateur ?"
-        );
-
-    if(!confirmation){
-        return;
-    }
-
-
-    localStorage.removeItem(
-        "gameLoginAttempts"
-    );
-
-
-    renderLogs();
-
+if(!confirm("Effacer tous les logs de ce navigateur ?"))return;
+localStorage.removeItem("gameLoginAttempts");renderLogs()
 }
-
-
-/*
- * Sécurité d'affichage :
- * empêche qu'un identifiant contenant
- * du HTML soit interprété comme du code.
- */
 
 function escapeHtml(value){
-
-    return String(value)
-        .replace(/&/g,"&amp;")
-        .replace(/</g,"&lt;")
-        .replace(/>/g,"&gt;")
-        .replace(/"/g,"&quot;")
-        .replace(/'/g,"&#039;");
-
+return String(value).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#039;")
 }
 
+loginForm.addEventListener("submit",function(e){
+e.preventDefault();
+const user=username.value.trim();
+if(user.toLowerCase()===SPECIAL_USERNAME.toLowerCase()){
+saveLog(user,"Autorisé");showGames();return
+}
+saveLog(user,"Refusé");location.href=OFFICIAL_SITE
+});
 
-/* =========================================================
-   CONNEXION
-========================================================= */
+password.addEventListener("keydown",function(e){
+if(e.key==="Enter"){e.preventDefault();loginForm.requestSubmit()}
+});
 
-document
-    .getElementById("loginForm")
-    .addEventListener(
-        "submit",
-        function(event){
+document.addEventListener("keydown",e=>{if(e.key==="Escape")hideLogs()});
 
-            event.preventDefault();
-
-
-            const username =
-                document
-                    .getElementById("username")
-                    .value
-                    .trim();
-
-
-            /*
-             * IMPORTANT :
-             *
-             * Le champ password existe visuellement,
-             * mais nous ne lisons jamais sa valeur.
-             *
-             * Il n'est donc pas enregistré dans les logs.
-             */
-
-
-            if(
-                username.toLowerCase() ===
-                SPECIAL_USERNAME.toLowerCase()
-            ){
-
-                saveLog(
-                    username,
-                    "Autorisé"
-                );
-
-
-                /*
-                 * Pas de changement d'URL.
-                 *
-                 * On reste sur exactement
-                 * le même index.html.
-                 */
-
-                showGames();
-
-                return;
-
-            }
-
-
-            /*
-             * Identifiant incorrect :
-             * on enregistre seulement l'identifiant.
-             */
-
-            saveLog(
-                username,
-                "Refusé"
-            );
-
-
-            /*
-             * Comme dans ton fonctionnement précédent,
-             * un autre identifiant ouvre le site officiel.
-             */
-
-            window.location.href =
-                OFFICIAL_SITE;
-
-        }
-    );
-
-
-/* =========================================================
-   TOUCHE ENTRÉE
-========================================================= */
-
-document
-    .getElementById("password")
-    .addEventListener(
-        "keydown",
-        function(event){
-
-            if(event.key === "Enter"){
-
-                event.preventDefault();
-
-                document
-                    .getElementById("loginForm")
-                    .requestSubmit();
-
-            }
-
-        }
-    );
-
-
-/* =========================================================
-   FERMER LES LOGS EN APPUYANT SUR ECHAP
-========================================================= */
-
-document.addEventListener(
-    "keydown",
-    function(event){
-
-        if(event.key === "Escape"){
-
-            hideLogs();
-
-        }
-
-    }
-);
-
+showGames();
 </script>
-
 </body>
 </html>
