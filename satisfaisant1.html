@@ -1,0 +1,355 @@
+```html
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<title>Le carré qui fuit</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{width:100%;height:100%;overflow:hidden}
+body{
+font-family:Arial,Helvetica,sans-serif;
+background:#111;
+color:#eee;
+touch-action:none;
+user-select:none;
+-webkit-user-select:none
+}
+#game{
+position:relative;
+width:100%;
+height:100%;
+overflow:hidden;
+background:
+radial-gradient(circle at center,#202020 0%,#111 70%)
+}
+header{
+position:absolute;
+top:0;
+left:0;
+width:100%;
+height:75px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 25px;
+z-index:5;
+background:rgba(17,17,17,.75);
+backdrop-filter:blur(8px);
+border-bottom:1px solid #292929
+}
+.title{
+font-family:Georgia,serif;
+font-size:23px
+}
+.back{
+border:1px solid #3a3a3a;
+background:#202020;
+color:#eee;
+padding:10px 15px;
+border-radius:5px;
+font-size:13px;
+text-decoration:none
+}
+#info{
+position:absolute;
+top:92px;
+left:50%;
+transform:translateX(-50%);
+text-align:center;
+color:#777;
+font-size:14px;
+z-index:3;
+white-space:nowrap
+}
+#square{
+position:absolute;
+width:58px;
+height:58px;
+background:#315b57;
+border-radius:10px;
+box-shadow:0 0 25px rgba(49,91,87,.5);
+transform:translate(-50%,-50%);
+z-index:2;
+will-change:left,top,transform;
+transition:width .2s,height .2s,border-radius .2s
+}
+#square:after{
+content:"";
+position:absolute;
+inset:8px;
+border:2px solid rgba(255,255,255,.18);
+border-radius:6px
+}
+#score{
+position:absolute;
+bottom:28px;
+left:50%;
+transform:translateX(-50%);
+font-size:15px;
+color:#777;
+z-index:5
+}
+#start{
+position:absolute;
+inset:0;
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(17,17,17,.88);
+z-index:10;
+text-align:center
+}
+.start-box{
+width:min(90%,430px);
+padding:35px;
+background:#191919;
+border:1px solid #303030;
+border-radius:10px;
+box-shadow:0 20px 60px rgba(0,0,0,.4)
+}
+.start-box h1{
+font-family:Georgia,serif;
+font-weight:normal;
+font-size:38px;
+margin-bottom:15px
+}
+.start-box p{
+color:#888;
+line-height:1.7;
+font-size:14px;
+margin-bottom:25px
+}
+.start-button{
+border:0;
+background:#315b57;
+color:white;
+padding:14px 28px;
+border-radius:5px;
+font-size:15px;
+cursor:pointer
+}
+.start-button:active{transform:scale(.97)}
+#end{
+position:absolute;
+inset:0;
+display:none;
+align-items:center;
+justify-content:center;
+background:rgba(17,17,17,.88);
+z-index:10;
+text-align:center
+}
+.end-box{
+width:min(90%,430px);
+padding:35px;
+background:#191919;
+border:1px solid #303030;
+border-radius:10px
+}
+.end-box h2{
+font-family:Georgia,serif;
+font-weight:normal;
+font-size:34px;
+margin-bottom:15px
+}
+.result{
+font-size:25px;
+color:#9b7549;
+margin-bottom:22px
+}
+.end-button{
+border:0;
+background:#315b57;
+color:white;
+padding:13px 25px;
+border-radius:5px;
+font-size:14px;
+cursor:pointer
+}
+@media(max-width:600px){
+header{height:65px;padding:0 15px}
+.title{font-size:19px}
+.back{padding:8px 11px}
+#info{top:82px;font-size:12px}
+#square{width:52px;height:52px}
+}
+</style>
+</head>
+<body>
+
+<div id="game">
+
+<header>
+<div class="title">Le carré qui fuit</div>
+<a class="back" href="index.html">← Jeux</a>
+</header>
+
+<div id="info">Approche ton doigt du carré...</div>
+
+<div id="square"></div>
+
+<div id="score">Temps : 0,0 s</div>
+
+<div id="start">
+<div class="start-box">
+<h1>Le carré qui fuit</h1>
+<p>
+Approche ton doigt du carré.<br>
+Il va essayer de s'échapper...<br>
+Mais il ne se téléportera jamais.
+</p>
+<button class="start-button" onclick="startGame()">Commencer</button>
+</div>
+</div>
+
+<div id="end">
+<div class="end-box">
+<h2>Bien joué</h2>
+<div class="result" id="finalScore">0,0 s</div>
+<button class="end-button" onclick="startGame()">Rejouer</button>
+</div>
+</div>
+
+</div>
+
+<script>
+const square=document.getElementById("square");
+const start=document.getElementById("start");
+const end=document.getElementById("end");
+const score=document.getElementById("score");
+const info=document.getElementById("info");
+const finalScore=document.getElementById("finalScore");
+
+let x=innerWidth/2;
+let y=innerHeight/2;
+let vx=0;
+let vy=0;
+let pointerX=-1000;
+let pointerY=-1000;
+let playing=false;
+let startTime=0;
+let lastTime=0;
+
+function place(){
+square.style.left=x+"px";
+square.style.top=y+"px"
+}
+
+function startGame(){
+start.style.display="none";
+end.style.display="none";
+playing=true;
+startTime=performance.now();
+lastTime=startTime;
+x=innerWidth/2;
+y=innerHeight/2;
+vx=0;
+vy=0;
+pointerX=-1000;
+pointerY=-1000;
+info.textContent="Approche ton doigt du carré...";
+place();
+requestAnimationFrame(loop)
+}
+
+function stopGame(){
+playing=false;
+let t=(performance.now()-startTime)/1000;
+finalScore.textContent=t.toFixed(1)+" secondes";
+end.style.display="flex"
+}
+
+function loop(now){
+if(!playing)return;
+
+let dt=Math.min((now-lastTime)/1000,.035);
+lastTime=now;
+
+let dx=x-pointerX;
+let dy=y-pointerY;
+let dist=Math.sqrt(dx*dx+dy*dy);
+
+if(dist<230){
+
+let force=(230-dist)/230;
+
+if(dist>1){
+vx+=(dx/dist)*force*1500*dt;
+vy+=(dy/dist)*force*1500*dt
+}
+
+info.textContent="Il te fuit !";
+}else{
+info.textContent="Approche ton doigt du carré...";
+}
+
+let maxSpeed=470;
+let speed=Math.sqrt(vx*vx+vy*vy);
+
+if(speed>maxSpeed){
+vx=vx/speed*maxSpeed;
+vy=vy/speed*maxSpeed
+}
+
+x+=vx*dt;
+y+=vy*dt;
+
+vx*=Math.pow(.08,dt);
+vy*=Math.pow(.08,dt);
+
+let half=29;
+
+if(x<half){
+x=half;
+vx=Math.abs(vx)*.85
+}
+if(x>innerWidth-half){
+x=innerWidth-half;
+vx=-Math.abs(vx)*.85
+}
+if(y<75+half){
+y=75+half;
+vy=Math.abs(vy)*.85
+}
+if(y>innerHeight-half){
+y=innerHeight-half;
+vy=-Math.abs(vy)*.85
+}
+
+place();
+
+score.textContent=
+"Temps : "+((now-startTime)/1000).toFixed(1)+" s";
+
+requestAnimationFrame(loop)
+}
+
+function pointer(e){
+const p=e.touches?e.touches[0]:e;
+pointerX=p.clientX;
+pointerY=p.clientY
+}
+
+document.addEventListener("touchstart",pointer,{passive:false});
+document.addEventListener("touchmove",pointer,{passive:false});
+document.addEventListener("mousemove",pointer);
+
+document.addEventListener("touchend",function(){
+pointerX=-1000;
+pointerY=-1000
+});
+
+addEventListener("resize",function(){
+x=Math.min(x,innerWidth-29);
+y=Math.min(y,innerHeight-29);
+place()
+});
+
+place();
+</script>
+
+</body>
+</html>
+```
