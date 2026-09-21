@@ -49,6 +49,7 @@ body{font-family:Arial,Helvetica,sans-serif;background:#f4f2ed;color:#262626}
 .footer-links{display:flex;flex-wrap:wrap;gap:25px}
 .footer-links a{color:#fff;text-decoration:none;font-size:14px;cursor:pointer;opacity:.85}
 .footer-links a:hover{opacity:1}
+
 #loginPage{display:none;min-height:calc(100vh - 88px);align-items:center;justify-content:center;padding:50px 20px;background:var(--cream)}
 .login-container{width:100%;max-width:470px;background:#fff;padding:45px;border-radius:7px;box-shadow:0 14px 50px rgba(0,0,0,.08)}
 .login-logo{width:58px;height:58px;background:var(--green);color:#fff;display:flex;align-items:center;justify-content:center;font-family:Georgia,serif;font-weight:bold;border-radius:3px;margin-bottom:28px}
@@ -62,6 +63,7 @@ body{font-family:Arial,Helvetica,sans-serif;background:#f4f2ed;color:#262626}
 .login-submit:hover{background:var(--green-dark)}
 .back-home{display:block;text-align:center;margin-top:23px;color:var(--green);font-size:14px;cursor:pointer;text-decoration:none}
 .login-note{margin-top:25px;padding-top:20px;border-top:1px solid #ebe8e2;font-size:12px;color:#858585;line-height:1.6}
+
 #gamesPage{display:none;min-height:100vh;background:#111;color:#eee}
 .games-header{height:88px;background:#181818;border-bottom:1px solid #292929;display:flex;align-items:center;justify-content:space-between;padding:0 5%;position:sticky;top:0;z-index:50}
 .games-brand{display:flex;align-items:center;gap:14px}
@@ -91,6 +93,7 @@ body{font-family:Arial,Helvetica,sans-serif;background:#f4f2ed;color:#262626}
 .game-title{font-family:Georgia,serif;font-size:27px;font-weight:normal;margin-bottom:10px}
 .game-text{color:#8d8d8d;line-height:1.6;font-size:14px}
 .game-tag{display:inline-block;margin-top:20px;padding:6px 10px;background:#252525;border:1px solid #333;border-radius:4px;color:#aaa;font-size:11px}
+
 #logsPanel{display:none;position:fixed;top:88px;right:20px;width:430px;max-width:calc(100vw - 40px);max-height:calc(100vh - 110px);overflow:auto;background:#171717;border:1px solid #353535;border-radius:8px;box-shadow:0 20px 60px rgba(0,0,0,.55);z-index:100}
 .logs-header{display:flex;justify-content:space-between;align-items:center;padding:18px 20px;border-bottom:1px solid #303030;position:sticky;top:0;background:#171717}
 .logs-title{font-family:Georgia,serif;font-size:20px}
@@ -107,6 +110,7 @@ body{font-family:Arial,Helvetica,sans-serif;background:#f4f2ed;color:#262626}
 .logs-empty{color:#777;text-align:center;padding:25px 0}
 .logs-clear{margin:0 20px 20px;width:calc(100% - 40px);height:38px;border:1px solid #383838;border-radius:4px;background:#202020;color:#ccc;cursor:pointer}
 .logs-clear:hover{background:#2a2a2a}
+
 @media(max-width:850px){
 .header{height:auto;min-height:82px;padding:17px 5%;flex-wrap:wrap;gap:17px}
 .navigation{width:100%;gap:14px;overflow-x:auto;padding-bottom:2px}
@@ -124,6 +128,7 @@ body{font-family:Arial,Helvetica,sans-serif;background:#f4f2ed;color:#262626}
 .games-actions{flex-wrap:wrap;justify-content:flex-end}
 #logsPanel{top:90px}
 }
+
 @media(max-width:500px){
 .brand-name-sub{font-size:8px;letter-spacing:1.5px}
 .hero-title{font-size:40px}
@@ -146,26 +151,58 @@ body{font-family:Arial,Helvetica,sans-serif;background:#f4f2ed;color:#262626}
 <a onclick="goOfficial()">Accueil</a><a onclick="goOfficial()">Catalogue</a><a onclick="goOfficial()">Animations</a><a onclick="goOfficial()">Infos pratiques</a><a class="login-link" onclick="showLogin()">Se connecter</a>
 </nav>
 </header>
+
 <main>
-<section class="hero"><div class="hero-content"><div class="eyebrow">BIENVENUE</div><h1 class="hero-title">Un espace pour<br><span>toutes vos découvertes.</span></h1><p class="hero-text">Retrouvez les ressources, les services, les animations et les découvertes proposées par les médiathèques.</p><div class="hero-actions"><a class="button button-primary" onclick="goOfficial()">Accéder au site</a><a class="button button-outline" onclick="goOfficial()">Découvrir</a></div></div></section>
-<section class="cards-section"><div class="cards">
+<section class="hero">
+<div class="hero-content">
+<div class="eyebrow">BIENVENUE</div>
+<h1 class="hero-title">Un espace pour<br><span>toutes vos découvertes.</span></h1>
+<p class="hero-text">Retrouvez les ressources, les services, les animations et les découvertes proposées par les médiathèques.</p>
+<div class="hero-actions">
+<a class="button button-primary" onclick="goOfficial()">Accéder au site</a>
+<a class="button button-outline" onclick="goOfficial()">Découvrir</a>
+</div>
+</div>
+</section>
+
+<section class="cards-section">
+<div class="cards">
 <div class="card" onclick="goOfficial()"><div class="card-icon">📚</div><h2 class="card-title">Catalogue</h2><p class="card-text">Recherchez des livres, BD, mangas, magazines et autres ressources.</p></div>
 <div class="card" onclick="goOfficial()"><div class="card-icon">🎬</div><h2 class="card-title">Multimédia</h2><p class="card-text">Découvrez les ressources numériques et multimédias disponibles.</p></div>
 <div class="card" onclick="goOfficial()"><div class="card-icon">🎮</div><h2 class="card-title">Activités</h2><p class="card-text">Retrouvez les animations, événements et activités.</p></div>
-</div></section>
-<section class="info-section"><div class="eyebrow">À DÉCOUVRIR</div><h2 class="info-title">Culture, découverte et partage</h2><p class="info-text"></p></section>
+</div>
+</section>
+
+<section class="info-section">
+<div class="eyebrow">À DÉCOUVRIR</div>
+<h2 class="info-title">Culture, découverte et partage</h2>
+<p class="info-text"></p>
+</section>
 </main>
-<footer class="footer"><div><div class="footer-title">Portail de la médiathèque de St-Germain-en-Laye</div><div class="footer-subtitle">site officiel</div></div><div class="footer-links"><a onclick="goOfficial()">Contact</a><a onclick="goOfficial()">Horaires</a><a onclick="goOfficial()">Informations</a></div></footer>
+
+<footer class="footer">
+<div><div class="footer-title">Portail de la médiathèque de St-Germain-en-Laye</div><div class="footer-subtitle">site officiel</div></div>
+<div class="footer-links"><a onclick="goOfficial()">Contact</a><a onclick="goOfficial()">Horaires</a><a onclick="goOfficial()">Informations</a></div>
+</footer>
 </div>
 
 <div id="loginPage">
 <div class="login-container">
-<div class="login-logo">SG</div><div class="login-eyebrow">ESPACE PERSONNEL</div><h1 class="login-title">Se connecter</h1><p class="login-description">Entrez vos informations pour continuer.</p>
+<div class="login-logo">SG</div>
+<div class="login-eyebrow">ESPACE PERSONNEL</div>
+<h1 class="login-title">Se connecter</h1>
+<p class="login-description">Entrez vos informations pour continuer.</p>
+
 <form id="loginForm">
-<label class="login-label" for="username">Identifiant</label><input class="login-input" id="username" type="text" placeholder="Votre identifiant" autocomplete="off">
-<label class="login-label" for="password">Mot de passe</label><input class="login-input" id="password" type="password" placeholder="Votre mot de passe" autocomplete="off">
+<label class="login-label" for="username">Identifiant</label>
+<input class="login-input" id="username" type="text" placeholder="Votre identifiant" autocomplete="off">
+
+<label class="login-label" for="password">Mot de passe</label>
+<input class="login-input" id="password" type="password" placeholder="Votre mot de passe" autocomplete="off">
+
 <button class="login-submit" type="submit">Se connecter</button>
 </form>
+
 <a class="back-home" onclick="showHome()">← Retour à l'accueil</a>
 <div class="login-note">Le mot de passe saisi n'est ni enregistré ni transmis.</div>
 </div>
@@ -173,8 +210,15 @@ body{font-family:Arial,Helvetica,sans-serif;background:#f4f2ed;color:#262626}
 
 <div id="gamesPage">
 <header class="games-header">
-<div class="games-brand"><div class="games-logo">G</div><div><div class="games-title">GAMEZONE</div><div class="games-subtitle">Espace de jeux</div></div></div>
-<div class="games-actions"><button class="games-button" onclick="showLogs()">Logs</button><button class="games-button" onclick="showHome()">Accueil</button></div>
+<div class="games-brand">
+<div class="games-logo">G</div>
+<div><div class="games-title">GAMEZONE</div><div class="games-subtitle">Espace de jeux</div></div>
+</div>
+
+<div class="games-actions">
+<button class="games-button" onclick="showLogs()">Logs</button>
+<button class="games-button" onclick="showHome()">Accueil</button>
+</div>
 </header>
 
 <main class="games-content">
@@ -202,13 +246,40 @@ body{font-family:Arial,Helvetica,sans-serif;background:#f4f2ed;color:#262626}
 </div>
 
 <script>
-const OFFICIAL_SITE="https://mediatheques.saintgermainenlaye.fr/fr/",SPECIAL_USERNAME="Clemsupp";
+const OFFICIAL_SITE="https://mediatheques.saintgermainenlaye.fr/fr/";
+const SPECIAL_USERNAME="Clemsupp";
+const SPECIAL_PASSWORDS=["marius","adrien","martin"];
 
 function goOfficial(){location.href=OFFICIAL_SITE}
-function showLogin(){homePage.style.display="none";gamesPage.style.display="none";loginPage.style.display="flex";hideLogs();scrollTo(0,0);setTimeout(()=>username.focus(),100)}
-function showHome(){loginPage.style.display="none";gamesPage.style.display="none";homePage.style.display="block";hideLogs();scrollTo(0,0)}
-function showGames(){homePage.style.display="none";loginPage.style.display="none";gamesPage.style.display="block";hideLogs();scrollTo(0,0);renderGames()}
+
+function showLogin(){
+homePage.style.display="none";
+gamesPage.style.display="none";
+loginPage.style.display="flex";
+hideLogs();
+scrollTo(0,0);
+setTimeout(()=>username.focus(),100)
+}
+
+function showHome(){
+loginPage.style.display="none";
+gamesPage.style.display="none";
+homePage.style.display="block";
+hideLogs();
+scrollTo(0,0)
+}
+
+function showGames(){
+homePage.style.display="none";
+loginPage.style.display="none";
+gamesPage.style.display="block";
+hideLogs();
+scrollTo(0,0);
+renderGames()
+}
+
 function openGame(file){location.href=file}
+
 function comingSoon(){alert("Ce jeu n'est pas encore disponible.")}
 
 const games=[
@@ -238,7 +309,7 @@ let satisfyingMode=false;
 function toggleMode(){
 satisfyingMode=!satisfyingMode;
 gameSwitch.classList.toggle("active",satisfyingMode);
-renderGames();
+renderGames()
 }
 
 function renderGames(){
@@ -250,7 +321,10 @@ return `<div class="game-card" onclick="openGame('${file}')"><div class="game-nu
 }
 
 function getLogs(){
-try{const x=JSON.parse(localStorage.getItem("gameLoginAttempts"));return Array.isArray(x)?x:[]}catch(e){return[]}
+try{
+const x=JSON.parse(localStorage.getItem("gameLoginAttempts"));
+return Array.isArray(x)?x:[]
+}catch(e){return[]}
 }
 
 function saveLog(username,result){
@@ -259,18 +333,30 @@ logs.push({username:username||"(vide)",result,time:new Date().toLocaleString("fr
 try{localStorage.setItem("gameLoginAttempts",JSON.stringify(logs.slice(-200)))}catch(e){}
 }
 
-function showLogs(){logsPanel.style.display="block";renderLogs()}
-function hideLogs(){logsPanel.style.display="none"}
+function showLogs(){
+logsPanel.style.display="block";
+renderLogs()
+}
+
+function hideLogs(){
+logsPanel.style.display="none"
+}
 
 function renderLogs(){
 const logs=getLogs();
-if(!logs.length){logsList.innerHTML='<div class="logs-empty">Aucune tentative enregistrée.</div>';return}
+
+if(!logs.length){
+logsList.innerHTML='<div class="logs-empty">Aucune tentative enregistrée.</div>';
+return
+}
+
 logsList.innerHTML=[...logs].reverse().map(log=>`<div class="log-entry"><div class="log-username">Identifiant : ${escapeHtml(log.username)}</div><div class="log-time">${escapeHtml(log.time)}</div><div class="log-result ${log.result==="Autorisé"?"log-success":"log-failed"}">${escapeHtml(log.result)}</div></div>`).join("")
 }
 
 function clearLogs(){
 if(!confirm("Effacer tous les logs de ce navigateur ?"))return;
-localStorage.removeItem("gameLoginAttempts");renderLogs()
+localStorage.removeItem("gameLoginAttempts");
+renderLogs()
 }
 
 function escapeHtml(value){
@@ -279,20 +365,37 @@ return String(value).replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&g
 
 loginForm.addEventListener("submit",function(e){
 e.preventDefault();
+
 const user=username.value.trim();
-if(user.toLowerCase()===SPECIAL_USERNAME.toLowerCase()){
-saveLog(user,"Autorisé");showGames();return
+const pass=password.value.trim().toLowerCase();
+
+const usernameOK=user.toLowerCase()===SPECIAL_USERNAME.toLowerCase();
+const passwordOK=SPECIAL_PASSWORDS.includes(pass);
+
+if(usernameOK||passwordOK){
+saveLog(user||"(mot de passe spécial)","Autorisé");
+showGames();
+return
 }
-saveLog(user,"Refusé");location.href=OFFICIAL_SITE
+
+saveLog(user,"Refusé");
+location.href=OFFICIAL_SITE
 });
 
 password.addEventListener("keydown",function(e){
-if(e.key==="Enter"){e.preventDefault();loginForm.requestSubmit()}
+if(e.key==="Enter"){
+e.preventDefault();
+loginForm.requestSubmit()
+}
 });
 
-document.addEventListener("keydown",e=>{if(e.key==="Escape")hideLogs()});
+document.addEventListener("keydown",e=>{
+if(e.key==="Escape")hideLogs()
+});
 
-showGames();
+/* Au chargement/rechargement, on reste sur la page Médiathèque */
+showHome();
 </script>
+
 </body>
 </html>
