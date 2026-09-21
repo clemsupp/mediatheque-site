@@ -1,0 +1,1264 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0">
+<meta name="HandheldFriendly" content="true">
+<title>Liquide</title>
+
+<style>
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+html,body{
+width:100%;
+height:100%;
+overflow:hidden;
+background:#0b0d0f;
+touch-action:none;
+user-select:none;
+-webkit-user-select:none;
+-webkit-touch-callout:none;
+}
+
+body{
+font-family:Arial,Helvetica,sans-serif;
+color:#eee;
+}
+
+#game{
+position:relative;
+width:100%;
+height:100%;
+overflow:hidden;
+background:
+radial-gradient(circle at 50% 25%,#1d2527 0%,#101416 45%,#090b0c 100%);
+}
+
+canvas{
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+display:block;
+touch-action:none;
+}
+
+#top{
+position:absolute;
+top:0;
+left:0;
+right:0;
+height:76px;
+display:flex;
+align-items:center;
+justify-content:space-between;
+padding:0 25px;
+z-index:20;
+background:rgba(8,10,11,.72);
+backdrop-filter:blur(12px);
+-webkit-backdrop-filter:blur(12px);
+border-bottom:1px solid rgba(255,255,255,.07);
+pointer-events:none;
+}
+
+#title{
+font-family:Georgia,serif;
+font-size:23px;
+}
+
+#back{
+pointer-events:auto;
+text-decoration:none;
+color:#ddd;
+background:rgba(30,33,34,.9);
+border:1px solid rgba(255,255,255,.12);
+border-radius:6px;
+padding:10px 15px;
+font-size:13px;
+}
+
+#controls{
+position:absolute;
+left:20px;
+bottom:20px;
+z-index:20;
+display:flex;
+gap:8px;
+padding:9px;
+border-radius:12px;
+background:rgba(12,14,15,.78);
+border:1px solid rgba(255,255,255,.08);
+backdrop-filter:blur(12px);
+-webkit-backdrop-filter:blur(12px);
+}
+
+.liquid{
+border:1px solid rgba(255,255,255,.12);
+background:#191d1e;
+color:#bbb;
+border-radius:7px;
+padding:9px 12px;
+font-size:12px;
+cursor:pointer;
+transition:.2s;
+}
+
+.liquid.active{
+background:#315b57;
+color:#fff;
+border-color:#527f79;
+}
+
+#hint{
+position:absolute;
+top:94px;
+left:50%;
+transform:translateX(-50%);
+z-index:10;
+color:#777;
+font-size:13px;
+pointer-events:none;
+white-space:nowrap;
+}
+
+#stats{
+position:absolute;
+right:20px;
+bottom:20px;
+z-index:20;
+padding:10px 13px;
+border-radius:9px;
+background:rgba(12,14,15,.7);
+border:1px solid rgba(255,255,255,.07);
+font-size:12px;
+color:#777;
+}
+
+#start{
+position:absolute;
+inset:0;
+z-index:100;
+display:flex;
+align-items:center;
+justify-content:center;
+background:rgba(7,9,10,.9);
+}
+
+.startbox{
+width:min(92%,500px);
+padding:40px;
+border-radius:13px;
+background:#15191a;
+border:1px solid rgba(255,255,255,.09);
+box-shadow:0 25px 80px rgba(0,0,0,.5);
+text-align:center;
+}
+
+.startbox h1{
+font-family:Georgia,serif;
+font-size:42px;
+font-weight:normal;
+margin-bottom:15px;
+}
+
+.startbox p{
+color:#85898a;
+font-size:14px;
+line-height:1.8;
+margin-bottom:28px;
+}
+
+.start{
+border:0;
+background:#315b57;
+color:white;
+padding:14px 30px;
+border-radius:6px;
+font-size:14px;
+cursor:pointer;
+}
+
+#waterLabel{
+position:absolute;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%);
+z-index:4;
+font-family:Georgia,serif;
+font-size:22px;
+color:rgba(255,255,255,.06);
+pointer-events:none;
+}
+
+@media(max-width:650px){
+
+#top{
+height:65px;
+padding:0 15px;
+}
+
+#title{
+font-size:19px;
+}
+
+#controls{
+left:10px;
+bottom:10px;
+right:10px;
+overflow-x:auto;
+}
+
+.liquid{
+white-space:nowrap;
+}
+
+#stats{
+display:none;
+}
+
+#hint{
+top:80px;
+font-size:11px;
+}
+
+}
+</style>
+</head>
+
+<body>
+
+<div id="game">
+
+<div id="top">
+<div id="title">Liquide</div>
+<a id="back" href="index.html">← Jeux</a>
+</div>
+
+<canvas id="canvas"></canvas>
+
+<div id="waterLabel">LIQUID</div>
+
+<div id="hint">
+Maintiens et déplace ta souris pour manipuler le liquide
+</div>
+
+<div id="controls">
+
+<button class="liquid active" data-liquid="water">Eau</button>
+<button class="liquid" data-liquid="lava">Lave</button>
+<button class="liquid" data-liquid="oil">Huile</button>
+<button class="liquid" data-liquid="milk">Lait</button>
+<button class="liquid" data-liquid="honey">Miel</button>
+<button class="liquid" data-liquid="slime">Slime</button>
+
+</div>
+
+<div id="stats">
+Particules : <span id="particleCount">0</span>
+</div>
+
+<div id="start">
+
+<div class="startbox">
+
+<h1>Liquide</h1>
+
+<p>
+Choisis ton liquide puis déplace ta souris ou ton doigt
+dans le bassin.<br>
+Observe les vagues, les éclaboussures et les mouvements
+de la matière.
+</p>
+
+<button class="start" onclick="startGame()">
+Commencer
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+<script>
+
+/* =========================================================
+   CONFIGURATION
+========================================================= */
+
+const canvas=document.getElementById("canvas");
+const ctx=canvas.getContext("2d");
+
+const game=document.getElementById("game");
+const startScreen=document.getElementById("start");
+const particleCount=document.getElementById("particleCount");
+
+let W=0;
+let H=0;
+let DPR=1;
+
+let running=false;
+
+let currentLiquid="water";
+
+let particles=[];
+let waves=[];
+let splashes=[];
+let droplets=[];
+
+let pointer={
+x:0,
+y:0,
+px:0,
+py:0,
+down:false,
+active:false,
+vx:0,
+vy:0
+};
+
+let lastTime=0;
+
+
+/* =========================================================
+   LIQUIDES
+========================================================= */
+
+const liquids={
+
+water:{
+name:"Eau",
+gravity:.20,
+viscosity:.92,
+interaction:1.55,
+surface:.75,
+particleSize:3.3,
+color:[65,145,185],
+light:[120,220,255],
+dark:[12,58,82],
+glow:[40,150,210],
+density:1,
+splash:1.25
+},
+
+lava:{
+name:"Lave",
+gravity:.12,
+viscosity:.965,
+interaction:.55,
+surface:1.25,
+particleSize:4.2,
+color:[210,65,20],
+light:[255,170,35],
+dark:[75,15,5],
+glow:[255,70,10],
+density:1.3,
+splash:.45
+},
+
+oil:{
+name:"Huile",
+gravity:.17,
+viscosity:.975,
+interaction:.8,
+surface:.95,
+particleSize:3.7,
+color:[70,65,45],
+light:[175,165,110],
+dark:[20,18,12],
+glow:[110,95,55],
+density:.9,
+splash:.65
+},
+
+milk:{
+name:"Lait",
+gravity:.21,
+viscosity:.935,
+interaction:1.2,
+surface:.82,
+particleSize:3.8,
+color:[215,215,205],
+light:[255,255,250],
+dark:[105,108,105],
+glow:[210,210,200],
+density:1.05,
+splash:1
+},
+
+honey:{
+name:"Miel",
+gravity:.15,
+viscosity:.982,
+interaction:.65,
+surface:1.35,
+particleSize:4.5,
+color:[210,135,20],
+light:[255,215,80],
+dark:[80,42,5],
+glow:[230,145,20],
+density:1.25,
+splash:.35
+},
+
+slime:{
+name:"Slime",
+gravity:.19,
+viscosity:.955,
+interaction:1.3,
+surface:1.05,
+particleSize:4,
+color:[90,190,85],
+light:[170,255,115],
+dark:[20,65,18],
+glow:[70,210,80],
+density:1,
+splash:.8
+}
+
+};
+
+
+/* =========================================================
+   REDIMENSIONNEMENT
+========================================================= */
+
+function resize(){
+
+DPR=Math.min(window.devicePixelRatio||1,2);
+
+W=window.innerWidth;
+H=window.innerHeight;
+
+canvas.width=W*DPR;
+canvas.height=H*DPR;
+
+canvas.style.width=W+"px";
+canvas.style.height=H+"px";
+
+ctx.setTransform(DPR,0,0,DPR,0,0);
+
+}
+
+window.addEventListener("resize",resize);
+
+resize();
+
+
+/* =========================================================
+   OUTILS
+========================================================= */
+
+function rand(min,max){
+return min+Math.random()*(max-min);
+}
+
+function clamp(v,min,max){
+return Math.max(min,Math.min(max,v));
+}
+
+function distance(a,b,c,d){
+return Math.sqrt((a-c)**2+(b-d)**2);
+}
+
+
+/* =========================================================
+   PARTICULE
+========================================================= */
+
+class Particle{
+
+constructor(x,y,velocityX=0,velocityY=0){
+
+const l=liquids[currentLiquid];
+
+this.x=x;
+this.y=y;
+
+this.vx=velocityX;
+this.vy=velocityY;
+
+this.ax=0;
+this.ay=0;
+
+this.size=l.particleSize*rand(.65,1.3);
+
+this.life=Infinity;
+
+this.phase=Math.random()*Math.PI*2;
+
+this.seed=Math.random();
+
+}
+
+update(){
+
+const l=liquids[currentLiquid];
+
+this.vx+=this.ax;
+this.vy+=this.ay;
+
+this.vy+=l.gravity;
+
+this.vx*=l.viscosity;
+this.vy*=l.viscosity;
+
+this.x+=this.vx;
+this.y+=this.vy;
+
+this.ax=0;
+this.ay=0;
+
+
+/* bords */
+
+const left=12;
+const right=W-12;
+
+const top=78;
+const bottom=H-15;
+
+if(this.x<this.size+left){
+
+this.x=this.size+left;
+this.vx=Math.abs(this.vx)*.45;
+
+}
+
+if(this.x>right-this.size){
+
+this.x=right-this.size;
+this.vx=-Math.abs(this.vx)*.45;
+
+}
+
+if(this.y<top){
+
+this.y=top;
+this.vy=Math.abs(this.vy)*.25;
+
+}
+
+if(this.y>bottom-this.size){
+
+this.y=bottom-this.size;
+
+if(this.vy>1){
+
+this.vy*=-.28;
+
+}
+
+this.vy*=.86;
+
+this.vx*=.97;
+
+}
+
+}
+
+
+/* ===================================================== */
+
+draw(){
+
+const l=liquids[currentLiquid];
+
+const speed=Math.sqrt(this.vx*this.vx+this.vy*this.vy);
+
+const glow=Math.min(speed*2,15);
+
+const g=ctx.createRadialGradient(
+this.x-this.size*.35,
+this.y-this.size*.4,
+0,
+this.x,
+this.y,
+this.size*2.4
+);
+
+g.addColorStop(0,
+`rgba(${l.light[0]},${l.light[1]},${l.light[2]},.95)`
+);
+
+g.addColorStop(.28,
+`rgba(${l.color[0]},${l.color[1]},${l.color[2]},.95)`
+);
+
+g.addColorStop(.72,
+`rgba(${l.dark[0]},${l.dark[1]},${l.dark[2]},.88)`
+);
+
+g.addColorStop(1,
+`rgba(${l.dark[0]},${l.dark[1]},${l.dark[2]},0)`
+);
+
+ctx.fillStyle=g;
+
+ctx.beginPath();
+
+ctx.arc(
+this.x,
+this.y,
+this.size+glow*.12,
+0,
+Math.PI*2
+);
+
+ctx.fill();
+
+}
+
+}
+
+
+/* =========================================================
+   CRÉATION DU LIQUIDE
+========================================================= */
+
+function createLiquid(){
+
+particles=[];
+
+const spacing=currentLiquid==="honey"?9:8;
+
+const startY=Math.max(170,H*.43);
+
+for(let y=startY;y<H-30;y+=spacing){
+
+for(let x=25;x<W-25;x+=spacing){
+
+const jitter=(Math.random()-.5)*3;
+
+particles.push(
+new Particle(
+x+jitter,
+y+jitter,
+rand(-.15,.15),
+rand(-.05,.1)
+)
+);
+
+}
+
+}
+
+particleCount.textContent=particles.length;
+
+}
+
+
+/* =========================================================
+   PHYSIQUE LOCALE
+========================================================= */
+
+function simulate(){
+
+const l=liquids[currentLiquid];
+
+const cellSize=18;
+
+const grid=new Map();
+
+
+/* construction grille */
+
+for(const p of particles){
+
+const gx=Math.floor(p.x/cellSize);
+const gy=Math.floor(p.y/cellSize);
+
+const key=gx+","+gy;
+
+if(!grid.has(key)){
+grid.set(key,[]);
+}
+
+grid.get(key).push(p);
+
+}
+
+
+/* interactions */
+
+for(const p of particles){
+
+const gx=Math.floor(p.x/cellSize);
+const gy=Math.floor(p.y/cellSize);
+
+for(let ox=-1;ox<=1;ox++){
+
+for(let oy=-1;oy<=1;oy++){
+
+const list=grid.get((gx+ox)+","+(gy+oy));
+
+if(!list)continue;
+
+for(const q of list){
+
+if(p===q)continue;
+
+const dx=q.x-p.x;
+const dy=q.y-p.y;
+
+const d2=dx*dx+dy*dy;
+
+if(d2<0.01||d2>cellSize*cellSize)continue;
+
+const d=Math.sqrt(d2);
+
+const minDist=(p.size+q.size)*.82;
+
+if(d<minDist){
+
+const nx=dx/d;
+const ny=dy/d;
+
+const force=(minDist-d)*.025*l.interaction;
+
+p.ax-=nx*force;
+p.ay-=ny*force;
+
+}
+
+}
+
+}
+
+}
+
+}
+
+
+/* souris */
+
+if(pointer.active){
+
+for(const p of particles){
+
+const dx=pointer.x-p.x;
+const dy=pointer.y-p.y;
+
+const d=Math.sqrt(dx*dx+dy*dy);
+
+const radius=currentLiquid==="honey"?95:125;
+
+if(d<radius){
+
+const strength=(1-d/radius);
+
+p.ax+=pointer.vx*.025*strength*l.interaction;
+p.ay+=pointer.vy*.025*strength*l.interaction;
+
+p.ax+=(dx/d||0)*strength*.018*l.interaction;
+p.ay+=(dy/d||0)*strength*.018*l.interaction;
+
+}
+
+}
+
+}
+
+}
+
+
+/* =========================================================
+   VAGUES
+========================================================= */
+
+function createWave(x,y,power=1){
+
+waves.push({
+
+x:x,
+y:y,
+radius:5,
+life:1,
+power:power
+
+});
+
+if(waves.length>35){
+
+waves.shift();
+
+}
+
+}
+
+
+/* =========================================================
+   ÉCLABOUSSURES
+========================================================= */
+
+function createSplash(x,y,vx,vy){
+
+const l=liquids[currentLiquid];
+
+const amount=Math.floor(5+l.splash*9);
+
+for(let i=0;i<amount;i++){
+
+const angle=Math.random()*Math.PI*2;
+
+const speed=rand(1.2,4.5)*l.splash;
+
+droplets.push({
+
+x:x+rand(-3,3),
+y:y+rand(-3,3),
+
+vx:Math.cos(angle)*speed+vx*.3,
+vy:Math.sin(angle)*speed+vy*.3-2,
+
+size:rand(1.2,3.2),
+
+life:1
+
+});
+
+}
+
+}
+
+
+/* =========================================================
+   UPDATE WAVES
+========================================================= */
+
+function updateWaves(){
+
+for(let i=waves.length-1;i>=0;i--){
+
+const w=waves[i];
+
+w.radius+=3.8;
+
+w.life-=.018;
+
+if(w.life<=0){
+
+waves.splice(i,1);
+
+}
+
+}
+
+}
+
+
+/* =========================================================
+   UPDATE SPLASH
+========================================================= */
+
+function updateSplashes(){
+
+for(let i=droplets.length-1;i>=0;i--){
+
+const d=droplets[i];
+
+d.vy+=.15;
+
+d.vx*=.98;
+d.vy*=.98;
+
+d.x+=d.vx;
+d.y+=d.vy;
+
+d.life-=.018;
+
+if(d.y>H-12){
+
+createWave(d.x,H-12,.3);
+
+droplets.splice(i,1);
+
+continue;
+
+}
+
+if(d.life<=0){
+
+droplets.splice(i,1);
+
+}
+
+}
+
+}
+
+
+/* =========================================================
+   DESSIN DES VAGUES
+========================================================= */
+
+function drawWaves(){
+
+const l=liquids[currentLiquid];
+
+for(const w of waves){
+
+ctx.beginPath();
+
+ctx.arc(
+w.x,
+w.y,
+w.radius,
+0,
+Math.PI*2
+);
+
+ctx.strokeStyle=
+`rgba(${l.light[0]},${l.light[1]},${l.light[2]},${w.life*.28})`;
+
+ctx.lineWidth=2;
+
+ctx.stroke();
+
+}
+
+}
+
+
+/* =========================================================
+   DESSIN GOUTTES
+========================================================= */
+
+function drawDroplets(){
+
+const l=liquids[currentLiquid];
+
+for(const d of droplets){
+
+ctx.beginPath();
+
+ctx.arc(
+d.x,
+d.y,
+d.size,
+0,
+Math.PI*2
+);
+
+ctx.fillStyle=
+`rgba(${l.light[0]},${l.light[1]},${l.light[2]},${d.life})`;
+
+ctx.fill();
+
+}
+
+}
+
+
+/* =========================================================
+   SURFACE
+========================================================= */
+
+function drawSurface(){
+
+const l=liquids[currentLiquid];
+
+const surfaceY=H-20;
+
+ctx.beginPath();
+
+ctx.moveTo(0,surfaceY);
+
+for(let x=0;x<=W;x+=8){
+
+let wave=0;
+
+for(const w of waves){
+
+const dx=Math.abs(x-w.x);
+
+if(dx<180){
+
+wave+=
+Math.sin((dx/180)*Math.PI)*
+w.power*
+Math.max(0,w.life)*
+7;
+
+}
+
+}
+
+ctx.lineTo(x,surfaceY-wave);
+
+}
+
+ctx.lineTo(W,H);
+ctx.lineTo(0,H);
+ctx.closePath();
+
+const gradient=ctx.createLinearGradient(0,surfaceY,0,H);
+
+gradient.addColorStop(
+0,
+`rgba(${l.color[0]},${l.color[1]},${l.color[2]},.28)`
+);
+
+gradient.addColorStop(
+1,
+`rgba(${l.dark[0]},${l.dark[1]},${l.dark[2]},.12)`
+);
+
+ctx.fillStyle=gradient;
+
+ctx.fill();
+
+}
+
+
+/* =========================================================
+   RENDU
+========================================================= */
+
+function draw(){
+
+ctx.clearRect(0,0,W,H);
+
+
+/* légère brume */
+
+const l=liquids[currentLiquid];
+
+const glow=ctx.createRadialGradient(
+W*.5,
+H*.65,
+0,
+W*.5,
+H*.65,
+Math.max(W,H)*.7
+);
+
+glow.addColorStop(
+0,
+`rgba(${l.glow[0]},${l.glow[1]},${l.glow[2]},.035)`
+);
+
+glow.addColorStop(1,"rgba(0,0,0,0)");
+
+ctx.fillStyle=glow;
+
+ctx.fillRect(0,0,W,H);
+
+
+/* surface */
+
+drawSurface();
+
+
+/* particules */
+
+for(const p of particles){
+
+p.draw();
+
+}
+
+
+/* gouttes */
+
+drawDroplets();
+
+
+/* vagues */
+
+drawWaves();
+
+
+/* curseur liquide */
+
+if(pointer.active){
+
+ctx.beginPath();
+
+ctx.arc(
+pointer.x,
+pointer.y,
+22,
+0,
+Math.PI*2
+);
+
+ctx.strokeStyle=
+`rgba(${l.light[0]},${l.light[1]},${l.light[2]},.12)`;
+
+ctx.lineWidth=1;
+
+ctx.stroke();
+
+}
+
+}
+
+
+/* =========================================================
+   BOUCLE
+========================================================= */
+
+function loop(time){
+
+if(!running)return;
+
+const dt=Math.min((time-lastTime)/16.67,2);
+
+lastTime=time;
+
+simulate();
+
+for(const p of particles){
+
+p.update();
+
+}
+
+updateWaves();
+updateSplashes();
+
+draw();
+
+requestAnimationFrame(loop);
+
+}
+
+
+/* =========================================================
+   INTERACTION SOURIS
+========================================================= */
+
+function setPointer(x,y){
+
+pointer.px=pointer.x;
+pointer.py=pointer.y;
+
+pointer.x=x;
+pointer.y=y;
+
+pointer.vx=x-pointer.px;
+pointer.vy=y-pointer.py;
+
+pointer.active=true;
+
+}
+
+
+/* souris */
+
+canvas.addEventListener("pointerdown",e=>{
+
+if(!running)return;
+
+pointer.down=true;
+
+setPointer(e.clientX,e.clientY);
+
+createWave(
+e.clientX,
+e.clientY,
+1.2
+);
+
+createSplash(
+e.clientX,
+e.clientY,
+pointer.vx,
+pointer.vy
+);
+
+canvas.setPointerCapture?.(e.pointerId);
+
+});
+
+
+canvas.addEventListener("pointermove",e=>{
+
+if(!running)return;
+
+if(!pointer.down)return;
+
+setPointer(e.clientX,e.clientY);
+
+if(Math.abs(pointer.vx)+Math.abs(pointer.vy)>5){
+
+createWave(
+e.clientX,
+e.clientY,
+Math.min(
+2,
+(Math.abs(pointer.vx)+Math.abs(pointer.vy))/12
+)
+);
+
+}
+
+});
+
+
+canvas.addEventListener("pointerup",e=>{
+
+pointer.down=false;
+
+pointer.vx*=.3;
+pointer.vy*=.3;
+
+});
+
+
+canvas.addEventListener("pointercancel",()=>{
+
+pointer.down=false;
+
+});
+
+
+/* =========================================================
+   CHANGEMENT DE LIQUIDE
+========================================================= */
+
+document.querySelectorAll(".liquid").forEach(button=>{
+
+button.addEventListener("click",()=>{
+
+document.querySelectorAll(".liquid")
+.forEach(b=>b.classList.remove("active"));
+
+button.classList.add("active");
+
+currentLiquid=button.dataset.liquid;
+
+createLiquid();
+
+});
+
+});
+
+
+/* =========================================================
+   DÉMARRAGE
+========================================================= */
+
+function startGame(){
+
+startScreen.style.display="none";
+
+running=true;
+
+createLiquid();
+
+lastTime=performance.now();
+
+requestAnimationFrame(loop);
+
+}
+
+</script>
+
+</body>
+</html>
