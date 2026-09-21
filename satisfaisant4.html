@@ -4,9 +4,11 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0">
 <meta name="HandheldFriendly" content="true">
+
 <title>Liquide</title>
 
 <style>
+
 *{
 box-sizing:border-box;
 margin:0;
@@ -53,15 +55,22 @@ top:0;
 left:0;
 right:0;
 height:72px;
+
 display:flex;
 align-items:center;
 justify-content:space-between;
+
 padding:0 24px;
+
 z-index:20;
+
 background:rgba(8,10,11,.75);
+
 border-bottom:1px solid rgba(255,255,255,.07);
+
 backdrop-filter:blur(8px);
 -webkit-backdrop-filter:blur(8px);
+
 pointer-events:none;
 }
 
@@ -72,145 +81,283 @@ font-size:23px;
 
 #back{
 pointer-events:auto;
+
 text-decoration:none;
+
 color:#ddd;
+
 background:#191c1d;
+
 border:1px solid rgba(255,255,255,.12);
+
 border-radius:6px;
+
 padding:9px 14px;
+
 font-size:13px;
 }
 
 #hint{
 position:absolute;
+
 top:89px;
+
 left:50%;
+
 transform:translateX(-50%);
+
 z-index:10;
+
 font-size:12px;
+
 color:#666;
+
 white-space:nowrap;
+
 pointer-events:none;
 }
+
+
+/* =====================================================
+   PANNEAU
+===================================================== */
 
 #controls{
 position:absolute;
+
 bottom:17px;
 left:17px;
+
 z-index:30;
+
 display:flex;
 gap:6px;
+
 padding:7px;
-background:rgba(10,12,13,.8);
+
+background:rgba(10,12,13,.84);
+
 border:1px solid rgba(255,255,255,.08);
+
 border-radius:10px;
+
+max-width:calc(100% - 34px);
+
+overflow-x:auto;
 }
 
-.liquid{
+.liquid,
+.tool{
+
 border:1px solid rgba(255,255,255,.1);
+
 background:#181b1c;
+
 color:#999;
+
 border-radius:6px;
+
 padding:8px 11px;
+
 font-size:12px;
+
 cursor:pointer;
+
+white-space:nowrap;
+
+transition:.15s;
 }
 
-.liquid.active{
+.liquid.active,
+.tool.active{
+
 background:#315b57;
+
 color:#fff;
+
 border-color:#4d7772;
+
 }
+
+.separator{
+
+width:1px;
+
+background:rgba(255,255,255,.1);
+
+margin:0 3px;
+}
+
+
+/* =====================================================
+   FPS
+===================================================== */
 
 #fps{
+
 position:absolute;
+
 right:17px;
+
 bottom:17px;
+
 z-index:30;
+
 font-size:11px;
+
 color:#555;
+
 background:rgba(10,12,13,.7);
+
 padding:8px 10px;
+
 border-radius:7px;
+
 pointer-events:none;
 }
 
+
+/* =====================================================
+   START
+===================================================== */
+
 #start{
+
 position:absolute;
+
 inset:0;
+
 z-index:100;
+
 display:flex;
+
 align-items:center;
+
 justify-content:center;
+
 background:rgba(7,9,10,.91);
 }
 
 .box{
+
 width:min(92%,480px);
+
 padding:38px;
+
 background:#15191a;
+
 border:1px solid rgba(255,255,255,.08);
+
 border-radius:12px;
+
 text-align:center;
+
 box-shadow:0 25px 70px rgba(0,0,0,.5);
 }
 
 .box h1{
+
 font-family:Georgia,serif;
+
 font-size:42px;
+
 font-weight:normal;
+
 margin-bottom:15px;
 }
 
 .box p{
+
 color:#818687;
+
 font-size:14px;
+
 line-height:1.8;
+
 margin-bottom:26px;
 }
 
 .start{
+
 border:0;
+
 background:#315b57;
+
 color:#fff;
+
 padding:14px 30px;
+
 border-radius:6px;
+
 font-size:14px;
+
 cursor:pointer;
 }
+
+
+/* =====================================================
+   OBSTACLES
+===================================================== */
+
+.obstacle{
+
+position:absolute;
+
+background:#45494a;
+
+border:1px solid #737777;
+
+border-radius:3px;
+
+box-shadow:
+0 3px 10px rgba(0,0,0,.4),
+inset 0 1px rgba(255,255,255,.12);
+
+pointer-events:none;
+}
+
+
+/* =====================================================
+   MOBILE
+===================================================== */
 
 @media(max-width:650px){
 
 #top{
+
 height:64px;
+
 padding:0 15px;
 }
 
 #title{
+
 font-size:19px;
 }
 
 #hint{
+
 top:78px;
+
 font-size:11px;
 }
 
 #controls{
+
 left:8px;
 right:8px;
 bottom:8px;
-overflow-x:auto;
-}
 
-.liquid{
-white-space:nowrap;
+max-width:none;
 }
 
 #fps{
+
 display:none;
 }
 
 }
+
 </style>
 </head>
 
@@ -219,38 +366,86 @@ display:none;
 <div id="game">
 
 <div id="top">
-<div id="title">Liquide</div>
-<a id="back" href="index.html">← Jeux</a>
+
+<div id="title">
+Liquide
 </div>
+
+<a id="back" href="index.html">
+← Jeux
+</a>
+
+</div>
+
 
 <canvas id="canvas"></canvas>
 
+
 <div id="hint">
-Maintiens et glisse pour déplacer le liquide
+Maintiens et glisse pour manipuler le liquide
 </div>
+
 
 <div id="controls">
 
-<button class="liquid active" data-liquid="water">Eau</button>
-<button class="liquid" data-liquid="lava">Lave</button>
-<button class="liquid" data-liquid="oil">Huile</button>
-<button class="liquid" data-liquid="milk">Lait</button>
-<button class="liquid" data-liquid="honey">Miel</button>
-<button class="liquid" data-liquid="slime">Slime</button>
+<button class="liquid active" data-liquid="water">
+Eau
+</button>
+
+<button class="liquid" data-liquid="lava">
+Lave
+</button>
+
+<button class="liquid" data-liquid="oil">
+Huile
+</button>
+
+<button class="liquid" data-liquid="milk">
+Lait
+</button>
+
+<button class="liquid" data-liquid="honey">
+Miel
+</button>
+
+<button class="liquid" data-liquid="slime">
+Slime
+</button>
+
+<div class="separator"></div>
+
+<button class="tool active" data-tool="hand">
+✋ Main
+</button>
+
+<button class="tool" data-tool="pencil">
+✏️ Crayon
+</button>
+
+<button class="tool" data-tool="eraser">
+🧽 Gomme
+</button>
 
 </div>
 
-<div id="fps">FPS : <span id="fpsValue">0</span></div>
+
+<div id="fps">
+FPS : <span id="fpsValue">0</span>
+</div>
+
 
 <div id="start">
 
 <div class="box">
 
-<h1>Liquide</h1>
+<h1>
+Liquide
+</h1>
 
 <p>
-Choisis un liquide puis maintiens et fais glisser
-ta souris ou ton doigt pour le manipuler.
+Choisis ton liquide puis manipule-le avec ta souris.
+Avec le crayon, dessine des obstacles.
+Avec la gomme, tu peux les supprimer.
 </p>
 
 <button class="start" onclick="startGame()">
@@ -263,14 +458,19 @@ Commencer
 
 </div>
 
+
 <script>
+
 
 /* =========================================================
    CANVAS
 ========================================================= */
 
 const canvas=document.getElementById("canvas");
-const ctx=canvas.getContext("2d",{alpha:false});
+
+const ctx=canvas.getContext("2d",{
+alpha:false
+});
 
 let W=0;
 let H=0;
@@ -286,7 +486,8 @@ canvas.height=H;
 }
 
 resize();
-addEventListener("resize",resize);
+
+window.addEventListener("resize",resize);
 
 
 /* =========================================================
@@ -367,17 +568,31 @@ let current="water";
 
 
 /* =========================================================
-   PARTICULES
+   OUTILS
 ========================================================= */
 
-/*
-   Beaucoup moins de particules que l'ancienne version.
-   Le rendu reste dense grâce à leur taille.
-*/
-
-const MAX_PARTICLES=1450;
+let currentTool="hand";
 
 let particles=[];
+
+let obstacles=[];
+
+let waves=[];
+
+let droplets=[];
+
+
+/*
+   On augmente le nombre de particules
+   puisque tu as 60 FPS.
+*/
+
+const MAX_PARTICLES=2300;
+
+
+/* =========================================================
+   CRÉATION DES PARTICULES
+========================================================= */
 
 function createParticles(){
 
@@ -385,26 +600,42 @@ particles.length=0;
 
 const l=liquids[current];
 
-const spacing=Math.max(
-7,
-Math.sqrt((W*(H*.42))/MAX_PARTICLES)
-);
+/*
+   Le liquide commence plus haut qu'avant.
+   Il reste donc bien visible et manipulable.
+*/
 
-const startY=Math.max(155,H*.45);
-const bottom=H-25;
+const startY=Math.max(145,H*.34);
+
+const bottom=H-145;
+
+
+/*
+   Espacement légèrement plus petit
+   pour avoir beaucoup plus de liquide.
+*/
+
+const spacing=Math.max(
+6,
+Math.sqrt((W*(bottom-startY))/MAX_PARTICLES)
+);
 
 for(let y=startY;y<bottom;y+=spacing){
 
 for(let x=18;x<W-18;x+=spacing){
 
-if(particles.length>=MAX_PARTICLES)break;
+if(particles.length>=MAX_PARTICLES){
+break;
+}
 
 particles.push({
 
 x:x+(Math.random()-.5)*2,
+
 y:y+(Math.random()-.5)*2,
 
 vx:(Math.random()-.5)*.15,
+
 vy:(Math.random()-.5)*.1,
 
 size:l.size*(.75+Math.random()*.45)
@@ -413,7 +644,9 @@ size:l.size*(.75+Math.random()*.45)
 
 }
 
-if(particles.length>=MAX_PARTICLES)break;
+if(particles.length>=MAX_PARTICLES){
+break;
+}
 
 }
 
@@ -421,17 +654,22 @@ if(particles.length>=MAX_PARTICLES)break;
 
 
 /* =========================================================
-   SOURIS
+   POINTER
 ========================================================= */
 
 const pointer={
+
 x:0,
 y:0,
+
 px:0,
 py:0,
+
 vx:0,
 vy:0,
+
 down:false
+
 };
 
 function pointerMove(x,y){
@@ -449,6 +687,244 @@ pointer.vy=y-pointer.py;
 
 
 /* =========================================================
+   OBSTACLES
+========================================================= */
+
+/*
+   Un obstacle est une ligne composée
+   de plusieurs petits segments.
+
+   Cela permet d'avoir des formes libres.
+*/
+
+let drawingObstacle=null;
+
+function startObstacle(x,y){
+
+drawingObstacle={
+points:[
+{x:x,y:y}
+]
+};
+
+}
+
+function addObstaclePoint(x,y){
+
+if(!drawingObstacle){
+return;
+}
+
+const points=drawingObstacle.points;
+
+const last=points[points.length-1];
+
+const d=Math.hypot(
+x-last.x,
+y-last.y
+);
+
+if(d>7){
+
+points.push({
+x:x,
+y:y
+});
+
+}
+
+}
+
+function finishObstacle(){
+
+if(!drawingObstacle){
+return;
+}
+
+if(drawingObstacle.points.length>=2){
+
+obstacles.push({
+
+points:drawingObstacle.points,
+
+width:12
+
+});
+
+}
+
+drawingObstacle=null;
+
+}
+
+
+/* =========================================================
+   GOMME
+========================================================= */
+
+function eraseObstacle(x,y){
+
+const radius=25;
+
+for(let i=obstacles.length-1;i>=0;i--){
+
+const obstacle=obstacles[i];
+
+let erase=false;
+
+for(const p of obstacle.points){
+
+if(Math.hypot(
+p.x-x,
+p.y-y
+)<radius){
+
+erase=true;
+break;
+
+}
+
+}
+
+if(erase){
+
+obstacles.splice(i,1);
+
+}
+
+}
+
+}
+
+
+/* =========================================================
+   DISTANCE POINT / SEGMENT
+========================================================= */
+
+function pointSegmentDistance(
+px,
+py,
+ax,
+ay,
+bx,
+by
+){
+
+const dx=bx-ax;
+const dy=by-ay;
+
+const length2=dx*dx+dy*dy;
+
+if(length2===0){
+
+return Math.hypot(
+px-ax,
+py-ay
+);
+
+}
+
+let t=(
+(px-ax)*dx+
+(py-ay)*dy
+)/length2;
+
+t=Math.max(
+0,
+Math.min(1,t)
+);
+
+const x=ax+t*dx;
+const y=ay+t*dy;
+
+return Math.hypot(
+px-x,
+py-y
+);
+
+}
+
+
+/* =========================================================
+   COLLISION OBSTACLES
+========================================================= */
+
+function collideObstacles(p){
+
+for(const obstacle of obstacles){
+
+const pts=obstacle.points;
+
+for(let i=0;i<pts.length-1;i++){
+
+const a=pts[i];
+const b=pts[i+1];
+
+const d=pointSegmentDistance(
+p.x,
+p.y,
+a.x,
+a.y,
+b.x,
+b.y
+);
+
+const radius=p.size+obstacle.width*.5;
+
+if(d<radius){
+
+/*
+   trouver la normale approximative
+*/
+
+const dx=b.x-a.x;
+const dy=b.y-a.y;
+
+const length=Math.hypot(dx,dy)||1;
+
+const nx=-dy/length;
+const ny=dx/length;
+
+
+/*
+   empêcher la particule
+   de traverser l'obstacle
+*/
+
+const penetration=radius-d;
+
+p.x+=nx*penetration;
+p.y+=ny*penetration;
+
+
+/*
+   réflexion de vitesse
+*/
+
+const dot=
+p.vx*nx+
+p.vy*ny;
+
+if(dot<0){
+
+p.vx-=2*dot*nx;
+p.vy-=2*dot*ny;
+
+p.vx*=.55;
+p.vy*=.55;
+
+}
+
+}
+
+}
+
+}
+
+}
+
+
+/* =========================================================
    INTERACTION
 ========================================================= */
 
@@ -456,12 +932,18 @@ function interact(){
 
 if(!pointer.down)return;
 
+if(currentTool!=="hand"){
+return;
+}
+
 const l=liquids[current];
 
 const radius=125;
+
 const radius2=radius*radius;
 
 const forceX=pointer.vx*l.push;
+
 const forceY=pointer.vy*l.push;
 
 for(let i=0;i<particles.length;i++){
@@ -469,21 +951,40 @@ for(let i=0;i<particles.length;i++){
 const p=particles[i];
 
 const dx=p.x-pointer.x;
+
 const dy=p.y-pointer.y;
 
 const d2=dx*dx+dy*dy;
 
 if(d2<radius2){
 
-const factor=1-Math.sqrt(d2)/radius;
+const factor=
+1-Math.sqrt(d2)/radius;
 
-p.vx+=forceX*factor*.11;
-p.vy+=forceY*factor*.11;
+p.vx+=
+forceX*
+factor*
+.11;
 
-/* aspiration légère autour du doigt */
+p.vy+=
+forceY*
+factor*
+.11;
 
-p.vx-=dx*factor*.002;
-p.vy-=dy*factor*.002;
+
+/*
+   aspiration légère
+*/
+
+p.vx-=
+dx*
+factor*
+.002;
+
+p.vy-=
+dy*
+factor*
+.002;
 
 }
 
@@ -500,12 +1001,6 @@ function update(){
 
 const l=liquids[current];
 
-/*
-   Limitation de la physique :
-   on ne fait pas de comparaison entre toutes
-   les particules.
-*/
-
 for(let i=0;i<particles.length;i++){
 
 const p=particles[i];
@@ -519,18 +1014,20 @@ p.vy+=l.gravity;
 /* viscosité */
 
 p.vx*=l.friction;
+
 p.vy*=l.friction;
 
 
-/* vitesse */
+/* mouvement */
 
 p.x+=p.vx;
+
 p.y+=p.vy;
 
 
 /* sol */
 
-const bottom=H-17;
+const bottom=H-135;
 
 if(p.y>bottom){
 
@@ -549,11 +1046,12 @@ p.vx*=.94;
 
 /* plafond */
 
-if(p.y<75){
+if(p.y<78){
 
-p.y=75;
+p.y=78;
 
-p.vy=Math.abs(p.vy)*.2;
+p.vy=
+Math.abs(p.vy)*.2;
 
 }
 
@@ -563,16 +1061,25 @@ p.vy=Math.abs(p.vy)*.2;
 if(p.x<p.size){
 
 p.x=p.size;
-p.vx=Math.abs(p.vx)*.3;
+
+p.vx=
+Math.abs(p.vx)*.3;
 
 }
 
 else if(p.x>W-p.size){
 
 p.x=W-p.size;
-p.vx=-Math.abs(p.vx)*.3;
+
+p.vx=
+-Math.abs(p.vx)*.3;
 
 }
+
+
+/* collisions */
+
+collideObstacles(p);
 
 }
 
@@ -580,13 +1087,8 @@ p.vx=-Math.abs(p.vx)*.3;
 
 
 /* =========================================================
-   RÉALISME : ATTRACTION LOCALE
+   COHÉSION
 ========================================================= */
-
-/*
-   On ne calcule cette partie qu'une frame sur deux.
-   Cela économise énormément de puissance.
-*/
 
 let physicsFrame=0;
 
@@ -594,16 +1096,14 @@ function liquidCohesion(){
 
 physicsFrame++;
 
-if(physicsFrame%2!==0)return;
+if(physicsFrame%2!==0){
+return;
+}
 
-const l=liquids[current];
+const distanceMax=11;
 
-const distanceMax=12;
-const distanceMax2=distanceMax*distanceMax;
-
-/*
-   Seulement quelques voisins proches.
-*/
+const distanceMax2=
+distanceMax*distanceMax;
 
 for(let i=0;i<particles.length;i++){
 
@@ -615,23 +1115,33 @@ const q=particles[j];
 
 const dx=q.x-p.x;
 
-if(Math.abs(dx)>distanceMax)continue;
+if(Math.abs(dx)>distanceMax){
+continue;
+}
 
 const dy=q.y-p.y;
 
-if(Math.abs(dy)>distanceMax)continue;
+if(Math.abs(dy)>distanceMax){
+continue;
+}
 
 const d2=dx*dx+dy*dy;
 
-if(d2>distanceMax2||d2<.1)continue;
+if(
+d2>distanceMax2||
+d2<.1
+){
+continue;
+}
 
 const d=Math.sqrt(d2);
 
-const target=7.5;
+const target=7;
 
 if(d<target){
 
-const force=(target-d)*.012;
+const force=
+(target-d)*.01;
 
 const nx=dx/d;
 const ny=dy/d;
@@ -655,16 +1165,17 @@ q.vy+=ny*force;
    VAGUES
 ========================================================= */
 
-let waves=[];
-
 function addWave(x,y,power){
 
 waves.push({
 
 x:x,
 y:y,
+
 r:3,
+
 life:1,
+
 power:power
 
 });
@@ -684,6 +1195,7 @@ for(let i=waves.length-1;i>=0;i--){
 const w=waves[i];
 
 w.r+=4*w.power;
+
 w.life-=.025;
 
 if(w.life<=0){
@@ -698,31 +1210,47 @@ waves.splice(i,1);
 
 
 /* =========================================================
-   GOUTTES
+   ÉCLABOUSSURES
 ========================================================= */
-
-let droplets=[];
 
 function splash(x,y,vx,vy){
 
 const l=liquids[current];
 
-const amount=current==="honey"?4:8;
+const amount=
+current==="honey"
+?4
+:8;
 
 for(let i=0;i<amount;i++){
 
-const a=Math.random()*Math.PI*2;
-const speed=(1+Math.random()*3)*l.push;
+const a=
+Math.random()*
+Math.PI*2;
+
+const speed=
+(1+Math.random()*3)*
+l.push;
 
 droplets.push({
 
 x:x,
 y:y,
 
-vx:Math.cos(a)*speed+vx*.3,
-vy:Math.sin(a)*speed+vy*.3-2,
+vx:
+Math.cos(a)*
+speed+
+vx*.3,
 
-size:1+Math.random()*2,
+vy:
+Math.sin(a)*
+speed+
+vy*.3-
+2,
+
+size:
+1+
+Math.random()*2,
 
 life:1
 
@@ -748,7 +1276,10 @@ d.y+=d.vy;
 
 d.life-=.025;
 
-if(d.life<=0||d.y>H){
+if(
+d.life<=0||
+d.y>H
+){
 
 droplets.splice(i,1);
 
@@ -760,7 +1291,7 @@ droplets.splice(i,1);
 
 
 /* =========================================================
-   RENDU PARTICULES
+   DESSIN PARTICULES
 ========================================================= */
 
 function drawParticles(){
@@ -768,9 +1299,8 @@ function drawParticles(){
 const l=liquids[current];
 
 /*
-   Pas de gradient individuel :
-   les gradients par particule étaient une grosse
-   source de ralentissement.
+   rendu très léger :
+   un seul chemin canvas.
 */
 
 ctx.fillStyle=l.color;
@@ -783,7 +1313,10 @@ for(let i=0;i<particles.length;i++){
 
 const p=particles[i];
 
-ctx.moveTo(p.x+p.size,p.y);
+ctx.moveTo(
+p.x+p.size,
+p.y
+);
 
 ctx.arc(
 p.x,
@@ -800,21 +1333,24 @@ ctx.fill();
 ctx.globalAlpha=1;
 
 
-/* petite lumière uniquement sur une fraction */
+/*
+   reflets sur une partie seulement
+*/
 
 ctx.fillStyle=l.light;
-ctx.globalAlpha=.25;
+
+ctx.globalAlpha=.22;
 
 ctx.beginPath();
 
-for(let i=0;i<particles.length;i+=4){
+for(let i=0;i<particles.length;i+=5){
 
 const p=particles[i];
 
 ctx.arc(
 p.x-p.size*.3,
 p.y-p.size*.3,
-p.size*.32,
+p.size*.3,
 0,
 Math.PI*2
 );
@@ -829,7 +1365,7 @@ ctx.globalAlpha=1;
 
 
 /* =========================================================
-   DESSIN GOUTTES
+   GOUTTES
 ========================================================= */
 
 function drawDroplets(){
@@ -864,16 +1400,110 @@ ctx.globalAlpha=1;
 
 
 /* =========================================================
-   DESSIN VAGUES
+   OBSTACLES
+========================================================= */
+
+function drawObstacles(){
+
+/*
+   obstacles déjà enregistrés
+*/
+
+ctx.lineCap="round";
+ctx.lineJoin="round";
+
+for(const obstacle of obstacles){
+
+const pts=obstacle.points;
+
+if(pts.length<2){
+continue;
+}
+
+ctx.beginPath();
+
+ctx.moveTo(
+pts[0].x,
+pts[0].y
+);
+
+for(let i=1;i<pts.length;i++){
+
+ctx.lineTo(
+pts[i].x,
+pts[i].y
+);
+
+}
+
+ctx.strokeStyle="#464b4c";
+
+ctx.lineWidth=obstacle.width;
+
+ctx.stroke();
+
+
+/* bord lumineux */
+
+ctx.strokeStyle=
+"rgba(255,255,255,.12)";
+
+ctx.lineWidth=1.5;
+
+ctx.stroke();
+
+}
+
+
+/*
+   obstacle en train d'être dessiné
+*/
+
+if(drawingObstacle){
+
+const pts=drawingObstacle.points;
+
+if(pts.length>=2){
+
+ctx.beginPath();
+
+ctx.moveTo(
+pts[0].x,
+pts[0].y
+);
+
+for(let i=1;i<pts.length;i++){
+
+ctx.lineTo(
+pts[i].x,
+pts[i].y
+);
+
+}
+
+ctx.strokeStyle=
+"rgba(120,130,130,.8)";
+
+ctx.lineWidth=12;
+
+ctx.stroke();
+
+}
+
+}
+
+}
+
+
+/* =========================================================
+   VAGUES
 ========================================================= */
 
 function drawWaves(){
 
 const l=liquids[current];
 
-for(let i=0;i<waves.length;i++){
-
-const w=waves[i];
+for(const w of waves){
 
 ctx.beginPath();
 
@@ -885,10 +1515,10 @@ w.r,
 Math.PI*2
 );
 
-ctx.strokeStyle=
-l.light;
+ctx.strokeStyle=l.light;
 
-ctx.globalAlpha=w.life*.16;
+ctx.globalAlpha=
+w.life*.16;
 
 ctx.lineWidth=1.5;
 
@@ -909,7 +1539,12 @@ function drawSurface(){
 
 const l=liquids[current];
 
-const base=H-12;
+/*
+   Nouveau niveau du liquide :
+   plus haut sur l'écran.
+*/
+
+const base=H-135;
 
 ctx.beginPath();
 
@@ -919,20 +1554,20 @@ for(let x=0;x<=W;x+=12){
 
 let y=base;
 
-for(let i=0;i<waves.length;i++){
-
-const w=waves[i];
+for(const w of waves){
 
 const dx=Math.abs(x-w.x);
 
 if(dx<160){
 
-const strength=1-dx/160;
+const strength=
+1-dx/160;
 
-y-=Math.sin(strength*Math.PI)
-*w.power
-*w.life
-*8;
+y-=
+Math.sin(strength*Math.PI)*
+w.power*
+w.life*
+8;
 
 }
 
@@ -947,7 +1582,8 @@ ctx.lineTo(0,H);
 ctx.closePath();
 
 ctx.fillStyle=l.dark;
-ctx.globalAlpha=.2;
+
+ctx.globalAlpha=.18;
 
 ctx.fill();
 
@@ -957,55 +1593,80 @@ ctx.globalAlpha=1;
 
 
 /* =========================================================
-   CURSEUR
+   OUTIL
 ========================================================= */
 
-function drawPointer(){
+function drawToolCursor(){
 
-if(!pointer.down)return;
+if(!pointer.down){
+return;
+}
 
-const l=liquids[current];
+if(currentTool==="hand"){
+return;
+}
+
+if(currentTool==="pencil"){
 
 ctx.beginPath();
 
 ctx.arc(
 pointer.x,
 pointer.y,
-18,
+7,
 0,
 Math.PI*2
 );
 
-ctx.strokeStyle=l.light;
-ctx.globalAlpha=.12;
-ctx.lineWidth=1;
+ctx.fillStyle=
+"rgba(180,180,180,.65)";
+
+ctx.fill();
+
+}
+
+if(currentTool==="eraser"){
+
+ctx.beginPath();
+
+ctx.arc(
+pointer.x,
+pointer.y,
+25,
+0,
+Math.PI*2
+);
+
+ctx.strokeStyle=
+"rgba(220,220,220,.45)";
+
+ctx.lineWidth=2;
 
 ctx.stroke();
 
-ctx.globalAlpha=1;
+}
 
 }
 
 
 /* =========================================================
-   RENDU COMPLET
+   RENDU
 ========================================================= */
 
 function render(){
 
-/*
-   Fond simple.
-   Pas de gros gradient à chaque frame.
-*/
-
 ctx.fillStyle="#0c1011";
 
-ctx.fillRect(0,0,W,H);
-
-
-/* zone liquide */
+ctx.fillRect(
+0,
+0,
+W,
+H
+);
 
 drawSurface();
+
+drawObstacles();
 
 drawParticles();
 
@@ -1013,7 +1674,7 @@ drawDroplets();
 
 drawWaves();
 
-drawPointer();
+drawToolCursor();
 
 }
 
@@ -1023,9 +1684,11 @@ drawPointer();
 ========================================================= */
 
 let fpsFrames=0;
+
 let fpsLast=performance.now();
 
-const fpsValue=document.getElementById("fpsValue");
+const fpsValue=
+document.getElementById("fpsValue");
 
 function updateFPS(now){
 
@@ -1034,12 +1697,15 @@ fpsFrames++;
 if(now-fpsLast>500){
 
 const fps=Math.round(
-fpsFrames*1000/(now-fpsLast)
+fpsFrames*
+1000/
+(now-fpsLast)
 );
 
 fpsValue.textContent=fps;
 
 fpsFrames=0;
+
 fpsLast=now;
 
 }
@@ -1048,19 +1714,27 @@ fpsLast=now;
 
 
 /* =========================================================
-   BOUCLE PRINCIPALE
+   BOUCLE
 ========================================================= */
 
 let running=false;
 
 function loop(now){
 
-if(!running)return;
+if(!running){
+return;
+}
 
 updateFPS(now);
 
+
+/*
+   amortissement souris
+*/
+
 pointer.vx*=.8;
 pointer.vy*=.8;
+
 
 interact();
 
@@ -1080,16 +1754,30 @@ requestAnimationFrame(loop);
 
 
 /* =========================================================
-   TOUCH / SOURIS
+   POINTER DOWN
 ========================================================= */
 
-canvas.addEventListener("pointerdown",function(e){
+canvas.addEventListener(
+"pointerdown",
+function(e){
 
-if(!running)return;
+if(!running){
+return;
+}
 
 pointer.down=true;
 
-pointerMove(e.clientX,e.clientY);
+pointerMove(
+e.clientX,
+e.clientY
+);
+
+
+/*
+   MAIN
+*/
+
+if(currentTool==="hand"){
 
 addWave(
 e.clientX,
@@ -1104,23 +1792,77 @@ pointer.vx,
 pointer.vy
 );
 
+}
+
+
+/*
+   CRAYON
+*/
+
+else if(currentTool==="pencil"){
+
+startObstacle(
+e.clientX,
+e.clientY
+);
+
+}
+
+
+/*
+   GOMME
+*/
+
+else if(currentTool==="eraser"){
+
+eraseObstacle(
+e.clientX,
+e.clientY
+);
+
+}
+
+
 try{
-canvas.setPointerCapture(e.pointerId);
+
+canvas.setPointerCapture(
+e.pointerId
+);
+
 }catch(err){}
 
-});
+},
+{passive:false}
+);
 
 
-canvas.addEventListener("pointermove",function(e){
+/* =========================================================
+   POINTER MOVE
+========================================================= */
 
-if(!running)return;
+canvas.addEventListener(
+"pointermove",
+function(e){
 
-if(!pointer.down)return;
+if(!running){
+return;
+}
+
+if(!pointer.down){
+return;
+}
 
 pointerMove(
 e.clientX,
 e.clientY
 );
+
+
+/*
+   MAIN
+*/
+
+if(currentTool==="hand"){
 
 if(
 Math.abs(pointer.vx)+
@@ -1132,42 +1874,110 @@ e.clientX,
 e.clientY,
 Math.min(
 1.4,
-(Math.abs(pointer.vx)+Math.abs(pointer.vy))/18
+(
+Math.abs(pointer.vx)+
+Math.abs(pointer.vy)
+)/18
 )
 );
 
 }
 
-});
+}
 
 
-canvas.addEventListener("pointerup",function(){
+/*
+   CRAYON
+*/
+
+else if(currentTool==="pencil"){
+
+addObstaclePoint(
+e.clientX,
+e.clientY
+);
+
+}
+
+
+/*
+   GOMME
+*/
+
+else if(currentTool==="eraser"){
+
+eraseObstacle(
+e.clientX,
+e.clientY
+);
+
+}
+
+},
+{passive:false}
+);
+
+
+/* =========================================================
+   POINTER UP
+========================================================= */
+
+canvas.addEventListener(
+"pointerup",
+function(){
+
+if(currentTool==="pencil"){
+
+finishObstacle();
+
+}
 
 pointer.down=false;
 
 pointer.vx=0;
 pointer.vy=0;
 
-});
-
-
-canvas.addEventListener("pointercancel",function(){
-
-pointer.down=false;
-
-});
+}
+);
 
 
 /* =========================================================
-   CHANGEMENT DE LIQUIDE
+   CANCEL
 ========================================================= */
 
-document.querySelectorAll(".liquid").forEach(button=>{
+canvas.addEventListener(
+"pointercancel",
+function(){
 
-button.addEventListener("click",function(){
+if(currentTool==="pencil"){
 
-document.querySelectorAll(".liquid")
-.forEach(b=>b.classList.remove("active"));
+finishObstacle();
+
+}
+
+pointer.down=false;
+
+}
+);
+
+
+/* =========================================================
+   LIQUIDES
+========================================================= */
+
+document
+.querySelectorAll(".liquid")
+.forEach(button=>{
+
+button.addEventListener(
+"click",
+function(){
+
+document
+.querySelectorAll(".liquid")
+.forEach(b=>
+b.classList.remove("active")
+);
 
 this.classList.add("active");
 
@@ -1175,7 +1985,37 @@ current=this.dataset.liquid;
 
 createParticles();
 
+}
+);
+
 });
+
+
+/* =========================================================
+   OUTILS
+========================================================= */
+
+document
+.querySelectorAll(".tool")
+.forEach(button=>{
+
+button.addEventListener(
+"click",
+function(){
+
+document
+.querySelectorAll(".tool")
+.forEach(b=>
+b.classList.remove("active")
+);
+
+this.classList.add("active");
+
+currentTool=this.dataset.tool;
+
+}
+
+);
 
 });
 
@@ -1186,7 +2026,9 @@ createParticles();
 
 function startGame(){
 
-document.getElementById("start").style.display="none";
+document.getElementById(
+"start"
+).style.display="none";
 
 createParticles();
 
