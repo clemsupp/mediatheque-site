@@ -86,7 +86,7 @@ align-items:center;
 justify-content:center;
 flex-wrap:wrap;
 width:96%;
-max-width:1100px
+max-width:1150px
 }
 
 button{
@@ -107,6 +107,14 @@ background:#2b3031
 button.active{
 background:#454c4d;
 box-shadow:0 0 0 1px rgba(255,255,255,.2) inset
+}
+
+#clearAll{
+background:#5a2929
+}
+
+#clearAll:hover{
+background:#713333
 }
 
 .separator{
@@ -203,12 +211,12 @@ Main : pousse • Crayon : obstacle • Ventilo : pose/oriente • Gomme : suppr
 
 <div id="controls">
 
-<button class="liquid active" data-liquid="water">Eau</button>
-<button class="liquid" data-liquid="lava">Lave</button>
-<button class="liquid" data-liquid="oil">Huile</button>
-<button class="liquid" data-liquid="milk">Lait</button>
-<button class="liquid" data-liquid="honey">Miel</button>
-<button class="liquid" data-liquid="slime">Slime</button>
+<button class="liquid active" data-liquid="water">💧 Eau</button>
+<button class="liquid" data-liquid="lava">🌋 Lave</button>
+<button class="liquid" data-liquid="oil">🛢️ Huile</button>
+<button class="liquid" data-liquid="milk">🥛 Lait</button>
+<button class="liquid" data-liquid="honey">🍯 Miel</button>
+<button class="liquid" data-liquid="slime">🟢 Slime</button>
 
 <div class="separator"></div>
 
@@ -216,6 +224,8 @@ Main : pousse • Crayon : obstacle • Ventilo : pose/oriente • Gomme : suppr
 <button class="tool" data-tool="pencil">✏️ Crayon</button>
 <button class="tool" data-tool="fan">🌀 Ventilo</button>
 <button class="tool" data-tool="eraser">🧽 Gomme</button>
+
+<button id="clearAll">🗑️ Clear All</button>
 
 </div>
 
@@ -267,9 +277,9 @@ resize();
 window.addEventListener("resize",resize);
 
 
-/* ================================
+/* =====================================================
    LIQUIDES
-================================ */
+===================================================== */
 
 const liquids={
 
@@ -278,10 +288,13 @@ gravity:.17,
 friction:.986,
 push:1.5,
 size:3,
-color:"#3289a8",
-light:"#a9edff",
-dark:"#123f52",
-alpha:.72
+color:"#278fbd",
+light:"#c4f5ff",
+dark:"#0b4663",
+alpha:.78,
+cohesion:.009,
+viscosity:1,
+style:"water"
 },
 
 lava:{
@@ -289,54 +302,69 @@ gravity:.10,
 friction:.992,
 push:.65,
 size:3.8,
-color:"#d94d19",
-light:"#ffd36a",
-dark:"#5d1808",
-alpha:.82
+color:"#ed4a12",
+light:"#ffe16a",
+dark:"#6e1507",
+alpha:.88,
+cohesion:.014,
+viscosity:1.1,
+style:"lava"
 },
 
 oil:{
 gravity:.13,
-friction:.993,
+friction:.994,
 push:.75,
-size:3.3,
-color:"#726a45",
-light:"#d5c98e",
-dark:"#252215",
-alpha:.72
+size:3.5,
+color:"#625d36",
+light:"#e4d890",
+dark:"#211d0d",
+alpha:.86,
+cohesion:.014,
+viscosity:1.35,
+style:"oil"
 },
 
 milk:{
 gravity:.18,
-friction:.984,
+friction:.981,
 push:1.15,
-size:3.5,
-color:"#d7d8d0",
+size:3.9,
+color:"#e8e8df",
 light:"#ffffff",
-dark:"#777a75",
-alpha:.82
+dark:"#92958e",
+alpha:.94,
+cohesion:.018,
+viscosity:1.8,
+style:"milk"
 },
 
 honey:{
 gravity:.11,
-friction:.996,
+friction:.997,
 push:.48,
-size:4,
-color:"#d2951d",
-light:"#ffe58a",
-dark:"#633707",
-alpha:.86
+size:4.3,
+color:"#d48b0c",
+light:"#ffe99a",
+dark:"#5d2c04",
+alpha:.94,
+cohesion:.025,
+viscosity:3.2,
+style:"honey"
 },
 
 slime:{
 gravity:.16,
-friction:.989,
+friction:.995,
 push:1.1,
-size:3.6,
-color:"#62b84c",
-light:"#caff91",
-dark:"#1d5b20",
-alpha:.78
+size:4.2,
+color:"#55c52e",
+light:"#d8ff9a",
+dark:"#174f13",
+alpha:.90,
+cohesion:.045,
+viscosity:2.6,
+style:"slime"
 }
 
 };
@@ -345,9 +373,9 @@ let current="water";
 let currentTool="hand";
 
 
-/* ================================
+/* =====================================================
    PARTICULES
-================================ */
+===================================================== */
 
 const MAX_PARTICLES=3200;
 
@@ -392,7 +420,9 @@ y:y+(Math.random()-.5)*2,
 vx:(Math.random()-.5)*.15,
 vy:(Math.random()-.5)*.1,
 
-size:l.size*(.75+Math.random()*.45)
+size:l.size*(.78+Math.random()*.42),
+
+phase:Math.random()*Math.PI*2
 
 });
 
@@ -406,9 +436,9 @@ break;
 }
 
 
-/* ================================
+/* =====================================================
    POINTEUR
-================================ */
+===================================================== */
 
 const pointer={
 x:0,
@@ -434,25 +464,14 @@ pointer.vy=y-pointer.py;
 }
 
 
-/* ================================
+/* =====================================================
    OBSTACLES
-================================ */
+===================================================== */
 
 let obstacles=[];
 let drawingObstacle=null;
 
 const PENCIL_STEP=14;
-
-/*
-GRILLE SPATIALE
-
-Chaque obstacle est placé dans plusieurs
-cases de la grille.
-
-Une particule ne teste donc que les
-obstacles proches d'elle.
-*/
-
 const GRID_SIZE=90;
 
 let obstacleGrid=new Map();
@@ -532,13 +551,16 @@ if(!drawingObstacle)
 return;
 
 const pts=drawingObstacle.points;
-
 const last=pts[pts.length-1];
 
 const dx=x-last.x;
 const dy=y-last.y;
 
-if(dx*dx+dy*dy<PENCIL_STEP*PENCIL_STEP)
+if(
+dx*dx+
+dy*dy<
+PENCIL_STEP*PENCIL_STEP
+)
 return;
 
 pts.push({
@@ -565,17 +587,21 @@ function finishObstacle(){
 if(!drawingObstacle)
 return;
 
-if(drawingObstacle.points.length>=2){
+if(
+drawingObstacle.points.length>=2
+){
+
+const o=drawingObstacle;
 
 obstacles.push({
 
-points:drawingObstacle.points,
+points:o.points,
 
-minX:drawingObstacle.minX-10,
-maxX:drawingObstacle.maxX+10,
+minX:o.minX-12,
+maxX:o.maxX+12,
 
-minY:drawingObstacle.minY-10,
-maxY:drawingObstacle.maxY+10,
+minY:o.minY-12,
+maxY:o.maxY+12,
 
 width:14
 
@@ -590,9 +616,9 @@ drawingObstacle=null;
 }
 
 
-/* ================================
+/* =====================================================
    DISTANCE SEGMENT
-================================ */
+===================================================== */
 
 function pointSegmentDistanceSq(
 px,py,
@@ -603,7 +629,9 @@ bx,by
 const dx=bx-ax;
 const dy=by-ay;
 
-const len2=dx*dx+dy*dy;
+const len2=
+dx*dx+
+dy*dy;
 
 if(len2===0){
 
@@ -615,8 +643,10 @@ return ex*ex+ey*ey;
 }
 
 let t=
-((px-ax)*dx+
-(py-ay)*dy)/len2;
+(
+(px-ax)*dx+
+(py-ay)*dy
+)/len2;
 
 if(t<0)t=0;
 else if(t>1)t=1;
@@ -632,9 +662,9 @@ return ex*ex+ey*ey;
 }
 
 
-/* ================================
-   COLLISION OPTIMISEE
-================================ */
+/* =====================================================
+   COLLISION PARTICULE / CRAYON
+===================================================== */
 
 function collideObstacles(p){
 
@@ -655,7 +685,11 @@ obstacleGrid.get(
 if(!list)
 continue;
 
-for(let li=0;li<list.length;li++){
+for(
+let li=0;
+li<list.length;
+li++
+){
 
 const oi=list[li];
 
@@ -674,8 +708,12 @@ p.y>o.maxY
 )
 continue;
 
-const radius=p.size+o.width*.5;
-const radius2=radius*radius;
+const radius=
+p.size+
+o.width*.5;
+
+const radius2=
+radius*radius;
 
 const pts=o.points;
 
@@ -713,7 +751,8 @@ continue;
 const dx=b.x-a.x;
 const dy=b.y-a.y;
 
-const len=Math.hypot(dx,dy)||1;
+const len=
+Math.hypot(dx,dy)||1;
 
 const t=Math.max(
 0,
@@ -732,12 +771,14 @@ const cy=a.y+t*dy;
 let nx=p.x-cx;
 let ny=p.y-cy;
 
-const d=Math.hypot(nx,ny)||.001;
+const d=
+Math.hypot(nx,ny)||.001;
 
 nx/=d;
 ny/=d;
 
-const penetration=radius-d;
+const penetration=
+radius-d;
 
 p.x+=nx*(penetration+1.2);
 p.y+=ny*(penetration+1.2);
@@ -767,37 +808,187 @@ p.vy*=.70;
 }
 
 
-/* ================================
-   VENTILATEURS
-================================ */
-
-let fans=[];
+/* =====================================================
+   TEST VENTILATEUR / MUR
+===================================================== */
 
 /*
-Etat du ventilateur sélectionné.
+Vérifie si une ligne entre le ventilateur
+et la particule traverse un obstacle.
+
+On utilise les cases de la grille pour éviter
+de parcourir tous les obstacles.
 */
 
+function segmentIntersectsSegment(
+ax,ay,
+bx,by,
+cx,cy,
+dx,dy
+){
+
+const rX=bx-ax;
+const rY=by-ay;
+
+const sX=dx-cx;
+const sY=dy-cy;
+
+const cross=
+rX*sY-
+rY*sX;
+
+if(Math.abs(cross)<.00001)
+return false;
+
+const qpx=cx-ax;
+const qpy=cy-ay;
+
+const t=
+(qpx*sY-
+qpy*sX)/
+cross;
+
+const u=
+(qpx*rY-
+qpy*rX)/
+cross;
+
+return(
+t>=0 &&
+t<=1 &&
+u>=0 &&
+u<=1
+);
+
+}
+
+function fanBlocked(f,p){
+
+const minX=
+Math.min(f.x,p.x)-4;
+
+const maxX=
+Math.max(f.x,p.x)+4;
+
+const minY=
+Math.min(f.y,p.y)-4;
+
+const maxY=
+Math.max(f.y,p.y)+4;
+
+const minGX=
+Math.floor(minX/GRID_SIZE);
+
+const maxGX=
+Math.floor(maxX/GRID_SIZE);
+
+const minGY=
+Math.floor(minY/GRID_SIZE);
+
+const maxGY=
+Math.floor(maxY/GRID_SIZE);
+
+const checked=new Set();
+
+for(
+let gx=minGX;
+gx<=maxGX;
+gx++
+){
+
+for(
+let gy=minGY;
+gy<=maxGY;
+gy++
+){
+
+const list=
+obstacleGrid.get(
+gx+","+gy
+);
+
+if(!list)
+continue;
+
+for(
+let li=0;
+li<list.length;
+li++
+){
+
+const oi=list[li];
+
+if(checked.has(oi))
+continue;
+
+checked.add(oi);
+
+const o=obstacles[oi];
+
+if(
+o.maxX<minX ||
+o.minX>maxX ||
+o.maxY<minY ||
+o.minY>maxY
+)
+continue;
+
+const pts=o.points;
+
+for(
+let i=0;
+i<pts.length-1;
+i++
+){
+
+const a=pts[i];
+const b=pts[i+1];
+
+if(
+Math.max(a.x,b.x)<minX ||
+Math.min(a.x,b.x)>maxX ||
+Math.max(a.y,b.y)<minY ||
+Math.min(a.y,b.y)>maxY
+)
+continue;
+
+if(
+segmentIntersectsSegment(
+f.x,f.y,
+p.x,p.y,
+a.x,a.y,
+b.x,b.y
+)
+)
+return true;
+
+}
+
+}
+
+}
+
+}
+
+return false;
+
+}
+
+
+/* =====================================================
+   VENTILATEURS
+===================================================== */
+
+let fans=[];
 let selectedFan=null;
 
 function createFan(x,y){
 
 const fan={
-
 x:x,
 y:y,
-
-/*
-Angle initial vers la droite.
-*/
-
 angle:0,
-
-/*
-PUISSANCE ENORME
-*/
-
 power:11
-
 };
 
 fans.push(fan);
@@ -833,9 +1024,9 @@ return null;
 }
 
 
-/* ================================
+/* =====================================================
    SOUFFLE
-================================ */
+===================================================== */
 
 function applyFans(){
 
@@ -850,8 +1041,11 @@ fi++
 
 const f=fans[fi];
 
-const cos=Math.cos(f.angle);
-const sin=Math.sin(f.angle);
+const cos=
+Math.cos(f.angle);
+
+const sin=
+Math.sin(f.angle);
 
 const range=480;
 const width=185;
@@ -896,12 +1090,20 @@ const distance=
 const sideFactor=
 1-Math.abs(side)/widthHere;
 
-/*
-Très gros souffle.
 
-La force maximale est volontairement
-bien supérieure à la gravité.
+/*
+Le mur bloque le souffle.
+On ne fait le calcul coûteux
+que pour les particules réellement
+dans le cône.
 */
+
+if(
+obstacles.length &&
+fanBlocked(f,p)
+)
+continue;
+
 
 const force=
 f.power*
@@ -910,26 +1112,29 @@ distance*
 sideFactor*
 .115;
 
-/*
-Direction principale
-*/
+p.vx+=
+cos*
+force;
 
-p.vx+=cos*force;
-p.vy+=sin*force;
+p.vy+=
+sin*
+force;
 
-/*
-Petite aspiration au départ
-pour rendre le souffle plus naturel.
-*/
 
-if(forward<70){
+/* turbulence */
 
-const suck=
-(1-forward/70)*
+const turbulence=
+sideFactor*
+distance*
 .018;
 
-p.vx+=cos*suck;
-p.vy+=sin*suck;
+p.vx+=
+-sin*
+turbulence;
+
+p.vy+=
+cos*
+turbulence;
 
 }
 
@@ -937,12 +1142,10 @@ p.vy+=sin*suck;
 
 }
 
-}
 
-
-/* ================================
+/* =====================================================
    PHYSIQUE
-================================ */
+===================================================== */
 
 function update(){
 
@@ -956,10 +1159,20 @@ i++
 
 const p=particles[i];
 
+/*
+Viscosité différente selon la matière.
+*/
+
+const friction=
+Math.pow(
+l.friction,
+l.viscosity
+);
+
 p.vy+=l.gravity;
 
-p.vx*=l.friction;
-p.vy*=l.friction;
+p.vx*=friction;
+p.vy*=friction;
 
 p.x+=p.vx;
 p.y+=p.vy;
@@ -987,7 +1200,8 @@ if(p.y<78){
 
 p.y=78;
 
-p.vy=Math.abs(p.vy)*.18;
+p.vy=
+Math.abs(p.vy)*.18;
 
 }
 
@@ -997,19 +1211,25 @@ p.vy=Math.abs(p.vy)*.18;
 if(p.x<p.size){
 
 p.x=p.size;
-p.vx=Math.abs(p.vx)*.3;
+
+p.vx=
+Math.abs(p.vx)*.3;
 
 }
 
-else if(p.x>W-p.size){
+else if(
+p.x>W-p.size
+){
 
 p.x=W-p.size;
-p.vx=-Math.abs(p.vx)*.3;
+
+p.vx=
+-Math.abs(p.vx)*.3;
 
 }
 
 
-/* obstacles */
+/* obstacle */
 
 if(obstacles.length)
 collideObstacles(p);
@@ -1018,9 +1238,8 @@ collideObstacles(p);
 
 
 /*
-Le ventilateur est appliqué après
-la gravité : le souffle peut donc
-réellement compenser la gravité.
+Le vent est appliqué après
+la gravité.
 */
 
 applyFans();
@@ -1028,9 +1247,9 @@ applyFans();
 }
 
 
-/* ================================
-   COHESION
-================================ */
+/* =====================================================
+   COHESION DES MATIERES
+===================================================== */
 
 let physicsFrame=0;
 
@@ -1038,11 +1257,21 @@ function liquidCohesion(){
 
 physicsFrame++;
 
-if(physicsFrame%5!==0)
+if(
+physicsFrame%5!==0
+)
 return;
 
-const distanceMax=10;
-const distanceMax2=100;
+const l=liquids[current];
+
+const distanceMax=
+current==="slime"
+?15
+:10;
+
+const distanceMax2=
+distanceMax*
+distanceMax;
 
 for(
 let i=0;
@@ -1062,12 +1291,16 @@ const q=particles[j];
 
 const dx=q.x-p.x;
 
-if(Math.abs(dx)>distanceMax)
+if(
+Math.abs(dx)>distanceMax
+)
 continue;
 
 const dy=q.y-p.y;
 
-if(Math.abs(dy)>distanceMax)
+if(
+Math.abs(dy)>distanceMax
+)
 continue;
 
 const d2=
@@ -1080,14 +1313,19 @@ d2<.1
 )
 continue;
 
-const d=Math.sqrt(d2);
+const d=
+Math.sqrt(d2);
 
-const target=6.5;
+const target=
+current==="slime"
+?9
+:6.5;
 
 if(d<target){
 
 const force=
-(target-d)*.009;
+(target-d)*
+l.cohesion;
 
 const nx=dx/d;
 const ny=dy/d;
@@ -1107,9 +1345,9 @@ q.vy+=ny*force;
 }
 
 
-/* ================================
-   VAGUES
-================================ */
+/* =====================================================
+   EAU : PETITES ONDES
+===================================================== */
 
 let waves=[];
 let droplets=[];
@@ -1150,18 +1388,21 @@ waves.splice(i,1);
 }
 
 
-/* ================================
-   SPLASH
-================================ */
+/* =====================================================
+   ECLABOUSSURES
+===================================================== */
 
 function splash(x,y,vx,vy){
 
 const l=liquids[current];
 
-const amount=
-current==="honey"
-?4
-:8;
+let amount=8;
+
+if(current==="honey")
+amount=3;
+
+if(current==="slime")
+amount=5;
 
 for(
 let i=0;
@@ -1232,125 +1473,27 @@ droplets.splice(i,1);
 }
 
 
-/* ================================
-   GOMME
-================================ */
+/* =====================================================
+   DESSIN DES PARTICULES
+===================================================== */
 
-function eraseObjects(x,y){
-
-const radius=38;
-const radius2=radius*radius;
-
-
-/* obstacles */
-
-for(
-let i=obstacles.length-1;
-i>=0;
-i--
-){
-
-const o=obstacles[i];
-
-if(
-x<o.minX-radius ||
-x>o.maxX+radius ||
-y<o.minY-radius ||
-y>o.maxY+radius
-)
-continue;
-
-const pts=o.points;
-
-let remove=false;
-
-for(
-let j=0;
-j<pts.length-1;
-j++
-){
-
-const a=pts[j];
-const b=pts[j+1];
-
-if(
-pointSegmentDistanceSq(
-x,y,
-a.x,a.y,
-b.x,b.y
-)<=radius2
-){
-
-remove=true;
-break;
-
-}
-
-}
-
-if(remove)
-obstacles.splice(i,1);
-
-}
-
-rebuildObstacleGrid();
-
-
-/* ventilateurs */
-
-for(
-let i=fans.length-1;
-i>=0;
-i--
-){
-
-const f=fans[i];
-
-const dx=f.x-x;
-const dy=f.y-y;
-
-if(
-dx*dx+
-dy*dy<
-65*65
-){
-
-fans.splice(i,1);
-
-if(selectedFan===f)
-selectedFan=null;
-
-}
-
-}
-
-}
-
-
-/* ================================
-   MAIN
-================================ */
-
-function interact(){
-
-if(
-!pointer.down ||
-currentTool!=="hand"
-)
-return;
+function drawParticles(){
 
 const l=liquids[current];
 
-const radius=140;
-const radius2=radius*radius;
 
-const fx=
-pointer.vx*
-l.push;
+/*
+LAVE
+*/
 
-const fy=
-pointer.vy*
-l.push;
+if(l.style==="lava"){
+
+ctx.globalCompositeOperation="lighter";
+
+ctx.fillStyle=l.color;
+ctx.globalAlpha=.82;
+
+ctx.beginPath();
 
 for(
 let i=0;
@@ -1360,48 +1503,405 @@ i++
 
 const p=particles[i];
 
-const dx=p.x-pointer.x;
-const dy=p.y-pointer.y;
+ctx.moveTo(
+p.x+p.size*1.3,
+p.y
+);
 
-const d2=
-dx*dx+
-dy*dy;
-
-if(d2<radius2){
-
-const factor=
-1-Math.sqrt(d2)/radius;
-
-p.vx+=
-fx*
-factor*
-.13;
-
-p.vy+=
-fy*
-factor*
-.13;
-
-p.vx-=
-dx*
-factor*
-.002;
-
-p.vy-=
-dy*
-factor*
-.002;
+ctx.arc(
+p.x,
+p.y,
+p.size*1.3,
+0,
+Math.PI*2
+);
 
 }
 
-}
+ctx.fill();
+
+ctx.globalCompositeOperation="source-over";
+
+ctx.fillStyle=l.light;
+ctx.globalAlpha=.32;
+
+ctx.beginPath();
+
+for(
+let i=0;
+i<particles.length;
+i+=5
+){
+
+const p=particles[i];
+
+ctx.arc(
+p.x-p.size*.3,
+p.y-p.size*.3,
+p.size*.45,
+0,
+Math.PI*2
+);
 
 }
 
+ctx.fill();
 
-/* ================================
-   DESSIN OBSTACLES
-================================ */
+ctx.globalAlpha=1;
+
+return;
+
+}
+
+
+/*
+HUILE
+*/
+
+if(l.style==="oil"){
+
+ctx.fillStyle=l.color;
+ctx.globalAlpha=.88;
+
+ctx.beginPath();
+
+for(
+let i=0;
+i<particles.length;
+i++
+){
+
+const p=particles[i];
+
+ctx.moveTo(
+p.x+p.size,
+p.y
+);
+
+ctx.arc(
+p.x,
+p.y,
+p.size,
+0,
+Math.PI*2
+);
+
+}
+
+ctx.fill();
+
+ctx.fillStyle=l.light;
+ctx.globalAlpha=.38;
+
+ctx.beginPath();
+
+for(
+let i=0;
+i<particles.length;
+i+=4
+){
+
+const p=particles[i];
+
+ctx.ellipse(
+p.x-p.size*.35,
+p.y-p.size*.4,
+p.size*.7,
+p.size*.22,
+-.4,
+0,
+Math.PI*2
+);
+
+}
+
+ctx.fill();
+
+ctx.globalAlpha=1;
+
+return;
+
+}
+
+
+/*
+MIEL
+*/
+
+if(l.style==="honey"){
+
+ctx.fillStyle=l.color;
+ctx.globalAlpha=.96;
+
+ctx.beginPath();
+
+for(
+let i=0;
+i<particles.length;
+i++
+){
+
+const p=particles[i];
+
+ctx.moveTo(
+p.x+p.size*1.25,
+p.y
+);
+
+ctx.arc(
+p.x,
+p.y,
+p.size*1.25,
+0,
+Math.PI*2
+);
+
+}
+
+ctx.fill();
+
+ctx.fillStyle=l.light;
+ctx.globalAlpha=.4;
+
+ctx.beginPath();
+
+for(
+let i=0;
+i<particles.length;
+i+=5
+){
+
+const p=particles[i];
+
+ctx.arc(
+p.x-p.size*.35,
+p.y-p.size*.4,
+p.size*.4,
+0,
+Math.PI*2
+);
+
+}
+
+ctx.fill();
+
+ctx.globalAlpha=1;
+
+return;
+
+}
+
+
+/*
+SLIME
+*/
+
+if(l.style==="slime"){
+
+ctx.fillStyle=l.color;
+ctx.globalAlpha=.94;
+
+ctx.beginPath();
+
+for(
+let i=0;
+i<particles.length;
+i++
+){
+
+const p=particles[i];
+
+const wobble=
+1+
+Math.sin(
+performance.now()*.003+
+p.phase
+)*.10;
+
+ctx.moveTo(
+p.x+p.size*wobble,
+p.y
+);
+
+ctx.arc(
+p.x,
+p.y,
+p.size*wobble,
+0,
+Math.PI*2
+);
+
+}
+
+ctx.fill();
+
+ctx.fillStyle=l.light;
+ctx.globalAlpha=.38;
+
+ctx.beginPath();
+
+for(
+let i=0;
+i<particles.length;
+i+=4
+){
+
+const p=particles[i];
+
+ctx.arc(
+p.x-p.size*.35,
+p.y-p.size*.4,
+p.size*.38,
+0,
+Math.PI*2
+);
+
+}
+
+ctx.fill();
+
+ctx.globalAlpha=1;
+
+return;
+
+}
+
+
+/*
+LAIT
+*/
+
+if(l.style==="milk"){
+
+ctx.fillStyle=l.color;
+ctx.globalAlpha=.95;
+
+ctx.beginPath();
+
+for(
+let i=0;
+i<particles.length;
+i++
+){
+
+const p=particles[i];
+
+ctx.moveTo(
+p.x+p.size*1.15,
+p.y
+);
+
+ctx.arc(
+p.x,
+p.y,
+p.size*1.15,
+0,
+Math.PI*2
+);
+
+}
+
+ctx.fill();
+
+ctx.fillStyle="#fff";
+ctx.globalAlpha=.55;
+
+ctx.beginPath();
+
+for(
+let i=0;
+i<particles.length;
+i+=5
+){
+
+const p=particles[i];
+
+ctx.arc(
+p.x-p.size*.3,
+p.y-p.size*.35,
+p.size*.35,
+0,
+Math.PI*2
+);
+
+}
+
+ctx.fill();
+
+ctx.globalAlpha=1;
+
+return;
+
+}
+
+
+/*
+EAU
+*/
+
+ctx.fillStyle=l.color;
+ctx.globalAlpha=l.alpha;
+
+ctx.beginPath();
+
+for(
+let i=0;
+i<particles.length;
+i++
+){
+
+const p=particles[i];
+
+ctx.moveTo(
+p.x+p.size,
+p.y
+);
+
+ctx.arc(
+p.x,
+p.y,
+p.size,
+0,
+Math.PI*2
+);
+
+}
+
+ctx.fill();
+
+ctx.fillStyle=l.light;
+ctx.globalAlpha=.45;
+
+ctx.beginPath();
+
+for(
+let i=0;
+i<particles.length;
+i+=4
+){
+
+const p=particles[i];
+
+ctx.arc(
+p.x-p.size*.3,
+p.y-p.size*.3,
+p.size*.3,
+0,
+Math.PI*2
+);
+
+}
+
+ctx.fill();
+
+ctx.globalAlpha=1;
+
+}
+
+
+/* =====================================================
+   OBSTACLES
+===================================================== */
 
 function drawObstacles(){
 
@@ -1442,7 +1942,7 @@ ctx.lineWidth=o.width;
 ctx.stroke();
 
 ctx.strokeStyle=
-"rgba(255,255,255,.13)";
+"rgba(255,255,255,.15)";
 
 ctx.lineWidth=1.5;
 ctx.stroke();
@@ -1450,11 +1950,12 @@ ctx.stroke();
 }
 
 
-/* trait en cours */
+/* dessin actuel */
 
 if(drawingObstacle){
 
-const pts=drawingObstacle.points;
+const pts=
+drawingObstacle.points;
 
 if(pts.length>=2){
 
@@ -1491,13 +1992,14 @@ ctx.stroke();
 }
 
 
-/* ================================
-   DESSIN VENTILATEURS
-================================ */
+/* =====================================================
+   VENTILATEURS
+===================================================== */
 
 function drawFans(){
 
-const now=performance.now();
+const now=
+performance.now();
 
 for(
 const f of fans
@@ -1506,15 +2008,13 @@ const f of fans
 const x=f.x;
 const y=f.y;
 
+
+/* souffle */
+
 ctx.save();
 
 ctx.translate(x,y);
 ctx.rotate(f.angle);
-
-
-/*
-Zone du souffle
-*/
 
 ctx.beginPath();
 
@@ -1530,9 +2030,7 @@ ctx.fillStyle=
 ctx.fill();
 
 
-/*
-Lignes animées du vent
-*/
+/* lignes du vent */
 
 for(
 let i=0;
@@ -1540,7 +2038,8 @@ i<8;
 i++
 ){
 
-const yy=-60+i*17;
+const yy=
+-60+i*17;
 
 const offset=
 Math.sin(
@@ -1567,10 +2066,15 @@ ctx.stroke();
 
 }
 
+ctx.restore();
 
-/*
-Corps
-*/
+
+/* corps */
+
+ctx.save();
+
+ctx.translate(x,y);
+ctx.rotate(f.angle);
 
 ctx.beginPath();
 
@@ -1587,13 +2091,10 @@ ctx.fill();
 
 ctx.strokeStyle="#7c8586";
 ctx.lineWidth=2;
-
 ctx.stroke();
 
 
-/*
-Pales
-*/
+/* pales */
 
 for(
 let i=0;
@@ -1625,7 +2126,6 @@ ctx.quadraticCurveTo(
 ctx.closePath();
 
 ctx.fillStyle="#a0aaab";
-
 ctx.fill();
 
 ctx.restore();
@@ -1633,9 +2133,7 @@ ctx.restore();
 }
 
 
-/*
-Centre
-*/
+/* centre */
 
 ctx.beginPath();
 
@@ -1650,23 +2148,6 @@ Math.PI*2
 ctx.fillStyle="#e0e5e5";
 ctx.fill();
 
-
-/*
-Petite flèche indiquant le souffle
-*/
-
-ctx.beginPath();
-
-ctx.moveTo(58,0);
-ctx.lineTo(45,-8);
-ctx.lineTo(45,8);
-ctx.closePath();
-
-ctx.fillStyle=
-"rgba(210,235,240,.7)";
-
-ctx.fill();
-
 ctx.restore();
 
 }
@@ -1674,87 +2155,9 @@ ctx.restore();
 }
 
 
-/* ================================
-   PARTICULES
-================================ */
-
-function drawParticles(){
-
-const l=liquids[current];
-
-ctx.fillStyle=l.color;
-ctx.globalAlpha=l.alpha;
-
-ctx.beginPath();
-
-for(
-let i=0;
-i<particles.length;
-i++
-){
-
-const p=particles[i];
-
-ctx.moveTo(
-p.x+p.size,
-p.y
-);
-
-ctx.arc(
-p.x,
-p.y,
-p.size,
-0,
-Math.PI*2
-);
-
-}
-
-ctx.fill();
-
-ctx.globalAlpha=1;
-
-
-/* reflets */
-
-ctx.fillStyle=l.light;
-ctx.globalAlpha=.22;
-
-ctx.beginPath();
-
-for(
-let i=0;
-i<particles.length;
-i+=6
-){
-
-const p=particles[i];
-
-ctx.moveTo(
-p.x+p.size*.3,
-p.y
-);
-
-ctx.arc(
-p.x-p.size*.3,
-p.y-p.size*.3,
-p.size*.3,
-0,
-Math.PI*2
-);
-
-}
-
-ctx.fill();
-
-ctx.globalAlpha=1;
-
-}
-
-
-/* ================================
+/* =====================================================
    GOUTTES
-================================ */
+===================================================== */
 
 function drawDroplets(){
 
@@ -1787,9 +2190,9 @@ ctx.globalAlpha=1;
 }
 
 
-/* ================================
+/* =====================================================
    VAGUES
-================================ */
+===================================================== */
 
 function drawWaves(){
 
@@ -1822,9 +2225,9 @@ ctx.globalAlpha=1;
 }
 
 
-/* ================================
+/* =====================================================
    SURFACE
-================================ */
+===================================================== */
 
 function drawSurface(){
 
@@ -1848,7 +2251,8 @@ for(
 const w of waves
 ){
 
-const dx=Math.abs(x-w.x);
+const dx=
+Math.abs(x-w.x);
 
 if(dx<160){
 
@@ -1883,16 +2287,18 @@ ctx.globalAlpha=1;
 }
 
 
-/* ================================
+/* =====================================================
    CURSEUR
-================================ */
+===================================================== */
 
 function drawCursor(){
 
 if(!pointer.down)
 return;
 
-if(currentTool==="pencil"){
+if(
+currentTool==="pencil"
+){
 
 ctx.beginPath();
 
@@ -1911,7 +2317,9 @@ ctx.fill();
 
 }
 
-else if(currentTool==="eraser"){
+else if(
+currentTool==="eraser"
+){
 
 ctx.beginPath();
 
@@ -1935,9 +2343,9 @@ ctx.stroke();
 }
 
 
-/* ================================
+/* =====================================================
    RENDU
-================================ */
+===================================================== */
 
 function render(){
 
@@ -1951,11 +2359,6 @@ H
 );
 
 drawSurface();
-
-/*
-Les ventilateurs sont dessinés AVANT
-les particules mais avec une zone visible.
-*/
 
 drawObstacles();
 
@@ -1972,12 +2375,13 @@ drawCursor();
 }
 
 
-/* ================================
+/* =====================================================
    FPS
-================================ */
+===================================================== */
 
 let fpsFrames=0;
-let fpsLast=performance.now();
+let fpsLast=
+performance.now();
 
 const fpsValue=
 document.getElementById("fpsValue");
@@ -2005,9 +2409,9 @@ fpsLast=now;
 }
 
 
-/* ================================
+/* =====================================================
    BOUCLE
-================================ */
+===================================================== */
 
 let running=false;
 
@@ -2038,9 +2442,9 @@ requestAnimationFrame(loop);
 }
 
 
-/* ================================
+/* =====================================================
    POINTER DOWN
-================================ */
+===================================================== */
 
 canvas.addEventListener(
 "pointerdown",
@@ -2057,11 +2461,11 @@ e.clientY
 );
 
 
-/*
-MAIN
-*/
+/* MAIN */
 
-if(currentTool==="hand"){
+if(
+currentTool==="hand"
+){
 
 addWave(
 e.clientX,
@@ -2079,9 +2483,7 @@ pointer.vy
 }
 
 
-/*
-CRAYON
-*/
+/* CRAYON */
 
 else if(
 currentTool==="pencil"
@@ -2095,9 +2497,7 @@ e.clientY
 }
 
 
-/*
-GOMME
-*/
+/* GOMME */
 
 else if(
 currentTool==="eraser"
@@ -2111,9 +2511,7 @@ e.clientY
 }
 
 
-/*
-VENTILATEUR
-*/
+/* VENTILATEUR */
 
 else if(
 currentTool==="fan"
@@ -2127,17 +2525,9 @@ e.clientY
 
 if(existing){
 
-/*
-On sélectionne le ventilateur.
-*/
-
 selectedFan=existing;
 
 }else{
-
-/*
-Nouveau ventilateur.
-*/
 
 selectedFan=
 createFan(
@@ -2150,7 +2540,11 @@ e.clientY
 }
 
 try{
-canvas.setPointerCapture(e.pointerId);
+
+canvas.setPointerCapture(
+e.pointerId
+);
+
 }catch(err){}
 
 },
@@ -2158,9 +2552,9 @@ canvas.setPointerCapture(e.pointerId);
 );
 
 
-/* ================================
+/* =====================================================
    POINTER MOVE
-================================ */
+===================================================== */
 
 canvas.addEventListener(
 "pointermove",
@@ -2178,11 +2572,11 @@ e.clientY
 );
 
 
-/*
-MAIN
-*/
+/* MAIN */
 
-if(currentTool==="hand"){
+if(
+currentTool==="hand"
+){
 
 if(
 Math.abs(pointer.vx)+
@@ -2206,9 +2600,7 @@ Math.abs(pointer.vy)
 }
 
 
-/*
-CRAYON
-*/
+/* CRAYON */
 
 else if(
 currentTool==="pencil"
@@ -2222,9 +2614,7 @@ e.clientY
 }
 
 
-/*
-GOMME
-*/
+/* GOMME */
 
 else if(
 currentTool==="eraser"
@@ -2238,18 +2628,7 @@ e.clientY
 }
 
 
-/*
-VENTILATEUR
-
-Le ventilateur reste à sa position.
-
-La direction est simplement celle
-entre le ventilateur et la souris.
-
-Donc :
-ventilo en bas + souris au-dessus
-= souffle vers le haut.
-*/
+/* VENTILATEUR */
 
 else if(
 currentTool==="fan" &&
@@ -2266,8 +2645,7 @@ selectedFan.y;
 
 if(
 dx*dx+
-dy*dy>
-100
+dy*dy>100
 ){
 
 selectedFan.angle=
@@ -2282,9 +2660,9 @@ Math.atan2(dy,dx);
 );
 
 
-/* ================================
+/* =====================================================
    POINTER UP
-================================ */
+===================================================== */
 
 canvas.addEventListener(
 "pointerup",
@@ -2322,13 +2700,36 @@ pointer.down=false;
 );
 
 
-/* ================================
+/* =====================================================
+   CLEAR ALL
+===================================================== */
+
+document
+.getElementById("clearAll")
+.addEventListener(
+"click",
+function(){
+
+obstacles.length=0;
+fans.length=0;
+
+drawingObstacle=null;
+selectedFan=null;
+
+obstacleGrid.clear();
+
+}
+);
+
+
+/* =====================================================
    LIQUIDES
-================================ */
+===================================================== */
 
 document
 .querySelectorAll(".liquid")
-.forEach(button=>{
+.forEach(
+button=>{
 
 button.addEventListener(
 "click",
@@ -2336,29 +2737,33 @@ function(){
 
 document
 .querySelectorAll(".liquid")
-.forEach(b=>
+.forEach(
+b=>
 b.classList.remove("active")
 );
 
 this.classList.add("active");
 
-current=this.dataset.liquid;
+current=
+this.dataset.liquid;
 
 createParticles();
 
 }
 );
 
-});
+}
+);
 
 
-/* ================================
+/* =====================================================
    OUTILS
-================================ */
+===================================================== */
 
 document
 .querySelectorAll(".tool")
-.forEach(button=>{
+.forEach(
+button=>{
 
 button.addEventListener(
 "click",
@@ -2366,25 +2771,28 @@ function(){
 
 document
 .querySelectorAll(".tool")
-.forEach(b=>
+.forEach(
+b=>
 b.classList.remove("active")
 );
 
 this.classList.add("active");
 
-currentTool=this.dataset.tool;
+currentTool=
+this.dataset.tool;
 
 selectedFan=null;
 
 }
 );
 
-});
+}
+);
 
 
-/* ================================
+/* =====================================================
    START
-================================ */
+===================================================== */
 
 function startGame(){
 
