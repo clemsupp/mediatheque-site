@@ -37,8 +37,22 @@ font-size:22px;
 font-weight:bold;
 color:#eee
 }
+#right{
+display:flex;
+align-items:center;
+gap:8px;
+pointer-events:auto
+}
+#speed{
+background:#202020;
+color:#ddd;
+border:0;
+padding:9px 12px;
+border-radius:10px;
+font-size:13px;
+outline:none
+}
 #back{
-pointer-events:auto;
 text-decoration:none;
 color:#ddd;
 background:#202020;
@@ -51,7 +65,15 @@ border-radius:10px
 
 <div id="top">
 <div id="title">Spirale</div>
+<div id="right">
+<select id="speed">
+<option value="0.5">Lente</option>
+<option value="1" selected>Normale</option>
+<option value="2">Rapide</option>
+<option value="4">Folle</option>
+</select>
 <a id="back" href="index.html">← Jeux</a>
+</div>
 </div>
 
 <canvas id="canvas"></canvas>
@@ -64,8 +86,12 @@ let W=0,H=0;
 let angle=0;
 let direction=1;
 let targetDirection=1;
-let speed=0.0035;
-let transition=0;
+
+let baseSpeed=0.0035;
+let speed=baseSpeed;
+
+let acceleration=1;
+let lastTime=performance.now();
 
 function resize(){
 W=canvas.width=innerWidth;
@@ -74,9 +100,32 @@ H=canvas.height=innerHeight;
 resize();
 addEventListener("resize",resize);
 
-function draw(){
+document.getElementById("speed").addEventListener("change",function(){
+baseSpeed=0.0035*Number(this.value);
+speed=baseSpeed;
+acceleration=1;
+});
+
+canvas.addEventListener("pointerdown",()=>{
+targetDirection*=-1;
+});
+
+function draw(now){
+
 ctx.fillStyle="#050505";
 ctx.fillRect(0,0,W,H);
+
+const dt=Math.min((now-lastTime)/1000,0.1);
+lastTime=now;
+
+acceleration*=Math.pow(2,dt/2);
+acceleration=Math.min(acceleration,100);
+
+speed=baseSpeed*acceleration;
+
+direction+=(targetDirection-direction)*Math.min(1,dt*5);
+
+angle+=speed*direction*60*dt;
 
 const cx=W/2;
 const cy=H/2;
@@ -84,17 +133,20 @@ const max=Math.max(W,H)*0.85;
 
 ctx.save();
 ctx.translate(cx,cy);
-ctx.rotate(angle);
 
 const turns=18;
 const steps=1500;
 
 for(let i=0;i<steps;i++){
+
 const t=i/(steps-1);
 const r=t*max;
 const a=t*Math.PI*2*turns;
 
-const depth=Math.sin(t*Math.PI*turns*2+angle*2);
+const depth=Math.sin(
+t*Math.PI*turns*2+angle*2
+);
+
 const scale=1+depth*.035;
 
 const x=Math.cos(a)*r*scale;
@@ -112,27 +164,11 @@ ctx.fill();
 
 ctx.restore();
 
-angle+=speed*direction;
-
-if(transition>0){
-transition*=.92;
-direction+=(targetDirection-direction)*.08;
-}
-
 requestAnimationFrame(draw);
 }
 
-canvas.addEventListener("pointerdown",()=>{
-if(targetDirection===direction){
-speed=Math.min(speed*1.35,0.035);
-}else{
-targetDirection*=-1;
-transition=1;
-}
-});
+requestAnimationFrame(draw);
 
-draw();
 </script>
-
 </body>
 </html>
