@@ -6,7 +6,6 @@
 <title>Spirale</title>
 <style>
 *{box-sizing:border-box}
-
 html,body{
 margin:0;
 width:100%;
@@ -16,14 +15,12 @@ background:#050505;
 touch-action:none;
 font-family:Arial,sans-serif
 }
-
 canvas{
 position:fixed;
 inset:0;
 width:100%;
 height:100%
 }
-
 #top{
 position:fixed;
 z-index:10;
@@ -35,20 +32,17 @@ justify-content:space-between;
 align-items:center;
 pointer-events:none
 }
-
 #title{
 font-size:22px;
 font-weight:bold;
 color:#eee
 }
-
 #right{
 display:flex;
 align-items:center;
 gap:8px;
 pointer-events:auto
 }
-
 select{
 appearance:auto;
 -webkit-appearance:auto;
@@ -61,7 +55,6 @@ font-size:13px;
 cursor:pointer;
 outline:none
 }
-
 #back{
 text-decoration:none;
 color:#ddd;
@@ -71,14 +64,12 @@ border-radius:10px
 }
 </style>
 </head>
-
 <body>
 
 <div id="top">
 <div id="title">Spirale</div>
 
 <div id="right">
-
 <select id="mode">
 <option value="hypnotic">Hypnotique</option>
 <option value="simple">Simple</option>
@@ -92,39 +83,31 @@ border-radius:10px
 </select>
 
 <a id="back" href="index.html">← Jeux</a>
-
 </div>
 </div>
 
 <canvas id="canvas"></canvas>
 
 <script>
-
 const canvas=document.getElementById("canvas");
 const ctx=canvas.getContext("2d");
 
-let W=0;
-let H=0;
+let W=0,H=0;
 
 function resize(){
-W=window.innerWidth;
-H=window.innerHeight;
-canvas.width=W;
-canvas.height=H;
+W=canvas.width=window.innerWidth;
+H=canvas.height=window.innerHeight;
 }
-
 resize();
 window.addEventListener("resize",resize);
 
 
-/* =========================
-   REGLAGES
-========================= */
+/* REGLAGES */
 
 let mode="hypnotic";
 let accelerationTime=5;
 
-let baseSpeed=0.007;
+let baseSpeed=0.018;
 let angle=0;
 
 let direction=1;
@@ -142,22 +125,15 @@ startTime=performance.now();
 });
 
 
-/* =========================
-   CHANGEMENT DE SENS
-========================= */
+/* CHANGEMENT DE SENS */
 
 canvas.addEventListener("pointerdown",function(){
-
 targetDirection*=-1;
-
 startTime=performance.now();
-
 });
 
 
-/* =========================
-   ANIMATION
-========================= */
+/* ANIMATION */
 
 let lastTime=performance.now();
 
@@ -169,6 +145,9 @@ lastTime=now;
 ctx.fillStyle="#050505";
 ctx.fillRect(0,0,W,H);
 
+
+/* ACCELERATION */
+
 const elapsed=(now-startTime)/1000;
 
 const acceleration=Math.pow(
@@ -178,14 +157,15 @@ elapsed/accelerationTime
 
 const currentSpeed=baseSpeed*acceleration;
 
-direction+=(targetDirection-direction)*Math.min(1,dt*7);
+
+/* CHANGEMENT DE SENS */
+
+direction+=(targetDirection-direction)*Math.min(1,dt*10);
 
 angle+=currentSpeed*direction*60*dt;
 
 
-/* =========================
-   SPIRALE
-========================= */
+/* SPIRALE */
 
 const cx=W/2;
 const cy=H/2;
@@ -201,7 +181,11 @@ for(let i=0;i<steps;i++){
 
 const t=i/(steps-1);
 const r=t*max;
-const a=t*Math.PI*2*turns;
+
+
+/* L'angle dépend directement de la rotation */
+
+const a=t*Math.PI*2*turns+angle;
 
 let x;
 let y;
@@ -209,9 +193,7 @@ let size;
 let alpha;
 
 
-/* =========================
-   MODE HYPNOTIQUE
-========================= */
+/* MODE HYPNOTIQUE */
 
 if(mode==="hypnotic"){
 
@@ -230,9 +212,7 @@ alpha=.18+.82*(1-t);
 }
 
 
-/* =========================
-   MODE SIMPLE
-========================= */
+/* MODE SIMPLE */
 
 else{
 
@@ -245,14 +225,7 @@ alpha=.25+.75*(1-t);
 }
 
 ctx.beginPath();
-
-ctx.arc(
-x,
-y,
-size,
-0,
-Math.PI*2
-);
+ctx.arc(x,y,size,0,Math.PI*2);
 
 ctx.globalAlpha=alpha;
 ctx.fillStyle="#eee";
@@ -264,12 +237,10 @@ ctx.globalAlpha=1;
 ctx.restore();
 
 requestAnimationFrame(draw);
-
 }
 
 requestAnimationFrame(draw);
 
 </script>
-
 </body>
 </html>
