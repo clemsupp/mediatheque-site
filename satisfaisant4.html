@@ -49,7 +49,7 @@ gap:8px;
 pointer-events:auto
 }
 
-#speed{
+select{
 appearance:auto;
 -webkit-appearance:auto;
 background:#202020;
@@ -78,6 +78,12 @@ border-radius:10px
 <div id="title">Spirale</div>
 
 <div id="right">
+
+<select id="mode">
+<option value="hypnotic">Hypnotique</option>
+<option value="simple">Simple</option>
+</select>
+
 <select id="speed">
 <option value="10">Lente — ×2 / 10 s</option>
 <option value="5" selected>Normale — ×2 / 5 s</option>
@@ -86,6 +92,7 @@ border-radius:10px
 </select>
 
 <a id="back" href="index.html">← Jeux</a>
+
 </div>
 </div>
 
@@ -111,38 +118,43 @@ window.addEventListener("resize",resize);
 
 
 /* =========================
-   VITESSE
+   REGLAGES
 ========================= */
 
-let baseSpeed=0.0035;
+let mode="hypnotic";
 let accelerationTime=5;
+
+let baseSpeed=0.0035;
+let angle=0;
+
+let direction=1;
+let targetDirection=1;
+
 let startTime=performance.now();
 
-const speedSelect=document.getElementById("speed");
+document.getElementById("mode").addEventListener("change",function(){
+mode=this.value;
+});
 
-speedSelect.addEventListener("change",function(){
+document.getElementById("speed").addEventListener("change",function(){
 accelerationTime=Number(this.value);
-
-/*
-On ne remet PAS la vitesse à zéro.
-On recalcule simplement l'accélération
-à partir de la nouvelle vitesse actuelle.
-*/
 startTime=performance.now();
 });
 
 
 /* =========================
-   ROTATION
+   CHANGEMENT DE SENS
 ========================= */
-
-let angle=0;
-let direction=1;
-let targetDirection=1;
 
 canvas.addEventListener("pointerdown",function(){
 
 targetDirection*=-1;
+
+/*
+Chaque changement de sens
+remet la vitesse à la vitesse de base.
+*/
+startTime=performance.now();
 
 });
 
@@ -163,19 +175,7 @@ ctx.fillRect(0,0,W,H);
 
 
 /*
-La vitesse double tous les X secondes.
-
-Lente :
-10 secondes → ×2
-
-Normale :
-5 secondes → ×2
-
-Rapide :
-2 secondes → ×2
-
-Très rapide :
-1 seconde → ×2
+La vitesse double selon le réglage.
 */
 
 const elapsed=(now-startTime)/1000;
@@ -189,10 +189,10 @@ const currentSpeed=baseSpeed*acceleration;
 
 
 /*
-Changement de sens progressif
+Changement de sens fluide.
 */
 
-direction+=(targetDirection-direction)*Math.min(1,dt*5);
+direction+=(targetDirection-direction)*Math.min(1,dt*7);
 
 angle+=currentSpeed*direction*60*dt;
 
@@ -203,25 +203,31 @@ angle+=currentSpeed*direction*60*dt;
 
 const cx=W/2;
 const cy=H/2;
-
 const max=Math.max(W,H)*0.9;
 
 ctx.save();
-
 ctx.translate(cx,cy);
 
 const turns=18;
 const steps=1700;
 
-ctx.fillStyle="#eee";
-
 for(let i=0;i<steps;i++){
 
 const t=i/(steps-1);
-
 const r=t*max;
-
 const a=t*Math.PI*2*turns;
+
+let x;
+let y;
+let size;
+let alpha;
+
+
+/* =========================
+   MODE HYPNOTIQUE
+========================= */
+
+if(mode==="hypnotic"){
 
 const depth=Math.sin(
 t*Math.PI*turns*2+angle*2
@@ -229,10 +235,28 @@ t*Math.PI*turns*2+angle*2
 
 const scale=1+depth*0.035;
 
-const x=Math.cos(a)*r*scale;
-const y=Math.sin(a)*r*scale;
+x=Math.cos(a)*r*scale;
+y=Math.sin(a)*r*scale;
 
-const size=1.2+t*3.5;
+size=1.2+t*3.5;
+alpha=.18+.82*(1-t);
+
+}
+
+
+/* =========================
+   MODE SIMPLE
+========================= */
+
+else{
+
+x=Math.cos(a)*r;
+y=Math.sin(a)*r;
+
+size=1.5+t*2.5;
+alpha=.25+.75*(1-t);
+
+}
 
 ctx.beginPath();
 
@@ -244,14 +268,13 @@ size,
 Math.PI*2
 );
 
-ctx.globalAlpha=.18+.82*(1-t);
-
+ctx.globalAlpha=alpha;
+ctx.fillStyle="#eee";
 ctx.fill();
 
 }
 
 ctx.globalAlpha=1;
-
 ctx.restore();
 
 requestAnimationFrame(draw);
