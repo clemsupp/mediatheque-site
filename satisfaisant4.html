@@ -7,79 +7,221 @@
 <title>Liquide</title>
 <style>
 *{box-sizing:border-box}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080b0c;font-family:Arial,sans-serif;color:#eee;touch-action:none}
-#game{position:fixed;inset:0;overflow:hidden}
-canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
-#top{position:absolute;z-index:20;top:14px;left:18px;right:18px;display:flex;justify-content:space-between;align-items:center;pointer-events:none}
-#title{font-size:22px;font-weight:bold;text-shadow:0 2px 8px #000}
-#back{pointer-events:auto;text-decoration:none;color:#ddd;background:rgba(25,28,29,.9);padding:9px 14px;border-radius:10px}
-#hint{position:absolute;z-index:20;top:58px;left:50%;transform:translateX(-50%);font-size:13px;color:#aaa;text-align:center;pointer-events:none;white-space:nowrap}
-#controls{position:absolute;z-index:30;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:7px;align-items:center;justify-content:center;flex-wrap:wrap;width:96%;max-width:1150px}
-button{border:0;color:#eee;background:#202526;border-radius:9px;padding:9px 12px;font-size:13px;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.25)}
+html,body{
+margin:0;
+width:100%;
+height:100%;
+overflow:hidden;
+background:#090b0c;
+font-family:Arial,sans-serif;
+color:#eee;
+touch-action:none
+}
+#game{
+position:fixed;
+inset:0;
+overflow:hidden
+}
+canvas{
+position:absolute;
+inset:0;
+width:100%;
+height:100%;
+touch-action:none
+}
+#top{
+position:absolute;
+z-index:20;
+top:14px;
+left:18px;
+right:18px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+pointer-events:none
+}
+#title{
+font-size:22px;
+font-weight:bold
+}
+#back{
+pointer-events:auto;
+text-decoration:none;
+color:#ddd;
+background:#202526;
+padding:9px 14px;
+border-radius:10px
+}
+#hint{
+position:absolute;
+z-index:20;
+top:58px;
+left:50%;
+transform:translateX(-50%);
+font-size:13px;
+color:#999;
+white-space:nowrap;
+pointer-events:none
+}
+#controls{
+position:absolute;
+z-index:30;
+bottom:18px;
+left:50%;
+transform:translateX(-50%);
+display:flex;
+gap:7px;
+align-items:center;
+justify-content:center;
+flex-wrap:wrap;
+width:96%;
+max-width:1150px
+}
+button{
+border:0;
+color:#eee;
+background:#202526;
+border-radius:9px;
+padding:9px 12px;
+font-size:13px;
+cursor:pointer
+}
 button:hover{background:#2b3031}
-button.active{background:#454c4d;box-shadow:0 0 0 1px rgba(255,255,255,.2) inset}
-#clearAll{background:#5a2929}
-#clearAll:hover{background:#713333}
-.separator{width:1px;height:27px;background:#444;margin:0 3px}
-#fps{position:absolute;z-index:20;right:18px;top:65px;font-size:12px;color:#777}
-#start{position:absolute;z-index:100;inset:0;background:rgba(4,6,7,.84);display:flex;align-items:center;justify-content:center}
-.box{width:min(500px,90%);background:#171b1c;border:1px solid #303536;border-radius:18px;padding:30px;text-align:center;box-shadow:0 20px 60px #000}
-.box h1{margin:0 0 12px;font-size:32px}
-.box p{color:#aaa;line-height:1.5;margin-bottom:24px}
-.start{font-size:16px;padding:12px 24px;background:#394041}
+button.active{
+background:#454c4d;
+box-shadow:0 0 0 1px rgba(255,255,255,.18) inset
+}
+#clearAll{
+background:#542828
+}
+.separator{
+width:1px;
+height:27px;
+background:#444;
+margin:0 3px
+}
+#fps{
+position:absolute;
+z-index:20;
+right:18px;
+top:65px;
+font-size:12px;
+color:#777
+}
+#start{
+position:absolute;
+z-index:100;
+inset:0;
+background:rgba(4,6,7,.88);
+display:flex;
+align-items:center;
+justify-content:center
+}
+.box{
+width:min(500px,90%);
+background:#171b1c;
+border:1px solid #303536;
+border-radius:18px;
+padding:30px;
+text-align:center
+}
+.box h1{
+margin:0 0 12px;
+font-size:32px
+}
+.box p{
+color:#aaa;
+line-height:1.5;
+margin-bottom:24px
+}
+.start{
+font-size:16px;
+padding:12px 24px;
+background:#394041
+}
 @media(max-width:700px){
 #controls{bottom:10px}
-button{padding:8px 9px;font-size:12px}
-#hint{top:55px;font-size:11px}
+button{
+padding:8px 9px;
+font-size:12px
+}
+#hint{
+top:55px;
+font-size:11px
+}
 #title{font-size:18px}
 }
 </style>
 </head>
+
 <body>
 
 <div id="game">
-<div id="top"><div id="title">Liquide</div><a id="back" href="index.html">← Jeux</a></div>
+
+<div id="top">
+<div id="title">Liquide</div>
+<a id="back" href="index.html">← Jeux</a>
+</div>
+
 <canvas id="canvas"></canvas>
-<div id="hint">Main : pousse • Crayon : obstacle • Ventilo : pose/oriente • Gomme : supprime</div>
+
+<div id="hint">
+Main : pousse • Crayon : obstacle • Ventilo : pose/oriente • Gomme : supprime
+</div>
 
 <div id="controls">
+
 <button class="liquid active" data-liquid="water">💧 Eau</button>
 <button class="liquid" data-liquid="lava">🌋 Lave</button>
 <button class="liquid" data-liquid="oil">🛢️ Huile</button>
 <button class="liquid" data-liquid="milk">🥛 Lait</button>
 <button class="liquid" data-liquid="honey">🍯 Miel</button>
 <button class="liquid" data-liquid="slime">🟢 Slime</button>
+
 <div class="separator"></div>
+
 <button class="tool active" data-tool="hand">✋ Main</button>
 <button class="tool" data-tool="pencil">✏️ Crayon</button>
 <button class="tool" data-tool="fan">🌀 Ventilo</button>
 <button class="tool" data-tool="eraser">🧽 Gomme</button>
 <button id="clearAll">🗑️ Clear All</button>
+
 </div>
 
-<div id="fps">FPS : <span id="fpsValue">0</span></div>
+<div id="fps">
+FPS : <span id="fpsValue">0</span>
+</div>
 
 <div id="start">
 <div class="box">
 <h1>Liquide</h1>
-<p>Choisis ton liquide puis manipule-le.<br>Dessine des obstacles ou ajoute des ventilateurs.</p>
-<button class="start" onclick="startGame()">Commencer</button>
+<p>
+Choisis ton liquide puis manipule-le.<br>
+Dessine des obstacles ou ajoute des ventilateurs.
+</p>
+<button class="start" id="startButton">Commencer</button>
 </div>
 </div>
+
 </div>
 
 <script>
+
 const canvas=document.getElementById("canvas");
 const ctx=canvas.getContext("2d",{alpha:false});
-let W=0,H=0;
+
+let W=0;
+let H=0;
 
 function resize(){
-W=innerWidth;
-H=innerHeight;
+W=window.innerWidth;
+H=window.innerHeight;
 canvas.width=W;
 canvas.height=H;
 }
+
 resize();
+
 window.addEventListener("resize",resize);
 
 
@@ -88,36 +230,67 @@ window.addEventListener("resize",resize);
 ========================= */
 
 const liquids={
+
 water:{
-gravity:.17,friction:.986,push:1.5,size:3,
-color:"#197db0",light:"#d8fbff",dark:"#063b5a",
-alpha:.72,cohesion:.009,viscosity:1,style:"water"
+gravity:.18,
+friction:.985,
+push:1.6,
+size:3.1,
+color:"#268fbd",
+cohesion:.008,
+viscosity:1
 },
+
 lava:{
-gravity:.10,friction:.992,push:.65,size:3.8,
-color:"#e63b08",light:"#fff09a",dark:"#641306",
-alpha:.90,cohesion:.014,viscosity:1.1,style:"lava"
+gravity:.10,
+friction:.994,
+push:.65,
+size:3.8,
+color:"#e24a15",
+cohesion:.014,
+viscosity:1.5
 },
+
 oil:{
-gravity:.13,friction:.994,push:.75,size:3.6,
-color:"#3e3b24",light:"#e5d78c",dark:"#15130a",
-alpha:.88,cohesion:.014,viscosity:1.35,style:"oil"
+gravity:.13,
+friction:.995,
+push:.8,
+size:3.6,
+color:"#514d2c",
+cohesion:.012,
+viscosity:1.8
 },
+
 milk:{
-gravity:.18,friction:.981,push:1.15,size:4,
-color:"#e9e8df",light:"#fff",dark:"#8c8d87",
-alpha:.96,cohesion:.020,viscosity:1.8,style:"milk"
+gravity:.17,
+friction:.982,
+push:1.15,
+size:4,
+color:"#e8e7df",
+cohesion:.018,
+viscosity:2
 },
+
 honey:{
-gravity:.11,friction:.997,push:.48,size:4.4,
-color:"#d18a0a",light:"#fff0a3",dark:"#552700",
-alpha:.96,cohesion:.030,viscosity:3.4,style:"honey"
+gravity:.09,
+friction:.998,
+push:.42,
+size:4.4,
+color:"#c88913",
+cohesion:.028,
+viscosity:4
 },
+
 slime:{
-gravity:.16,friction:.995,push:1.1,size:4.3,
-color:"#55c928",light:"#dfff9b",dark:"#12480f",
-alpha:.92,cohesion:.060,viscosity:2.7,style:"slime"
+gravity:.14,
+friction:.997,
+push:.8,
+size:4.5,
+color:"#50bd2b",
+cohesion:.075,
+viscosity:3.5
 }
+
 };
 
 let current="water";
@@ -128,7 +301,8 @@ let currentTool="hand";
    PARTICULES
 ========================= */
 
-const MAX_PARTICLES=2400;
+const MAX_PARTICLES=2600;
+
 let particles=[];
 
 function createParticles(){
@@ -136,32 +310,50 @@ function createParticles(){
 particles.length=0;
 
 const l=liquids[current];
+
 const startY=Math.max(145,H*.34);
-const bottom=H-145;
+const bottom=H-135;
+
+const area=W*(bottom-startY);
 
 const spacing=Math.max(
-5,
-Math.sqrt((W*(bottom-startY))/MAX_PARTICLES)
+5.2,
+Math.sqrt(area/MAX_PARTICLES)
 );
 
-for(let y=startY;y<bottom;y+=spacing){
+for(
+let y=startY;
+y<bottom;
+y+=spacing
+){
 
-for(let x=10;x<W-10;x+=spacing){
+for(
+let x=8;
+x<W-8;
+x+=spacing
+){
 
-if(particles.length>=MAX_PARTICLES)break;
+if(particles.length>=MAX_PARTICLES)
+break;
 
 particles.push({
-x:x+(Math.random()-.5)*2,
-y:y+(Math.random()-.5)*2,
-vx:(Math.random()-.5)*.15,
-vy:(Math.random()-.5)*.1,
-size:l.size*(.78+Math.random()*.42),
-phase:Math.random()*Math.PI*2
+
+x:x+(Math.random()-.5)*1.5,
+y:y+(Math.random()-.5)*1.5,
+
+vx:0,
+vy:0,
+
+size:l.size*
+(.85+Math.random()*.3)
+
 });
 
 }
 
-if(particles.length>=MAX_PARTICLES)break;
+if(particles.length>=MAX_PARTICLES)
+break;
+
 }
 
 }
@@ -172,16 +364,23 @@ if(particles.length>=MAX_PARTICLES)break;
 ========================= */
 
 const pointer={
-x:0,y:0,px:0,py:0,
-vx:0,vy:0,down:false
+x:0,
+y:0,
+px:0,
+py:0,
+vx:0,
+vy:0,
+down:false
 };
 
 function pointerMove(x,y){
 
 pointer.px=pointer.x;
 pointer.py=pointer.y;
+
 pointer.x=x;
 pointer.y=y;
+
 pointer.vx=x-pointer.px;
 pointer.vy=y-pointer.py;
 
@@ -195,38 +394,57 @@ pointer.vy=y-pointer.py;
 let obstacles=[];
 let drawingObstacle=null;
 
-const PENCIL_STEP=14;
-const GRID_SIZE=90;
+const GRID_SIZE=80;
+const PENCIL_STEP=15;
 
 let obstacleGrid=new Map();
+
+function obstacleKey(x,y){
+return Math.floor(x/GRID_SIZE)+","+Math.floor(y/GRID_SIZE);
+}
 
 function rebuildObstacleGrid(){
 
 obstacleGrid.clear();
 
-for(let oi=0;oi<obstacles.length;oi++){
+for(
+let i=0;
+i<obstacles.length;
+i++
+){
 
-const o=obstacles[oi];
+const o=obstacles[i];
 
-const minGX=Math.floor(o.minX/GRID_SIZE);
-const maxGX=Math.floor(o.maxX/GRID_SIZE);
-const minGY=Math.floor(o.minY/GRID_SIZE);
-const maxGY=Math.floor(o.maxY/GRID_SIZE);
+const minX=Math.floor(o.minX/GRID_SIZE);
+const maxX=Math.floor(o.maxX/GRID_SIZE);
 
-for(let gx=minGX;gx<=maxGX;gx++){
+const minY=Math.floor(o.minY/GRID_SIZE);
+const maxY=Math.floor(o.maxY/GRID_SIZE);
 
-for(let gy=minGY;gy<=maxGY;gy++){
+for(
+let gx=minX;
+gx<=maxX;
+gx++
+){
+
+for(
+let gy=minY;
+gy<=maxY;
+gy++
+){
 
 const key=gx+","+gy;
 
 let list=obstacleGrid.get(key);
 
 if(!list){
+
 list=[];
 obstacleGrid.set(key,list);
+
 }
 
-list.push(oi);
+list.push(i);
 
 }
 
@@ -239,49 +457,76 @@ list.push(oi);
 function startObstacle(x,y){
 
 drawingObstacle={
-points:[{x,y}],
-minX:x,maxX:x,
-minY:y,maxY:y
+points:[{x:x,y:y}],
+minX:x,
+maxX:x,
+minY:y,
+maxY:y
 };
 
 }
 
 function addObstaclePoint(x,y){
 
-if(!drawingObstacle)return;
+if(!drawingObstacle)
+return;
 
 const pts=drawingObstacle.points;
+
 const last=pts[pts.length-1];
 
 const dx=x-last.x;
 const dy=y-last.y;
 
-if(dx*dx+dy*dy<PENCIL_STEP*PENCIL_STEP)return;
+if(
+dx*dx+dy*dy<
+PENCIL_STEP*PENCIL_STEP
+)
+return;
 
-pts.push({x,y});
+pts.push({x:x,y:y});
 
-if(x<drawingObstacle.minX)drawingObstacle.minX=x;
-if(x>drawingObstacle.maxX)drawingObstacle.maxX=x;
-if(y<drawingObstacle.minY)drawingObstacle.minY=y;
-if(y>drawingObstacle.maxY)drawingObstacle.maxY=y;
+drawingObstacle.minX=Math.min(
+drawingObstacle.minX,x
+);
+
+drawingObstacle.maxX=Math.max(
+drawingObstacle.maxX,x
+);
+
+drawingObstacle.minY=Math.min(
+drawingObstacle.minY,y
+);
+
+drawingObstacle.maxY=Math.max(
+drawingObstacle.maxY,y
+);
 
 }
 
 function finishObstacle(){
 
-if(!drawingObstacle)return;
+if(!drawingObstacle)
+return;
 
-if(drawingObstacle.points.length>=2){
+if(
+drawingObstacle.points.length>=2
+){
 
 const o=drawingObstacle;
 
 obstacles.push({
+
 points:o.points,
-minX:o.minX-12,
-maxX:o.maxX+12,
-minY:o.minY-12,
-maxY:o.maxY+12,
-width:14
+
+minX:o.minX-10,
+maxX:o.maxX+10,
+
+minY:o.minY-10,
+maxY:o.maxY+10,
+
+width:15
+
 });
 
 rebuildObstacleGrid();
@@ -294,13 +539,18 @@ drawingObstacle=null;
 
 
 /* =========================
-   COLLISION
+   DISTANCE SEGMENT
 ========================= */
 
-function pointSegmentDistanceSq(px,py,ax,ay,bx,by){
+function pointSegmentDistanceSq(
+px,py,
+ax,ay,
+bx,by
+){
 
 const dx=bx-ax;
 const dy=by-ay;
+
 const len2=dx*dx+dy*dy;
 
 if(len2===0){
@@ -309,12 +559,17 @@ const ex=px-ax;
 const ey=py-ay;
 
 return ex*ex+ey*ey;
+
 }
 
-let t=((px-ax)*dx+(py-ay)*dy)/len2;
+let t=
+(
+(px-ax)*dx+
+(py-ay)*dy
+)/len2;
 
 if(t<0)t=0;
-else if(t>1)t=1;
+if(t>1)t=1;
 
 const cx=ax+t*dx;
 const cy=ay+t*dy;
@@ -326,58 +581,104 @@ return ex*ex+ey*ey;
 
 }
 
+
+/* =========================
+   COLLISION CRAYON
+========================= */
+
 function collideObstacles(p){
 
 const gx=Math.floor(p.x/GRID_SIZE);
 const gy=Math.floor(p.y/GRID_SIZE);
 
-for(let ox=-1;ox<=1;ox++){
+for(
+let ox=-1;
+ox<=1;
+ox++
+){
 
-for(let oy=-1;oy<=1;oy++){
+for(
+let oy=-1;
+oy<=1;
+oy++
+){
 
-const list=obstacleGrid.get(
+const list=
+obstacleGrid.get(
 (gx+ox)+","+(gy+oy)
 );
 
-if(!list)continue;
+if(!list)
+continue;
 
-for(let li=0;li<list.length;li++){
+for(
+let n=0;
+n<list.length;
+n++
+){
 
-const o=obstacles[list[li]];
+const o=obstacles[list[n]];
 
 if(
 p.x<o.minX||
 p.x>o.maxX||
 p.y<o.minY||
 p.y>o.maxY
-)continue;
+)
+continue;
 
-const radius=p.size+o.width*.5;
-const radius2=radius*radius;
 const pts=o.points;
 
-for(let i=0;i<pts.length-1;i++){
+const radius=
+p.size+
+o.width*.5;
+
+const radius2=
+radius*radius;
+
+for(
+let i=0;
+i<pts.length-1;
+i++
+){
 
 const a=pts[i];
 const b=pts[i+1];
 
-const d2=pointSegmentDistanceSq(
-p.x,p.y,a.x,a.y,b.x,b.y
+if(
+p.x<
+Math.min(a.x,b.x)-radius||
+p.x>
+Math.max(a.x,b.x)+radius||
+p.y<
+Math.min(a.y,b.y)-radius||
+p.y>
+Math.max(a.y,b.y)+radius
+)
+continue;
+
+const d2=
+pointSegmentDistanceSq(
+p.x,p.y,
+a.x,a.y,
+b.x,b.y
 );
 
-if(d2>=radius2)continue;
+if(d2>=radius2)
+continue;
 
 const dx=b.x-a.x;
 const dy=b.y-a.y;
+
 const len=Math.hypot(dx,dy)||1;
 
-const t=Math.max(
-0,
-Math.min(
-1,
-((p.x-a.x)*dx+(p.y-a.y)*dy)/(len*len)
-)
-);
+let t=
+(
+(p.x-a.x)*dx+
+(p.y-a.y)*dy
+)/(len*len);
+
+t=Math.max(0,Math.min(1,t));
 
 const cx=a.x+t*dx;
 const cy=a.y+t*dy;
@@ -395,15 +696,17 @@ const penetration=radius-d;
 p.x+=nx*(penetration+1);
 p.y+=ny*(penetration+1);
 
-const dot=p.vx*nx+p.vy*ny;
+const dot=
+p.vx*nx+
+p.vy*ny;
 
 if(dot<0){
 
-p.vx-=dot*1.8*nx;
-p.vy-=dot*1.8*ny;
+p.vx-=dot*nx*1.7;
+p.vy-=dot*ny*1.7;
 
-p.vx*=.70;
-p.vy*=.70;
+p.vx*=.72;
+p.vy*=.72;
 
 }
 
@@ -419,7 +722,7 @@ p.vy*=.70;
 
 
 /* =========================
-   VENTILO
+   VENTILATEURS
 ========================= */
 
 let fans=[];
@@ -427,26 +730,36 @@ let selectedFan=null;
 
 function createFan(x,y){
 
-const f={
-x,y,
+const fan={
+x:x,
+y:y,
 angle:0,
-power:11
+power:10
 };
 
-fans.push(f);
-return f;
+fans.push(fan);
+
+return fan;
 
 }
 
 function findFan(x,y){
 
-for(let i=fans.length-1;i>=0;i--){
+for(
+let i=fans.length-1;
+i>=0;
+i--
+){
 
 const f=fans[i];
+
 const dx=f.x-x;
 const dy=f.y-y;
 
-if(dx*dx+dy*dy<55*55)
+if(
+dx*dx+dy*dy<
+55*55
+)
 return f;
 
 }
@@ -455,52 +768,67 @@ return null;
 
 }
 
-
-/* =========================
-   FAN : OPTIMISE
-========================= */
-
 function applyFans(){
 
-if(!fans.length)return;
+if(!fans.length)
+return;
 
 for(const f of fans){
 
 const cos=Math.cos(f.angle);
 const sin=Math.sin(f.angle);
 
-const range=480;
-const width=185;
+const range=470;
+const width=180;
 
-for(let i=0;i<particles.length;i++){
+for(
+let i=0;
+i<particles.length;
+i++
+){
 
 const p=particles[i];
 
 const dx=p.x-f.x;
 const dy=p.y-f.y;
 
-const forward=dx*cos+dy*sin;
+const forward=
+dx*cos+
+dy*sin;
 
-if(forward<0||forward>range)continue;
-
-const side=-dx*sin+dy*cos;
-const widthHere=width+forward*.20;
-
-if(Math.abs(side)>widthHere)continue;
-
-const distance=1-forward/range;
-const sideFactor=1-Math.abs(side)/widthHere;
-
-/* obstacle : seulement vérifié si nécessaire */
-if(obstacles.length && fanBlocked(f,p))
+if(
+forward<0||
+forward>range
+)
 continue;
+
+const side=
+-dx*sin+
+dy*cos;
+
+const currentWidth=
+width+
+forward*.18;
+
+if(
+Math.abs(side)>
+currentWidth
+)
+continue;
+
+const distance=
+1-forward/range;
+
+const sideFactor=
+1-
+Math.abs(side)/currentWidth;
 
 const force=
 f.power*
 distance*
 distance*
 sideFactor*
-.115;
+.12;
 
 p.vx+=cos*force;
 p.vy+=sin*force;
@@ -513,125 +841,63 @@ p.vy+=sin*force;
 
 
 /* =========================
-   FAN BLOCKAGE
-========================= */
-
-function segmentIntersectsSegment(
-ax,ay,bx,by,
-cx,cy,dx,dy
-){
-
-const rX=bx-ax;
-const rY=by-ay;
-const sX=dx-cx;
-const sY=dy-cy;
-
-const cross=rX*sY-rY*sX;
-
-if(Math.abs(cross)<.00001)return false;
-
-const qpx=cx-ax;
-const qpy=cy-ay;
-
-const t=(qpx*sY-qpy*sX)/cross;
-const u=(qpx*rY-qpy*rX)/cross;
-
-return t>=0&&t<=1&&u>=0&&u<=1;
-
-}
-
-function fanBlocked(f,p){
-
-const minX=Math.min(f.x,p.x)-4;
-const maxX=Math.max(f.x,p.x)+4;
-const minY=Math.min(f.y,p.y)-4;
-const maxY=Math.max(f.y,p.y)+4;
-
-const minGX=Math.floor(minX/GRID_SIZE);
-const maxGX=Math.floor(maxX/GRID_SIZE);
-const minGY=Math.floor(minY/GRID_SIZE);
-const maxGY=Math.floor(maxY/GRID_SIZE);
-
-for(let gx=minGX;gx<=maxGX;gx++){
-
-for(let gy=minGY;gy<=maxGY;gy++){
-
-const list=obstacleGrid.get(gx+","+gy);
-
-if(!list)continue;
-
-for(let li=0;li<list.length;li++){
-
-const o=obstacles[list[li]];
-
-if(
-o.maxX<minX||
-o.minX>maxX||
-o.maxY<minY||
-o.minY>maxY
-)continue;
-
-const pts=o.points;
-
-for(let i=0;i<pts.length-1;i++){
-
-const a=pts[i];
-const b=pts[i+1];
-
-if(
-segmentIntersectsSegment(
-f.x,f.y,
-p.x,p.y,
-a.x,a.y,
-b.x,b.y
-)
-)return true;
-
-}
-
-}
-
-}
-
-}
-
-return false;
-
-}
-
-
-/* =========================
    MAIN
 ========================= */
 
 function interact(){
 
-if(!pointer.down||currentTool!=="hand")return;
+if(
+!pointer.down||
+currentTool!=="hand"
+)
+return;
 
 const l=liquids[current];
 
-const radius=125;
+const radius=120;
 const radius2=radius*radius;
 
-const fx=pointer.vx*l.push;
-const fy=pointer.vy*l.push;
+const fx=
+pointer.vx*
+l.push;
 
-for(let i=0;i<particles.length;i++){
+const fy=
+pointer.vy*
+l.push;
+
+for(
+let i=0;
+i<particles.length;
+i++
+){
 
 const p=particles[i];
 
-const dx=p.x-pointer.x;
-const dy=p.y-pointer.y;
+const dx=
+p.x-pointer.x;
 
-const d2=dx*dx+dy*dy;
+const dy=
+p.y-pointer.y;
+
+const d2=
+dx*dx+
+dy*dy;
 
 if(d2<radius2){
 
 const factor=
-1-Math.sqrt(d2)/radius;
+1-
+Math.sqrt(d2)/radius;
 
-p.vx+=fx*factor*.11;
-p.vy+=fy*factor*.11;
+p.vx+=
+fx*
+factor*
+.13;
+
+p.vy+=
+fy*
+factor*
+.13;
 
 }
 
@@ -646,49 +912,279 @@ p.vy+=fy*factor*.11;
 
 function eraseObjects(x,y){
 
-const r=42;
-const r2=r*r;
+const radius=42;
+const radius2=radius*radius;
 
-for(let i=obstacles.length-1;i>=0;i--){
+for(
+let i=obstacles.length-1;
+i>=0;
+i--
+){
 
 const o=obstacles[i];
 
 if(
-x<o.minX-r||
-x>o.maxX+r||
-y<o.minY-r||
-y>o.maxY+r
-)continue;
+x<o.minX-radius||
+x>o.maxX+radius||
+y<o.minY-radius||
+y>o.maxY+radius
+)
+continue;
 
-for(const p of o.points){
+let erased=false;
 
-const dx=p.x-x;
-const dy=p.y-y;
+const pts=o.points;
 
-if(dx*dx+dy*dy<r2){
+for(
+let j=0;
+j<pts.length;
+j++
+){
 
-obstacles.splice(i,1);
+const dx=pts[j].x-x;
+const dy=pts[j].y-y;
+
+if(
+dx*dx+
+dy*dy<
+radius2
+){
+
+erased=true;
 break;
 
 }
 
 }
 
+if(erased)
+obstacles.splice(i,1);
+
 }
 
-for(let i=fans.length-1;i>=0;i--){
+for(
+let i=fans.length-1;
+i>=0;
+i--
+){
 
 const f=fans[i];
 
 const dx=f.x-x;
 const dy=f.y-y;
 
-if(dx*dx+dy*dy<55*55)
+if(
+dx*dx+
+dy*dy<
+55*55
+){
+
 fans.splice(i,1);
 
 }
 
+}
+
 rebuildObstacleGrid();
+
+}
+
+
+/* =========================
+   GRILLE LIQUIDE
+========================= */
+
+const LIQUID_GRID=22;
+
+let liquidGrid=new Map();
+
+function rebuildLiquidGrid(){
+
+liquidGrid.clear();
+
+for(
+let i=0;
+i<particles.length;
+i++
+){
+
+const p=particles[i];
+
+const gx=
+Math.floor(
+p.x/LIQUID_GRID
+);
+
+const gy=
+Math.floor(
+p.y/LIQUID_GRID
+);
+
+const key=
+gx+","+gy;
+
+let list=
+liquidGrid.get(key);
+
+if(!list){
+
+list=[];
+liquidGrid.set(key,list);
+
+}
+
+list.push(i);
+
+}
+
+}
+
+
+/* =========================
+   COHESION
+========================= */
+
+let physicsFrame=0;
+
+function liquidCohesion(){
+
+physicsFrame++;
+
+if(
+physicsFrame%3!==0
+)
+return;
+
+const l=liquids[current];
+
+const distance=
+current==="slime"
+?18
+:10;
+
+const distance2=
+distance*distance;
+
+const target=
+current==="slime"
+?11
+:6.2;
+
+rebuildLiquidGrid();
+
+for(
+let i=0;
+i<particles.length;
+i++
+){
+
+const p=particles[i];
+
+const gx=
+Math.floor(
+p.x/LIQUID_GRID
+);
+
+const gy=
+Math.floor(
+p.y/LIQUID_GRID
+);
+
+for(
+let ox=-1;
+ox<=1;
+ox++
+){
+
+for(
+let oy=-1;
+oy<=1;
+oy++
+){
+
+const list=
+liquidGrid.get(
+(gx+ox)+","+(gy+oy)
+);
+
+if(!list)
+continue;
+
+for(
+let n=0;
+n<list.length;
+n++
+){
+
+const j=list[n];
+
+if(j<=i)
+continue;
+
+const q=particles[j];
+
+const dx=q.x-p.x;
+
+if(
+Math.abs(dx)>
+distance
+)
+continue;
+
+const dy=q.y-p.y;
+
+if(
+Math.abs(dy)>
+distance
+)
+continue;
+
+const d2=
+dx*dx+
+dy*dy;
+
+if(
+d2<=.1||
+d2>distance2
+)
+continue;
+
+const d=Math.sqrt(d2);
+
+if(d<target){
+
+const force=
+(target-d)*
+l.cohesion;
+
+const nx=dx/d;
+const ny=dy/d;
+
+p.vx-=
+nx*
+force;
+
+p.vy-=
+ny*
+force;
+
+q.vx+=
+nx*
+force;
+
+q.vy+=
+ny*
+force;
+
+}
+
+}
+
+}
+
+}
+
+}
 
 }
 
@@ -701,12 +1197,21 @@ function update(){
 
 const l=liquids[current];
 
-for(let i=0;i<particles.length;i++){
+const friction=
+Math.pow(
+l.friction,
+l.viscosity
+);
+
+const bottom=H-135;
+
+for(
+let i=0;
+i<particles.length;
+i++
+){
 
 const p=particles[i];
-
-const friction=
-Math.pow(l.friction,l.viscosity);
 
 p.vy+=l.gravity;
 
@@ -716,34 +1221,50 @@ p.vy*=friction;
 p.x+=p.vx;
 p.y+=p.vy;
 
-const bottom=H-135;
-
-if(p.y>bottom){
+if(
+p.y>bottom
+){
 
 p.y=bottom;
 
-if(p.vy>0)p.vy*=-.24;
+if(p.vy>0)
+p.vy*=-.22;
 
 p.vx*=.94;
 
 }
 
-if(p.y<78){
+if(
+p.y<80
+){
 
-p.y=78;
-p.vy=Math.abs(p.vy)*.18;
+p.y=80;
+
+if(p.vy<0)
+p.vy=0;
 
 }
 
-if(p.x<p.size){
+if(
+p.x<p.size
+){
 
 p.x=p.size;
-p.vx=Math.abs(p.vx)*.3;
 
-}else if(p.x>W-p.size){
+if(p.vx<0)
+p.vx*=-.25;
+
+}
+
+else if(
+p.x>
+W-p.size
+){
 
 p.x=W-p.size;
-p.vx=-Math.abs(p.vx)*.3;
+
+if(p.vx>0)
+p.vx*=-.25;
 
 }
 
@@ -758,500 +1279,36 @@ applyFans();
 
 
 /* =========================
-   GRILLE DE COHESION
-========================= */
-
-const COHESION_GRID=20;
-let cohesionGrid=new Map();
-
-function rebuildCohesionGrid(){
-
-cohesionGrid.clear();
-
-for(let i=0;i<particles.length;i++){
-
-const p=particles[i];
-
-const gx=Math.floor(p.x/COHESION_GRID);
-const gy=Math.floor(p.y/COHESION_GRID);
-
-const key=gx+","+gy;
-
-let list=cohesionGrid.get(key);
-
-if(!list){
-
-list=[];
-cohesionGrid.set(key,list);
-
-}
-
-list.push(i);
-
-}
-
-}
-
-
-/* =========================
-   COHESION OPTIMISEE
-========================= */
-
-let physicsFrame=0;
-
-function liquidCohesion(){
-
-physicsFrame++;
-
-if(physicsFrame%4!==0)return;
-
-const l=liquids[current];
-
-const maxDist=current==="slime"?17:11;
-const maxDist2=maxDist*maxDist;
-const target=current==="slime"?10:6.5;
-
-rebuildCohesionGrid();
-
-for(let i=0;i<particles.length;i++){
-
-const p=particles[i];
-
-const gx=Math.floor(p.x/COHESION_GRID);
-const gy=Math.floor(p.y/COHESION_GRID);
-
-for(let ox=-1;ox<=1;ox++){
-
-for(let oy=-1;oy<=1;oy++){
-
-const list=
-cohesionGrid.get(
-(gx+ox)+","+(gy+oy)
-);
-
-if(!list)continue;
-
-for(let k=0;k<list.length;k++){
-
-const j=list[k];
-
-if(j<=i)continue;
-
-const q=particles[j];
-
-const dx=q.x-p.x;
-
-if(Math.abs(dx)>maxDist)continue;
-
-const dy=q.y-p.y;
-
-if(Math.abs(dy)>maxDist)continue;
-
-const d2=dx*dx+dy*dy;
-
-if(d2>.1&&d2<maxDist2){
-
-const d=Math.sqrt(d2);
-
-if(d<target){
-
-const force=
-(target-d)*l.cohesion;
-
-const nx=dx/d;
-const ny=dy/d;
-
-p.vx-=nx*force;
-p.vy-=ny*force;
-
-q.vx+=nx*force;
-q.vy+=ny*force;
-
-}
-
-}
-
-}
-
-}
-
-}
-
-}
-
-}
-
-
-/* =========================
-   EFFETS
-========================= */
-
-let waves=[];
-let droplets=[];
-
-function addWave(x,y,power){
-
-waves.push({
-x,y,r:3,life:1,power
-});
-
-if(waves.length>18)
-waves.shift();
-
-}
-
-function updateWaves(){
-
-for(let i=waves.length-1;i>=0;i--){
-
-const w=waves[i];
-
-w.r+=4*w.power;
-w.life-=.025;
-
-if(w.life<=0)
-waves.splice(i,1);
-
-}
-
-}
-
-function splash(x,y,vx,vy){
-
-const l=liquids[current];
-
-let amount=8;
-
-if(current==="honey")amount=3;
-if(current==="slime")amount=5;
-
-for(let i=0;i<amount;i++){
-
-const a=Math.random()*Math.PI*2;
-const speed=(1+Math.random()*3)*l.push;
-
-droplets.push({
-x,y,
-vx:Math.cos(a)*speed+vx*.3,
-vy:Math.sin(a)*speed+vy*.3-2,
-size:1+Math.random()*2,
-life:1
-});
-
-}
-
-}
-
-function updateDroplets(){
-
-for(let i=droplets.length-1;i>=0;i--){
-
-const d=droplets[i];
-
-d.vy+=.14;
-d.vx*=.985;
-d.vy*=.985;
-
-d.x+=d.vx;
-d.y+=d.vy;
-
-d.life-=.025;
-
-if(d.life<=0||d.y>H)
-droplets.splice(i,1);
-
-}
-
-}
-
-
-/* =========================
-   RENDU PARTICULES
+   DESSIN LIQUIDE
 ========================= */
 
 function drawParticles(){
 
 const l=liquids[current];
-const now=performance.now();
 
-if(l.style==="water"){
+ctx.fillStyle=l.color;
 
-ctx.fillStyle="#197db0";
-ctx.globalAlpha=.62;
+ctx.globalAlpha=.95;
+
 ctx.beginPath();
 
-for(const p of particles){
-ctx.moveTo(p.x+p.size*1.25,p.y);
-ctx.arc(p.x,p.y,p.size*1.25,0,Math.PI*2);
-}
-
-ctx.fill();
-
-ctx.fillStyle="#a9f3ff";
-ctx.globalAlpha=.65;
-ctx.beginPath();
-
-for(let i=0;i<particles.length;i+=4){
+for(
+let i=0;
+i<particles.length;
+i++
+){
 
 const p=particles[i];
-
-ctx.ellipse(
-p.x-p.size*.3,
-p.y-p.size*.45,
-p.size*.65,
-p.size*.23,
--.45,
-0,
-Math.PI*2
-);
-
-}
-
-ctx.fill();
-ctx.globalAlpha=1;
-return;
-
-}
-
-if(l.style==="lava"){
-
-ctx.globalCompositeOperation="lighter";
-
-ctx.fillStyle="#e63b08";
-ctx.globalAlpha=.8;
-ctx.beginPath();
-
-for(const p of particles){
-
-ctx.moveTo(p.x+p.size*1.4,p.y);
-ctx.arc(p.x,p.y,p.size*1.4,0,Math.PI*2);
-
-}
-
-ctx.fill();
-
-ctx.fillStyle="#ff8c1a";
-ctx.globalAlpha=.7;
-ctx.beginPath();
-
-for(let i=0;i<particles.length;i+=3){
-
-const p=particles[i];
-
-ctx.arc(p.x,p.y,p.size*.8,0,Math.PI*2);
-
-}
-
-ctx.fill();
-
-ctx.fillStyle="#fff3a0";
-ctx.globalAlpha=.6;
-ctx.beginPath();
-
-for(let i=0;i<particles.length;i+=8){
-
-const p=particles[i];
-
-ctx.arc(
-p.x-p.size*.3,
-p.y-p.size*.4,
-p.size*.35,
-0,
-Math.PI*2
-);
-
-}
-
-ctx.fill();
-
-ctx.globalCompositeOperation="source-over";
-ctx.globalAlpha=1;
-return;
-
-}
-
-if(l.style==="oil"){
-
-ctx.fillStyle="#302e19";
-ctx.globalAlpha=.9;
-ctx.beginPath();
-
-for(const p of particles){
-
-ctx.moveTo(p.x+p.size*1.3,p.y);
-ctx.arc(p.x,p.y,p.size*1.3,0,Math.PI*2);
-
-}
-
-ctx.fill();
-
-ctx.fillStyle="#c6b45c";
-ctx.globalAlpha=.45;
-ctx.beginPath();
-
-for(let i=0;i<particles.length;i+=3){
-
-const p=particles[i];
-
-ctx.ellipse(
-p.x-p.size*.2,
-p.y-p.size*.45,
-p.size*.9,
-p.size*.2,
--.35,
-0,
-Math.PI*2
-);
-
-}
-
-ctx.fill();
-ctx.globalAlpha=1;
-return;
-
-}
-
-if(l.style==="milk"){
-
-ctx.fillStyle="#eeeDE5";
-ctx.globalAlpha=.96;
-ctx.beginPath();
-
-for(const p of particles){
-
-ctx.moveTo(p.x+p.size*1.3,p.y);
-ctx.arc(p.x,p.y,p.size*1.3,0,Math.PI*2);
-
-}
-
-ctx.fill();
-
-ctx.fillStyle="#fff";
-ctx.globalAlpha=.55;
-ctx.beginPath();
-
-for(let i=0;i<particles.length;i+=4){
-
-const p=particles[i];
-
-ctx.arc(
-p.x-p.size*.35,
-p.y-p.size*.45,
-p.size*.4,
-0,
-Math.PI*2
-);
-
-}
-
-ctx.fill();
-ctx.globalAlpha=1;
-return;
-
-}
-
-if(l.style==="honey"){
-
-ctx.fillStyle="#b96d05";
-ctx.globalAlpha=.97;
-ctx.beginPath();
-
-for(const p of particles){
-
-ctx.moveTo(p.x+p.size*1.5,p.y);
-ctx.arc(p.x,p.y,p.size*1.5,0,Math.PI*2);
-
-}
-
-ctx.fill();
-
-ctx.fillStyle="#e9a51c";
-ctx.globalAlpha=.8;
-ctx.beginPath();
-
-for(let i=0;i<particles.length;i+=2){
-
-const p=particles[i];
-
-ctx.arc(
-p.x,
-p.y,
-p.size*.9,
-0,
-Math.PI*2
-);
-
-}
-
-ctx.fill();
-
-ctx.fillStyle="#fff0a1";
-ctx.globalAlpha=.55;
-ctx.beginPath();
-
-for(let i=0;i<particles.length;i+=6){
-
-const p=particles[i];
-
-ctx.ellipse(
-p.x-p.size*.4,
-p.y-p.size*.5,
-p.size*.65,
-p.size*.25,
--.4,
-0,
-Math.PI*2
-);
-
-}
-
-ctx.fill();
-ctx.globalAlpha=1;
-return;
-
-}
-
-if(l.style==="slime"){
-
-ctx.fillStyle="#43a91f";
-ctx.globalAlpha=.94;
-ctx.beginPath();
-
-for(const p of particles){
-
-const wobble=
-1+Math.sin(now*.003+p.phase)*.12;
 
 ctx.moveTo(
-p.x+p.size*wobble,
+p.x+p.size,
 p.y
 );
 
 ctx.arc(
-p.x,p.y,
-p.size*wobble,
-0,
-Math.PI*2
-);
-
-}
-
-ctx.fill();
-
-ctx.fillStyle="#8ae94a";
-ctx.globalAlpha=.7;
-ctx.beginPath();
-
-for(let i=0;i<particles.length;i+=3){
-
-const p=particles[i];
-
-ctx.ellipse(
-p.x-p.size*.3,
-p.y-p.size*.5,
-p.size*.8,
-p.size*.3,
--.45,
+p.x,
+p.y,
+p.size,
 0,
 Math.PI*2
 );
@@ -1261,8 +1318,6 @@ Math.PI*2
 ctx.fill();
 
 ctx.globalAlpha=1;
-
-}
 
 }
 
@@ -1278,25 +1333,39 @@ ctx.lineJoin="round";
 
 for(const o of obstacles){
 
-if(o.points.length<2)continue;
+if(o.points.length<2)
+continue;
 
 ctx.beginPath();
-ctx.moveTo(o.points[0].x,o.points[0].y);
 
-for(let i=1;i<o.points.length;i++)
-ctx.lineTo(o.points[i].x,o.points[i].y);
+ctx.moveTo(
+o.points[0].x,
+o.points[0].y
+);
 
-ctx.strokeStyle="#414647";
+for(
+let i=1;
+i<o.points.length;
+i++
+){
+
+ctx.lineTo(
+o.points[i].x,
+o.points[i].y
+);
+
+}
+
+ctx.strokeStyle="#555";
 ctx.lineWidth=o.width;
-ctx.stroke();
-
-ctx.strokeStyle="rgba(255,255,255,.16)";
-ctx.lineWidth=1.5;
 ctx.stroke();
 
 }
 
-if(drawingObstacle&&drawingObstacle.points.length>=2){
+if(
+drawingObstacle&&
+drawingObstacle.points.length>=2
+){
 
 ctx.beginPath();
 
@@ -1305,14 +1374,21 @@ drawingObstacle.points[0].x,
 drawingObstacle.points[0].y
 );
 
-for(let i=1;i<drawingObstacle.points.length;i++)
+for(
+let i=1;
+i<drawingObstacle.points.length;
+i++
+){
+
 ctx.lineTo(
 drawingObstacle.points[i].x,
 drawingObstacle.points[i].y
 );
 
-ctx.strokeStyle="rgba(170,180,180,.85)";
-ctx.lineWidth=14;
+}
+
+ctx.strokeStyle="#777";
+ctx.lineWidth=15;
 ctx.stroke();
 
 }
@@ -1321,12 +1397,10 @@ ctx.stroke();
 
 
 /* =========================
-   FANS
+   VENTILATEURS VISUELS
 ========================= */
 
 function drawFans(){
-
-const now=performance.now();
 
 for(const f of fans){
 
@@ -1336,66 +1410,54 @@ ctx.translate(f.x,f.y);
 ctx.rotate(f.angle);
 
 ctx.beginPath();
-ctx.moveTo(30,-90);
-ctx.lineTo(450,-70);
-ctx.lineTo(450,70);
-ctx.lineTo(30,90);
+
+ctx.moveTo(30,-85);
+ctx.lineTo(420,-65);
+ctx.lineTo(420,65);
+ctx.lineTo(30,85);
 ctx.closePath();
 
-ctx.fillStyle="rgba(170,225,240,.055)";
+ctx.fillStyle="rgba(150,200,220,.035)";
 ctx.fill();
 
-for(let i=0;i<8;i++){
-
-const yy=-60+i*17;
-const offset=Math.sin(now*.007+i)*18;
-
 ctx.beginPath();
-ctx.moveTo(55,yy);
 
-ctx.quadraticCurveTo(
-180,yy+offset,
-410,yy
+ctx.arc(
+0,
+0,
+38,
+0,
+Math.PI*2
 );
 
-ctx.strokeStyle="rgba(180,230,240,.18)";
-ctx.lineWidth=1.5;
-ctx.stroke();
-
-}
-
-ctx.restore();
-
-ctx.save();
-
-ctx.translate(f.x,f.y);
-ctx.rotate(f.angle);
-
-ctx.beginPath();
-ctx.arc(0,0,40,0,Math.PI*2);
-ctx.fillStyle="#1d2324";
+ctx.fillStyle="#202526";
 ctx.fill();
 
-ctx.strokeStyle="#7c8586";
+ctx.strokeStyle="#888";
 ctx.lineWidth=2;
 ctx.stroke();
 
-for(let i=0;i<4;i++){
+for(
+let i=0;
+i<4;
+i++
+){
 
 ctx.save();
 
-ctx.rotate(
-i*Math.PI/2+now*.0028
-);
+ctx.rotate(i*Math.PI/2);
 
 ctx.beginPath();
 
 ctx.moveTo(0,0);
-ctx.quadraticCurveTo(22,-12,34,-3);
-ctx.quadraticCurveTo(22,12,0,5);
+
+ctx.lineTo(30,-8);
+ctx.lineTo(34,4);
+ctx.lineTo(5,7);
+
 ctx.closePath();
 
-ctx.fillStyle="#a0aaab";
+ctx.fillStyle="#999";
 ctx.fill();
 
 ctx.restore();
@@ -1403,8 +1465,16 @@ ctx.restore();
 }
 
 ctx.beginPath();
-ctx.arc(0,0,9,0,Math.PI*2);
-ctx.fillStyle="#e0e5e5";
+
+ctx.arc(
+0,
+0,
+8,
+0,
+Math.PI*2
+);
+
+ctx.fillStyle="#ddd";
 ctx.fill();
 
 ctx.restore();
@@ -1415,109 +1485,46 @@ ctx.restore();
 
 
 /* =========================
-   AUTRES DESSINS
+   CURSEUR
 ========================= */
-
-function drawDroplets(){
-
-const l=liquids[current];
-
-ctx.fillStyle=l.light;
-
-for(const d of droplets){
-
-ctx.globalAlpha=d.life;
-
-ctx.beginPath();
-ctx.arc(d.x,d.y,d.size,0,Math.PI*2);
-ctx.fill();
-
-}
-
-ctx.globalAlpha=1;
-
-}
-
-function drawWaves(){
-
-const l=liquids[current];
-
-for(const w of waves){
-
-ctx.beginPath();
-ctx.arc(w.x,w.y,w.r,0,Math.PI*2);
-
-ctx.strokeStyle=l.light;
-ctx.globalAlpha=w.life*.16;
-ctx.lineWidth=1.5;
-
-ctx.stroke();
-
-}
-
-ctx.globalAlpha=1;
-
-}
-
-function drawSurface(){
-
-const l=liquids[current];
-const base=H-135;
-
-ctx.beginPath();
-ctx.moveTo(0,base);
-
-for(let x=0;x<=W;x+=18){
-
-let y=base;
-
-for(const w of waves){
-
-const dx=Math.abs(x-w.x);
-
-if(dx<160){
-
-y-=Math.sin(
-(1-dx/160)*Math.PI
-)*w.power*w.life*8;
-
-}
-
-}
-
-ctx.lineTo(x,y);
-
-}
-
-ctx.lineTo(W,H);
-ctx.lineTo(0,H);
-ctx.closePath();
-
-ctx.fillStyle=l.dark;
-ctx.globalAlpha=.20;
-ctx.fill();
-
-ctx.globalAlpha=1;
-
-}
 
 function drawCursor(){
 
-if(!pointer.down)return;
+if(!pointer.down)
+return;
 
 if(currentTool==="pencil"){
 
 ctx.beginPath();
-ctx.arc(pointer.x,pointer.y,7,0,Math.PI*2);
-ctx.fillStyle="rgba(190,190,190,.7)";
+
+ctx.arc(
+pointer.x,
+pointer.y,
+7,
+0,
+Math.PI*2
+);
+
+ctx.fillStyle="#aaa";
 ctx.fill();
 
-}else if(currentTool==="eraser"){
+}
+
+if(currentTool==="eraser"){
 
 ctx.beginPath();
-ctx.arc(pointer.x,pointer.y,38,0,Math.PI*2);
-ctx.strokeStyle="rgba(230,230,230,.45)";
+
+ctx.arc(
+pointer.x,
+pointer.y,
+38,
+0,
+Math.PI*2
+);
+
+ctx.strokeStyle="rgba(255,255,255,.4)";
 ctx.lineWidth=2;
+
 ctx.stroke();
 
 }
@@ -1531,15 +1538,17 @@ ctx.stroke();
 
 function render(){
 
-ctx.fillStyle="#080b0c";
-ctx.fillRect(0,0,W,H);
+ctx.fillStyle="#090b0c";
+ctx.fillRect(
+0,
+0,
+W,
+H
+);
 
-drawSurface();
+drawParticles();
 drawObstacles();
 drawFans();
-drawParticles();
-drawDroplets();
-drawWaves();
 drawCursor();
 
 }
@@ -1556,11 +1565,17 @@ function updateFPS(now){
 
 fpsFrames++;
 
-if(now-fpsLast>500){
+if(
+now-fpsLast>=500
+){
 
-document.getElementById("fpsValue").textContent=
+document.getElementById(
+"fpsValue"
+).textContent=
 Math.round(
-fpsFrames*1000/(now-fpsLast)
+fpsFrames*
+1000/
+(now-fpsLast)
 );
 
 fpsFrames=0;
@@ -1579,7 +1594,8 @@ let running=false;
 
 function loop(now){
 
-if(!running)return;
+if(!running)
+return;
 
 updateFPS(now);
 
@@ -1587,10 +1603,11 @@ pointer.vx*=.8;
 pointer.vy*=.8;
 
 interact();
+
 liquidCohesion();
+
 update();
-updateWaves();
-updateDroplets();
+
 render();
 
 requestAnimationFrame(loop);
@@ -1599,41 +1616,45 @@ requestAnimationFrame(loop);
 
 
 /* =========================
-   SOURIS / TOUCH
+   POINTER DOWN
 ========================= */
 
 canvas.addEventListener(
 "pointerdown",
 function(e){
 
-if(!running)return;
+if(!running)
+return;
 
 pointer.down=true;
 
-pointerMove(e.clientX,e.clientY);
-
-if(currentTool==="hand"){
-
-addWave(e.clientX,e.clientY,1.2);
-
-splash(
+pointerMove(
 e.clientX,
-e.clientY,
-pointer.vx,
-pointer.vy
+e.clientY
 );
 
-}else if(currentTool==="pencil"){
+if(currentTool==="pencil"){
 
-startObstacle(e.clientX,e.clientY);
+startObstacle(
+e.clientX,
+e.clientY
+);
 
-}else if(currentTool==="eraser"){
+}
 
-eraseObjects(e.clientX,e.clientY);
+else if(currentTool==="eraser"){
 
-}else if(currentTool==="fan"){
+eraseObjects(
+e.clientX,
+e.clientY
+);
 
-const existing=findFan(
+}
+
+else if(currentTool==="fan"){
+
+const existing=
+findFan(
 e.clientX,
 e.clientY
 );
@@ -1642,9 +1663,11 @@ if(existing){
 
 selectedFan=existing;
 
-}else{
+}
+else{
 
-selectedFan=createFan(
+selectedFan=
+createFan(
 e.clientX,
 e.clientY
 );
@@ -1654,7 +1677,9 @@ e.clientY
 }
 
 try{
-canvas.setPointerCapture(e.pointerId);
+canvas.setPointerCapture(
+e.pointerId
+);
 }catch(err){}
 
 },
@@ -1662,54 +1687,65 @@ canvas.setPointerCapture(e.pointerId);
 );
 
 
+/* =========================
+   POINTER MOVE
+========================= */
+
 canvas.addEventListener(
 "pointermove",
 function(e){
 
-if(!running||!pointer.down)return;
-
-pointerMove(e.clientX,e.clientY);
-
-if(currentTool==="hand"){
-
 if(
-Math.abs(pointer.vx)+Math.abs(pointer.vy)>3
-){
-
-addWave(
-e.clientX,
-e.clientY,
-Math.min(
-1.4,
-(Math.abs(pointer.vx)+Math.abs(pointer.vy))/18
+!running||
+!pointer.down
 )
+return;
+
+pointerMove(
+e.clientX,
+e.clientY
 );
 
-}
-
-}else if(currentTool==="pencil"){
+if(
+currentTool==="pencil"
+){
 
 addObstaclePoint(
 e.clientX,
 e.clientY
 );
 
-}else if(currentTool==="eraser"){
+}
+
+else if(
+currentTool==="eraser"
+){
 
 eraseObjects(
 e.clientX,
 e.clientY
 );
 
-}else if(
+}
+
+else if(
 currentTool==="fan"&&
 selectedFan
 ){
 
-const dx=e.clientX-selectedFan.x;
-const dy=e.clientY-selectedFan.y;
+const dx=
+e.clientX-
+selectedFan.x;
 
-if(dx*dx+dy*dy>100){
+const dy=
+e.clientY-
+selectedFan.y;
+
+if(
+dx*dx+
+dy*dy>
+100
+){
 
 selectedFan.angle=
 Math.atan2(dy,dx);
@@ -1723,33 +1759,34 @@ Math.atan2(dy,dx);
 );
 
 
-canvas.addEventListener(
-"pointerup",
-function(){
+/* =========================
+   POINTER UP
+========================= */
 
-if(currentTool==="pencil")
+function endPointer(){
+
+if(
+currentTool==="pencil"
+)
 finishObstacle();
 
 selectedFan=null;
 
 pointer.down=false;
+
 pointer.vx=0;
 pointer.vy=0;
 
 }
+
+canvas.addEventListener(
+"pointerup",
+endPointer
 );
 
 canvas.addEventListener(
 "pointercancel",
-function(){
-
-if(currentTool==="pencil")
-finishObstacle();
-
-selectedFan=null;
-pointer.down=false;
-
-}
+endPointer
 );
 
 
@@ -1757,15 +1794,18 @@ pointer.down=false;
    CLEAR ALL
 ========================= */
 
-document.getElementById("clearAll")
+document
+.getElementById("clearAll")
 .addEventListener(
 "click",
 function(){
 
 obstacles.length=0;
 fans.length=0;
+
 drawingObstacle=null;
 selectedFan=null;
+
 obstacleGrid.clear();
 
 }
@@ -1773,63 +1813,84 @@ obstacleGrid.clear();
 
 
 /* =========================
-   LIQUIDES
+   BOUTONS LIQUIDES
 ========================= */
 
-document.querySelectorAll(".liquid")
-.forEach(button=>{
+document
+.querySelectorAll(".liquid")
+.forEach(
+button=>{
 
 button.addEventListener(
 "click",
 function(){
 
-document.querySelectorAll(".liquid")
-.forEach(b=>b.classList.remove("active"));
+document
+.querySelectorAll(".liquid")
+.forEach(
+b=>b.classList.remove("active")
+);
 
 this.classList.add("active");
 
-current=this.dataset.liquid;
+current=
+this.dataset.liquid;
 
 createParticles();
 
 }
 );
 
-});
+}
+);
 
 
 /* =========================
-   OUTILS
+   BOUTONS OUTILS
 ========================= */
 
-document.querySelectorAll(".tool")
-.forEach(button=>{
+document
+.querySelectorAll(".tool")
+.forEach(
+button=>{
 
 button.addEventListener(
 "click",
 function(){
 
-document.querySelectorAll(".tool")
-.forEach(b=>b.classList.remove("active"));
+document
+.querySelectorAll(".tool")
+.forEach(
+b=>b.classList.remove("active")
+);
 
 this.classList.add("active");
 
-currentTool=this.dataset.tool;
+currentTool=
+this.dataset.tool;
+
 selectedFan=null;
 
 }
 );
 
-});
+}
+);
 
 
 /* =========================
-   START
+   DEMARRAGE
 ========================= */
 
-function startGame(){
+document
+.getElementById("startButton")
+.addEventListener(
+"click",
+function(){
 
-document.getElementById("start").style.display="none";
+document
+.getElementById("start")
+.style.display="none";
 
 createParticles();
 
@@ -1838,7 +1899,9 @@ running=true;
 requestAnimationFrame(loop);
 
 }
+);
 
 </script>
+
 </body>
 </html>
