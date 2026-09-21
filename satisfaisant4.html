@@ -4,498 +4,96 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0">
 <meta name="HandheldFriendly" content="true">
-
 <title>Liquide</title>
-
 <style>
-
-*{
-box-sizing:border-box;
-margin:0;
-padding:0;
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#0c1011;font-family:Arial,sans-serif;color:#eee;touch-action:none}
+#game{position:fixed;inset:0;overflow:hidden}
+canvas{position:absolute;inset:0;width:100%;height:100%;touch-action:none}
+#top{position:absolute;z-index:10;top:14px;left:18px;right:18px;display:flex;justify-content:space-between;align-items:center;pointer-events:none}
+#title{font-size:22px;font-weight:bold;text-shadow:0 2px 8px #000}
+#back{pointer-events:auto;text-decoration:none;color:#ddd;background:rgba(25,28,29,.85);padding:9px 14px;border-radius:10px}
+#hint{position:absolute;z-index:5;top:58px;left:50%;transform:translateX(-50%);font-size:13px;color:#aaa;text-align:center;pointer-events:none;white-space:nowrap}
+#controls{position:absolute;z-index:20;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:7px;align-items:center;justify-content:center;flex-wrap:wrap;width:96%;max-width:1000px}
+button{border:0;color:#eee;background:#202526;border-radius:9px;padding:9px 12px;font-size:13px;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.25)}
+button:hover{background:#2b3031}
+button.active{background:#454c4d;box-shadow:0 0 0 1px rgba(255,255,255,.2) inset}
+.separator{width:1px;height:27px;background:#444;margin:0 3px}
+#fps{position:absolute;z-index:20;right:18px;top:65px;font-size:12px;color:#777}
+#start{position:absolute;z-index:100;inset:0;background:rgba(4,6,7,.82);display:flex;align-items:center;justify-content:center}
+.box{width:min(500px,90%);background:#171b1c;border:1px solid #303536;border-radius:18px;padding:30px;text-align:center;box-shadow:0 20px 60px #000}
+.box h1{margin:0 0 12px;font-size:32px}
+.box p{color:#aaa;line-height:1.5;margin-bottom:24px}
+.start{font-size:16px;padding:12px 24px;background:#394041}
+@media(max-width:700px){
+#controls{bottom:10px}
+button{padding:8px 9px;font-size:12px}
+#hint{top:55px;font-size:11px}
+#title{font-size:18px}
 }
-
-html,body{
-width:100%;
-height:100%;
-overflow:hidden;
-background:#090b0c;
-touch-action:none;
-user-select:none;
--webkit-user-select:none;
--webkit-touch-callout:none;
-}
-
-body{
-font-family:Arial,sans-serif;
-color:#eee;
-}
-
-#game{
-position:relative;
-width:100%;
-height:100%;
-overflow:hidden;
-background:
-radial-gradient(circle at 50% 35%,#1b2224 0%,#101416 48%,#080a0b 100%);
-}
-
-canvas{
-position:absolute;
-inset:0;
-width:100%;
-height:100%;
-display:block;
-touch-action:none;
-}
-
-#top{
-position:absolute;
-top:0;
-left:0;
-right:0;
-height:72px;
-
-display:flex;
-align-items:center;
-justify-content:space-between;
-
-padding:0 24px;
-
-z-index:20;
-
-background:rgba(8,10,11,.75);
-
-border-bottom:1px solid rgba(255,255,255,.07);
-
-backdrop-filter:blur(8px);
--webkit-backdrop-filter:blur(8px);
-
-pointer-events:none;
-}
-
-#title{
-font-family:Georgia,serif;
-font-size:23px;
-}
-
-#back{
-pointer-events:auto;
-
-text-decoration:none;
-
-color:#ddd;
-
-background:#191c1d;
-
-border:1px solid rgba(255,255,255,.12);
-
-border-radius:6px;
-
-padding:9px 14px;
-
-font-size:13px;
-}
-
-#hint{
-position:absolute;
-
-top:89px;
-
-left:50%;
-
-transform:translateX(-50%);
-
-z-index:10;
-
-font-size:12px;
-
-color:#666;
-
-white-space:nowrap;
-
-pointer-events:none;
-}
-
-
-/* =====================================================
-   PANNEAU
-===================================================== */
-
-#controls{
-position:absolute;
-
-bottom:17px;
-left:17px;
-
-z-index:30;
-
-display:flex;
-gap:6px;
-
-padding:7px;
-
-background:rgba(10,12,13,.84);
-
-border:1px solid rgba(255,255,255,.08);
-
-border-radius:10px;
-
-max-width:calc(100% - 34px);
-
-overflow-x:auto;
-}
-
-.liquid,
-.tool{
-
-border:1px solid rgba(255,255,255,.1);
-
-background:#181b1c;
-
-color:#999;
-
-border-radius:6px;
-
-padding:8px 11px;
-
-font-size:12px;
-
-cursor:pointer;
-
-white-space:nowrap;
-
-transition:.15s;
-}
-
-.liquid.active,
-.tool.active{
-
-background:#315b57;
-
-color:#fff;
-
-border-color:#4d7772;
-
-}
-
-.separator{
-
-width:1px;
-
-background:rgba(255,255,255,.1);
-
-margin:0 3px;
-}
-
-
-/* =====================================================
-   FPS
-===================================================== */
-
-#fps{
-
-position:absolute;
-
-right:17px;
-
-bottom:17px;
-
-z-index:30;
-
-font-size:11px;
-
-color:#555;
-
-background:rgba(10,12,13,.7);
-
-padding:8px 10px;
-
-border-radius:7px;
-
-pointer-events:none;
-}
-
-
-/* =====================================================
-   START
-===================================================== */
-
-#start{
-
-position:absolute;
-
-inset:0;
-
-z-index:100;
-
-display:flex;
-
-align-items:center;
-
-justify-content:center;
-
-background:rgba(7,9,10,.91);
-}
-
-.box{
-
-width:min(92%,480px);
-
-padding:38px;
-
-background:#15191a;
-
-border:1px solid rgba(255,255,255,.08);
-
-border-radius:12px;
-
-text-align:center;
-
-box-shadow:0 25px 70px rgba(0,0,0,.5);
-}
-
-.box h1{
-
-font-family:Georgia,serif;
-
-font-size:42px;
-
-font-weight:normal;
-
-margin-bottom:15px;
-}
-
-.box p{
-
-color:#818687;
-
-font-size:14px;
-
-line-height:1.8;
-
-margin-bottom:26px;
-}
-
-.start{
-
-border:0;
-
-background:#315b57;
-
-color:#fff;
-
-padding:14px 30px;
-
-border-radius:6px;
-
-font-size:14px;
-
-cursor:pointer;
-}
-
-
-/* =====================================================
-   OBSTACLES
-===================================================== */
-
-.obstacle{
-
-position:absolute;
-
-background:#45494a;
-
-border:1px solid #737777;
-
-border-radius:3px;
-
-box-shadow:
-0 3px 10px rgba(0,0,0,.4),
-inset 0 1px rgba(255,255,255,.12);
-
-pointer-events:none;
-}
-
-
-/* =====================================================
-   MOBILE
-===================================================== */
-
-@media(max-width:650px){
-
-#top{
-
-height:64px;
-
-padding:0 15px;
-}
-
-#title{
-
-font-size:19px;
-}
-
-#hint{
-
-top:78px;
-
-font-size:11px;
-}
-
-#controls{
-
-left:8px;
-right:8px;
-bottom:8px;
-
-max-width:none;
-}
-
-#fps{
-
-display:none;
-}
-
-}
-
 </style>
 </head>
 
 <body>
-
 <div id="game">
 
 <div id="top">
-
-<div id="title">
-Liquide
+<div id="title">Liquide</div>
+<a id="back" href="index.html">← Jeux</a>
 </div>
-
-<a id="back" href="index.html">
-← Jeux
-</a>
-
-</div>
-
 
 <canvas id="canvas"></canvas>
 
-
-<div id="hint">
-Maintiens et glisse pour manipuler le liquide
-</div>
-
+<div id="hint">Main : pousse le liquide • Crayon : dessine • Ventilateur : place et oriente • Gomme : supprime</div>
 
 <div id="controls">
-
-<button class="liquid active" data-liquid="water">
-Eau
-</button>
-
-<button class="liquid" data-liquid="lava">
-Lave
-</button>
-
-<button class="liquid" data-liquid="oil">
-Huile
-</button>
-
-<button class="liquid" data-liquid="milk">
-Lait
-</button>
-
-<button class="liquid" data-liquid="honey">
-Miel
-</button>
-
-<button class="liquid" data-liquid="slime">
-Slime
-</button>
+<button class="liquid active" data-liquid="water">Eau</button>
+<button class="liquid" data-liquid="lava">Lave</button>
+<button class="liquid" data-liquid="oil">Huile</button>
+<button class="liquid" data-liquid="milk">Lait</button>
+<button class="liquid" data-liquid="honey">Miel</button>
+<button class="liquid" data-liquid="slime">Slime</button>
 
 <div class="separator"></div>
 
-<button class="tool active" data-tool="hand">
-✋ Main
-</button>
-
-<button class="tool" data-tool="pencil">
-✏️ Crayon
-</button>
-
-<button class="tool" data-tool="eraser">
-🧽 Gomme
-</button>
-
+<button class="tool active" data-tool="hand">✋ Main</button>
+<button class="tool" data-tool="pencil">✏️ Crayon</button>
+<button class="tool" data-tool="fan">🌀 Ventilo</button>
+<button class="tool" data-tool="eraser">🧽 Gomme</button>
 </div>
 
-
-<div id="fps">
-FPS : <span id="fpsValue">0</span>
-</div>
-
+<div id="fps">FPS : <span id="fpsValue">0</span></div>
 
 <div id="start">
-
 <div class="box">
-
-<h1>
-Liquide
-</h1>
-
+<h1>Liquide</h1>
 <p>
-Choisis ton liquide puis manipule-le avec ta souris.
-Avec le crayon, dessine des obstacles.
-Avec la gomme, tu peux les supprimer.
+Choisis ton liquide puis manipule-le avec ta souris.<br>
+Dessine des obstacles, ajoute des ventilateurs et observe le liquide réagir.
 </p>
-
-<button class="start" onclick="startGame()">
-Commencer
-</button>
-
+<button class="start" onclick="startGame()">Commencer</button>
+</div>
 </div>
 
 </div>
-
-</div>
-
 
 <script>
-
-
-/* =========================================================
-   CANVAS
-========================================================= */
-
 const canvas=document.getElementById("canvas");
+const ctx=canvas.getContext("2d",{alpha:false});
 
-const ctx=canvas.getContext("2d",{
-alpha:false
-});
-
-let W=0;
-let H=0;
+let W=0,H=0;
 
 function resize(){
-
 W=innerWidth;
 H=innerHeight;
-
 canvas.width=W;
 canvas.height=H;
-
 }
 
 resize();
-
 window.addEventListener("resize",resize);
 
-
-/* =========================================================
-   LIQUIDES
-========================================================= */
-
 const liquids={
-
 water:{
 gravity:.17,
 friction:.985,
@@ -506,7 +104,6 @@ light:"#a9edff",
 dark:"#123f52",
 alpha:.72
 },
-
 lava:{
 gravity:.10,
 friction:.992,
@@ -517,7 +114,6 @@ light:"#ffd36a",
 dark:"#5d1808",
 alpha:.82
 },
-
 oil:{
 gravity:.13,
 friction:.993,
@@ -528,7 +124,6 @@ light:"#d5c98e",
 dark:"#252215",
 alpha:.72
 },
-
 milk:{
 gravity:.18,
 friction:.984,
@@ -539,7 +134,6 @@ light:"#ffffff",
 dark:"#777a75",
 alpha:.82
 },
-
 honey:{
 gravity:.11,
 friction:.996,
@@ -550,7 +144,6 @@ light:"#ffe58a",
 dark:"#633707",
 alpha:.86
 },
-
 slime:{
 gravity:.16,
 friction:.989,
@@ -561,38 +154,19 @@ light:"#caff91",
 dark:"#1d5b20",
 alpha:.78
 }
-
 };
 
 let current="water";
-
-
-/* =========================================================
-   OUTILS
-========================================================= */
-
 let currentTool="hand";
 
 let particles=[];
-
 let obstacles=[];
-
+let fans=[];
 let waves=[];
-
 let droplets=[];
 
-
-/*
-   On augmente le nombre de particules
-   puisque tu as 60 FPS.
-*/
-
-const MAX_PARTICLES=2300;
-
-
-/* =========================================================
-   CRÉATION DES PARTICULES
-========================================================= */
+/* PLUS DE PARTICULES */
+const MAX_PARTICLES=3200;
 
 function createParticles(){
 
@@ -600,76 +174,43 @@ particles.length=0;
 
 const l=liquids[current];
 
-/*
-   Le liquide commence plus haut qu'avant.
-   Il reste donc bien visible et manipulable.
-*/
-
 const startY=Math.max(145,H*.34);
-
 const bottom=H-145;
 
+const area=W*(bottom-startY);
 
-/*
-   Espacement légèrement plus petit
-   pour avoir beaucoup plus de liquide.
-*/
-
-const spacing=Math.max(
-6,
-Math.sqrt((W*(bottom-startY))/MAX_PARTICLES)
-);
+const spacing=Math.max(5,Math.sqrt(area/MAX_PARTICLES));
 
 for(let y=startY;y<bottom;y+=spacing){
 
-for(let x=18;x<W-18;x+=spacing){
+for(let x=12;x<W-12;x+=spacing){
 
-if(particles.length>=MAX_PARTICLES){
-break;
-}
+if(particles.length>=MAX_PARTICLES)break;
 
 particles.push({
-
 x:x+(Math.random()-.5)*2,
-
 y:y+(Math.random()-.5)*2,
-
 vx:(Math.random()-.5)*.15,
-
 vy:(Math.random()-.5)*.1,
-
 size:l.size*(.75+Math.random()*.45)
-
 });
 
 }
 
-if(particles.length>=MAX_PARTICLES){
-break;
+if(particles.length>=MAX_PARTICLES)break;
+}
 }
 
-}
-
-}
-
-
-/* =========================================================
-   POINTER
-========================================================= */
+/* POINTEUR */
 
 const pointer={
-
 x:0,
 y:0,
-
 px:0,
 py:0,
-
 vx:0,
 vy:0,
-
 down:false
-
 };
 
 function pointerMove(x,y){
@@ -682,172 +223,73 @@ pointer.y=y;
 
 pointer.vx=x-pointer.px;
 pointer.vy=y-pointer.py;
-
 }
 
-
-/* =========================================================
+/* =========================
    OBSTACLES
-========================================================= */
-
-/*
-   Un obstacle est une ligne composée
-   de plusieurs petits segments.
-
-   Cela permet d'avoir des formes libres.
-*/
+========================= */
 
 let drawingObstacle=null;
 
 function startObstacle(x,y){
-
 drawingObstacle={
-points:[
-{x:x,y:y}
-]
+points:[{x:x,y:y}]
 };
-
 }
 
 function addObstaclePoint(x,y){
 
-if(!drawingObstacle){
-return;
-}
+if(!drawingObstacle)return;
 
 const points=drawingObstacle.points;
-
 const last=points[points.length-1];
 
-const d=Math.hypot(
-x-last.x,
-y-last.y
-);
+const d=Math.hypot(x-last.x,y-last.y);
 
-if(d>7){
-
-points.push({
-x:x,
-y:y
-});
-
+if(d>5){
+points.push({x:x,y:y});
 }
-
 }
 
 function finishObstacle(){
 
-if(!drawingObstacle){
-return;
-}
+if(!drawingObstacle)return;
 
 if(drawingObstacle.points.length>=2){
 
 obstacles.push({
-
 points:drawingObstacle.points,
-
-width:12
-
+width:14
 });
 
 }
 
 drawingObstacle=null;
-
 }
 
+/* distance point segment */
 
-/* =========================================================
-   GOMME
-========================================================= */
-
-function eraseObstacle(x,y){
-
-const radius=25;
-
-for(let i=obstacles.length-1;i>=0;i--){
-
-const obstacle=obstacles[i];
-
-let erase=false;
-
-for(const p of obstacle.points){
-
-if(Math.hypot(
-p.x-x,
-p.y-y
-)<radius){
-
-erase=true;
-break;
-
-}
-
-}
-
-if(erase){
-
-obstacles.splice(i,1);
-
-}
-
-}
-
-}
-
-
-/* =========================================================
-   DISTANCE POINT / SEGMENT
-========================================================= */
-
-function pointSegmentDistance(
-px,
-py,
-ax,
-ay,
-bx,
-by
-){
+function pointSegmentDistance(px,py,ax,ay,bx,by){
 
 const dx=bx-ax;
 const dy=by-ay;
 
 const length2=dx*dx+dy*dy;
 
-if(length2===0){
+if(length2===0)
+return Math.hypot(px-ax,py-ay);
 
-return Math.hypot(
-px-ax,
-py-ay
-);
+let t=((px-ax)*dx+(py-ay)*dy)/length2;
 
-}
-
-let t=(
-(px-ax)*dx+
-(py-ay)*dy
-)/length2;
-
-t=Math.max(
-0,
-Math.min(1,t)
-);
+t=Math.max(0,Math.min(1,t));
 
 const x=ax+t*dx;
 const y=ay+t*dy;
 
-return Math.hypot(
-px-x,
-py-y
-);
-
+return Math.hypot(px-x,py-y);
 }
 
-
-/* =========================================================
-   COLLISION OBSTACLES
-========================================================= */
+/* COLLISION AMELIOREE */
 
 function collideObstacles(p){
 
@@ -860,6 +302,16 @@ for(let i=0;i<pts.length-1;i++){
 const a=pts[i];
 const b=pts[i+1];
 
+const dx=b.x-a.x;
+const dy=b.y-a.y;
+
+const length=Math.hypot(dx,dy)||1;
+
+const nx=-dy/length;
+const ny=dx/length;
+
+const radius=p.size+obstacle.width*.5;
+
 const d=pointSegmentDistance(
 p.x,
 p.y,
@@ -869,81 +321,305 @@ b.x,
 b.y
 );
 
-const radius=p.size+obstacle.width*.5;
-
 if(d<radius){
 
-/*
-   trouver la normale approximative
-*/
+let sideX=p.x;
+let sideY=p.y;
 
-const dx=b.x-a.x;
-const dy=b.y-a.y;
+let t=((sideX-a.x)*dx+(sideY-a.y)*dy)/(length*length);
 
-const length=Math.hypot(dx,dy)||1;
+t=Math.max(0,Math.min(1,t));
 
-const nx=-dy/length;
-const ny=dx/length;
+const closestX=a.x+t*dx;
+const closestY=a.y+t*dy;
 
+let cx=sideX-closestX;
+let cy=sideY-closestY;
 
-/*
-   empêcher la particule
-   de traverser l'obstacle
-*/
+let cd=Math.hypot(cx,cy);
+
+if(cd<.001){
+cx=nx;
+cy=ny;
+cd=1;
+}
+
+cx/=cd;
+cy/=cd;
+
+/* repousse fortement la particule */
 
 const penetration=radius-d;
 
-p.x+=nx*penetration;
-p.y+=ny*penetration;
+p.x+=cx*(penetration+.8);
+p.y+=cy*(penetration+.8);
 
-
-/*
-   réflexion de vitesse
-*/
-
-const dot=
-p.vx*nx+
-p.vy*ny;
+const dot=p.vx*cx+p.vy*cy;
 
 if(dot<0){
 
-p.vx-=2*dot*nx;
-p.vy-=2*dot*ny;
+p.vx-=dot*1.9*cx;
+p.vy-=dot*1.9*cy;
 
-p.vx*=.55;
-p.vy*=.55;
+p.vx*=.72;
+p.vy*=.72;
+}
+
+}
+}
+}
+}
+
+/* GOMME */
+
+function eraseObjects(x,y){
+
+const radius=32;
+
+/* obstacles */
+
+for(let i=obstacles.length-1;i>=0;i--){
+
+const obstacle=obstacles[i];
+
+for(const p of obstacle.points){
+
+if(Math.hypot(p.x-x,p.y-y)<radius){
+
+obstacles.splice(i,1);
+break;
 
 }
 
 }
+}
+
+/* ventilateurs */
+
+for(let i=fans.length-1;i>=0;i--){
+
+const f=fans[i];
+
+if(Math.hypot(f.x-x,f.y-y)<45){
+
+fans.splice(i,1);
 
 }
 
 }
+}
+
+/* =========================
+   VENTILATEURS
+========================= */
+
+let fanAction=null;
+
+function createFan(x,y){
+
+fans.push({
+x:x,
+y:y,
+angle:0,
+power:1
+});
+
+return fans[fans.length-1];
+}
+
+function findFan(x,y){
+
+for(let i=fans.length-1;i>=0;i--){
+
+const f=fans[i];
+
+if(Math.hypot(f.x-x,f.y-y)<42)
+return f;
 
 }
 
+return null;
+}
 
-/* =========================================================
-   INTERACTION
-========================================================= */
+/* pousse le liquide */
+
+function applyFans(){
+
+for(const f of fans){
+
+const cos=Math.cos(f.angle);
+const sin=Math.sin(f.angle);
+
+/* zone de soufflerie */
+
+const range=330;
+const width=125;
+
+for(let i=0;i<particles.length;i++){
+
+const p=particles[i];
+
+const dx=p.x-f.x;
+const dy=p.y-f.y;
+
+const forward=dx*cos+dy*sin;
+
+if(forward<0||forward>range)continue;
+
+const side=-dx*sin+dy*cos;
+
+if(Math.abs(side)>width*(.35+forward/range*.65))
+continue;
+
+const distanceFactor=1-forward/range;
+const sideFactor=1-Math.abs(side)/(width*(.35+forward/range*.65));
+
+const force=
+f.power*
+distanceFactor*
+sideFactor*
+.065;
+
+p.vx+=cos*force;
+p.vy+=sin*force;
+
+}
+}
+}
+
+/* dessiner les ventilateurs */
+
+function drawFans(){
+
+for(const f of fans){
+
+const x=f.x;
+const y=f.y;
+
+const cos=Math.cos(f.angle);
+const sin=Math.sin(f.angle);
+
+/* zone transparente du vent */
+
+ctx.save();
+
+ctx.translate(x,y);
+ctx.rotate(f.angle);
+
+ctx.beginPath();
+ctx.moveTo(25,-70);
+ctx.lineTo(330,-48);
+ctx.lineTo(330,48);
+ctx.lineTo(25,70);
+ctx.closePath();
+
+ctx.fillStyle="rgba(170,210,220,.035)";
+ctx.fill();
+
+for(let j=0;j<5;j++){
+
+const yy=-42+j*21;
+
+ctx.beginPath();
+ctx.moveTo(45,yy);
+ctx.lineTo(300,yy);
+
+ctx.strokeStyle="rgba(170,210,220,.12)";
+ctx.lineWidth=1;
+ctx.stroke();
+
+}
+
+ctx.restore();
+
+/* corps */
+
+ctx.save();
+
+ctx.translate(x,y);
+ctx.rotate(f.angle);
+
+ctx.beginPath();
+ctx.arc(0,0,34,0,Math.PI*2);
+
+ctx.fillStyle="#202728";
+ctx.fill();
+
+ctx.strokeStyle="#697071";
+ctx.lineWidth=2;
+ctx.stroke();
+
+/* pales */
+
+for(let i=0;i<4;i++){
+
+const a=i*Math.PI/2+performance.now()*.0018;
+
+ctx.save();
+ctx.rotate(a);
+
+ctx.beginPath();
+
+ctx.moveTo(0,0);
+ctx.quadraticCurveTo(
+18,-8,
+29,-3
+);
+
+ctx.quadraticCurveTo(
+17,8,
+0,4
+);
+
+ctx.closePath();
+
+ctx.fillStyle="#899293";
+ctx.fill();
+
+ctx.restore();
+}
+
+/* centre */
+
+ctx.beginPath();
+ctx.arc(0,0,7,0,Math.PI*2);
+
+ctx.fillStyle="#c5cccc";
+ctx.fill();
+
+ctx.restore();
+
+/* poignée/base */
+
+ctx.beginPath();
+ctx.arc(
+x-cos*27,
+y-sin*27,
+5,
+0,
+Math.PI*2
+);
+
+ctx.fillStyle="#555d5e";
+ctx.fill();
+
+}
+}
+
+/* =========================
+   INTERACTION MAIN
+========================= */
 
 function interact(){
 
-if(!pointer.down)return;
-
-if(currentTool!=="hand"){
-return;
-}
+if(!pointer.down||currentTool!=="hand")return;
 
 const l=liquids[current];
 
-const radius=125;
-
+const radius=135;
 const radius2=radius*radius;
 
 const forceX=pointer.vx*l.push;
-
 const forceY=pointer.vy*l.push;
 
 for(let i=0;i<particles.length;i++){
@@ -951,79 +627,50 @@ for(let i=0;i<particles.length;i++){
 const p=particles[i];
 
 const dx=p.x-pointer.x;
-
 const dy=p.y-pointer.y;
 
 const d2=dx*dx+dy*dy;
 
 if(d2<radius2){
 
-const factor=
-1-Math.sqrt(d2)/radius;
+const factor=1-Math.sqrt(d2)/radius;
 
-p.vx+=
-forceX*
-factor*
-.11;
+p.vx+=forceX*factor*.13;
+p.vy+=forceY*factor*.13;
 
-p.vy+=
-forceY*
-factor*
-.11;
-
-
-/*
-   aspiration légère
-*/
-
-p.vx-=
-dx*
-factor*
-.002;
-
-p.vy-=
-dy*
-factor*
-.002;
+p.vx-=dx*factor*.002;
+p.vy-=dy*factor*.002;
 
 }
-
+}
 }
 
-}
-
-
-/* =========================================================
+/* =========================
    PHYSIQUE
-========================================================= */
+========================= */
 
 function update(){
 
 const l=liquids[current];
 
+/* plusieurs petites étapes =
+   beaucoup moins de traversées */
+
+const subSteps=2;
+
+for(let step=0;step<subSteps;step++){
+
 for(let i=0;i<particles.length;i++){
 
 const p=particles[i];
 
+p.vy+=l.gravity/subSteps;
 
-/* gravité */
+p.vx*=Math.pow(l.friction,1/subSteps);
+p.vy*=Math.pow(l.friction,1/subSteps);
 
-p.vy+=l.gravity;
-
-
-/* viscosité */
-
-p.vx*=l.friction;
-
-p.vy*=l.friction;
-
-
-/* mouvement */
-
-p.x+=p.vx;
-
-p.y+=p.vy;
-
+p.x+=p.vx/subSteps;
+p.y+=p.vy/subSteps;
 
 /* sol */
 
@@ -1033,62 +680,52 @@ if(p.y>bottom){
 
 p.y=bottom;
 
-if(p.vy>0){
-
+if(p.vy>0)
 p.vy*=-.25;
 
-}
-
 p.vx*=.94;
-
 }
-
 
 /* plafond */
 
 if(p.y<78){
 
 p.y=78;
-
-p.vy=
-Math.abs(p.vy)*.2;
+p.vy=Math.abs(p.vy)*.2;
 
 }
-
 
 /* murs */
 
 if(p.x<p.size){
 
 p.x=p.size;
+p.vx=Math.abs(p.vx)*.3;
 
-p.vx=
-Math.abs(p.vx)*.3;
-
-}
-
-else if(p.x>W-p.size){
+}else if(p.x>W-p.size){
 
 p.x=W-p.size;
-
-p.vx=
--Math.abs(p.vx)*.3;
+p.vx=-Math.abs(p.vx)*.3;
 
 }
 
+/* collision plusieurs fois */
 
-/* collisions */
-
+collideObstacles(p);
 collideObstacles(p);
 
 }
 
 }
 
+/* ventilateurs après déplacement */
 
-/* =========================================================
-   COHÉSION
-========================================================= */
+applyFans();
+}
+
+/* =========================
+   COHESION
+========================= */
 
 let physicsFrame=0;
 
@@ -1096,14 +733,10 @@ function liquidCohesion(){
 
 physicsFrame++;
 
-if(physicsFrame%2!==0){
-return;
-}
+if(physicsFrame%3!==0)return;
 
-const distanceMax=11;
-
-const distanceMax2=
-distanceMax*distanceMax;
+const distanceMax=10;
+const distanceMax2=distanceMax*distanceMax;
 
 for(let i=0;i<particles.length;i++){
 
@@ -1115,33 +748,23 @@ const q=particles[j];
 
 const dx=q.x-p.x;
 
-if(Math.abs(dx)>distanceMax){
-continue;
-}
+if(Math.abs(dx)>distanceMax)continue;
 
 const dy=q.y-p.y;
 
-if(Math.abs(dy)>distanceMax){
-continue;
-}
+if(Math.abs(dy)>distanceMax)continue;
 
 const d2=dx*dx+dy*dy;
 
-if(
-d2>distanceMax2||
-d2<.1
-){
-continue;
-}
+if(d2>distanceMax2||d2<.1)continue;
 
 const d=Math.sqrt(d2);
 
-const target=7;
+const target=6.5;
 
 if(d<target){
 
-const force=
-(target-d)*.01;
+const force=(target-d)*.009;
 
 const nx=dx/d;
 const ny=dy/d;
@@ -1155,36 +778,25 @@ q.vy+=ny*force;
 }
 
 }
-
+}
 }
 
-}
-
-
-/* =========================================================
+/* =========================
    VAGUES
-========================================================= */
+========================= */
 
 function addWave(x,y,power){
 
 waves.push({
-
 x:x,
 y:y,
-
 r:3,
-
 life:1,
-
 power:power
-
 });
 
-if(waves.length>18){
-
+if(waves.length>18)
 waves.shift();
-
-}
 
 }
 
@@ -1195,69 +807,40 @@ for(let i=waves.length-1;i>=0;i--){
 const w=waves[i];
 
 w.r+=4*w.power;
-
 w.life-=.025;
 
-if(w.life<=0){
-
+if(w.life<=0)
 waves.splice(i,1);
 
 }
-
 }
 
-}
-
-
-/* =========================================================
-   ÉCLABOUSSURES
-========================================================= */
+/* =========================
+   ECLABOUSSURES
+========================= */
 
 function splash(x,y,vx,vy){
 
 const l=liquids[current];
 
-const amount=
-current==="honey"
-?4
-:8;
+const amount=current==="honey"?4:9;
 
 for(let i=0;i<amount;i++){
 
-const a=
-Math.random()*
-Math.PI*2;
+const a=Math.random()*Math.PI*2;
 
-const speed=
-(1+Math.random()*3)*
-l.push;
+const speed=(1+Math.random()*3)*l.push;
 
 droplets.push({
-
 x:x,
 y:y,
-
-vx:
-Math.cos(a)*
-speed+
-vx*.3,
-
-vy:
-Math.sin(a)*
-speed+
-vy*.3-
-2,
-
-size:
-1+
-Math.random()*2,
-
+vx:Math.cos(a)*speed+vx*.3,
+vy:Math.sin(a)*speed+vy*.3-2,
+size:1+Math.random()*2,
 life:1
-
 });
 
 }
-
 }
 
 function updateDroplets(){
@@ -1267,7 +850,6 @@ for(let i=droplets.length-1;i>=0;i--){
 const d=droplets[i];
 
 d.vy+=.14;
-
 d.vx*=.985;
 d.vy*=.985;
 
@@ -1276,47 +858,29 @@ d.y+=d.vy;
 
 d.life-=.025;
 
-if(
-d.life<=0||
-d.y>H
-){
-
+if(d.life<=0||d.y>H)
 droplets.splice(i,1);
 
 }
-
 }
 
-}
-
-
-/* =========================================================
-   DESSIN PARTICULES
-========================================================= */
+/* =========================
+   RENDU PARTICULES
+========================= */
 
 function drawParticles(){
 
 const l=liquids[current];
 
-/*
-   rendu très léger :
-   un seul chemin canvas.
-*/
-
 ctx.fillStyle=l.color;
-
 ctx.globalAlpha=l.alpha;
-
 ctx.beginPath();
 
 for(let i=0;i<particles.length;i++){
 
 const p=particles[i];
 
-ctx.moveTo(
-p.x+p.size,
-p.y
-);
+ctx.moveTo(p.x+p.size,p.y);
 
 ctx.arc(
 p.x,
@@ -1332,13 +896,7 @@ ctx.fill();
 
 ctx.globalAlpha=1;
 
-
-/*
-   reflets sur une partie seulement
-*/
-
 ctx.fillStyle=l.light;
-
 ctx.globalAlpha=.22;
 
 ctx.beginPath();
@@ -1360,13 +918,11 @@ Math.PI*2
 ctx.fill();
 
 ctx.globalAlpha=1;
-
 }
 
-
-/* =========================================================
+/* =========================
    GOUTTES
-========================================================= */
+========================= */
 
 function drawDroplets(){
 
@@ -1395,19 +951,13 @@ ctx.fill();
 }
 
 ctx.globalAlpha=1;
-
 }
 
-
-/* =========================================================
+/* =========================
    OBSTACLES
-========================================================= */
+========================= */
 
 function drawObstacles(){
-
-/*
-   obstacles déjà enregistrés
-*/
 
 ctx.lineCap="round";
 ctx.lineJoin="round";
@@ -1416,9 +966,7 @@ for(const obstacle of obstacles){
 
 const pts=obstacle.points;
 
-if(pts.length<2){
-continue;
-}
+if(pts.length<2)continue;
 
 ctx.beginPath();
 
@@ -1437,27 +985,16 @@ pts[i].y
 }
 
 ctx.strokeStyle="#464b4c";
-
 ctx.lineWidth=obstacle.width;
-
 ctx.stroke();
 
-
-/* bord lumineux */
-
-ctx.strokeStyle=
-"rgba(255,255,255,.12)";
-
+ctx.strokeStyle="rgba(255,255,255,.12)";
 ctx.lineWidth=1.5;
-
 ctx.stroke();
 
 }
 
-
-/*
-   obstacle en train d'être dessiné
-*/
+/* obstacle en cours */
 
 if(drawingObstacle){
 
@@ -1481,23 +1018,17 @@ pts[i].y
 
 }
 
-ctx.strokeStyle=
-"rgba(120,130,130,.8)";
-
-ctx.lineWidth=12;
-
+ctx.strokeStyle="rgba(140,150,150,.85)";
+ctx.lineWidth=14;
 ctx.stroke();
 
 }
-
+}
 }
 
-}
-
-
-/* =========================================================
+/* =========================
    VAGUES
-========================================================= */
+========================= */
 
 function drawWaves(){
 
@@ -1516,10 +1047,7 @@ Math.PI*2
 );
 
 ctx.strokeStyle=l.light;
-
-ctx.globalAlpha=
-w.life*.16;
-
+ctx.globalAlpha=w.life*.16;
 ctx.lineWidth=1.5;
 
 ctx.stroke();
@@ -1527,22 +1055,15 @@ ctx.stroke();
 }
 
 ctx.globalAlpha=1;
-
 }
 
-
-/* =========================================================
+/* =========================
    SURFACE
-========================================================= */
+========================= */
 
 function drawSurface(){
 
 const l=liquids[current];
-
-/*
-   Nouveau niveau du liquide :
-   plus haut sur l'écran.
-*/
 
 const base=H-135;
 
@@ -1560,14 +1081,13 @@ const dx=Math.abs(x-w.x);
 
 if(dx<160){
 
-const strength=
-1-dx/160;
-
 y-=
-Math.sin(strength*Math.PI)*
-w.power*
-w.life*
-8;
+Math.sin(
+(1-dx/160)*Math.PI
+)
+*w.power
+*w.life
+*8;
 
 }
 
@@ -1582,29 +1102,22 @@ ctx.lineTo(0,H);
 ctx.closePath();
 
 ctx.fillStyle=l.dark;
-
 ctx.globalAlpha=.18;
-
 ctx.fill();
 
 ctx.globalAlpha=1;
-
 }
 
-
-/* =========================================================
-   OUTIL
-========================================================= */
+/* =========================
+   CURSEUR
+========================= */
 
 function drawToolCursor(){
 
-if(!pointer.down){
-return;
-}
+if(!pointer.down)return;
 
-if(currentTool==="hand"){
+if(currentTool==="hand")
 return;
-}
 
 if(currentTool==="pencil"){
 
@@ -1618,9 +1131,7 @@ pointer.y,
 Math.PI*2
 );
 
-ctx.fillStyle=
-"rgba(180,180,180,.65)";
-
+ctx.fillStyle="rgba(180,180,180,.65)";
 ctx.fill();
 
 }
@@ -1632,59 +1143,43 @@ ctx.beginPath();
 ctx.arc(
 pointer.x,
 pointer.y,
-25,
+32,
 0,
 Math.PI*2
 );
 
-ctx.strokeStyle=
-"rgba(220,220,220,.45)";
-
+ctx.strokeStyle="rgba(220,220,220,.45)";
 ctx.lineWidth=2;
-
 ctx.stroke();
 
 }
 
 }
 
-
-/* =========================================================
+/* =========================
    RENDU
-========================================================= */
+========================= */
 
 function render(){
 
 ctx.fillStyle="#0c1011";
-
-ctx.fillRect(
-0,
-0,
-W,
-H
-);
+ctx.fillRect(0,0,W,H);
 
 drawSurface();
-
 drawObstacles();
-
+drawFans();
 drawParticles();
-
 drawDroplets();
-
 drawWaves();
-
 drawToolCursor();
 
 }
 
-
-/* =========================================================
+/* =========================
    FPS
-========================================================= */
+========================= */
 
 let fpsFrames=0;
-
 let fpsLast=performance.now();
 
 const fpsValue=
@@ -1696,45 +1191,33 @@ fpsFrames++;
 
 if(now-fpsLast>500){
 
-const fps=Math.round(
-fpsFrames*
-1000/
-(now-fpsLast)
+const fps=
+Math.round(
+fpsFrames*1000/(now-fpsLast)
 );
 
 fpsValue.textContent=fps;
 
 fpsFrames=0;
-
 fpsLast=now;
 
 }
-
 }
 
-
-/* =========================================================
+/* =========================
    BOUCLE
-========================================================= */
+========================= */
 
 let running=false;
 
 function loop(now){
 
-if(!running){
-return;
-}
+if(!running)return;
 
 updateFPS(now);
 
-
-/*
-   amortissement souris
-*/
-
 pointer.vx*=.8;
 pointer.vy*=.8;
-
 
 interact();
 
@@ -1752,18 +1235,15 @@ requestAnimationFrame(loop);
 
 }
 
-
-/* =========================================================
-   POINTER DOWN
-========================================================= */
+/* =========================
+   SOURIS / TOUCH
+========================= */
 
 canvas.addEventListener(
 "pointerdown",
 function(e){
 
-if(!running){
-return;
-}
+if(!running)return;
 
 pointer.down=true;
 
@@ -1771,11 +1251,6 @@ pointerMove(
 e.clientX,
 e.clientY
 );
-
-
-/*
-   MAIN
-*/
 
 if(currentTool==="hand"){
 
@@ -1794,11 +1269,6 @@ pointer.vy
 
 }
 
-
-/*
-   CRAYON
-*/
-
 else if(currentTool==="pencil"){
 
 startObstacle(
@@ -1808,59 +1278,69 @@ e.clientY
 
 }
 
-
-/*
-   GOMME
-*/
-
 else if(currentTool==="eraser"){
 
-eraseObstacle(
+eraseObjects(
 e.clientX,
 e.clientY
 );
 
 }
 
+else if(currentTool==="fan"){
 
-try{
+/*
+Si on clique sur un ventilateur,
+on le prend pour pouvoir l'orienter.
+Sinon on en crée un nouveau.
+*/
 
-canvas.setPointerCapture(
-e.pointerId
+const existing=findFan(
+e.clientX,
+e.clientY
 );
 
+if(existing){
+
+fanAction={
+fan:existing,
+mode:"rotate"
+};
+
+}else{
+
+const fan=createFan(
+e.clientX,
+e.clientY
+);
+
+fanAction={
+fan:fan,
+mode:"place"
+};
+
+}
+
+}
+
+try{
+canvas.setPointerCapture(e.pointerId);
 }catch(err){}
 
 },
 {passive:false}
 );
 
-
-/* =========================================================
-   POINTER MOVE
-========================================================= */
-
 canvas.addEventListener(
 "pointermove",
 function(e){
 
-if(!running){
-return;
-}
-
-if(!pointer.down){
-return;
-}
+if(!running||!pointer.down)return;
 
 pointerMove(
 e.clientX,
 e.clientY
 );
-
-
-/*
-   MAIN
-*/
 
 if(currentTool==="hand"){
 
@@ -1885,11 +1365,6 @@ Math.abs(pointer.vy)
 
 }
 
-
-/*
-   CRAYON
-*/
-
 else if(currentTool==="pencil"){
 
 addObstaclePoint(
@@ -1899,17 +1374,43 @@ e.clientY
 
 }
 
-
-/*
-   GOMME
-*/
-
 else if(currentTool==="eraser"){
 
-eraseObstacle(
+eraseObjects(
 e.clientX,
 e.clientY
 );
+
+}
+
+else if(currentTool==="fan"&&fanAction){
+
+const f=fanAction.fan;
+
+/*
+On déplace le ventilateur
+*/
+
+if(fanAction.mode==="place"){
+
+f.x=e.clientX;
+f.y=e.clientY;
+
+}
+
+/*
+On oriente le ventilateur
+en fonction du curseur
+*/
+
+const dx=e.clientX-f.x;
+const dy=e.clientY-f.y;
+
+if(Math.hypot(dx,dy)>8){
+
+f.angle=Math.atan2(dy,dx);
+
+}
 
 }
 
@@ -1917,20 +1418,14 @@ e.clientY
 {passive:false}
 );
 
-
-/* =========================================================
-   POINTER UP
-========================================================= */
-
 canvas.addEventListener(
 "pointerup",
 function(){
 
-if(currentTool==="pencil"){
-
+if(currentTool==="pencil")
 finishObstacle();
 
-}
+fanAction=null;
 
 pointer.down=false;
 
@@ -1940,33 +1435,25 @@ pointer.vy=0;
 }
 );
 
-
-/* =========================================================
-   CANCEL
-========================================================= */
-
 canvas.addEventListener(
 "pointercancel",
 function(){
 
-if(currentTool==="pencil"){
-
+if(currentTool==="pencil")
 finishObstacle();
 
-}
+fanAction=null;
 
 pointer.down=false;
 
 }
 );
 
-
-/* =========================================================
+/* =========================
    LIQUIDES
-========================================================= */
+========================= */
 
-document
-.querySelectorAll(".liquid")
+document.querySelectorAll(".liquid")
 .forEach(button=>{
 
 button.addEventListener(
@@ -1990,13 +1477,11 @@ createParticles();
 
 });
 
-
-/* =========================================================
+/* =========================
    OUTILS
-========================================================= */
+========================= */
 
-document
-.querySelectorAll(".tool")
+document.querySelectorAll(".tool")
 .forEach(button=>{
 
 button.addEventListener(
@@ -2019,16 +1504,13 @@ currentTool=this.dataset.tool;
 
 });
 
-
-/* =========================================================
-   DÉMARRAGE
-========================================================= */
+/* =========================
+   START
+========================= */
 
 function startGame(){
 
-document.getElementById(
-"start"
-).style.display="none";
+document.getElementById("start").style.display="none";
 
 createParticles();
 
@@ -2037,7 +1519,6 @@ running=true;
 requestAnimationFrame(loop);
 
 }
-
 </script>
 
 </body>
