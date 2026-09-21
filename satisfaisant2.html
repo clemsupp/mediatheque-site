@@ -2,26 +2,45 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,user-scalable=no,maximum-scale=1.0">
+<meta name="HandheldFriendly" content="true">
 <title>Bulles</title>
+
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
-html,body{width:100%;height:100%;overflow:hidden}
+*{
+box-sizing:border-box;
+margin:0;
+padding:0;
+}
+
+html,body{
+width:100%;
+height:100%;
+overflow:hidden;
+touch-action:none;
+overscroll-behavior:none;
+user-select:none;
+-webkit-user-select:none;
+-webkit-touch-callout:none;
+-webkit-text-size-adjust:100%;
+}
+
 body{
 font-family:Arial,Helvetica,sans-serif;
-background:#111;
+background:#101010;
 color:#eee;
-touch-action:none;
-user-select:none;
--webkit-user-select:none
 }
+
 #game{
 position:relative;
 width:100%;
 height:100%;
 overflow:hidden;
-background:radial-gradient(circle at center,#202020 0%,#111 75%)
+background:
+radial-gradient(circle at 50% 45%,#222 0%,#151515 45%,#0d0d0d 100%);
+touch-action:none;
 }
+
 header{
 position:absolute;
 top:0;
@@ -32,24 +51,31 @@ display:flex;
 align-items:center;
 justify-content:space-between;
 padding:0 25px;
-z-index:10;
-background:rgba(17,17,17,.75);
-backdrop-filter:blur(8px);
-border-bottom:1px solid #292929
+z-index:50;
+background:rgba(15,15,15,.72);
+backdrop-filter:blur(10px);
+-webkit-backdrop-filter:blur(10px);
+border-bottom:1px solid #292929;
+pointer-events:none;
 }
+
 .title{
 font-family:Georgia,serif;
-font-size:23px
+font-size:23px;
+pointer-events:none;
 }
+
 .back{
+pointer-events:auto;
 border:1px solid #3a3a3a;
 background:#202020;
 color:#eee;
 padding:10px 15px;
 border-radius:5px;
 font-size:13px;
-text-decoration:none
+text-decoration:none;
 }
+
 #info{
 position:absolute;
 top:92px;
@@ -57,9 +83,11 @@ left:50%;
 transform:translateX(-50%);
 color:#777;
 font-size:14px;
-z-index:5;
-white-space:nowrap
+z-index:10;
+white-space:nowrap;
+pointer-events:none;
 }
+
 #score{
 position:absolute;
 bottom:28px;
@@ -67,102 +95,269 @@ left:50%;
 transform:translateX(-50%);
 font-size:15px;
 color:#777;
-z-index:5
+z-index:10;
+pointer-events:none;
 }
+
 .bubble{
 position:absolute;
 border-radius:50%;
-transform:translate(-50%,-50%) scale(.1);
+transform:translate(-50%,-50%) scale(.05);
 opacity:0;
-background:radial-gradient(circle at 32% 28%,rgba(255,255,255,.9) 0 5%,rgba(120,180,170,.65) 15%,rgba(49,91,87,.75) 60%,rgba(25,55,52,.9) 100%);
-border:1px solid rgba(255,255,255,.25);
-box-shadow:0 0 25px rgba(49,91,87,.35),inset 4px 4px 12px rgba(255,255,255,.18);
-animation:appear .35s cubic-bezier(.2,1.4,.4,1) forwards;
-z-index:3
+background:
+radial-gradient(
+circle at 30% 25%,
+rgba(255,255,255,.95) 0%,
+rgba(255,255,255,.35) 5%,
+rgba(125,190,180,.68) 16%,
+rgba(49,91,87,.82) 55%,
+rgba(20,45,42,.95) 100%
+);
+border:1px solid rgba(255,255,255,.28);
+box-shadow:
+0 0 20px rgba(49,91,87,.25),
+0 0 45px rgba(49,91,87,.12),
+inset 6px 6px 15px rgba(255,255,255,.18),
+inset -5px -7px 15px rgba(0,0,0,.25);
+animation:bubbleAppear .8s cubic-bezier(.16,1.25,.35,1) forwards;
+z-index:5;
+will-change:transform,opacity;
 }
+
+.bubble:before{
+content:"";
+position:absolute;
+width:23%;
+height:23%;
+border-radius:50%;
+background:rgba(255,255,255,.65);
+top:20%;
+left:21%;
+filter:blur(1px);
+}
+
 .bubble:after{
 content:"";
 position:absolute;
-width:18%;
-height:18%;
+width:9%;
+height:9%;
 border-radius:50%;
-background:rgba(255,255,255,.55);
-top:22%;
-left:23%
+background:rgba(255,255,255,.45);
+top:39%;
+left:16%;
 }
+
 .bubble.pop{
-animation:pop .28s ease-out forwards
+animation:bubblePop .75s cubic-bezier(.18,.8,.25,1) forwards;
+pointer-events:none;
 }
-@keyframes appear{
-0%{transform:translate(-50%,-50%) scale(.1);opacity:0}
-70%{transform:translate(-50%,-50%) scale(1.08);opacity:1}
-100%{transform:translate(-50%,-50%) scale(1);opacity:1}
+
+@keyframes bubbleAppear{
+0%{
+transform:translate(-50%,-50%) scale(.05);
+opacity:0;
 }
-@keyframes pop{
-0%{transform:translate(-50%,-50%) scale(1);opacity:1}
-100%{transform:translate(-50%,-50%) scale(1.5);opacity:0}
+45%{
+transform:translate(-50%,-50%) scale(1.12);
+opacity:1;
 }
+70%{
+transform:translate(-50%,-50%) scale(.94);
+}
+100%{
+transform:translate(-50%,-50%) scale(1);
+opacity:1;
+}
+}
+
+@keyframes bubblePop{
+0%{
+transform:translate(-50%,-50%) scale(1);
+opacity:1;
+}
+12%{
+transform:translate(-50%,-50%) scale(1.12);
+opacity:1;
+}
+30%{
+transform:translate(-50%,-50%) scale(.92);
+opacity:1;
+}
+55%{
+transform:translate(-50%,-50%) scale(1.35);
+opacity:.75;
+}
+100%{
+transform:translate(-50%,-50%) scale(2.05);
+opacity:0;
+}
+}
+
 .ripple{
 position:absolute;
-width:10px;
-height:10px;
-border:2px solid rgba(255,255,255,.35);
+width:20px;
+height:20px;
+border:2px solid rgba(255,255,255,.42);
 border-radius:50%;
-transform:translate(-50%,-50%);
-animation:ripple .45s ease-out forwards;
+transform:translate(-50%,-50%) scale(.1);
 pointer-events:none;
-z-index:2
+z-index:4;
+animation:ripple .9s cubic-bezier(.15,.65,.25,1) forwards;
 }
+
+.ripple.second{
+border-color:rgba(49,91,87,.65);
+animation-delay:.08s;
+}
+
 @keyframes ripple{
-0%{width:10px;height:10px;opacity:.8}
-100%{width:100px;height:100px;opacity:0}
+0%{
+width:15px;
+height:15px;
+opacity:.85;
+transform:translate(-50%,-50%) scale(.1);
 }
+100%{
+width:170px;
+height:170px;
+opacity:0;
+transform:translate(-50%,-50%) scale(1);
+}
+}
+
 .particle{
 position:absolute;
-width:5px;
-height:5px;
+width:6px;
+height:6px;
 border-radius:50%;
 background:#9b7549;
 pointer-events:none;
-z-index:4;
-animation:particle .45s ease-out forwards
+z-index:7;
+animation:particle .9s cubic-bezier(.15,.7,.2,1) forwards;
+will-change:transform,opacity;
 }
+
+.particle.small{
+width:3px;
+height:3px;
+background:#ddd;
+}
+
 @keyframes particle{
-0%{transform:translate(-50%,-50%) scale(1);opacity:1}
-100%{transform:translate(calc(-50% + var(--x)),calc(-50% + var(--y))) scale(0);opacity:0}
+0%{
+transform:translate(-50%,-50%) scale(1);
+opacity:1;
 }
-#start,#end{
+55%{
+opacity:.8;
+}
+100%{
+transform:
+translate(
+calc(-50% + var(--x)),
+calc(-50% + var(--y))
+) scale(0);
+opacity:0;
+}
+}
+
+.shockwave{
+position:absolute;
+width:40px;
+height:40px;
+border-radius:50%;
+background:rgba(255,255,255,.06);
+transform:translate(-50%,-50%) scale(.2);
+pointer-events:none;
+z-index:2;
+animation:shockwave 1s ease-out forwards;
+}
+
+@keyframes shockwave{
+0%{
+transform:translate(-50%,-50%) scale(.2);
+opacity:.8;
+}
+100%{
+transform:translate(-50%,-50%) scale(5);
+opacity:0;
+}
+}
+
+.popText{
+position:absolute;
+font-size:15px;
+font-weight:bold;
+color:#ddd;
+pointer-events:none;
+z-index:20;
+transform:translate(-50%,-50%);
+animation:popText .9s cubic-bezier(.15,.7,.25,1) forwards;
+text-shadow:0 2px 8px rgba(0,0,0,.6);
+}
+
+@keyframes popText{
+0%{
+opacity:0;
+transform:translate(-50%,-40%) scale(.7);
+}
+20%{
+opacity:1;
+transform:translate(-50%,-80%) scale(1);
+}
+100%{
+opacity:0;
+transform:translate(-50%,-180%) scale(.9);
+}
+}
+
+#start,
+#end{
 position:absolute;
 inset:0;
 display:flex;
 align-items:center;
 justify-content:center;
-background:rgba(17,17,17,.88);
-z-index:20;
-text-align:center
+background:rgba(12,12,12,.88);
+z-index:100;
+text-align:center;
 }
-#end{display:none}
+
+#end{
+display:none;
+}
+
 .box{
 width:min(90%,430px);
 padding:35px;
 background:#191919;
 border:1px solid #303030;
 border-radius:10px;
-box-shadow:0 20px 60px rgba(0,0,0,.4)
+box-shadow:0 20px 60px rgba(0,0,0,.45);
 }
-.box h1,.box h2{
+
+.box h1,
+.box h2{
 font-family:Georgia,serif;
 font-weight:normal;
-margin-bottom:15px
+margin-bottom:15px;
 }
-.box h1{font-size:38px}
-.box h2{font-size:34px}
+
+.box h1{
+font-size:38px;
+}
+
+.box h2{
+font-size:34px;
+}
+
 .box p{
 color:#888;
 line-height:1.7;
 font-size:14px;
-margin-bottom:25px
+margin-bottom:25px;
 }
+
 .button{
 border:0;
 background:#315b57;
@@ -170,19 +365,44 @@ color:white;
 padding:14px 28px;
 border-radius:5px;
 font-size:15px;
-cursor:pointer
+cursor:pointer;
+-webkit-tap-highlight-color:transparent;
 }
-.button:active{transform:scale(.97)}
+
+.button:active{
+transform:scale(.97);
+}
+
 .result{
 font-size:25px;
 color:#9b7549;
-margin-bottom:22px
+margin-bottom:22px;
 }
+
 @media(max-width:600px){
-header{height:65px;padding:0 15px}
-.title{font-size:19px}
-.back{padding:8px 11px}
-#info{top:82px;font-size:12px}
+
+header{
+height:65px;
+padding:0 15px;
+}
+
+.title{
+font-size:19px;
+}
+
+.back{
+padding:8px 11px;
+}
+
+#info{
+top:82px;
+font-size:12px;
+}
+
+#score{
+bottom:20px;
+}
+
 }
 </style>
 </head>
@@ -196,7 +416,7 @@ header{height:65px;padding:0 15px}
 <a class="back" href="index.html">← Jeux</a>
 </header>
 
-<div id="info">Éclate les bulles...</div>
+<div id="info">Glisse sur les bulles...</div>
 
 <div id="score">Bulles éclatées : 0</div>
 
@@ -204,8 +424,8 @@ header{height:65px;padding:0 15px}
 <div class="box">
 <h1>Bulles</h1>
 <p>
-Touche l'écran pour créer des bulles.<br>
-Éclate-les et profite des animations.
+Glisse simplement ta souris ou ton doigt sur les bulles.<br>
+Pas besoin de cliquer à chaque fois.
 </p>
 <button class="button" onclick="startGame()">Commencer</button>
 </div>
@@ -222,6 +442,7 @@ Touche l'écran pour créer des bulles.<br>
 </div>
 
 <script>
+
 const game=document.getElementById("game");
 const start=document.getElementById("start");
 const end=document.getElementById("end");
@@ -231,121 +452,425 @@ const finalScore=document.getElementById("finalScore");
 
 let playing=false;
 let bubbles=0;
-let startTime=0;
-let timer=null;
+let activePointer=false;
+let audioContext=null;
+let spawnTimer=null;
+let automaticTimer=null;
+
+
+/* =========================
+   SON
+========================= */
+
+function initAudio(){
+
+if(!audioContext){
+audioContext=new(window.AudioContext||window.webkitAudioContext)();
+}
+
+if(audioContext.state==="suspended"){
+audioContext.resume();
+}
+
+}
+
+function popSound(){
+
+if(!audioContext)return;
+
+const now=audioContext.currentTime;
+
+const osc=audioContext.createOscillator();
+const gain=audioContext.createGain();
+
+osc.type="sine";
+
+const frequency=420+Math.random()*140;
+
+osc.frequency.setValueAtTime(frequency,now);
+osc.frequency.exponentialRampToValueAtTime(180,now+.38);
+
+gain.gain.setValueAtTime(.0001,now);
+gain.gain.exponentialRampToValueAtTime(.16,now+.015);
+gain.gain.exponentialRampToValueAtTime(.0001,now+.42);
+
+osc.connect(gain);
+gain.connect(audioContext.destination);
+
+osc.start(now);
+osc.stop(now+.43);
+
+
+/* petit deuxième son */
+
+const osc2=audioContext.createOscillator();
+const gain2=audioContext.createGain();
+
+osc2.type="triangle";
+
+osc2.frequency.setValueAtTime(frequency*1.8,now);
+osc2.frequency.exponentialRampToValueAtTime(frequency*.8,now+.25);
+
+gain2.gain.setValueAtTime(.0001,now);
+gain2.gain.exponentialRampToValueAtTime(.045,now+.01);
+gain2.gain.exponentialRampToValueAtTime(.0001,now+.3);
+
+osc2.connect(gain2);
+gain2.connect(audioContext.destination);
+
+osc2.start(now);
+osc2.stop(now+.32);
+
+}
+
+
+/* =========================
+   DÉMARRAGE
+========================= */
 
 function startGame(){
+
+initAudio();
+
 start.style.display="none";
 end.style.display="none";
+
 playing=true;
 bubbles=0;
-startTime=performance.now();
+activePointer=false;
+
 score.textContent="Bulles éclatées : 0";
-info.textContent="Éclate les bulles...";
-clearTimeout(timer);
+info.textContent="Glisse sur les bulles...";
+
+clearTimeout(spawnTimer);
+clearInterval(automaticTimer);
+
+document.querySelectorAll(".bubble,.ripple,.particle,.shockwave,.popText")
+.forEach(e=>e.remove());
+
+/* première série */
+
+for(let i=0;i<7;i++){
+setTimeout(()=>spawnBubble(),i*180);
+}
+
+/* apparition régulière */
+
+automaticTimer=setInterval(()=>{
+
+if(!playing)return;
+
+const current=document.querySelectorAll(".bubble:not(.pop)").length;
+
+if(current<9){
 spawnBubble();
 }
 
-function createRipple(x,y){
-const r=document.createElement("div");
-r.className="ripple";
-r.style.left=x+"px";
-r.style.top=y+"px";
-game.appendChild(r);
-setTimeout(()=>r.remove(),500);
+},700);
+
 }
 
+
+/* =========================
+   EFFETS
+========================= */
+
+function createRipple(x,y){
+
+const r=document.createElement("div");
+r.className="ripple";
+
+r.style.left=x+"px";
+r.style.top=y+"px";
+
+game.appendChild(r);
+
+setTimeout(()=>r.remove(),1000);
+
+
+const r2=document.createElement("div");
+r2.className="ripple second";
+
+r2.style.left=x+"px";
+r2.style.top=y+"px";
+
+game.appendChild(r2);
+
+setTimeout(()=>r2.remove(),1100);
+
+}
+
+
+function createShockwave(x,y){
+
+const s=document.createElement("div");
+
+s.className="shockwave";
+
+s.style.left=x+"px";
+s.style.top=y+"px";
+
+game.appendChild(s);
+
+setTimeout(()=>s.remove(),1000);
+
+}
+
+
 function createParticles(x,y){
-for(let i=0;i<8;i++){
+
+const amount=18;
+
+for(let i=0;i<amount;i++){
+
 const p=document.createElement("div");
-p.className="particle";
+
+p.className=i%3===0?"particle small":"particle";
+
 p.style.left=x+"px";
 p.style.top=y+"px";
 
 const angle=Math.random()*Math.PI*2;
-const distance=25+Math.random()*45;
+const distance=35+Math.random()*90;
 
 p.style.setProperty("--x",Math.cos(angle)*distance+"px");
 p.style.setProperty("--y",Math.sin(angle)*distance+"px");
 
 game.appendChild(p);
-setTimeout(()=>p.remove(),500);
+
+setTimeout(()=>p.remove(),950);
+
 }
+
 }
 
-function popBubble(b){
-if(b.dataset.popped)return;
 
-b.dataset.popped="1";
-bubbles++;
-score.textContent="Bulles éclatées : "+bubbles;
+function createPopText(x,y){
 
-const x=parseFloat(b.style.left);
-const y=parseFloat(b.style.top);
+const t=document.createElement("div");
 
-b.classList.add("pop");
-createRipple(x,y);
-createParticles(x,y);
+t.className="popText";
+t.textContent="+1";
 
-setTimeout(()=>b.remove(),300);
+t.style.left=x+"px";
+t.style.top=y+"px";
 
-spawnBubble();
+game.appendChild(t);
+
+setTimeout(()=>t.remove(),950);
+
 }
+
+
+/* =========================
+   BULLE
+========================= */
 
 function spawnBubble(){
+
 if(!playing)return;
 
 const b=document.createElement("div");
+
 b.className="bubble";
 
-const size=35+Math.random()*70;
+const size=42+Math.random()*68;
 
-const minX=size/2+10;
-const maxX=innerWidth-size/2-10;
+const minX=size/2+12;
+const maxX=innerWidth-size/2-12;
+
 const minY=110+size/2;
-const maxY=innerHeight-size/2-30;
+const maxY=innerHeight-size/2-35;
 
-const x=minX+Math.random()*(maxX-minX);
-const y=minY+Math.random()*(maxY-minY);
+const x=minX+Math.random()*Math.max(1,maxX-minX);
+const y=minY+Math.random()*Math.max(1,maxY-minY);
 
 b.style.width=size+"px";
 b.style.height=size+"px";
 b.style.left=x+"px";
 b.style.top=y+"px";
 
-b.addEventListener("pointerdown",function(e){
-e.preventDefault();
-popBubble(b);
-},{passive:false});
-
 game.appendChild(b);
 
-setTimeout(()=>{
-if(b.parentNode&&!b.dataset.popped){
+
+/* durée de vie */
+
+const life=3500+Math.random()*2500;
+
+b.dataset.timer=setTimeout(()=>{
+
+if(!b.dataset.popped){
+
 b.classList.add("pop");
-setTimeout(()=>b.remove(),300);
-spawnBubble();
-}
-},2200+Math.random()*1800);
+
+setTimeout(()=>{
+if(b.parentNode)b.remove();
+},800);
+
 }
 
-function handleBackground(e){
+},life);
+
+}
+
+
+/* =========================
+   POP
+========================= */
+
+function popBubble(b){
+
 if(!playing)return;
+if(!b || b.dataset.popped)return;
 
-if(e.target===game){
-const rect=game.getBoundingClientRect();
-const x=e.clientX-rect.left;
-const y=e.clientY-rect.top;
+b.dataset.popped="1";
+
+if(b.dataset.timer){
+clearTimeout(Number(b.dataset.timer));
+}
+
+bubbles++;
+
+score.textContent="Bulles éclatées : "+bubbles;
+
+const x=parseFloat(b.style.left);
+const y=parseFloat(b.style.top);
+
+b.classList.add("pop");
+
+popSound();
 
 createRipple(x,y);
-spawnBubble();
-}
+createShockwave(x,y);
+createParticles(x,y);
+createPopText(x,y);
+
+setTimeout(()=>{
+
+if(b.parentNode)b.remove();
+
+},800);
+
 }
 
-game.addEventListener("pointerdown",handleBackground,{passive:false});
 
-window.addEventListener("resize",function(){
+/* =========================
+   DÉTECTION SOUS LA SOURIS
+========================= */
+
+function checkBubbleAt(x,y){
+
+const elements=document.elementsFromPoint(x,y);
+
+for(const element of elements){
+
+if(element.classList &&
+element.classList.contains("bubble") &&
+!element.dataset.popped){
+
+popBubble(element);
+return true;
+
+}
+
+}
+
+return false;
+
+}
+
+
+/* =========================
+   SOURIS + DOIGT
+========================= */
+
+game.addEventListener("pointerdown",function(e){
+
+if(!playing)return;
+
+if(e.target.closest(".back"))return;
+
+e.preventDefault();
+
+activePointer=true;
+
+checkBubbleAt(e.clientX,e.clientY);
+
+},{passive:false});
+
+
+game.addEventListener("pointermove",function(e){
+
+if(!playing)return;
+
+if(!activePointer)return;
+
+e.preventDefault();
+
+checkBubbleAt(e.clientX,e.clientY);
+
+},{passive:false});
+
+
+window.addEventListener("pointerup",function(){
+
+activePointer=false;
+
 });
+
+
+window.addEventListener("pointercancel",function(){
+
+activePointer=false;
+
+});
+
+
+/* Empêche le zoom double-clic */
+
+let lastTap=0;
+
+game.addEventListener("touchend",function(e){
+
+const now=Date.now();
+
+if(now-lastTap<350){
+e.preventDefault();
+}
+
+lastTap=now;
+
+},{passive:false});
+
+
+/* Empêche le menu contextuel */
+
+game.addEventListener("contextmenu",function(e){
+
+e.preventDefault();
+
+});
+
+
+/* Empêche le geste de zoom avec plusieurs doigts */
+
+game.addEventListener("gesturestart",function(e){
+
+e.preventDefault();
+
+},{passive:false});
+
+game.addEventListener("gesturechange",function(e){
+
+e.preventDefault();
+
+},{passive:false});
+
+game.addEventListener("gestureend",function(e){
+
+e.preventDefault();
+
+},{passive:false});
 
 </script>
 
