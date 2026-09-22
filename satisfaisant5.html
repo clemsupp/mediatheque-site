@@ -292,6 +292,10 @@ Gravité
 <span id="gravityValue">.35</span>
 </div>
 <div class="option">
+<input id="ground" type="checkbox" checked>
+Sol
+</div>
+<div class="option">
 <input id="sound" type="checkbox" checked>
 Sons
 </div>
@@ -378,6 +382,7 @@ const gravityInput = document.getElementById("gravity");
 const sizeValue = document.getElementById("sizeValue");
 const speedValue = document.getElementById("speedValue");
 const gravityValue = document.getElementById("gravityValue");
+const groundInput = document.getElementById("ground");
 const soundInput = document.getElementById("sound");
 const trailsInput = document.getElementById("trails");
 const glowInput = document.getElementById("glow");
@@ -428,10 +433,11 @@ const settings = {
     spawnCount: 1,
     speed: 1,
     gravity: .35,
+    ground: true,
     sound: true,
     trails: true,
     glow: true,
-    maxBalls: 1200
+    maxBalls: Infinity
 };
 
 function readSettings(){
@@ -439,6 +445,7 @@ function readSettings(){
     settings.spawnCount = Number(spawnCountInput.value);
     settings.speed = Number(speedInput.value);
     settings.gravity = Number(gravityInput.value);
+    settings.ground = groundInput.checked;
     settings.sound = soundInput.checked;
     settings.trails = trailsInput.checked;
     settings.glow = glowInput.checked;
@@ -539,7 +546,7 @@ function playTone(freq, duration, volume, type="sine"){
 
     gain.gain.setValueAtTime(.0001, now);
     gain.gain.exponentialRampToValueAtTime(
-        Math.max(.0001,volume),
+        Math.max(.0001,volume*1.8),
         now+.006
     );
     gain.gain.exponentialRampToValueAtTime(
@@ -603,8 +610,8 @@ function makeBall(x,y,vx,vy,options={}){
 function spawnBallAt(x,y,angle=null,power=null){
     if(balls.length >= settings.maxBalls) return null;
 
-    const a = angle === null ? rand(0,Math.PI*2) : angle;
-    const p = power === null ? rand(2.2,5.2) : power;
+    const a = angle === null ? rand(-Math.PI*.12,Math.PI*.12) : angle;
+    const p = power === null ? rand(2.2,4.2) : power;
 
     return makeBall(
         x,
@@ -1238,53 +1245,47 @@ function keepOnScreen(b){
         return;
     }
 
-    if(mode === "fountain"){
-        if(b.x < b.r){
-            b.x=b.r;
-            b.vx=Math.abs(b.vx)*.82;
-        }
-        if(b.x > W-b.r){
-            b.x=W-b.r;
-            b.vx=-Math.abs(b.vx)*.82;
-        }
-
-        /* Le bas de l'écran n'est pas un sol caché : les balles
-           qui tombent sous l'écran sont réellement supprimées. */
-        if(b.y > H+45){
-            b.dead = true;
-        }
-
-        return;
-    }
-
+    // Murs : toujours rebondissants.
     if(b.x < b.r){
         b.x=b.r;
-        b.vx=Math.abs(b.vx)*.82;
+        b.vx=Math.abs(b.vx)*.86;
         hitTotal++;
         playHit(.3,0);
     }
 
     if(b.x > W-b.r){
         b.x=W-b.r;
-        b.vx=-Math.abs(b.vx)*.82;
+        b.vx=-Math.abs(b.vx)*.86;
         hitTotal++;
         playHit(.3,1);
     }
 
+    // Le sol peut être activé/désactivé.
+    if(settings.ground){
+        if(b.y > floor){
+            b.y=floor;
+            b.vy=-Math.abs(b.vy)*.86;
+            b.vx*=.995;
+            b.bounces++;
+
+            if(Math.abs(b.vy)>1.2){
+                burstSparks(b.x,b.y,b.hue,3,1.2);
+                playHit(clamp(Math.abs(b.vy)/6,0,1),2);
+            }
+        }
+    }else{
+        // Sans sol : une balle qui tombe complètement hors écran disparaît.
+        if(b.y > H+b.r*2){
+            b.dead=true;
+            burstSparks(b.x,H-8,b.hue,2,1);
+        }
+    }
+
+    // Le haut reste une limite douce pour éviter que les balles disparaissent
+    // derrière l'interface.
     if(b.y < 72){
         b.y=72;
         b.vy=Math.abs(b.vy)*.75;
-    }
-
-    if(b.y > floor){
-        b.y=floor;
-        b.vy=-Math.abs(b.vy)*.72;
-        b.vx*=.985;
-        b.bounces++;
-
-        if(Math.abs(b.vy)>2){
-            burstSparks(b.x,b.y,b.hue,2,1);
-        }
     }
 }
 
@@ -1972,8 +1973,8 @@ canvas.addEventListener("pointerdown",e=>{
         spawnBallAt(
             mouse.x+rand(-6,6),
             mouse.y+rand(-6,6),
-            rand(0,Math.PI*2),
-            rand(1.5,4)
+            rand(-Math.PI*.12,Math.PI*.12),
+            rand(1.5,3.5)
         );
     }
 
@@ -2018,6 +2019,8 @@ document.querySelectorAll(".startMode").forEach(button=>{
 
 document.getElementById("startButton").addEventListener("click",()=>{
     resumeAudio();
+    // Déverrouille immédiatement l'audio sur les navigateurs stricts.
+    playTone(520,.12,.12,"triangle");
 
     document.getElementById("start").style.display="none";
 
