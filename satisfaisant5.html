@@ -508,7 +508,7 @@ function initAudio(){
     try{
         audioContext = new (window.AudioContext || window.webkitAudioContext)();
         masterGain = audioContext.createGain();
-        masterGain.gain.value = .16;
+        masterGain.gain.value = .32;
         masterGain.connect(audioContext.destination);
         audioReady = true;
     }catch(e){
@@ -555,12 +555,12 @@ function playTone(freq, duration, volume, type="sine"){
 
 function playHit(strength=1, variant=0){
     const base = 180 + strength*90 + variant*22;
-    playTone(base,.055,.045,"sine");
+    playTone(base,.075,.11,"sine");
 }
 
 function playSplit(){
-    playTone(420,.10,.065,"triangle");
-    setTimeout(()=>playTone(660,.08,.04,"sine"),35);
+    playTone(420,.10,.14,"triangle");
+    setTimeout(()=>playTone(660,.08,.09,"sine"),35);
 }
 
 function playBurst(){
@@ -569,7 +569,7 @@ function playBurst(){
 }
 
 function playSpawn(){
-    playTone(300,.07,.035,"sine");
+    playTone(300,.07,.08,"sine");
 }
 
 /* ============================================================
@@ -858,24 +858,35 @@ function splitBall(b){
    DROP
    ============================================================ */
 
-function updateDrop(){
-    if(mouse.down){
-        spawnTimer += 1;
+function updateDrop(dt){
+    /* Maintenu appuye = une vague toutes les 0,1 seconde maximum.
+       Le compteur est indépendant du nombre de balles : on ne crée
+       donc plus une nouvelle balle pour chaque balle déjà présente. */
+    if(!mouse.down){
+        spawnTimer = 0;
+        return;
+    }
 
-        if(spawnTimer > 3){
-            spawnTimer = 0;
+    spawnTimer += dt * 16.6667;
 
-            if(balls.length < settings.maxBalls){
-                makeBall(
-                    mouse.x+rand(-4,4),
-                    mouse.y+rand(-4,4),
-                    mouse.vx*.18+rand(-.7,.7),
-                    mouse.vy*.18+rand(-.7,.7),
-                    {hue:randomHue()}
-                );
-                playSpawn();
-            }
+    if(spawnTimer >= 6){
+        spawnTimer -= 6;
+
+        const amount = Math.max(1, settings.spawnCount);
+
+        for(let i=0;i<amount;i++){
+            if(balls.length >= settings.maxBalls) break;
+
+            makeBall(
+                mouse.x+rand(-4,4),
+                mouse.y+rand(-4,4),
+                mouse.vx*.18+rand(-.7,.7),
+                mouse.vy*.18+rand(-.7,.7),
+                {hue:randomHue()}
+            );
         }
+
+        playSpawn();
     }
 }
 
@@ -1237,15 +1248,10 @@ function keepOnScreen(b){
             b.vx=-Math.abs(b.vx)*.82;
         }
 
-        if(b.y > floor){
-            b.y=floor;
-            b.vy=-Math.abs(b.vy)*.65;
-            b.vx*=.96;
-
-            if(Math.abs(b.vy)>2){
-                burstSparks(b.x,b.y,b.hue,2,1);
-                playHit(.4,1);
-            }
+        /* Le bas de l'écran n'est pas un sol caché : les balles
+           qui tombent sous l'écran sont réellement supprimées. */
+        if(b.y > H+45){
+            b.dead = true;
         }
 
         return;
@@ -1303,7 +1309,6 @@ function updateBall(b,dt){
 
     if(mode === "drop"){
         b.vy += settings.gravity*.32;
-        updateDrop();
     }
 
     if(mode === "gravity"){
@@ -1340,6 +1345,14 @@ function updateBall(b,dt){
 
     b.x += b.vx * multiplier * dt;
     b.y += b.vy * multiplier * dt;
+
+    /* Nettoyage des objets qui sont réellement sortis de la zone
+       visible. Cela évite les milliers de balles cachées sous l'écran. */
+    if(b.y > H+70 || b.x < -100 || b.x > W+100 || b.y < -160){
+        b.dead = true;
+    }
+
+    if(b.dead) return;
 
     if(mode !== "ring"){
         keepOnScreen(b);
@@ -1862,6 +1875,10 @@ function update(dt){
         ringAngle += .008 * settings.speed * dt;
     }
 
+    if(mode==="drop"){
+        updateDrop(dt);
+    }
+
     if(mode==="fountain"){
         fountainSpawn();
     }
@@ -1959,6 +1976,8 @@ canvas.addEventListener("pointerdown",e=>{
             rand(1.5,4)
         );
     }
+
+    playSpawn();
 
     try{
         canvas.setPointerCapture(e.pointerId);
