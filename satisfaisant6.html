@@ -1,1 +1,47 @@
-a
+<!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aimant</title>
+<style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#111;color:#eee;font-family:Arial,sans-serif}
+canvas{display:block;width:100%;height:100%;background:radial-gradient(circle at 50% 45%,#202020,#0d0d0d 75%)}
+.top{position:fixed;top:16px;left:18px;right:18px;z-index:5;display:flex;justify-content:space-between;align-items:center;pointer-events:none}h1{margin:0;font-size:24px;text-shadow:0 2px 8px #000}.back{pointer-events:auto;color:#aaa;text-decoration:none;border:1px solid #444;border-radius:10px;padding:8px 12px;background:#181818}
+.panel{position:fixed;left:18px;bottom:18px;z-index:5;background:rgba(20,20,20,.9);border:1px solid #3b3b3b;border-radius:14px;padding:12px;width:250px;backdrop-filter:blur(8px)}
+.row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:8px 0;font-size:13px}input[type=range]{width:115px}button{background:#252525;color:#eee;border:1px solid #484848;border-radius:9px;padding:8px 10px;cursor:pointer}button:hover{background:#303030}.value{min-width:35px;text-align:right;color:#bbb}
+.help{color:#777;font-size:11px;line-height:1.4;margin-top:8px}.stats{position:fixed;right:18px;bottom:18px;z-index:5;color:#aaa;font-size:12px;text-align:right}
+#start{position:fixed;inset:0;z-index:20;background:rgba(8,8,8,.94);display:flex;align-items:center;justify-content:center}.card{width:min(440px,90vw);background:#191919;border:1px solid #444;border-radius:18px;padding:28px;text-align:center;box-shadow:0 20px 80px #000}.card h2{margin:0 0 8px;font-size:30px}.card p{color:#aaa}.card button{font-size:16px;padding:11px 20px}
+</style></head><body>
+<canvas id="game"></canvas><div class="top"><h1>🧲 Aimant</h1><a class="back" href="index.html">← Jeux</a></div>
+<div class="panel">
+<div class="row"><span>Puissance</span><input id="power" type="range" min=".1" max="4" step=".1" value="1.2"><span id="powerV" class="value">1.2</span></div>
+<div class="row"><span>Objets</span><input id="count" type="range" min="1" max="200" value="60"><span id="countV" class="value">60</span></div>
+<div class="row"><span>Frottement</span><input id="drag" type="range" min="0" max=".08" step=".005" value=".015"><span id="dragV" class="value">.015</span></div>
+<div class="row"><button id="add">＋ Ajouter 10</button><button id="reset">↻ Reset</button></div>
+<div class="row"><button id="scatter">💥 Mélanger</button><button id="toggle">🧲 Aimant ON</button></div>
+<div class="help">Déplace la souris : l'aimant suit ton curseur.<br>Maintiens le clic pour attirer beaucoup plus fort.</div></div>
+<div class="stats"><span id="fps">60 FPS</span><br><span id="objects">0 objets</span></div>
+<div id="start"><div class="card"><h2>🧲 Aimant</h2><p>Déplace ton aimant et regarde les objets métalliques se faire attirer.</p><button id="startBtn">Jouer</button></div></div>
+<script>
+const c=document.getElementById("game"),x=c.getContext("2d");let W,H,D=devicePixelRatio||1;
+function resize(){W=innerWidth;H=innerHeight;D=Math.min(devicePixelRatio||1,2);c.width=W*D;c.height=H*D;x.setTransform(D,0,0,D,0,0)}addEventListener("resize",resize);resize();
+const m={x:W/2,y:H/2,down:false},o=[];let running=false,on=true,last=performance.now(),frames=0;
+const power=document.getElementById("power"),count=document.getElementById("count"),drag=document.getElementById("drag"),objectsEl=document.getElementById("objects");
+function sync(){powerV.textContent=power.value;countV.textContent=count.value;dragV.textContent=drag.value}[power,count,drag].forEach(e=>e.oninput=sync);sync();
+function rand(a,b){return Math.random()*(b-a)+a}
+function make(){return{x:rand(60,W-60),y:rand(100,H-60),vx:rand(-.5,.5),vy:rand(-.5,.5),r:rand(3.5,7.5),mass:rand(.7,2.2),metal:Math.random()<.85,rot:rand(0,7),vr:rand(-.03,.03),col:["#ddd","#aaa","#777","#eee","#999"][(Math.random()*5)|0]}}
+function reset(){o.length=0;for(let i=0;i<+count.value;i++)o.push(make())}reset();
+function add(n){for(let i=0;i<n;i++)o.push(make())}
+function scatter(){for(const a of o){let q=rand(0,Math.PI*2),p=rand(2,8);a.vx=Math.cos(q)*p;a.vy=Math.sin(q)*p}}
+c.onpointermove=e=>{m.x=e.clientX;m.y=e.clientY};c.onpointerdown=e=>{m.down=true;c.setPointerCapture?.(e.pointerId)};c.onpointerup=()=>m.down=false;c.onpointercancel=()=>m.down=false;
+addBtn.onclick=()=>add(10);resetBtn.onclick=reset;scatterBtn.onclick=scatter;toggleBtn.onclick=()=>{on=!on;toggleBtn.textContent=on?"🧲 Aimant ON":"🧲 Aimant OFF"};
+document.getElementById("startBtn").onclick=()=>{running=true;document.getElementById("start").style.display="none"};
+function update(dt){if(!running)return;let s=+power.value*(m.down?2.7:1),damp=+drag.value;
+for(const a of o){if(on&&a.metal){let dx=m.x-a.x,dy=m.y-a.y,dist=Math.hypot(dx,dy)||1;if(dist<380){let f=Math.min(3.5,s*9000/(dist*dist+650));a.vx+=dx/dist*f/a.mass*dt;a.vy+=dy/dist*f/a.mass*dt}}
+a.vy+=.025*dt;a.vx*=Math.max(0,1-damp*dt);a.vy*=Math.max(0,1-damp*dt);a.x+=a.vx*dt;a.y+=a.vy*dt;a.rot+=a.vr*dt;
+if(a.x<a.r){a.x=a.r;a.vx=Math.abs(a.vx)*.65}if(a.x>W-a.r){a.x=W-a.r;a.vx=-Math.abs(a.vx)*.65}if(a.y<78){a.y=78;a.vy=Math.abs(a.vy)*.65}if(a.y>H-a.r){a.y=H-a.r;a.vy=-Math.abs(a.vy)*.55}}
+for(let i=0;i<o.length;i++)for(let j=i+1;j<o.length;j++){let a=o[i],b=o[j],dx=b.x-a.x,dy=b.y-a.y,mi=a.r+b.r,d2=dx*dx+dy*dy;if(d2>0&&d2<mi*mi){let q=Math.sqrt(d2),nx=dx/q,ny=dy/q,z=mi-q;a.x-=nx*z*.5;a.y-=ny*z*.5;b.x+=nx*z*.5;b.y+=ny*z*.5;let rel=(b.vx-a.vx)*nx+(b.vy-a.vy)*ny;if(rel<0){let imp=-rel*.45;a.vx-=nx*imp;b.vx+=nx*imp;a.vy-=ny*imp;b.vy+=ny*imp}}}}
+function draw(){x.clearRect(0,0,W,H);x.strokeStyle="rgba(255,255,255,.025)";for(let q=0;q<W;q+=40){x.beginPath();x.moveTo(q,70);x.lineTo(q,H);x.stroke()}for(let q=80;q<H;q+=40){x.beginPath();x.moveTo(0,q);x.lineTo(W,q);x.stroke()}
+for(const a of o){x.save();x.translate(a.x,a.y);x.rotate(a.rot);x.shadowBlur=a.metal?10:0;x.shadowColor="rgba(220,220,220,.5)";x.fillStyle=a.metal?a.col:"#444";x.beginPath();x.arc(0,0,a.r,0,7);x.fill();x.restore()}
+if(on){let g=x.createRadialGradient(m.x,m.y,3,m.x,m.y,95);g.addColorStop(0,"rgba(255,255,255,.16)");g.addColorStop(1,"rgba(255,255,255,0)");x.fillStyle=g;x.beginPath();x.arc(m.x,m.y,95,0,7);x.fill()}
+x.save();x.translate(m.x,m.y);x.shadowBlur=18;x.shadowColor="rgba(255,80,80,.55)";x.fillStyle="#d94b4b";x.fillRect(-22,-9,18,18);x.shadowColor="rgba(80,140,255,.55)";x.fillStyle="#4f82dc";x.fillRect(4,-9,18,18);x.shadowBlur=0;x.fillStyle="#ddd";x.fillRect(-5,-9,10,18);x.restore();objectsEl.textContent=o.length+" objets"}
+function loop(t){let dt=Math.min(2,(t-last)/16.6667);last=t;update(dt);draw();frames++;requestAnimationFrame(loop)}requestAnimationFrame(loop);
+setInterval(()=>{fps.textContent=frames+" FPS";frames=0},1000);
+const addBtn=document.getElementById("add"),resetBtn=document.getElementById("reset"),scatterBtn=document.getElementById("scatter"),toggleBtn=document.getElementById("toggle");
+</script></body></html>
