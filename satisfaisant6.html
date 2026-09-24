@@ -13,34 +13,116 @@ canvas{display:block;width:100%;height:100%;background:radial-gradient(circle at
 <div class="row"><span>Puissance</span><input id="power" type="range" min=".1" max="4" step=".1" value="1.2"><span id="powerV" class="value">1.2</span></div>
 <div class="row"><span>Objets</span><input id="count" type="range" min="1" max="200" value="60"><span id="countV" class="value">60</span></div>
 <div class="row"><span>Frottement</span><input id="drag" type="range" min="0" max=".08" step=".005" value=".015"><span id="dragV" class="value">.015</span></div>
-<div class="row"><button id="add">＋ Ajouter 10</button><button id="reset">↻ Reset</button></div>
+<div class="row"><button id="add">＋ Ajouter 10</button><button id="add100">＋ Ajouter 100</button></div><div class="row"><button id="addMagnet">🧲 Ajouter un aimant</button><button id="reset">↻ Reset</button></div>
 <div class="row"><button id="scatter">💥 Mélanger</button><button id="toggle">🧲 Aimant ON</button></div>
-<div class="help">Déplace la souris : l'aimant suit ton curseur.<br>Maintiens le clic pour attirer beaucoup plus fort.</div></div>
+<div class="help">Déplace la souris : l’aimant principal suit le curseur.<br>🖱️ Molette = tourner l’aimant sous le curseur.<br>Glisse un autre aimant pour le déplacer. Clique dessus puis molette pour le tourner.<br>Maintiens le clic dans le vide pour attirer beaucoup plus fort.</div></div>
 <div class="stats"><span id="fps">60 FPS</span><br><span id="objects">0 objets</span></div>
 <div id="start"><div class="card"><h2>🧲 Aimant</h2><p>Déplace ton aimant et regarde les objets métalliques se faire attirer.</p><button id="startBtn">Jouer</button></div></div>
 <script>
 const c=document.getElementById("game"),x=c.getContext("2d");let W,H,D=devicePixelRatio||1;
 function resize(){W=innerWidth;H=innerHeight;D=Math.min(devicePixelRatio||1,2);c.width=W*D;c.height=H*D;x.setTransform(D,0,0,D,0,0)}addEventListener("resize",resize);resize();
-const m={x:W/2,y:H/2,down:false},o=[];let running=false,on=true,last=performance.now(),frames=0;
+const m={x:W/2,y:H/2,down:false,angle:0},o=[],magnets=[];let running=false,on=true,last=performance.now(),frames=0,placingMagnet=false,selectedMagnet=null,draggingMagnet=null,dragOffsetX=0,dragOffsetY=0;
 const power=document.getElementById("power"),count=document.getElementById("count"),drag=document.getElementById("drag"),objectsEl=document.getElementById("objects");
 function sync(){powerV.textContent=power.value;countV.textContent=count.value;dragV.textContent=drag.value}[power,count,drag].forEach(e=>e.oninput=sync);sync();
 function rand(a,b){return Math.random()*(b-a)+a}
 function make(){return{x:rand(60,W-60),y:rand(100,H-60),vx:rand(-.5,.5),vy:rand(-.5,.5),r:rand(3.5,7.5),mass:rand(.7,2.2),metal:Math.random()<.85,rot:rand(0,7),vr:rand(-.03,.03),col:["#ddd","#aaa","#777","#eee","#999"][(Math.random()*5)|0]}}
+function makeMagnet(x=rand(100,W-100),y=rand(130,H-100),angle=0){
+  return {x,y,angle,polarity:Math.random()<.5?1:-1, size:34};
+}
+magnets.push(makeMagnet(W*.72,H*.48,Math.PI*.25));
+
 function reset(){o.length=0;for(let i=0;i<+count.value;i++)o.push(make())}reset();
 function add(n){for(let i=0;i<n;i++)o.push(make())}
 function scatter(){for(const a of o){let q=rand(0,Math.PI*2),p=rand(2,8);a.vx=Math.cos(q)*p;a.vy=Math.sin(q)*p}}
-c.onpointermove=e=>{m.x=e.clientX;m.y=e.clientY};c.onpointerdown=e=>{m.down=true;c.setPointerCapture?.(e.pointerId)};c.onpointerup=()=>m.down=false;c.onpointercancel=()=>m.down=false;
-document.getElementById("add").onclick=()=>add(10);document.getElementById("reset").onclick=reset;document.getElementById("scatter").onclick=scatter;document.getElementById("toggle").onclick=()=>{on=!on;document.getElementById("toggle").textContent=on?"🧲 Aimant ON":"🧲 Aimant OFF"};
+c.onpointermove=e=>{
+  const r=c.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
+  m.x=mx;m.y=my;
+  if(draggingMagnet){
+    draggingMagnet.x=mx+dragOffsetX;
+    draggingMagnet.y=my+dragOffsetY;
+  }
+};
+c.onpointerdown=e=>{
+  const r=c.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
+  let hit=null;
+  for(let i=magnets.length-1;i>=0;i--){
+    const a=magnets[i],dx=mx-a.x,dy=my-a.y;
+    if(Math.hypot(dx,dy)<30){hit=a;break}
+  }
+  if(hit){
+    selectedMagnet=hit;draggingMagnet=hit;
+    dragOffsetX=hit.x-mx;dragOffsetY=hit.y-my;
+    c.setPointerCapture?.(e.pointerId);
+  }else if(placingMagnet){
+    const a=makeMagnet(mx,my,m.angle);
+    magnets.push(a);selectedMagnet=a;placingMagnet=false;
+    document.getElementById("addMagnet").textContent="🧲 Ajouter un aimant";
+  }else{
+    m.down=true;c.setPointerCapture?.(e.pointerId);
+  }
+};
+c.onpointerup=()=>{m.down=false;draggingMagnet=null};
+c.onpointercancel=()=>{m.down=false;draggingMagnet=null};
+c.oncontextmenu=e=>e.preventDefault();
+c.onwheel=e=>{
+  e.preventDefault();
+  const step=(e.deltaY<0?1:-1)*Math.PI/18;
+  if(selectedMagnet){
+    selectedMagnet.angle+=step;
+  }else{
+    m.angle+=step;
+  }
+};
+document.getElementById("add").onclick=()=>add(10);
+document.getElementById("add100").onclick=()=>add(100);
+document.getElementById("addMagnet").onclick=()=>{
+  placingMagnet=true;
+  document.getElementById("addMagnet").textContent="📍 Clique pour placer";
+};
+document.getElementById("reset").onclick=()=>{reset();magnets.length=0;magnets.push(makeMagnet(W*.72,H*.48,Math.PI*.25));selectedMagnet=null;placingMagnet=false;};
+document.getElementById("scatter").onclick=scatter;
+document.getElementById("toggle").onclick=()=>{on=!on;document.getElementById("toggle").textContent=on?"🧲 Aimant ON":"🧲 Aimant OFF"};
 document.getElementById("startBtn").onclick=()=>{running=true;document.getElementById("start").style.display="none"};
 function update(dt){if(!running)return;let s=+power.value*(m.down?2.7:1),damp=+drag.value;
-for(const a of o){if(on&&a.metal){let dx=m.x-a.x,dy=m.y-a.y,dist=Math.hypot(dx,dy)||1;if(dist<380){let f=Math.min(3.5,s*9000/(dist*dist+650));a.vx+=dx/dist*f/a.mass*dt;a.vy+=dy/dist*f/a.mass*dt}}
+for(const a of o){
+if(on&&a.metal){
+  // Aimant principal.
+  let dx=m.x-a.x,dy=m.y-a.y,dist=Math.hypot(dx,dy)||1;
+  if(dist<380){
+    let f=Math.min(3.5,s*9000/(dist*dist+650));
+    a.vx+=dx/dist*f/a.mass*dt;a.vy+=dy/dist*f/a.mass*dt;
+  }
+  // Aimants secondaires : ils attirent ou repoussent selon leur polarité.
+  for(const mag of magnets){
+    const qx=mag.x-a.x,qy=mag.y-a.y,qd=Math.hypot(qx,qy)||1;
+    if(qd<300){
+      const dir=mag.polarity;
+      const f=Math.min(2.4,1.25*8500/(qd*qd+900));
+      a.vx+=qx/qd*f*dir/a.mass*dt;
+      a.vy+=qy/qd*f*dir/a.mass*dt;
+    }
+  }
+}
+
 a.vy+=.025*dt;a.vx*=Math.max(0,1-damp*dt);a.vy*=Math.max(0,1-damp*dt);a.x+=a.vx*dt;a.y+=a.vy*dt;a.rot+=a.vr*dt;
 if(a.x<a.r){a.x=a.r;a.vx=Math.abs(a.vx)*.65}if(a.x>W-a.r){a.x=W-a.r;a.vx=-Math.abs(a.vx)*.65}if(a.y<78){a.y=78;a.vy=Math.abs(a.vy)*.65}if(a.y>H-a.r){a.y=H-a.r;a.vy=-Math.abs(a.vy)*.55}}
 for(let i=0;i<o.length;i++)for(let j=i+1;j<o.length;j++){let a=o[i],b=o[j],dx=b.x-a.x,dy=b.y-a.y,mi=a.r+b.r,d2=dx*dx+dy*dy;if(d2>0&&d2<mi*mi){let q=Math.sqrt(d2),nx=dx/q,ny=dy/q,z=mi-q;a.x-=nx*z*.5;a.y-=ny*z*.5;b.x+=nx*z*.5;b.y+=ny*z*.5;let rel=(b.vx-a.vx)*nx+(b.vy-a.vy)*ny;if(rel<0){let imp=-rel*.45;a.vx-=nx*imp;b.vx+=nx*imp;a.vy-=ny*imp;b.vy+=ny*imp}}}}
 function draw(){x.clearRect(0,0,W,H);x.strokeStyle="rgba(255,255,255,.025)";for(let q=0;q<W;q+=40){x.beginPath();x.moveTo(q,70);x.lineTo(q,H);x.stroke()}for(let q=80;q<H;q+=40){x.beginPath();x.moveTo(0,q);x.lineTo(W,q);x.stroke()}
 for(const a of o){x.save();x.translate(a.x,a.y);x.rotate(a.rot);x.shadowBlur=a.metal?10:0;x.shadowColor="rgba(220,220,220,.5)";x.fillStyle=a.metal?a.col:"#444";x.beginPath();x.arc(0,0,a.r,0,7);x.fill();x.restore()}
+for(const mag of magnets){
+  x.save();x.translate(mag.x,mag.y);x.rotate(mag.angle);
+  x.shadowBlur=14;x.shadowColor=mag.polarity>0?"rgba(255,80,80,.5)":"rgba(80,140,255,.5)";
+  x.fillStyle=mag.polarity>0?"#d94b4b":"#4f82dc";
+  x.fillRect(-24,-10,19,20);
+  x.fillStyle=mag.polarity>0?"#4f82dc":"#d94b4b";
+  x.fillRect(5,-10,19,20);
+  x.fillStyle="#ddd";x.fillRect(-5,-10,10,20);
+  x.shadowBlur=0;x.fillStyle="#fff";x.font="bold 12px Arial";x.textAlign="center";x.fillText(mag.polarity>0?"+":"−",0,4);
+  if(selectedMagnet===mag){x.strokeStyle="#fff";x.lineWidth=2;x.strokeRect(-29,-15,58,30)}
+  x.restore();
+}
 if(on){let g=x.createRadialGradient(m.x,m.y,3,m.x,m.y,95);g.addColorStop(0,"rgba(255,255,255,.16)");g.addColorStop(1,"rgba(255,255,255,0)");x.fillStyle=g;x.beginPath();x.arc(m.x,m.y,95,0,7);x.fill()}
-x.save();x.translate(m.x,m.y);x.shadowBlur=18;x.shadowColor="rgba(255,80,80,.55)";x.fillStyle="#d94b4b";x.fillRect(-22,-9,18,18);x.shadowColor="rgba(80,140,255,.55)";x.fillStyle="#4f82dc";x.fillRect(4,-9,18,18);x.shadowBlur=0;x.fillStyle="#ddd";x.fillRect(-5,-9,10,18);x.restore();objectsEl.textContent=o.length+" objets"}
+x.save();x.translate(m.x,m.y);x.rotate(m.angle);x.shadowBlur=18;x.shadowColor="rgba(255,80,80,.55)";x.fillStyle="#d94b4b";x.fillRect(-22,-9,18,18);x.shadowColor="rgba(80,140,255,.55)";x.fillStyle="#4f82dc";x.fillRect(4,-9,18,18);x.shadowBlur=0;x.fillStyle="#ddd";x.fillRect(-5,-9,10,18);x.restore();objectsEl.textContent=o.length+" objets · "+magnets.length+" aimants"}
 function loop(t){let dt=Math.min(2,(t-last)/16.6667);last=t;update(dt);draw();frames++;requestAnimationFrame(loop)}requestAnimationFrame(loop);
 setInterval(()=>{fps.textContent=frames+" FPS";frames=0},1000);
 const addBtn=document.getElementById("add"),resetBtn=document.getElementById("reset"),scatterBtn=document.getElementById("scatter"),toggleBtn=document.getElementById("toggle");
