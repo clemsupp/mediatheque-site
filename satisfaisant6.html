@@ -30,7 +30,7 @@ function reset(){o.length=0;for(let i=0;i<+count.value;i++)o.push(make())}reset(
 function add(n){for(let i=0;i<n;i++)o.push(make())}
 function scatter(){for(const a of o){let q=rand(0,Math.PI*2),p=rand(2,8);a.vx=Math.cos(q)*p;a.vy=Math.sin(q)*p}}
 c.onpointermove=e=>{m.x=e.clientX;m.y=e.clientY};c.onpointerdown=e=>{m.down=true;c.setPointerCapture?.(e.pointerId)};c.onpointerup=()=>m.down=false;c.onpointercancel=()=>m.down=false;
-addBtn.onclick=()=>add(10);resetBtn.onclick=reset;scatterBtn.onclick=scatter;toggleBtn.onclick=()=>{on=!on;toggleBtn.textContent=on?"🧲 Aimant ON":"🧲 Aimant OFF"};
+document.getElementById("add").onclick=()=>add(10);document.getElementById("reset").onclick=reset;document.getElementById("scatter").onclick=scatter;document.getElementById("toggle").onclick=()=>{on=!on;document.getElementById("toggle").textContent=on?"🧲 Aimant ON":"🧲 Aimant OFF"};
 document.getElementById("startBtn").onclick=()=>{running=true;document.getElementById("start").style.display="none"};
 function update(dt){if(!running)return;let s=+power.value*(m.down?2.7:1),damp=+drag.value;
 for(const a of o){if(on&&a.metal){let dx=m.x-a.x,dy=m.y-a.y,dist=Math.hypot(dx,dy)||1;if(dist<380){let f=Math.min(3.5,s*9000/(dist*dist+650));a.vx+=dx/dist*f/a.mass*dt;a.vy+=dy/dist*f/a.mass*dt}}
