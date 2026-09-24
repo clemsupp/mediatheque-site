@@ -1,21 +1,26 @@
 <!doctype html><html lang="fr"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Aimant</title>
 <style>
-*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#0b0d10;color:#eee;font-family:Inter,Arial,sans-serif}
-canvas{display:block;width:100%;height:100%;background:radial-gradient(circle at 50% 42%,#24282d,#0b0d10 78%)}
+*{box-sizing:border-box}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#080a0d;color:#f4f5f6;font-family:Inter,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif}
+canvas{display:block;width:100%;height:100%;background:radial-gradient(circle at 50% 40%,#252a31 0,#14171b 42%,#080a0d 100%)}
 .top{position:fixed;top:16px;left:18px;right:18px;z-index:5;display:flex;justify-content:space-between;align-items:center;pointer-events:none}
-h1{margin:0;font-size:25px;letter-spacing:.2px;text-shadow:0 3px 14px #000}.back{pointer-events:auto;color:#ddd;text-decoration:none;border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:9px 13px;background:rgba(24,27,31,.78);box-shadow:0 8px 25px rgba(0,0,0,.25)}
-.panel{position:fixed;left:18px;bottom:18px;z-index:5;background:linear-gradient(145deg,rgba(30,34,39,.96),rgba(15,17,20,.94));border:1px solid rgba(255,255,255,.12);border-radius:18px;padding:14px;width:285px;backdrop-filter:blur(16px);box-shadow:0 16px 45px rgba(0,0,0,.38)}
-.row{display:flex;align-items:center;justify-content:space-between;gap:8px;margin:9px 0;font-size:13px}
-input[type=range]{width:125px;accent-color:#d9d9d9}
-button{background:linear-gradient(180deg,#30353b,#22262b);color:#eee;border:1px solid rgba(255,255,255,.13);border-radius:11px;padding:9px 10px;cursor:pointer;box-shadow:0 3px 10px rgba(0,0,0,.2);transition:.15s}
-button:hover{background:linear-gradient(180deg,#3a4047,#292e33);transform:translateY(-1px)}
-button:active{transform:translateY(0)}
-.value{min-width:38px;text-align:right;color:#c7c7c7}
-.section{margin:2px 0 7px;color:#888;font-size:10px;text-transform:uppercase;letter-spacing:1.2px}
-.help{color:#8b9097;font-size:11px;line-height:1.5;margin-top:10px;padding-top:9px;border-top:1px solid rgba(255,255,255,.07)}
-.stats{position:fixed;right:18px;bottom:18px;z-index:5;color:#b7bcc2;font-size:12px;text-align:right;background:rgba(15,17,20,.72);border:1px solid rgba(255,255,255,.08);padding:8px 10px;border-radius:10px;backdrop-filter:blur(8px)}
-
-#start{position:fixed;inset:0;z-index:20;background:rgba(8,8,8,.94);display:flex;align-items:center;justify-content:center}.card{width:min(440px,90vw);background:#191919;border:1px solid #444;border-radius:18px;padding:28px;text-align:center;box-shadow:0 20px 80px #000}.card h2{margin:0 0 8px;font-size:30px}.card p{color:#aaa}.card button{font-size:16px;padding:11px 20px}
+h1{margin:0;font-size:26px;font-weight:750;letter-spacing:-.5px;text-shadow:0 4px 18px #000}
+.back{pointer-events:auto;color:#f1f1f1;text-decoration:none;border:1px solid rgba(255,255,255,.16);border-radius:13px;padding:9px 14px;background:rgba(20,23,28,.86);box-shadow:0 8px 28px rgba(0,0,0,.35);transition:.18s}
+.back:hover{background:#292e35;transform:translateY(-1px)}
+.panel{position:fixed;left:18px;bottom:18px;z-index:5;width:310px;padding:16px;border:1px solid rgba(255,255,255,.14);border-radius:20px;background:linear-gradient(145deg,rgba(31,35,42,.96),rgba(13,15,19,.96));box-shadow:0 20px 60px rgba(0,0,0,.48),inset 0 1px rgba(255,255,255,.05);backdrop-filter:blur(20px)}
+.section{margin:0 0 9px;color:#8e969f;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:1.5px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:9px;margin:9px 0;font-size:13px}
+input[type=range]{width:132px;accent-color:#e5e7eb}
+button{flex:1;background:linear-gradient(180deg,#353b43,#242930);color:#f4f5f6;border:1px solid rgba(255,255,255,.13);border-radius:12px;padding:10px 9px;cursor:pointer;font-weight:600;box-shadow:0 5px 15px rgba(0,0,0,.25);transition:transform .12s,background .12s,border-color .12s}
+button:hover{background:linear-gradient(180deg,#414852,#2a3037);border-color:rgba(255,255,255,.24);transform:translateY(-1px)}
+button:active{transform:scale(.98)}
+.value{min-width:38px;text-align:right;color:#cbd0d5;font-variant-numeric:tabular-nums}
+.help{color:#9299a1;font-size:11px;line-height:1.5;margin-top:12px;padding-top:11px;border-top:1px solid rgba(255,255,255,.08)}
+.stats{position:fixed;right:18px;bottom:18px;z-index:5;color:#c7ccd1;font-size:12px;text-align:right;background:rgba(16,18,22,.82);border:1px solid rgba(255,255,255,.1);padding:9px 12px;border-radius:12px;box-shadow:0 8px 25px rgba(0,0,0,.25);backdrop-filter:blur(12px)}
+#start{position:fixed;inset:0;z-index:20;background:radial-gradient(circle at center,rgba(35,40,47,.72),rgba(5,7,9,.97));display:flex;align-items:center;justify-content:center}
+.card{width:min(460px,90vw);padding:34px;border:1px solid rgba(255,255,255,.16);border-radius:24px;text-align:center;background:linear-gradient(145deg,rgba(32,36,43,.97),rgba(13,15,18,.97));box-shadow:0 30px 100px rgba(0,0,0,.65),inset 0 1px rgba(255,255,255,.06)}
+.card h2{margin:0 0 9px;font-size:34px}.card p{color:#aeb4bb;line-height:1.5}.card button{display:inline-block;flex:none;font-size:16px;padding:12px 28px;margin-top:8px}
+@media(max-width:600px){.panel{left:10px;right:10px;bottom:10px;width:auto}.top{left:12px;right:12px;top:12px}.help{display:none}.row{margin:7px 0}}
 </style></head><body>
 <canvas id="game"></canvas><div class="top"><h1>🧲 Aimant</h1><a class="back" href="index.html">← Jeux</a></div>
 <div class="panel">
@@ -54,24 +59,44 @@ c.onpointermove=e=>{
 };
 c.onpointerdown=e=>{
   const r=c.getBoundingClientRect(),mx=e.clientX-r.left,my=e.clientY-r.top;
+
+  // Cherche d'abord un aimant secondaire.
   let hit=null;
   for(let i=magnets.length-1;i>=0;i--){
-    const a=magnets[i],dx=mx-a.x,dy=my-a.y;
-    if(Math.hypot(dx,dy)<34){hit=a;break}
+    const a=magnets[i];
+    if(Math.hypot(mx-a.x,my-a.y)<38){hit=a;break}
   }
+
+  // Puis l'aimant principal.
+  if(!hit && Math.hypot(mx-m.x,my-m.y)<38){
+    hit=m;
+  }
+
   if(hit){
-    selectedMagnet=hit;draggingMagnet=hit;
-    dragOffsetX=hit.x-mx;dragOffsetY=hit.y-my;
+    selectedMagnet=hit;
+    draggingMagnet=hit;
+    if(hit===m){
+      dragOffsetX=m.x-mx;dragOffsetY=m.y-my;
+    }else{
+      dragOffsetX=hit.x-mx;dragOffsetY=hit.y-my;
+    }
     c.setPointerCapture?.(e.pointerId);
-  }else if(placingMagnet){
-    const a=makeMagnet(mx,my,m.angle);
-    magnets.push(a);selectedMagnet=a;placingMagnet=false;
-    document.getElementById("addMagnet").textContent="＋ Ajouter";
-  }else{
-    selectedMagnet=null;
-    m.x=mx;m.y=my;m.down=true;
-    c.setPointerCapture?.(e.pointerId);
+    return;
   }
+
+  if(placingMagnet){
+    const a=makeMagnet(mx,my,m.angle);
+    magnets.push(a);
+    selectedMagnet=a;
+    placingMagnet=false;
+    document.getElementById("addMagnet").textContent="＋ Ajouter";
+    c.setPointerCapture?.(e.pointerId);
+    return;
+  }
+
+  selectedMagnet=null;
+  m.x=mx;m.y=my;m.down=true;
+  c.setPointerCapture?.(e.pointerId);
 };
 c.onpointerup=()=>{m.down=false;draggingMagnet=null};
 c.onpointercancel=()=>{m.down=false;draggingMagnet=null};
@@ -96,14 +121,14 @@ if(on&&a.metal){
     let f=Math.min(3.5,s*9000/(dist*dist+650));
     a.vx+=dx/dist*f/a.mass*dt;a.vy+=dy/dist*f/a.mass*dt;
   }
-  // Aimants secondaires : ils attirent ou repoussent selon leur polarité.
+  // Aimants secondaires : attraction/répulsion bien visible.
   for(const mag of magnets){
     const qx=mag.x-a.x,qy=mag.y-a.y,qd=Math.hypot(qx,qy)||1;
-    if(qd<300){
+    if(qd<420){
       const dir=mag.polarity;
-      const f=Math.min(2.4,1.25*8500/(qd*qd+900));
-      a.vx+=qx/qd*f*dir/a.mass*dt;
-      a.vy+=qy/qd*f*dir/a.mass*dt;
+      const f=Math.min(5.5,dir*(2.2*14000)/(qd*qd+500));
+      a.vx+=qx/qd*f/a.mass*dt;
+      a.vy+=qy/qd*f/a.mass*dt;
     }
   }
 }
@@ -126,7 +151,12 @@ for(const mag of magnets){
   x.restore();
 }
 if(on){let g=x.createRadialGradient(m.x,m.y,3,m.x,m.y,95);g.addColorStop(0,"rgba(255,255,255,.16)");g.addColorStop(1,"rgba(255,255,255,0)");x.fillStyle=g;x.beginPath();x.arc(m.x,m.y,95,0,7);x.fill()}
-x.save();x.translate(m.x,m.y);x.rotate(m.angle);x.shadowBlur=18;x.shadowColor="rgba(255,80,80,.55)";x.fillStyle="#d94b4b";x.fillRect(-22,-9,18,18);x.shadowColor="rgba(80,140,255,.55)";x.fillStyle="#4f82dc";x.fillRect(4,-9,18,18);x.shadowBlur=0;x.fillStyle="#ddd";x.fillRect(-5,-9,10,18);x.restore();objectsEl.textContent=o.length+" objets · "+magnets.length+" aimants"}
+x.save();x.translate(m.x,m.y);x.rotate(m.angle);x.shadowBlur=18;x.shadowColor="rgba(255,80,80,.55)";x.fillStyle="#d94b4b";x.fillRect(-22,-9,18,18);x.shadowColor="rgba(80,140,255,.55)";x.fillStyle="#4f82dc";x.fillRect(4,-9,18,18);x.shadowBlur=0;x.fillStyle="#ddd";x.fillRect(-5,-9,10,18);
+if(selectedMagnet===m){
+  x.shadowBlur=0;x.strokeStyle="rgba(255,255,255,.9)";x.lineWidth=2;
+  x.strokeRect(-30,-17,60,34);
+}
+x.restore();objectsEl.textContent=o.length+" objets · "+magnets.length+" aimants"}
 function loop(t){let dt=Math.min(2,(t-last)/16.6667);last=t;update(dt);draw();frames++;requestAnimationFrame(loop)}requestAnimationFrame(loop);
 setInterval(()=>{fps.textContent=frames+" FPS";frames=0},1000);
 const addBtn=document.getElementById("add"),resetBtn=document.getElementById("reset"),scatterBtn=document.getElementById("scatter"),toggleBtn=document.getElementById("toggle");
