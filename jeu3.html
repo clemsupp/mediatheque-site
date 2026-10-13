@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -172,8 +171,8 @@ h1 span{color:var(--cyan)}
     <div id="missionProgress"></div>
     <div id="missionActions">
       <button id="missionSpeed">CONTRE-LA-MONTRE</button>
-      <button id="missionRoute">CHECKPOINTS</button>
       <button id="missionPolice">POURSUITE POLICE</button>
+      <button id="missionCargo">LIVRAISON</button>
       <button id="missionStop">ARRÊTER</button>
     </div>
     <div id="health">ÉTAT DU VÉHICULE <span id="healthnum">100%</span><div id="healthbar"><div id="healthfill"></div></div></div>
@@ -204,7 +203,7 @@ h1 span{color:var(--cyan)}
   <div class="card">
     <div class="eyebrow">JEU 03 · CONDUITE LIBRE</div>
     <h1>NEON <span>DRIVE</span></h1>
-    <p class="lead">Explore une ville nocturne, des quartiers résidentiels, des forêts, des champs et des routes de montagne. Les virages deviennent difficiles à haute vitesse. Utilise le drift pour garder le contrôle, évite les obstacles et échappe à la police.</p>
+    <p class="lead">Explore une grande ville inspirée de Paris, puis les routes rurales. Les arbres et bâtiments ne bloquent pas la voiture ; l’eau est mortelle. Utilise le drift et échappe à une police plus agressive.</p>
     <div class="section">01 / CHOISIS TON VÉHICULE</div>
     <div id="vehicles"></div>
     <div class="bottom"><div id="chosen"></div><button class="primary" id="start">DÉMARRER LE MOTEUR ↗</button></div>
@@ -240,16 +239,16 @@ h1 span{color:var(--cyan)}
     <div class="modalTitle">MENU ADMIN</div>
     <div class="modalSub">Modifie la physique de ta voiture et le comportement de la police. Les changements s'appliquent immédiatement au jeu.</div>
     <div class="adminGrid">
-      <div class="setting"><label for="aTop">Vitesse max. joueur <output id="oTop">190 km/h</output></label><input id="aTop" type="range" min="60" max="400" step="10" value="190"><small>Vitesse maximale sur une route.</small></div>
+      <div class="setting"><label for="aTop">Vitesse max. joueur <output id="oTop">190 km/h</output></label><input id="aTop" type="range" min="60" max="500" step="10" value="190"><small>Vitesse maximale sur une route.</small></div>
       <div class="setting"><label for="aAcc">Accélération <output id="oAcc">75</output></label><input id="aAcc" type="range" min="10" max="150" step="5" value="75"><small>Puissance d'accélération.</small></div>
       <div class="setting"><label for="aTurn">Réactivité de direction <output id="oTurn">100%</output></label><input id="aTurn" type="range" min="25" max="180" step="5" value="100"><small>Effet du braquage à faible vitesse.</small></div>
       <div class="setting"><label for="aInertia">Inertie <output id="oInertia">100%</output></label><input id="aInertia" type="range" min="20" max="200" step="5" value="100"><small>Élan conservé après avoir relâché l'accélérateur.</small></div>
       <div class="setting"><label for="aGrass">Vitesse sur le gazon <output id="oGrass">65%</output></label><input id="aGrass" type="range" min="20" max="100" step="5" value="65"><small>Pourcentage de la vitesse maximale hors route.</small></div>
       <div class="setting"><label for="aGrip">Adhérence <output id="oGrip">100%</output></label><input id="aGrip" type="range" min="25" max="180" step="5" value="100"><small>Capacité à garder la trajectoire.</small></div>
       <div class="setting"><label for="aDrift">Puissance du drift <output id="oDrift">100%</output></label><input id="aDrift" type="range" min="25" max="200" step="5" value="100"><small>Capacité à pivoter en drift à haute vitesse.</small></div>
-      <div class="setting"><label for="aPolice">Vitesse de la police <output id="oPolice">78%</output></label><input id="aPolice" type="range" min="40" max="95" step="1" value="78"><small>Vitesse maximale relative à la tienne.</small></div>
-      <div class="setting"><label for="aPoliceAI">Agressivité police <output id="oPoliceAI">55%</output></label><input id="aPoliceAI" type="range" min="20" max="100" step="5" value="55"><small>Précision des virages et poursuite.</small></div>
-      <div class="setting"><label for="aDamage">Dégâts collisions <output id="oDamage">100%</output></label><input id="aDamage" type="range" min="0" max="200" step="10" value="100"><small>0 % désactive les dégâts.</small></div>
+      <div class="setting"><label for="aPolice">Vitesse de la police <output id="oPolice">115%</output></label><input id="aPolice" type="range" min="60" max="160" step="5" value="115"><small>Vitesse maximale relative à la tienne.</small></div>
+      <div class="setting"><label for="aPoliceAI">Agressivité police <output id="oPoliceAI">85%</output></label><input id="aPoliceAI" type="range" min="40" max="150" step="5" value="85"><small>Précision des virages et poursuite.</small></div>
+      <div class="setting"><label for="aDamage">Dégâts de police <output id="oDamage">100%</output></label><input id="aDamage" type="range" min="0" max="200" step="10" value="100"><small>0 % désactive les dégâts de police.</small></div>
     </div>
     <div class="modalActions">
       <button class="secondary" id="adminTeleport">TÉLÉPORTATION SUR LA CARTE</button>
@@ -291,15 +290,16 @@ function resize(){W=innerWidth;H=innerHeight;D=Math.min(devicePixelRatio||1,2);c
 addEventListener('resize',resize);resize();
 const clamp=(n,a,b)=>Math.max(a,Math.min(b,n)),lerp=(a,b,t)=>a+(b-a)*t,rand=(a,b)=>a+Math.random()*(b-a),dist=Math.hypot;
 const cars=[
-{name:'Citadine',color:'#63e1e0',top:112,acc:43,turn:2.8,grip:5.6,mass:1,shape:0,mode:'NORMAL',desc:'Facile à conduire, idéale pour explorer.',stats:[65,58,84,35]},
-{name:'Camion',color:'#ffc76b',top:82,acc:22,turn:1.25,grip:3.2,mass:2.8,shape:1,mode:'LOURD',desc:'Lourd, tourne large et freine tard.',stats:[42,35,30,85]},
+{name:'Citadine',color:'#63e1e0',top:190,acc:43,turn:2.8,grip:5.6,mass:1,shape:0,mode:'NORMAL',desc:'Facile à conduire, idéale pour explorer.',stats:[65,58,84,35]},
+{name:'Camion',color:'#ffc76b',top:190,acc:22,turn:1.25,grip:3.2,mass:2.8,shape:1,mode:'LOURD',desc:'Lourd, tourne large et freine tard.',stats:[42,35,30,85]},
 {name:'Sportive',color:'#ff657a',top:190,acc:75,turn:3.35,grip:6.7,mass:.78,shape:2,mode:'SPORT',desc:'Très rapide, mais difficile à tourner à pleine vitesse.',stats:[98,94,86,28]},
-{name:'Drift car',color:'#b78aff',top:158,acc:64,turn:2.6,grip:2.45,mass:.9,shape:3,mode:'DRIFT',desc:'Adhérence réduite pour des drifts contrôlés.',stats:[85,78,66,70]}
+{name:'Drift car',color:'#b78aff',top:190,acc:64,turn:2.6,grip:2.45,mass:.9,shape:3,mode:'DRIFT',desc:'Adhérence réduite pour des drifts contrôlés.',stats:[85,78,66,70]}
 ];
 let selected=2,started=false,paused=false,toastTime=0,userZoom=1,adminWasPaused=false;
+let deathTime=0,raceMode=false,cargoActive=false,cargoTarget=null,cargoTrailerDetached=false,cargoDetachTimer=0;
 const world={w:5200,h:4200},car={x:2580,y:2080,a:-Math.PI/2,vx:0,vy:0,spin:0,speed:0,dist:0,best:0,sliding:0,off:false};
 const cam={x:2580,y:2080,zoom:1};
-const settings={top:1,acc:1,turn:1,inertia:1,grass:.65,grip:1,drift:1,police:.78,policeAI:.55,damage:1};
+const settings={top:1,acc:1,turn:1,inertia:1,grass:.65,grip:1,drift:1,police:1.15,policeAI:.85,damage:1};
 const keys={},held={left:false,right:false,gas:false,brake:false,hand:false},latched={left:false,right:false,gas:false,brake:false,hand:false};
 let steerLock=false,pedalLock=false,driftLock=false,health=100,hitCooldown=0;
 const roads=[],buildings=[],trees=[],parks=[],water=[],particles=[],marks=[],police=[],mountains=[],fields=[];
@@ -312,13 +312,13 @@ function path(p,w,t){for(let i=0;i<p.length-1;i++)road(p[i][0],p[i][1],p[i+1][0]
 function segdist(px,py,r){let dx=r.x2-r.x1,dy=r.y2-r.y1,t=clamp(((px-r.x1)*dx+(py-r.y1)*dy)/(dx*dx+dy*dy||1),0,1);return dist(px-r.x1-dx*t,py-r.y1-dy*t)}
 function roadAt(x,y){
   let best=1e9,r0=null;
-  for(const r of roads){let d=segdist(x,y,r);if(d<best){best=d;r0=r}}
+  for(const r of roads){if(raceMode&&(r.type!=='race'))continue;let d=segdist(x,y,r);if(d<best){best=d;r0=r}}
   return{on:!!r0&&best<r0.w/2+4,type:r0?.type||'field',dist:best,width:r0?.w||0}
 }
 function buildMap(){
   const xs=[1740,2080,2470,2860,3250,3640],ys=[1450,1770,2110,2460,2790];
-  xs.forEach((x,i)=>road(x,1200,x,3080,i%2?78:100,'city'));
-  ys.forEach((y,i)=>road(1450,y,3950,y,i%2?76:98,'city'));
+  xs.forEach((x,i)=>road(x,1200,x,3080,i%2?112:132,'city'));
+  ys.forEach((y,i)=>road(1450,y,3950,y,i%2?108:128,'city'));
   path([[1800,1570],[3550,1570],[3550,2670],[1800,2670],[1800,1570]],66,'avenue');
   path([[2160,1800],[3200,1800],[3200,2420],[2160,2420],[2160,1800]],46,'street');
   path([[350,600],[650,430],[950,470],[1110,700],[1050,960],[780,1080],[490,950],[350,600]],48,'suburb');
@@ -332,6 +332,12 @@ function buildMap(){
   path([[800,3770],[1150,3560],[1400,3290],[1560,3000],[1650,2770]],32,'country');
   path([[3900,3000],[4170,3220],[4360,3440],[4260,3650]],33,'country');
   path(racePoints.map(p=>[p.x,p.y]).concat([[racePoints[0].x,racePoints[0].y]]),82,'race');
+  const pcx=2600,pcy=2100,pr=205;
+  for(let i=0;i<12;i++){
+    const a=i*Math.PI/6;
+    road(pcx+Math.cos(a)*pr,pcy+Math.sin(a)*pr,pcx+Math.cos(a)*1900,pcy+Math.sin(a)*1500,92,'avenue');
+  }
+  path(Array.from({length:49},(_,i)=>[pcx+Math.cos(i*Math.PI*2/48)*pr,pcy+Math.sin(i*Math.PI*2/48)*pr]),72,'avenue');
   parks.push({x:1170,y:1430,w:250,h:350},{x:3600,y:1150,w:280,h:280},{x:1220,y:2760,w:260,h:220},{x:3720,y:2820,w:260,h:250},{x:410,y:1840,w:300,h:220},{x:4350,y:1800,w:300,h:330});
   water.push({x:4050,y:2060,w:400,h:230},{x:920,y:1200,w:220,h:330},{x:1350,y:3600,w:420,h:130});
   for(let i=0;i<8;i++)fields.push({x:250+((i*619)%4600),y:280+((i*487)%3550),w:200+((i*79)%240),h:120+((i*47)%190),tone:i%3});
@@ -372,7 +378,7 @@ function renderCars(){
 renderCars();
 function toast(s){$('toast').textContent=s;$('toast').classList.add('show');toastTime=2.3}
 function resetCar(repair=true){
-  car.x=2580;car.y=2080;car.a=-Math.PI/2;car.vx=car.vy=car.spin=0;car.sliding=0;
+  car.x=2470;car.y=2110;car.a=0;car.vx=car.vy=car.spin=0;car.sliding=0;deathTime=0;cargoActive=false;cargoTarget=null;cargoTrailerDetached=false;
   if(repair)health=100;
   toast(repair?'Voiture replacée et réparée':'Voiture replacée');
 }
@@ -421,7 +427,7 @@ function syncAdmin(){
 }
 adminControls.forEach(([id])=>$(id).addEventListener('input',syncAdmin));
 $('adminDefaults').onclick=()=>{
-  const vals={aTop:190,aAcc:75,aTurn:100,aInertia:100,aGrass:65,aGrip:100,aDrift:100,aPolice:78,aPoliceAI:55,aDamage:100};
+  const vals={aTop:190,aAcc:75,aTurn:100,aInertia:100,aGrass:65,aGrip:100,aDrift:100,aPolice:115,aPoliceAI:85,aDamage:100};
   for(const id in vals)$(id).value=vals[id];syncAdmin();toast('Réglages par défaut restaurés');
 };
 syncAdmin();
@@ -458,7 +464,6 @@ tcv.addEventListener('pointerdown',e=>{
   const rect=tcv.getBoundingClientRect();
   const x=clamp((e.clientX-rect.left)/rect.width*world.w,45,world.w-45);
   const y=clamp((e.clientY-rect.top)/rect.height*world.h,45,world.h-45);
-  // Choisir une zone dégagée proche du point sélectionné.
   let best={x,y,score:Infinity};
   for(let i=0;i<50;i++){
     const a=i*Math.PI*2/50,rad=i===0?0:35+((i%5)*18);
@@ -530,13 +535,17 @@ function buildingHit(x,y,r){
   }
   return false;
 }
-/* Les bâtiments ne sont plus des obstacles physiques. */
 function solidAt(x,y,r){
   if(x<r||y<r||x>world.w-r||y>world.h-r)return true;
   for(const w of water)if(x>w.x-r&&x<w.x+w.w+r&&y>w.y-r&&y<w.y+w.h+r)return true;
-  for(const t of trees)if(dist(x-t.x,y-t.y)<t.r+r*.65)return true;
-  for(const mt of mountains)if(dist(x-mt.x,y-mt.y)<mt.r*.72+r*.5)return true;
   return false;
+}
+function inWater(x,y){
+  return x<30||y<30||x>world.w-30||y>world.h-30||water.some(w=>x>w.x-8&&x<w.x+w.w+8&&y>w.y-8&&y<w.y+w.h+8);
+}
+function dieAndRespawn(){
+  if(deathTime>0)return;
+  deathTime=1.7;car.vx=car.vy=car.spin=0;clearHeld();toast('VÉHICULE DANS L’EAU · réanimation…');
 }
 function nearestRoad(x,y){
   let best=null,bd=Infinity;
@@ -564,21 +573,35 @@ function launchMission(type){
   $('missions').classList.remove('hidden');updateMissionText();
   toast(type==='police'?'ALERTE : la police arrive !':type==='route'?'Checkpoint lancé : suis la flèche !':'Mission lancée !');
 }
+const cargoStops=[
+  {x:520,y:720,name:'Dépôt du Nord'}, {x:4540,y:690,name:'Entrepôt Est'},
+  {x:700,y:3500,name:'Magasin rural'}, {x:4330,y:3530,name:'Centre logistique'},
+  {x:1120,y:1080,name:'Station-service'}
+];
+function startCargo(){
+  stopMission();
+  const pick=cargoStops[Math.floor(Math.random()*cargoStops.length)];
+  cargoTarget={x:pick.x,y:pick.y,name:pick.name};cargoActive=false;cargoTrailerDetached=false;
+  mission={active:true,type:'cargo',time:0,limit:240,targetX:pick.x,targetY:pick.y,progress:0,escaped:0};
+  checkpoints=[{x:pick.x,y:pick.y}];$('missions').classList.remove('hidden');$('direction').classList.remove('hidden');
+  $('missionText').textContent='LIVRAISON · va chercher la cargaison à '+pick.name+'.';updateMissionText();toast('Livraison choisie : '+pick.name);
+}
 function stopMission(){
-  mission.active=false;mission.type='none';police.length=0;checkpoints=[];
+  mission.active=false;mission.type='none';police.length=0;checkpoints=[];cargoActive=false;cargoTarget=null;raceMode=false;
   $('direction').classList.add('hidden');updateMissionText();toast('Mission arrêtée');
 }
 function updateMissionText(){
-  if(!mission.active)$('missionText').textContent='Choisis un défi : course, checkpoints ou poursuite policière.';
+  if(!mission.active)$('missionText').textContent='Choisis un défi : course ou poursuite policière, ou une livraison.';
   else if(mission.type==='speed')$('missionText').textContent=`COURSE · ${Math.max(0,Math.ceil(mission.limit-mission.time))} s · Tour en cours.`;
   else if(mission.type==='route')$('missionText').textContent=`CHECKPOINTS · ${mission.progress}/${checkpoints.length} validés · ${Math.max(0,Math.ceil(mission.limit-mission.time))} s.`;
+  else if(mission.type==='cargo')$('missionText').textContent=cargoActive?'LIVRAISON · ramène la cargaison au dépôt de départ.':'LIVRAISON · va chercher la cargaison : '+(cargoTarget?.name||'entrepôt')+'.';
   else $('missionText').textContent=`POURSUITE POLICIÈRE · ${Math.max(0,Math.ceil(mission.limit-mission.time))} s. Échappe aux voitures.`;
   $('missionProgress').textContent=mission.active&&mission.type==='police'?'POLICE : '+police.length+' véhicules':'';
   $('healthnum').textContent=Math.round(health)+'%';$('healthfill').style.width=health+'%';
 }
 $('missionSpeed').onclick=()=>startMission('speed');
-$('missionRoute').onclick=()=>startMission('route');
 $('missionPolice').onclick=()=>launchMission('police');
+$('missionCargo').onclick=()=>startCargo();
 $('missionStop').onclick=stopMission;
 
 function drawRacePreview(){
@@ -598,7 +621,7 @@ function drawRacePreview(){
 }
 $('raceCancel').onclick=()=>$('raceModal').classList.add('hidden');
 $('raceStart').onclick=()=>{
-  $('raceModal').classList.add('hidden');
+  $('raceModal').classList.add('hidden');raceMode=true;cargoActive=false;cargoTarget=null;
   car.x=racePoints[0].x;car.y=racePoints[0].y;car.a=Math.atan2(racePoints[1].y-racePoints[0].y,racePoints[1].x-racePoints[0].x);
   car.vx=car.vy=car.spin=0;health=100;cam.x=car.x;cam.y=car.y;
   launchRace();
@@ -616,17 +639,17 @@ function updatePolice(dt,onPlayerRoad){
     p.phase+=dt;
     let dx=car.x-p.x,dy=car.y-p.y,d=dist(dx,dy)||1,target=Math.atan2(dy,dx);
     let da=Math.atan2(Math.sin(target-p.a),Math.cos(target-p.a));
-    let pr=cars[selected].top*settings.top*.78*settings.police;
+    let pr=cars[selected].top*settings.top*1.08*settings.police;
     let near=roadAt(p.x,p.y);
-    let desired=clamp(da*2.2,-1,1);
-    p.a+=desired*2.1*settings.policeAI*dt;
-    let acc=85*settings.policeAI;
+    let desired=clamp(da*3.2,-1,1);
+    p.a+=desired*3.0*settings.policeAI*dt;
+    let acc=125*settings.policeAI;
     p.vx+=Math.cos(p.a)*acc*dt;p.vy+=Math.sin(p.a)*acc*dt;
     let vmax=pr/3.6*(near.on?1:settings.grass),sp=dist(p.vx,p.vy);
     if(sp>vmax){p.vx*=vmax/sp;p.vy*=vmax/sp}
     let drag=near.on?.16:.7;p.vx*=Math.max(0,1-drag*dt);p.vy*=Math.max(0,1-drag*dt);
     let ox=p.x,oy=p.y;p.x+=p.vx*dt;p.y+=p.vy*dt;
-    if(solidAt(p.x,p.y,15)){p.x=ox;p.y=oy;p.vx*=.25;p.vy*=.25;p.a+=rand(-.8,.8)}
+    if(inWater(p.x,p.y)){p.x=ox;p.y=oy;p.vx*=-.25;p.vy*=-.25;p.a+=rand(-.35,.35)}
     if(d<40&&p.hit<=0){
       health=Math.max(0,health-12*settings.damage);p.hit=2.2;
       car.vx-=Math.cos(p.a)*28;car.vy-=Math.sin(p.a)*28;
@@ -642,6 +665,7 @@ function updatePolice(dt,onPlayerRoad){
 }
 function update(dt){
   if(!started||paused||!$('adminModal').classList.contains('hidden')||!$('teleportModal').classList.contains('hidden')||!$('raceModal').classList.contains('hidden'))return;
+  if(deathTime>0){deathTime-=dt;if(deathTime<=0){resetCar(true);cam.x=car.x;cam.y=car.y;toast('Réanimation terminée · retour au garage de départ')}return;}
   let v=cars[selected],gas=input('gas'),brake=input('brake'),left=input('left'),right=input('right'),hand=input('hand');
   let fx=Math.cos(car.a),fy=Math.sin(car.a),forward=car.vx*fx+car.vy*fy,on=roadAt(car.x,car.y);car.off=!on.on;
   const acc=v.acc*settings.acc;
@@ -654,36 +678,30 @@ function update(dt){
   let grip=(hand?v.grip*.12:v.grip)*settings.grip*(on.on?1:.48);
   car.vx-=sx*clamp(grip*dt,0,1);car.vy-=sy*clamp(grip*dt,0,1);
 
-  /* Direction : plus stable à haute vitesse et pas de rotation sur place. */
   let steer=(right?1:0)-(left?1:0);
   const kmh=Math.abs(forward)*3.6;
   const maxKmh=v.top*settings.top;
   const speedRatio=clamp(kmh/Math.max(1,maxKmh),0,1);
   const moving=clamp(Math.abs(forward)/7,0,1);
   let speedFactor=lerp(1,.20,speedRatio);
-  let turnPower=v.turn*settings.turn*.35*speedFactor*moving;
-  if(forward<0)turnPower*=-1;
+  let turnPower=v.turn*settings.turn*speedFactor*moving;
+  const travelSign=forward< -1?-1:1;
   if(hand&&Math.abs(forward)>8){
-    turnPower+=Math.sign(forward)*v.turn*.35*settings.drift*clamp(Math.abs(forward)/35,0,1);
+    const truckBonus=v.shape===1?1.65:v.shape===3?1.25:1;
+    turnPower+=v.turn*.48*settings.drift*truckBonus*clamp(Math.abs(forward)/35,0,1);
   }
-  const targetSpin=steer*turnPower;
-  car.spin=lerp(car.spin,targetSpin,1-Math.exp(-(hand?5:7)*dt));
-  car.spin=clamp(car.spin,-2.1,2.1);
+  const targetSpin=steer*turnPower*travelSign;
+  car.spin=lerp(car.spin,targetSpin,1-Math.exp(-(hand?4.2:5.5)*dt));
+  car.spin=clamp(car.spin,-1.65,1.65);
   car.a+=car.spin*dt;
-  if(hand&&Math.abs(forward)>14&&steer)car.sliding=clamp(car.sliding+dt*2.2,0,1);
+  if(hand&&Math.abs(forward)>14&&steer)car.sliding=clamp(car.sliding+dt*(v.shape===1?2.8:2.2),0,1);
   else car.sliding=Math.max(0,car.sliding-dt*1.6);
 
-  let speed=dist(car.vx,car.vy),max=health<=0?0:v.top*settings.top*(on.on?1:settings.grass);
+  let speed=dist(car.vx,car.vy),max=health<=0?0:(v.top*settings.top/3.6)*(on.on?1:settings.grass);
   if(speed>max){car.vx*=max/speed;car.vy*=max/speed}
   let ox=car.x,oy=car.y;car.x+=car.vx*dt;car.y+=car.vy*dt;
-  const radius=v.shape===1?22:17;
-  if(solidAt(car.x,car.y,radius)){
-    car.x=ox;car.y=oy;car.vx*=-.24;car.vy*=-.24;car.spin+=rand(-.25,.25);
-    if(hitCooldown<=0){
-      health=Math.max(0,health-Math.max(5,speed*.42)*settings.damage);
-      hitCooldown=.8;dust(car.x,car.y,12,'#d3d4d1');toast('COLLISION · voiture endommagée');
-    }
-  }
+  if(raceMode&&!roadAt(car.x,car.y).on){car.x=ox;car.y=oy;car.vx*=.45;car.vy*=.45;car.spin*=.6;}
+  else if(!raceMode&&inWater(car.x,car.y)){dieAndRespawn();return;}
   if(hitCooldown>0)hitCooldown-=dt;
   tireTracks();
   for(let i=particles.length-1;i>=0;i--){let p=particles[i];p.x+=p.vx*dt;p.y+=p.vy*dt;p.life-=dt;if(p.life<=0)particles.splice(i,1)}
@@ -692,16 +710,18 @@ function update(dt){
 
   if(mission.active){
     mission.time+=dt;
-    if(mission.type==='route'||mission.type==='speed'){
+    if(mission.type==='route'||mission.type==='speed'||mission.type==='cargo'){
       if(checkpoints.length){
         let target=checkpoints[0],d=dist(car.x-target.x,car.y-target.y);
         mission.targetX=target.x;mission.targetY=target.y;
         if(d<90){
           checkpoints.shift();mission.progress++;
-          if(checkpoints.length){mission.targetX=checkpoints[0].x;mission.targetY=checkpoints[0].y;toast(mission.type==='speed'?'Checkpoint de course !':'Checkpoint validé !')}
+          if(mission.type==='cargo'&&!cargoActive){cargoActive=true;checkpoints=[{x:2470,y:2110}];mission.targetX=2470;mission.targetY=2110;toast('Cargaison attachée · retour au dépôt de départ !');updateMissionText();}
+          else if(checkpoints.length){mission.targetX=checkpoints[0].x;mission.targetY=checkpoints[0].y;toast(mission.type==='speed'?'Checkpoint de course !':'Checkpoint validé !')}
           else{
             mission.active=false;$('direction').classList.add('hidden');
-            if(mission.type==='speed'){raceBest=raceBest===null?mission.time:Math.min(raceBest,mission.time);toast('COURSE TERMINÉE · '+mission.time.toFixed(3)+' s');drawRacePreview()}
+            if(mission.type==='speed'){raceBest=raceBest===null?mission.time:Math.min(raceBest,mission.time);raceMode=false;toast('COURSE TERMINÉE · '+mission.time.toFixed(3)+' s');drawRacePreview()}
+            else if(mission.type==='cargo'){cargoActive=false;cargoTarget=null;toast('LIVRAISON RÉUSSIE · cargaison déposée !')}
             else toast('MISSION RÉUSSIE · tous les checkpoints !');
           }
         }
@@ -711,15 +731,10 @@ function update(dt){
     if(mission.active)updateMissionText();
   }
 
-  const margin=35;
-  if(car.x<margin||car.x>world.w-margin||car.y<margin||car.y>world.h-margin){
-    car.x=clamp(car.x,margin,world.w-margin);car.y=clamp(car.y,margin,world.h-margin);
-    car.vx*=-.35;car.vy*=-.35;
-    if(hitCooldown<=0){health=Math.max(0,health-8*settings.damage);hitCooldown=.8;toast('LIMITE DE LA CARTE')}
-  }
+  if(!raceMode&&(car.x<30||car.x>world.w-30||car.y<30||car.y>world.h-30)){dieAndRespawn();return;}
   car.speed=dist(car.vx,car.vy);car.dist+=car.speed*dt/1000;car.best=Math.max(car.best,car.speed*3.6);
   cam.x=lerp(cam.x,car.x+car.vx*.22,1-Math.exp(-dt*4));cam.y=lerp(cam.y,car.y+car.vy*.22,1-Math.exp(-dt*4));
-  cam.zoom=lerp(cam.zoom,clamp((1.12-car.speed/380)*userZoom,.25,1.7),1-Math.exp(-dt*2));
+  cam.zoom=lerp(cam.zoom,clamp((1.12-(car.speed*3.6)/Math.max(1,v.top*settings.top)*.42)*userZoom,.32,1.45),1-Math.exp(-dt*2));
 
   if(mission.active&&mission.type!=='police'){
     const angle=Math.atan2(mission.targetY-car.y,mission.targetX-car.x)-car.a;
@@ -728,7 +743,7 @@ function update(dt){
     $('direction').style.left=clamp(px,35,W-35)+'px';
     $('direction').style.top=clamp(py,65,H-65)+'px';
     $('arrow').style.transform=`rotate(${angle+Math.PI/2}rad)`;
-    $('arrowLabel').textContent=mission.type==='speed'?'PROCHAIN POINT · '+(mission.progress+1)+'/6':'CHECKPOINT '+(mission.progress+1)+'/5';
+    $('arrowLabel').textContent=mission.type==='speed'?'PROCHAIN POINT · '+(mission.progress+1)+'/6':mission.type==='cargo'?(cargoActive?'RETOUR AU DÉPÔT':'RÉCUPÉRER LA CARGAISON'):'CHECKPOINT '+(mission.progress+1)+'/5';
     $('direction').classList.remove('hidden');
   }else if(!mission.active)$('direction').classList.add('hidden');
   if(toastTime>0&&(toastTime-=dt)<=0)$('toast').classList.remove('show');
@@ -737,6 +752,8 @@ function update(dt){
 function rr(x,y,w,h,r,fill){c.beginPath();c.roundRect(x,y,w,h,r);c.fillStyle=fill;c.fill()}
 function drawRoads(){
   for(const r of roads){
+    if(raceMode&&r.type!=='race')continue;
+    if(!raceMode&&r.type==='race')continue;
     c.lineCap='round';c.strokeStyle='#0c1115';c.lineWidth=r.w+16;c.beginPath();c.moveTo(r.x1,r.y1);c.lineTo(r.x2,r.y2);c.stroke();
     c.strokeStyle=r.type==='country'?'#39453a':r.type==='race'?'#343b43':'#252b34';c.lineWidth=r.w+5;c.beginPath();c.moveTo(r.x1,r.y1);c.lineTo(r.x2,r.y2);c.stroke();
     c.strokeStyle=r.type==='country'?'#777967':r.type==='race'?'#555f6b':'#414954';c.lineWidth=r.w;c.beginPath();c.moveTo(r.x1,r.y1);c.lineTo(r.x2,r.y2);c.stroke();
@@ -744,7 +761,8 @@ function drawRoads(){
   }
 }
 function drawWorld(){
-  c.fillStyle='#18251f';c.fillRect(0,0,world.w,world.h);
+  c.fillStyle=raceMode?'#173020':'#18251f';c.fillRect(0,0,world.w,world.h);
+  if(raceMode){drawRoads();return;}
   for(const f of fields){
     c.fillStyle=['#202f22','#263728','#1c2a20'][f.tone];c.fillRect(f.x,f.y,f.w,f.h);
     c.save();c.beginPath();c.rect(f.x,f.y,f.w,f.h);c.clip();c.strokeStyle='#34482f';c.lineWidth=2;
@@ -786,7 +804,16 @@ function drawEffects(){
   for(const p of particles){c.globalAlpha=clamp(p.life/p.max,0,1)*.7;c.fillStyle=p.col;c.beginPath();c.arc(p.x,p.y,p.r,0,7);c.fill()}c.globalAlpha=1;
 }
 function drawCar(){
-  let v=cars[selected],len=v.shape===1?70:37,w=v.shape===1?25:19;
+  let v=cars[selected],len=v.shape===1?92:37,w=v.shape===1?27:19;
+  if(cargoTarget&&(cargoActive||cargoTrailerDetached)){
+    const hitch= v.shape===1?65:len*.5;
+    let tx=car.x-Math.cos(car.a)*hitch,ty=car.y-Math.sin(car.a)*hitch;
+    if(!cargoTrailerDetached){
+      c.save();c.translate(tx,ty);c.rotate(car.a-car.spin*.18);
+      rr(-32,-14,64,28,5,'#080b10');rr(-29,-11,58,22,4,'#d5a65e');rr(-22,-8,44,16,2,'#75502c');
+      c.fillStyle='#f3d9a0';c.fillRect(-23,-9,5,18);c.fillRect(18,-9,5,18);c.restore();
+    }
+  }
   c.save();c.translate(car.x,car.y);c.rotate(car.a);
   c.globalAlpha=.2;c.fillStyle=v.color;c.shadowColor=v.color;c.shadowBlur=18;rr(-len*.38,-w*.62,len*.76,w*1.24,8,v.color);c.shadowBlur=0;c.globalAlpha=1;
   rr(-len/2+4,-w/2+5,len,w,5,'#0008');
@@ -839,8 +866,9 @@ function draw(){
   c.save();c.translate(W/2,H/2);c.scale(cam.zoom,cam.zoom);c.translate(-cam.x,-cam.y);
   c.save();c.beginPath();c.rect(0,0,world.w,world.h);c.clip();
   drawWorld();drawEffects();drawPolice();drawMarker();drawCar();c.restore();c.restore();drawMap();
+  if(deathTime>0){c.fillStyle='rgba(0,0,0,.9)';c.fillRect(0,0,W,H);c.fillStyle='#eef5fb';c.textAlign='center';c.font='900 25px Arial';c.fillText('VÉHICULE SUBMERGÉ',W/2,H/2-8);c.font='13px Arial';c.fillStyle='#9baab8';c.fillText('Réanimation en cours…',W/2,H/2+20);}
   let v=cars[selected],kmh=Math.round(car.speed*3.6);
-  $('speed').textContent=kmh;$('fill').style.width=clamp(kmh/(v.top*settings.top*3.6)*100,0,100)+'%';
+  $('speed').textContent=kmh;$('fill').style.width=clamp(kmh/(v.top*settings.top)*100,0,100)+'%';
   $('distance').textContent=car.dist.toFixed(1);$('best').textContent=Math.round(car.best);
   $('mode').textContent=v.mode;$('grip').textContent=car.sliding>.2?'DRIFT':car.off?'HORS-PISTE':'GRIP';
   let a=car.x<1500||car.x>3950||car.y<1200||car.y>3000?['CAMPAGNE','CHAMPS & ROUTES RURALES']:car.x>1650&&car.x<3900&&car.y>1300&&car.y<3000?['CENTRE-VILLE','AVENUES & BOULEVARDS']:['PÉRIPHÉRIE','ROUTE MIXTE'];
@@ -859,7 +887,7 @@ document.addEventListener('pointermove',e=>{
     active.set(e.pointerId,{x:e.clientX,y:e.clientY});
     if(active.size>=2){
       let a=[...active.values()],d=dist(a[0].x-a[1].x,a[0].y-a[1].y);
-      if(pinch)userZoom=clamp(pinchZoom*d/pinch,.3,2.2);
+      if(pinch)userZoom=clamp(pinchZoom*d/pinch,.55,1.65);
     }
   }
 });
