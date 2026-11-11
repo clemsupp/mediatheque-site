@@ -3,161 +3,117 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
 <title>PARTICLES — Satisfying 07</title>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#090b0f;
-  --panel:#11151c;
-  --line:#252b35;
-  --text:#f4f5f7;
-  --muted:#858d9a;
+  --bg:#080a0e;
+  --panel:#10141b;
+  --panel2:#151b24;
+  --line:#252d39;
+  --muted:#87909d;
+  --white:#fff;
 }
 body{
-  background:var(--bg);
-  color:var(--text);
-  font-family:Inter,Arial,sans-serif;
-  overflow:hidden;
   height:100dvh;
+  overflow:hidden;
+  background:var(--bg);
+  color:white;
+  font-family:Inter,system-ui,Arial,sans-serif;
   user-select:none;
   -webkit-user-select:none;
   touch-action:none;
 }
-canvas{
-  position:fixed;
-  inset:0;
-  width:100%;
-  height:100%;
-  display:block;
-}
+canvas{position:fixed;inset:0;width:100%;height:100%;display:block}
 .top{
-  position:fixed;
-  top:20px;
-  left:20px;
-  right:20px;
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  z-index:5;
+  position:fixed;z-index:3;top:24px;left:28px;right:28px;
+  display:flex;align-items:center;justify-content:space-between;
   pointer-events:none;
 }
 .brand{pointer-events:auto}
-.brand h1{
-  font-size:19px;
-  letter-spacing:4px;
-  font-weight:800;
+.brand-name{font-size:21px;font-weight:900;letter-spacing:5px}
+.brand-sub{font-size:9px;color:#737d8b;letter-spacing:3px;margin-top:5px}
+.top-right{display:flex;align-items:center;gap:10px;pointer-events:auto}
+.live{
+  border:1px solid #29313c;background:#10141b;
+  border-radius:30px;padding:9px 13px;
+  font-size:9px;letter-spacing:1.5px;color:#c9d0da;
 }
-.brand p{
-  color:var(--muted);
-  font-size:10px;
-  letter-spacing:2px;
-  margin-top:5px;
-}
+.live i{display:inline-block;width:6px;height:6px;border-radius:50%;background:#fff;margin-right:7px}
 .back{
-  pointer-events:auto;
-  color:white;
-  text-decoration:none;
-  border:1px solid var(--line);
-  background:#11151c;
-  padding:11px 16px;
-  border-radius:10px;
-  font-size:12px;
-  font-weight:700;
+  text-decoration:none;color:#fff;background:#151a22;
+  border:1px solid #303946;border-radius:10px;
+  padding:10px 14px;font-size:11px;font-weight:750;
+  transition:.2s;
 }
+.back:active{transform:scale(.96)}
+.center-hint{
+  position:fixed;top:45%;left:50%;transform:translate(-50%,-50%);
+  text-align:center;pointer-events:none;transition:opacity .4s;
+}
+.center-hint strong{font-size:12px;letter-spacing:4px;font-weight:700}
+.center-hint p{font-size:10px;color:#697382;margin-top:9px;letter-spacing:1px}
 .panel{
-  position:fixed;
-  z-index:5;
-  bottom:20px;
-  left:50%;
+  position:fixed;z-index:4;bottom:22px;left:50%;
   transform:translateX(-50%);
-  width:min(540px,calc(100% - 28px));
-  padding:17px;
-  background:rgba(17,21,28,.96);
-  border:1px solid var(--line);
-  border-radius:17px;
+  width:min(590px,calc(100% - 28px));
+  background:rgba(15,19,26,.97);
+  border:1px solid #28313e;border-radius:19px;
+  padding:19px;
+  box-shadow:0 15px 50px #0008;
 }
-.panel-title{
-  display:flex;
-  justify-content:space-between;
-  align-items:center;
-  margin-bottom:15px;
+.panel-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:17px}
+.panel-head strong{font-size:11px;letter-spacing:2px}
+.panel-head span{font-size:10px;color:#8993a0}
+.modes{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:18px}
+.mode{
+  border:1px solid #303946;background:#171d26;color:#aeb7c4;
+  border-radius:10px;padding:12px 8px;font-size:11px;font-weight:750;
+  cursor:pointer;transition:.2s;
 }
-.panel-title strong{
-  font-size:12px;
-  letter-spacing:2px;
-}
-.status{
-  color:#aeb6c2;
-  font-size:10px;
-}
-.controls{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:12px;
-}
+.mode.active{background:#fff;color:#080a0e;border-color:#fff}
+.mode:active{transform:scale(.98)}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:17px 20px}
 .control label{
-  display:flex;
-  justify-content:space-between;
-  color:#aeb6c2;
-  font-size:11px;
-  margin-bottom:9px;
+  display:flex;justify-content:space-between;
+  font-size:10px;color:#9ba5b2;margin-bottom:10px;
 }
-.control label span{color:white}
+.control label b{color:#fff;font-weight:650}
 input[type=range]{
-  width:100%;
-  accent-color:white;
-  height:4px;
+  width:100%;height:4px;appearance:none;
+  background:#333d4a;border-radius:10px;outline:none;
 }
-.buttons{
-  display:flex;
-  gap:8px;
-  margin-top:16px;
+input[type=range]::-webkit-slider-thumb{
+  appearance:none;width:13px;height:13px;border-radius:50%;
+  background:#fff;border:2px solid #fff;cursor:pointer;
 }
-button{
-  flex:1;
-  padding:11px 8px;
-  border:1px solid var(--line);
-  background:#1a202a;
-  color:white;
-  border-radius:9px;
-  font-size:11px;
-  font-weight:700;
+input[type=range]::-moz-range-thumb{
+  width:11px;height:11px;border-radius:50%;background:#fff;border:0;
+}
+.actions{display:flex;gap:8px;margin-top:19px}
+.action{
+  flex:1;border:1px solid #303946;background:#171d26;color:#fff;
+  border-radius:9px;padding:11px 5px;font-size:10px;font-weight:750;
   cursor:pointer;
 }
-button:active{background:#303946}
-button.primary{
-  background:white;
-  color:#090b0f;
-  border-color:white;
+.action.main{background:#fff;color:#090b0f;border-color:#fff}
+.action:active{transform:scale(.97)}
+.bottom-info{
+  display:flex;justify-content:space-between;gap:8px;
+  border-top:1px solid #252d39;margin-top:16px;padding-top:13px;
+  font-size:9px;color:#7f8997;letter-spacing:1px;
 }
-.stats{
-  display:flex;
-  justify-content:space-between;
-  margin-top:14px;
-  padding-top:12px;
-  border-top:1px solid var(--line);
-  color:var(--muted);
-  font-size:10px;
-}
-.stats b{color:white;font-weight:600}
-.hint{
-  position:fixed;
-  top:48%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  color:#69717d;
-  font-size:11px;
-  letter-spacing:2px;
-  text-align:center;
-  pointer-events:none;
-  opacity:.7;
-}
+.bottom-info b{color:#e8ebef;font-weight:700}
 @media(max-width:480px){
-  .top{top:14px;left:14px;right:14px}
-  .brand h1{font-size:16px}
-  .panel{bottom:12px;padding:14px}
-  .buttons button{font-size:10px}
+  .top{top:15px;left:15px;right:15px}
+  .brand-name{font-size:17px;letter-spacing:4px}
+  .brand-sub{font-size:8px}
+  .live{display:none}
+  .panel{bottom:12px;padding:15px}
+  .controls{gap:15px 13px}
+  .actions{gap:6px}
+  .action{font-size:9px;padding:11px 3px}
 }
 </style>
 </head>
@@ -165,54 +121,64 @@ button.primary{
 
 <canvas id="canvas"></canvas>
 
-<div class="top">
+<header class="top">
   <div class="brand">
-    <h1>PARTICLES</h1>
-    <p>SATISFYING EXPERIENCE 07</p>
+    <div class="brand-name">PARTICLES</div>
+    <div class="brand-sub">SATISFYING EXPERIENCE · 07</div>
   </div>
-  <a class="back" href="/">← MENU</a>
+  <div class="top-right">
+    <div class="live"><i></i> SIMULATION ACTIVE</div>
+    <a class="back" href="/">← MENU</a>
+  </div>
+</header>
+
+<div class="center-hint" id="hint">
+  <strong>TOUCH TO INTERACT</strong>
+  <p>Déplace ton doigt pour contrôler les particules</p>
 </div>
 
-<div class="hint" id="hint">MOVE YOUR FINGER</div>
+<section class="panel">
+  <div class="panel-head">
+    <strong>SIMULATION CONTROL</strong>
+    <span id="state">● EN COURS</span>
+  </div>
 
-<div class="panel">
-  <div class="panel-title">
-    <strong>PARTICLE CONTROL</strong>
-    <span class="status" id="status">● ACTIVE</span>
+  <div class="modes">
+    <button class="mode active" id="repel">↗ REPULSION</button>
+    <button class="mode" id="attract">↘ ATTRACTION</button>
   </div>
 
   <div class="controls">
     <div class="control">
-      <label>Quantité <span id="countValue">350</span></label>
-      <input id="count" type="range" min="80" max="700" value="350" step="10">
+      <label>Particules <b id="countValue">350</b></label>
+      <input id="count" type="range" min="80" max="650" value="350" step="10">
     </div>
     <div class="control">
-      <label>Vitesse <span id="speedValue">1.0</span></label>
-      <input id="speed" type="range" min="1" max="30" value="10">
+      <label>Vitesse <b id="speedValue">1.0x</b></label>
+      <input id="speed" type="range" min="2" max="30" value="10">
     </div>
     <div class="control">
-      <label>Taille <span id="sizeValue">2</span></label>
-      <input id="size" type="range" min="1" max="5" value="2">
+      <label>Puissance <b id="forceValue">2.5x</b></label>
+      <input id="force" type="range" min="5" max="100" value="25">
     </div>
     <div class="control">
-      <label>Force <span id="forceValue">1.0</span></label>
-      <input id="force" type="range" min="1" max="30" value="10">
+      <label>Portée <b id="radiusValue">220</b></label>
+      <input id="radius" type="range" min="70" max="450" value="220" step="10">
     </div>
   </div>
 
-  <div class="buttons">
-    <button class="primary" id="pause">PAUSE</button>
-    <button id="repel">REPULSION</button>
-    <button id="attract">ATTRACTION</button>
-    <button id="reset">RESET</button>
+  <div class="actions">
+    <button class="action main" id="pause">PAUSE</button>
+    <button class="action" id="burst">EXPLOSION</button>
+    <button class="action" id="reset">RÉINITIALISER</button>
   </div>
 
-  <div class="stats">
-    <span>PARTICULES : <b id="total">350</b></span>
-    <span>FPS : <b id="fps">60</b></span>
-    <span>MODE : <b id="mode">REPULSION</b></span>
+  <div class="bottom-info">
+    <span>PARTICULES <b id="total">350</b></span>
+    <span>FPS <b id="fps">60</b></span>
+    <span>MODE <b id="modeText">REPULSION</b></span>
   </div>
-</div>
+</section>
 
 <script>
 const canvas=document.getElementById("canvas");
@@ -222,42 +188,41 @@ let W=0,H=0,DPR=1;
 let particles=[];
 let running=true;
 let mode="repel";
-let pointer={x:-1000,y:-1000,active:false};
 let amount=350;
 let speed=1;
-let size=2;
-let force=1;
-let lastTime=0;
-let fpsFrames=0;
-let fpsTime=0;
+let power=2.5;
+let radius=220;
+let pointer={x:-1000,y:-1000,active:false};
+let lastFrame=0;
+let fpsFrames=0,fpsTime=0;
 let currentFPS=60;
-let adaptiveLimit=700;
+let adaptiveLimit=650;
 
 function resize(){
-  W=window.innerWidth;
-  H=window.innerHeight;
-  DPR=Math.min(window.devicePixelRatio||1,1.5);
+  W=innerWidth;
+  H=innerHeight;
+  DPR=Math.min(devicePixelRatio||1,1.25);
   canvas.width=Math.floor(W*DPR);
   canvas.height=Math.floor(H*DPR);
   ctx.setTransform(DPR,0,0,DPR,0,0);
 }
-window.addEventListener("resize",resize);
+addEventListener("resize",resize);
 resize();
 
-function createParticle(){
+function particle(){
   return {
     x:Math.random()*W,
     y:Math.random()*H,
     vx:(Math.random()-.5)*.5,
     vy:(Math.random()-.5)*.5,
-    radius:.5+Math.random()*.8
+    r:.6+Math.random()*.8
   };
 }
 
 function createParticles(){
   particles=[];
   amount=Math.min(amount,adaptiveLimit);
-  for(let i=0;i<amount;i++)particles.push(createParticle());
+  for(let i=0;i<amount;i++)particles.push(particle());
   updateStats();
 }
 
@@ -267,8 +232,9 @@ function updateStats(){
 }
 
 function update(){
-  const forcePower=force*.055;
-  const speedPower=speed*.045;
+  const maxRadiusSq=radius*radius;
+  const forceStrength=power*.19;
+  const maxVelocity=13;
 
   for(let i=0;i<particles.length;i++){
     const p=particles[i];
@@ -278,9 +244,10 @@ function update(){
       const dy=pointer.y-p.y;
       const distSq=dx*dx+dy*dy;
 
-      if(distSq<18000&&distSq>1){
+      if(distSq<maxRadiusSq&&distSq>1){
         const dist=Math.sqrt(distSq);
-        const strength=(1-dist/Math.sqrt(18000))*forcePower;
+        const falloff=1-dist/radius;
+        const strength=forceStrength*(.35+falloff*1.8);
         const direction=mode==="repel"?-1:1;
 
         p.vx+=(dx/dist)*strength*direction;
@@ -288,40 +255,46 @@ function update(){
       }
     }
 
-    p.vx*=.985;
-    p.vy*=.985;
+    p.vx*=.982;
+    p.vy*=.982;
 
-    p.x+=p.vx*speedPower;
-    p.y+=p.vy*speedPower;
+    const velocity=Math.sqrt(p.vx*p.vx+p.vy*p.vy);
+    if(velocity>maxVelocity){
+      p.vx=p.vx/velocity*maxVelocity;
+      p.vy=p.vy/velocity*maxVelocity;
+    }
 
-    if(p.x<0){p.x=0;p.vx=Math.abs(p.vx)}
-    if(p.x>W){p.x=W;p.vx=-Math.abs(p.vx)}
-    if(p.y<0){p.y=0;p.vy=Math.abs(p.vy)}
-    if(p.y>H){p.y=H;p.vy=-Math.abs(p.vy)}
+    p.x+=p.vx*speed;
+    p.y+=p.vy*speed;
+
+    if(p.x<0){p.x=0;p.vx=Math.abs(p.vx)*.8}
+    if(p.x>W){p.x=W;p.vx=-Math.abs(p.vx)*.8}
+    if(p.y<0){p.y=0;p.vy=Math.abs(p.vy)*.8}
+    if(p.y>H){p.y=H;p.vy=-Math.abs(p.vy)*.8}
   }
 }
 
 function draw(){
-  ctx.fillStyle="#090b0f";
+  ctx.fillStyle="#080a0e";
   ctx.fillRect(0,0,W,H);
 
   ctx.fillStyle="#ffffff";
+  ctx.beginPath();
 
   for(let i=0;i<particles.length;i++){
     const p=particles[i];
-    ctx.beginPath();
-    ctx.arc(p.x,p.y,size*p.radius,0,Math.PI*2);
-    ctx.fill();
+    ctx.moveTo(p.x+p.r*sizeFactor,p.y);
+    ctx.arc(p.x,p.y,p.r*sizeFactor,0,Math.PI*2);
   }
+  ctx.fill();
 }
+let sizeFactor=1.7;
 
 function loop(time){
   requestAnimationFrame(loop);
-
   if(!running)return;
-
-  if(time-lastTime<15)return;
-  lastTime=time;
+  if(time-lastFrame<16)return;
+  lastFrame=time;
 
   update();
   draw();
@@ -342,7 +315,6 @@ function loop(time){
     }
   }
 }
-
 requestAnimationFrame(loop);
 createParticles();
 
@@ -356,50 +328,55 @@ function setPointer(e){
 canvas.addEventListener("pointermove",setPointer);
 canvas.addEventListener("pointerdown",e=>{
   setPointer(e);
-  pointer.active=true;
+  canvas.setPointerCapture(e.pointerId);
 });
-canvas.addEventListener("pointerleave",()=>{
-  pointer.active=false;
-});
-canvas.addEventListener("pointerup",()=>{
-  pointer.active=false;
-});
+canvas.addEventListener("pointerup",()=>pointer.active=false);
+canvas.addEventListener("pointercancel",()=>pointer.active=false);
+canvas.addEventListener("pointerleave",()=>pointer.active=false);
 
-document.getElementById("count").addEventListener("input",e=>{
+function setMode(next){
+  mode=next;
+  document.getElementById("repel").classList.toggle("active",next==="repel");
+  document.getElementById("attract").classList.toggle("active",next==="attract");
+  document.getElementById("modeText").textContent=next==="repel"?"REPULSION":"ATTRACTION";
+}
+document.getElementById("repel").onclick=()=>setMode("repel");
+document.getElementById("attract").onclick=()=>setMode("attract");
+
+document.getElementById("count").oninput=e=>{
   amount=Number(e.target.value);
-  document.getElementById("countValue").textContent=amount;
   createParticles();
-});
-
-document.getElementById("speed").addEventListener("input",e=>{
+};
+document.getElementById("speed").oninput=e=>{
   speed=Number(e.target.value)/10;
-  document.getElementById("speedValue").textContent=speed.toFixed(1);
-});
-
-document.getElementById("size").addEventListener("input",e=>{
-  size=Number(e.target.value);
-  document.getElementById("sizeValue").textContent=size;
-});
-
-document.getElementById("force").addEventListener("input",e=>{
-  force=Number(e.target.value)/10;
-  document.getElementById("forceValue").textContent=force.toFixed(1);
-});
+  document.getElementById("speedValue").textContent=speed.toFixed(1)+"x";
+};
+document.getElementById("force").oninput=e=>{
+  power=Number(e.target.value)/10;
+  document.getElementById("forceValue").textContent=power.toFixed(1)+"x";
+};
+document.getElementById("radius").oninput=e=>{
+  radius=Number(e.target.value);
+  document.getElementById("radiusValue").textContent=radius;
+};
 
 document.getElementById("pause").onclick=()=>{
   running=!running;
   document.getElementById("pause").textContent=running?"PAUSE":"REPRENDRE";
-  document.getElementById("status").textContent=running?"● ACTIVE":"● PAUSE";
+  document.getElementById("state").textContent=running?"● EN COURS":"● PAUSE";
 };
 
-document.getElementById("repel").onclick=()=>{
-  mode="repel";
-  document.getElementById("mode").textContent="REPULSION";
-};
+document.getElementById("burst").onclick=()=>{
+  const cx=pointer.x<0?W/2:pointer.x;
+  const cy=pointer.y<0?H/2:pointer.y;
 
-document.getElementById("attract").onclick=()=>{
-  mode="attract";
-  document.getElementById("mode").textContent="ATTRACTION";
+  for(const p of particles){
+    const dx=p.x-cx;
+    const dy=p.y-cy;
+    const dist=Math.sqrt(dx*dx+dy*dy)||1;
+    p.vx+=(dx/dist)*(5+Math.random()*8);
+    p.vy+=(dy/dist)*(5+Math.random()*8);
+  }
 };
 
 document.getElementById("reset").onclick=()=>{
