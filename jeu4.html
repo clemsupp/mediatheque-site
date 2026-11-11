@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -9,12 +8,10 @@
 :root{--bg:#080c12;--panel:#101722;--panel2:#141e2b;--line:#263344;--green:#65f5ac;--blue:#61a5ff;--gold:#ffd166;--red:#ff647c;--text:#edf4fc;--muted:#8493a6}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--text);font-family:Inter,Arial,sans-serif;min-height:100vh}
-button,input{font:inherit}
-button{cursor:pointer}
+button,input{font:inherit}button{cursor:pointer}
 .app{max-width:1550px;margin:auto;padding:22px}
 header{height:70px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--line);margin-bottom:22px}
-.brand{font-size:23px;font-weight:900;letter-spacing:2px}
-.brand span{color:var(--green)}
+.brand{font-size:23px;font-weight:900;letter-spacing:2px}.brand span{color:var(--green)}
 .header-right{display:flex;align-items:center;gap:12px}
 .pill{background:var(--panel2);border:1px solid var(--line);padding:10px 14px;border-radius:9px;font-size:12px}
 .green{color:var(--green)}
@@ -26,22 +23,15 @@ header{height:70px;display:flex;align-items:center;justify-content:space-between
 .nav-tabs button{border:0;background:transparent;color:var(--muted);padding:12px;text-align:left;border-radius:8px;font-size:11px;font-weight:800}
 .nav-tabs button:hover,.nav-tabs button.active{background:#1c2b38;color:var(--green)}
 .side-weapon{margin-top:22px;padding:14px;background:#0b121c;border-radius:10px}
-.side-weapon .art{font-size:28px}
-.side-weapon strong{display:block;font-size:11px;margin-top:8px}
-.side-weapon small{color:var(--muted);font-size:9px}
-.meter{height:5px;background:#263344;border-radius:8px;margin-top:8px;overflow:hidden}
-.meter span{display:block;height:100%;background:var(--green)}
-main{min-width:0}
-.page{display:none}.page.active{display:block}
+.side-weapon .art{font-size:28px}.side-weapon strong{display:block;font-size:11px;margin-top:8px}.side-weapon small{color:var(--muted);font-size:9px}
+.meter{height:5px;background:#263344;border-radius:8px;margin-top:8px;overflow:hidden}.meter span{display:block;height:100%;background:var(--green)}
+main{min-width:0}.page{display:none}.page.active{display:block}
 .page-heading{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}
-h1{font-size:25px;letter-spacing:1px;margin:0}
-.subtitle{font-size:11px;color:var(--muted);margin-top:7px}
+h1{font-size:25px;letter-spacing:1px;margin:0}.subtitle{font-size:11px;color:var(--muted);margin-top:7px}
 .stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
-.stat{padding:17px}
-.stat small{font-size:9px;letter-spacing:1.5px;color:var(--muted)}
+.stat{padding:17px}.stat small{font-size:9px;letter-spacing:1.5px;color:var(--muted)}
 .stat strong{display:block;font-size:25px;margin-top:9px}
-.card{padding:18px}
-.card-title{font-size:11px;font-weight:900;letter-spacing:1.4px;margin-bottom:16px}
+.card{padding:18px}.card-title{font-size:11px;font-weight:900;letter-spacing:1.4px;margin-bottom:16px}
 .arena-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;gap:10px}
 .arena-label{font-size:10px;color:var(--muted);letter-spacing:1px}
 .arena-controls{display:flex;gap:8px;flex-wrap:wrap}
@@ -49,8 +39,7 @@ h1{font-size:25px;letter-spacing:1px;margin:0}
 .btn:hover{border-color:var(--green);color:var(--green)}
 .btn-primary{background:var(--green);color:#07120d;border-color:var(--green)}
 .btn-primary:hover{background:#8affc4;color:#07120d}
-.btn-danger{background:#491d2a;border-color:#773448;color:#ff9cad}
-.btn-small{padding:7px 10px}
+.btn-danger{background:#491d2a;border-color:#773448;color:#ff9cad}.btn-small{padding:7px 10px}
 #arena{height:510px;position:relative;background:#08111d;border:1px solid #26384c;border-radius:10px;overflow:hidden}
 #gameCanvas{width:100%;height:100%;display:block;touch-action:none;cursor:crosshair}
 #crosshair{position:absolute;left:50%;top:50%;width:28px;height:28px;transform:translate(-50%,-50%);pointer-events:none;z-index:3}
@@ -72,31 +61,24 @@ h1{font-size:25px;letter-spacing:1px;margin:0}
 #gameOverlay h2{font-size:32px;margin:12px 0}
 #gameOverlay p{max-width:440px;color:#a7b6c8;font-size:12px;line-height:1.8}
 .game-score{font-size:44px;font-weight:900;color:var(--green);margin:10px}
-.modes{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-top:13px}
+.modes{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:13px}
 .mode-button{background:#101a27;border:1px solid var(--line);color:var(--muted);border-radius:8px;padding:13px 5px;font-size:9px;font-weight:900}
 .mode-button.selected{border-color:var(--green);color:var(--green);background:#12251e}
 .grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
 .item-card{position:relative;background:#0c141f;border:1px solid var(--line);border-radius:10px;padding:17px;min-width:0}
-.item-card.equipped{border-color:var(--green)}
-.item-tag{position:absolute;right:10px;top:10px;color:var(--green);font-size:8px;font-weight:900}
-.item-art{font-size:32px;margin-bottom:12px}
-.item-card h3{font-size:12px;letter-spacing:.5px}
+.item-card.equipped{border-color:var(--green)}.item-tag{position:absolute;right:10px;top:10px;color:var(--green);font-size:8px;font-weight:900}
+.item-art{font-size:32px;margin-bottom:12px}.item-card h3{font-size:12px;letter-spacing:.5px}
 .item-card p{font-size:10px;color:var(--muted);line-height:1.6;min-height:45px}
-.item-price{font-size:11px;color:var(--gold);font-weight:900;margin:14px 0}
-.item-card button{width:100%}
+.item-price{font-size:11px;color:var(--gold);font-weight:900;margin:14px 0}.item-card button{width:100%}
 .upgrade-row,.profile-stat,.leaderboard-row{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:15px 0;border-bottom:1px solid var(--line)}
 .upgrade-info strong{font-size:11px}.upgrade-info p{font-size:10px;color:var(--muted);margin:6px 0}
 .upgrade-level{font-size:9px;color:var(--green);margin:7px 0}
-.progress-track{height:5px;background:#263344;border-radius:8px;overflow:hidden}
-.progress-fill{height:100%;background:var(--green)}
-.muted{color:var(--muted)}
-.profile-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.progress-track{height:5px;background:#263344;border-radius:8px;overflow:hidden}.progress-fill{height:100%;background:var(--green)}
+.muted{color:var(--muted)}.profile-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
 .profile-box{background:#0c131d;padding:14px;border-radius:8px}
-.profile-box small{color:var(--muted);font-size:9px}
-.profile-box strong{display:block;font-size:20px;margin-top:8px}
+.profile-box small{color:var(--muted);font-size:9px}.profile-box strong{display:block;font-size:20px;margin-top:8px}
 input{background:#0b121c;border:1px solid var(--line);color:white;padding:11px;border-radius:7px;outline:none;max-width:100%}
-input:focus{border-color:var(--green)}
-.form-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
+input:focus{border-color:var(--green)}.form-row{display:flex;gap:8px;flex-wrap:wrap;margin-top:12px}
 .shop-filters{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:15px}
 .shop-filters button.active{color:var(--green);border-color:var(--green)}
 .toast-container{position:fixed;right:20px;bottom:20px;z-index:30;display:grid;gap:8px}
@@ -119,197 +101,145 @@ footer{text-align:center;color:#536276;font-size:9px;padding:28px}
 <body>
 <div class="app">
 <header>
-  <div class="brand">AIM <span>RUSH</span></div>
-  <div class="header-right">
-    <div class="pill green" id="levelPill">LEVEL 1</div>
-    <div class="pill">◈ <strong id="topCoins">0</strong></div>
-  </div>
+<div class="brand">AIM <span>RUSH</span></div>
+<div class="header-right"><div class="pill green" id="levelPill">LEVEL 1</div><div class="pill">◈ <strong id="topCoins">0</strong></div></div>
 </header>
-
 <div class="layout">
 <aside class="sidebar">
-  <div class="nav-title">MAIN MENU</div>
-  <nav class="nav-tabs">
-    <button class="active" data-page="dashboard" onclick="openPage('dashboard')">◈ DASHBOARD</button>
-    <button data-page="arsenal" onclick="openPage('arsenal')">⚔ ARSENAL</button>
-    <button data-page="upgrades" onclick="openPage('upgrades')">↗ UPGRADES</button>
-    <button data-page="shop" onclick="openPage('shop')">▣ SHOP</button>
-    <button data-page="leaderboard" onclick="openPage('leaderboard')">▤ RECORDS</button>
-    <button data-page="profile" onclick="openPage('profile')">◎ PROFILE</button>
-    <button data-page="admin" onclick="openPage('admin')">⚙ ADMIN</button>
-  </nav>
-  <div class="side-weapon">
-    <div class="eyebrow">EQUIPPED WEAPON</div>
-    <div class="art" id="sideWeaponArt">🔫</div>
-    <strong id="sideWeaponName">RUSH PISTOL</strong>
-    <small id="sideWeaponMeta">ENERGY · SEMI-AUTO</small>
-    <div class="eyebrow">POWER <span id="sidePower">25%</span></div>
-    <div class="meter"><span id="sidePowerBar" style="width:25%"></span></div>
-    <div class="eyebrow">FIRE RATE <span id="sideFireRate">1x</span></div>
-  </div>
+<div class="nav-title">MAIN MENU</div>
+<nav class="nav-tabs">
+<button class="active" data-page="dashboard" onclick="openPage('dashboard')">◈ DASHBOARD</button>
+<button data-page="arsenal" onclick="openPage('arsenal')">⚔ ARSENAL</button>
+<button data-page="upgrades" onclick="openPage('upgrades')">↗ UPGRADES</button>
+<button data-page="shop" onclick="openPage('shop')">▣ SHOP</button>
+<button data-page="leaderboard" onclick="openPage('leaderboard')">▤ RECORDS</button>
+<button data-page="profile" onclick="openPage('profile')">◎ PROFILE</button>
+<button data-page="admin" onclick="openPage('admin')">⚙ ADMIN</button>
+</nav>
+<div class="side-weapon">
+<div class="eyebrow">EQUIPPED WEAPON</div><div class="art" id="sideWeaponArt">🔫</div>
+<strong id="sideWeaponName">RUSH PISTOL</strong><small id="sideWeaponMeta">ENERGY · SEMI-AUTO</small>
+<div class="eyebrow">POWER <span id="sidePower">25%</span></div><div class="meter"><span id="sidePowerBar" style="width:25%"></span></div>
+<div class="eyebrow">FIRE RATE <span id="sideFireRate">1x</span></div>
+</div>
 </aside>
-
 <main>
 <section class="page active" id="page-dashboard">
-  <div class="page-heading">
-    <div><h1>TRAINING DASHBOARD</h1><div class="subtitle">Enter the arena. Improve your aim. Build your arsenal.</div></div>
-    <button class="btn" id="soundButton" onclick="toggleSound()">♫ SOUND ON</button>
-  </div>
-  <div class="stats">
-    <div class="card stat"><small>TARGETS HIT</small><strong id="statKills">0</strong></div>
-    <div class="card stat"><small>ACCURACY</small><strong id="statAccuracy">0%</strong></div>
-    <div class="card stat"><small>BEST SCORE</small><strong id="statBest">0</strong></div>
-    <div class="card stat"><small>EXPERIENCE</small><strong id="statXP">0</strong></div>
-  </div>
-  <div class="card">
-    <div class="arena-top">
-      <div><div class="card-title" style="margin:0">3D TRAINING ARENA</div><div class="arena-label" id="arenaMode">CLASSIC AIM</div></div>
-      <div class="arena-controls">
-        <button class="btn" onclick="toggleFullscreen()">⛶ FULLSCREEN</button>
-        <button class="btn" onclick="reloadGame()">↻ RESET</button>
-      </div>
-    </div>
-    <div id="arena">
-      <canvas id="gameCanvas"></canvas>
-      <div id="crosshair">
-        <i class="crosshair-dot"></i><i class="crosshair-dot"></i><i class="crosshair-dot"></i><i class="crosshair-dot"></i><i class="crosshair-dot"></i>
-      </div>
-      <div id="hitMarker"></div>
-      <div class="arena-hud"><span id="arenaTimer">TIME: 60s</span><span>AIM RUSH · LIVE TRAINING</span></div>
-      <div class="arena-bottom"><span id="arenaHint">CLICK START TO PLAY</span><span>WASD NOT REQUIRED · MOUSE / TOUCH</span></div>
-      <div id="gameOverlay">
-        <div class="eyebrow">AIM RUSH TRAINING SYSTEM</div>
-        <h2>READY TO <span class="green">AIM?</span></h2>
-        <p>Enter the training arena, hit your targets and earn coins to unlock new equipment.</p>
-        <button class="btn btn-primary" onclick="startGame()">START TRAINING →</button>
-      </div>
-    </div>
-    <div class="modes">
-      <button class="mode-button selected" data-mode="classic" onclick="selectMode('classic')">CLASSIC</button>
-      <button class="mode-button" data-mode="flick" onclick="selectMode('flick')">FLICK</button>
-      <button class="mode-button" data-mode="speed" onclick="selectMode('speed')">SPEED RUSH</button>
-      <button class="mode-button" data-mode="precision" onclick="selectMode('precision')">PRECISION</button>
-      <button class="mode-button" data-mode="survival" onclick="selectMode('survival')">SURVIVAL</button>
-    </div>
-  </div>
-  <div id="extraProgressPanel" class="card" style="margin-top:16px"></div>
+<div class="page-heading"><div><h1>TRAINING DASHBOARD</h1><div class="subtitle">Enter the arena. Improve your aim. Build your arsenal.</div></div><button class="btn" id="soundButton" onclick="toggleSound()">♫ SOUND ON</button></div>
+<div class="stats">
+<div class="card stat"><small>TARGETS HIT</small><strong id="statKills">0</strong></div>
+<div class="card stat"><small>ACCURACY</small><strong id="statAccuracy">0%</strong></div>
+<div class="card stat"><small>BEST SCORE</small><strong id="statBest">0</strong></div>
+<div class="card stat"><small>EXPERIENCE</small><strong id="statXP">0</strong></div>
+</div>
+<div class="card">
+<div class="arena-top">
+<div><div class="card-title" style="margin:0">3D TRAINING ARENA</div><div class="arena-label" id="arenaMode">CLASSIC AIM</div></div>
+<div class="arena-controls"><button class="btn" onclick="toggleFullscreen()">⛶ FULLSCREEN</button><button class="btn" onclick="reloadGame()">↻ RESET</button></div>
+</div>
+<div id="arena">
+<canvas id="gameCanvas"></canvas>
+<div id="crosshair"><i class="crosshair-dot"></i><i class="crosshair-dot"></i><i class="crosshair-dot"></i><i class="crosshair-dot"></i><i class="crosshair-dot"></i></div>
+<div id="hitMarker"></div>
+<div class="arena-hud"><span id="arenaTimer">TIME: 60s</span><span>AIM RUSH · LIVE TRAINING</span></div>
+<div class="arena-bottom"><span id="arenaHint">CHOOSE A MODE AND START</span><span>MOUSE / TOUCH</span></div>
+<div id="gameOverlay">
+<div class="eyebrow">AIM RUSH TRAINING SYSTEM</div><h2>READY TO <span class="green">AIM?</span></h2>
+<p>Choose your training mode, hit your targets and earn coins to unlock new equipment.</p>
+<button class="btn btn-primary" onclick="startGame()">START TRAINING →</button>
+</div>
+</div>
+<div class="modes">
+<button class="mode-button selected" data-mode="classic" onclick="selectMode('classic')">CLASSIC</button>
+<button class="mode-button" data-mode="flick" onclick="selectMode('flick')">FLICK</button>
+<button class="mode-button" data-mode="speed" onclick="selectMode('speed')">SPEED RUSH</button>
+<button class="mode-button" data-mode="precision" onclick="selectMode('precision')">PRECISION</button>
+<button class="mode-button" data-mode="survival" onclick="selectMode('survival')">SURVIVAL</button>
+<button class="mode-button" data-mode="micro" onclick="selectMode('micro')">MICRO AIM</button>
+</div>
+</div>
+<div id="extraProgressPanel" class="card" style="margin-top:16px"></div>
 </section>
 
-<section class="page" id="page-arsenal">
-  <div class="page-heading"><div><h1>WEAPON ARSENAL</h1><div class="subtitle">Unlock and equip your weapons.</div></div></div>
-  <div class="grid" id="weaponsGrid"></div>
-</section>
-
-<section class="page" id="page-upgrades">
-  <div class="page-heading"><div><h1>SYSTEM UPGRADES</h1><div class="subtitle">Improve your equipment and rewards.</div></div></div>
-  <div class="card" id="upgradesList"></div>
-</section>
-
+<section class="page" id="page-arsenal"><div class="page-heading"><div><h1>WEAPON ARSENAL</h1><div class="subtitle">Unlock and equip your weapons.</div></div></div><div class="grid" id="weaponsGrid"></div></section>
+<section class="page" id="page-upgrades"><div class="page-heading"><div><h1>SYSTEM UPGRADES</h1><div class="subtitle">Improve your equipment and rewards.</div></div></div><div class="card" id="upgradesList"></div></section>
 <section class="page" id="page-shop">
-  <div class="page-heading"><div><h1>THE SHOP</h1><div class="subtitle">Customize your training experience.</div></div></div>
-  <div class="shop-filters">
-    <button class="btn active" onclick="filterShop('all',this)">ALL</button>
-    <button class="btn" onclick="filterShop('skin',this)">SKINS</button>
-    <button class="btn" onclick="filterShop('effect',this)">EFFECTS</button>
-    <button class="btn" onclick="filterShop('crosshair',this)">CROSSHAIRS</button>
-  </div>
-  <div class="grid" id="shopGrid"></div>
+<div class="page-heading"><div><h1>THE SHOP</h1><div class="subtitle">Customize your training experience.</div></div></div>
+<div class="shop-filters">
+<button class="btn active" onclick="filterShop('all',this)">ALL</button><button class="btn" onclick="filterShop('skin',this)">SKINS</button><button class="btn" onclick="filterShop('effect',this)">EFFECTS</button><button class="btn" onclick="filterShop('crosshair',this)">CROSSHAIRS</button>
+</div><div class="grid" id="shopGrid"></div>
 </section>
-
 <section class="page" id="page-leaderboard">
-  <div class="page-heading"><div><h1>RECORDS</h1><div class="subtitle">Your personal training history.</div></div></div>
-  <div class="profile-grid">
-    <div class="card profile-box"><small>SESSIONS</small><strong id="recordGames">0</strong></div>
-    <div class="card profile-box"><small>BEST STREAK</small><strong id="recordStreak">0</strong></div>
-    <div class="card profile-box"><small>SHOTS FIRED</small><strong id="recordShots">0</strong></div>
-    <div class="card profile-box"><small>COINS EARNED</small><strong id="recordCoins">0</strong></div>
-  </div>
-  <div class="card" style="margin-top:16px"><div class="card-title">RECENT SESSIONS</div><div id="leaderboardList"></div></div>
+<div class="page-heading"><div><h1>RECORDS</h1><div class="subtitle">Your personal training history.</div></div></div>
+<div class="profile-grid">
+<div class="card profile-box"><small>SESSIONS</small><strong id="recordGames">0</strong></div><div class="card profile-box"><small>BEST STREAK</small><strong id="recordStreak">0</strong></div><div class="card profile-box"><small>SHOTS FIRED</small><strong id="recordShots">0</strong></div><div class="card profile-box"><small>COINS EARNED</small><strong id="recordCoins">0</strong></div>
+</div><div class="card" style="margin-top:16px"><div class="card-title">RECENT SESSIONS</div><div id="leaderboardList"></div></div>
 </section>
-
 <section class="page" id="page-profile">
-  <div class="page-heading"><div><h1>PLAYER PROFILE</h1><div class="subtitle">Your AIM RUSH identity and progression.</div></div></div>
-  <div class="card">
-    <div class="card-title">PLAYER IDENTITY</div>
-    <h2 id="profileName">PLAYER</h2>
-    <div class="form-row"><input id="playerNameInput" maxlength="20" placeholder="Player name"><button class="btn btn-primary" onclick="changeName()">SAVE NAME</button></div>
-    <div class="profile-grid" style="margin-top:18px">
-      <div class="profile-box"><small>LEVEL</small><strong id="profileLevel">1</strong></div>
-      <div class="profile-box"><small>TARGETS HIT</small><strong id="profileKills">0</strong></div>
-      <div class="profile-box"><small>ACCURACY</small><strong id="profileAccuracy">0%</strong></div>
-      <div class="profile-box"><small>SESSIONS</small><strong id="profileGames">0</strong></div>
-      <div class="profile-box"><small>BEST SCORE</small><strong id="profileBest">0</strong></div>
-      <div class="profile-box"><small>COINS</small><strong id="profileCoins">0</strong></div>
-    </div>
-    <div class="card-title" style="margin-top:22px">EXPERIENCE PROGRESS</div>
-    <div id="xpLabel" class="muted" style="font-size:10px;margin-bottom:8px">0 / 100 XP</div>
-    <div class="progress-track"><div class="progress-fill" id="xpProgress" style="width:0%"></div></div>
-  </div>
-  <div class="card" style="margin-top:15px">
-    <div class="card-title">SAVE MANAGEMENT</div>
-    <div class="form-row">
-      <button class="btn" onclick="exportSave()">EXPORT SAVE</button>
-      <label class="btn">IMPORT SAVE <input type="file" accept="application/json" onchange="importSave(event)" style="display:none"></label>
-      <button class="btn btn-danger" onclick="confirmReset()">RESET PROGRESSION</button>
-    </div>
-  </div>
+<div class="page-heading"><div><h1>PLAYER PROFILE</h1><div class="subtitle">Your AIM RUSH identity and progression.</div></div></div>
+<div class="card">
+<div class="card-title">PLAYER IDENTITY</div><h2 id="profileName">PLAYER</h2>
+<div class="form-row"><input id="playerNameInput" maxlength="20" placeholder="Player name"><button class="btn btn-primary" onclick="changeName()">SAVE NAME</button></div>
+<div class="profile-grid" style="margin-top:18px">
+<div class="profile-box"><small>LEVEL</small><strong id="profileLevel">1</strong></div><div class="profile-box"><small>TARGETS HIT</small><strong id="profileKills">0</strong></div><div class="profile-box"><small>ACCURACY</small><strong id="profileAccuracy">0%</strong></div><div class="profile-box"><small>SESSIONS</small><strong id="profileGames">0</strong></div><div class="profile-box"><small>BEST SCORE</small><strong id="profileBest">0</strong></div><div class="profile-box"><small>COINS</small><strong id="profileCoins">0</strong></div>
+</div>
+<div class="card-title" style="margin-top:22px">EXPERIENCE PROGRESS</div><div id="xpLabel" class="muted" style="font-size:10px;margin-bottom:8px">0 / 100 XP</div><div class="progress-track"><div class="progress-fill" id="xpProgress" style="width:0%"></div></div>
+</div>
+<div class="card" style="margin-top:15px"><div class="card-title">SAVE MANAGEMENT</div>
+<div class="form-row"><button class="btn" onclick="exportSave()">EXPORT SAVE</button><label class="btn">IMPORT SAVE <input type="file" accept="application/json" onchange="importSave(event)" style="display:none"></label><button class="btn btn-danger" onclick="confirmReset()">RESET PROGRESSION</button></div>
+</div>
 </section>
-
 <section class="page" id="page-admin">
-  <div class="page-heading"><div><h1>ADMIN CONSOLE</h1><div class="subtitle">Restricted game configuration.</div></div></div>
-  <div class="card" id="adminLogin">
-    <div class="card-title">AUTHENTICATION REQUIRED</div>
-    <div class="form-row"><input type="password" id="adminPassword" placeholder="Administrator password"><button class="btn btn-primary" onclick="adminLogin()">UNLOCK</button></div>
-  </div>
-  <div class="card" id="adminTools">
-    <div style="display:flex;justify-content:space-between;align-items:center"><div class="card-title">ADMINISTRATOR TOOLS</div><button class="btn btn-danger" onclick="adminLogout()">LOCK</button></div>
-    <div class="admin-grid">
-      <label>Add / remove coins<input id="adminCoins" type="number" placeholder="Example: 5000"></label>
-      <label>Set level<input id="adminLevel" type="number" placeholder="Example: 10"></label>
-      <label>Add XP<input id="adminXP" type="number" placeholder="Example: 500"></label>
-      <label>Change player name<input id="adminName" placeholder="Player name"></label>
-      <label>Add / remove kills<input id="adminKills" type="number" placeholder="Example: 100"></label>
-      <label>Set best score<input id="adminScore" type="number" placeholder="Example: 10000"></label>
-    </div>
-    <div class="form-row"><button class="btn btn-primary" onclick="adminApply()">APPLY CHANGES</button><button class="btn" onclick="adminUnlockAll()">UNLOCK ALL WEAPONS</button><button class="btn" onclick="adminUnlockShop()">UNLOCK SHOP</button></div>
-    <hr style="border-color:var(--line);margin:22px 0">
-    <div class="card-title">GAME CONFIGURATION</div>
-    <div class="admin-grid">
-      <label>Coins per target<input id="configCoins" type="number"></label>
-      <label>XP per target<input id="configXP" type="number"></label>
-      <label>Session duration (seconds)<input id="configDuration" type="number"></label>
-      <label>Target spawn interval (ms)<input id="configSpawn" type="number"></label>
-    </div>
-    <div class="form-row"><button class="btn btn-primary" onclick="adminSaveConfig()">SAVE CONFIGURATION</button></div>
-  </div>
+<div class="page-heading"><div><h1>ADMIN CONSOLE</h1><div class="subtitle">Restricted game configuration.</div></div></div>
+<div class="card" id="adminLogin"><div class="card-title">AUTHENTICATION REQUIRED</div><div class="form-row"><input type="password" id="adminPassword" placeholder="Administrator password"><button class="btn btn-primary" onclick="adminLogin()">UNLOCK</button></div></div>
+<div class="card" id="adminTools">
+<div style="display:flex;justify-content:space-between;align-items:center"><div class="card-title">ADMINISTRATOR TOOLS</div><button class="btn btn-danger" onclick="adminLogout()">LOCK</button></div>
+<div class="admin-grid">
+<label>Add / remove coins<input id="adminCoins" type="number" placeholder="Example: 5000"></label><label>Set level<input id="adminLevel" type="number" placeholder="Example: 10"></label><label>Add XP<input id="adminXP" type="number" placeholder="Example: 500"></label><label>Change player name<input id="adminName" placeholder="Player name"></label><label>Add / remove kills<input id="adminKills" type="number" placeholder="Example: 100"></label><label>Set best score<input id="adminScore" type="number" placeholder="Example: 10000"></label>
+</div>
+<div class="form-row"><button class="btn btn-primary" onclick="adminApply()">APPLY CHANGES</button><button class="btn" onclick="adminUnlockAll()">UNLOCK ALL WEAPONS</button><button class="btn" onclick="adminUnlockShop()">UNLOCK SHOP</button></div>
+<hr style="border-color:var(--line);margin:22px 0"><div class="card-title">GAME CONFIGURATION</div>
+<div class="admin-grid">
+<label>Coins per target<input id="configCoins" type="number"></label><label>XP per target<input id="configXP" type="number"></label><label>Session duration (seconds)<input id="configDuration" type="number"></label><label>Target spawn interval (ms)<input id="configSpawn" type="number"></label>
+</div><div class="form-row"><button class="btn btn-primary" onclick="adminSaveConfig()">SAVE CONFIGURATION</button></div>
+</div>
 </section>
 </main>
 </div>
 <footer>AIM RUSH · TRAINING SYSTEM · ALL PROGRESS SAVED LOCALLY</footer>
 </div>
-
 <div class="toast-container" id="toastContainer"></div>
 <div id="modalBackdrop"><div id="modalContent"></div></div>
 
 <script type="module">
 import * as THREE from "https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js";
 
+/* WEAPONS */
 const WEAPONS=[
-{id:"pistol",name:"RUSH PISTOL",art:"🔫",description:"A balanced starter weapon.",price:0,power:1,rate:1,interval:330,automatic:false,color:0x65f5ac},
-{id:"pulse",name:"PULSE BLASTER",art:"⚡",description:"A fast energy blaster.",price:1800,power:1.1,rate:1.6,interval:170,automatic:true,color:0x61a5ff},
-{id:"nova",name:"NOVA CANNON",art:"💠",description:"Heavy damage with precise shots.",price:5200,power:2,rate:.75,interval:650,automatic:false,color:0xb28aff},
-{id:"storm",name:"STORM X",art:"🌩️",description:"Extremely fast automatic firing.",price:9500,power:1.35,rate:2.4,interval:115,automatic:true,color:0xffd166},
-{id:"phantom",name:"PHANTOM",art:"👾",description:"A powerful precision weapon.",price:18000,power:2.5,rate:1.35,interval:260,automatic:false,color:0xff718b},
-{id:"quantum",name:"QUANTUM",art:"🔮",description:"The ultimate energy weapon.",price:35000,power:3.5,rate:2,interval:150,automatic:true,color:0x9aabff}
+{id:"pistol",name:"RUSH PISTOL",art:"🔫",description:"Starter weapon. Accurate single shots.",price:0,power:1,rate:1,interval:330,automatic:false,color:0x65f5ac,ability:"single"},
+{id:"pulse",name:"PULSE BLASTER",art:"⚡",description:"Fast automatic energy shots.",price:1800,power:1.1,rate:1.6,interval:170,automatic:true,color:0x61a5ff,ability:"auto"},
+{id:"nova",name:"NOVA CANNON",art:"💠",description:"Explosive energy burst that affects nearby targets.",price:5200,power:2,rate:.75,interval:650,automatic:false,color:0xb28aff,ability:"splash"},
+{id:"storm",name:"STORM X",art:"🌩️",description:"Automatic weapon with electric chain reactions.",price:9500,power:1.35,rate:2.4,interval:115,automatic:true,color:0xffd166,ability:"chain"},
+{id:"phantom",name:"PHANTOM",art:"👾",description:"Piercing beam that can hit multiple targets.",price:18000,power:2.5,rate:1.35,interval:260,automatic:false,color:0xff718b,ability:"pierce"},
+{id:"quantum",name:"QUANTUM",art:"🔮",description:"Powerful energy beam with a wide chain effect.",price:35000,power:3.5,rate:2,interval:150,automatic:true,color:0x9aabff,ability:"quantum"},
+{id:"volt",name:"VOLT ARC",art:"🔋",description:"Electric arcs jump between nearby targets.",price:48000,power:1.5,rate:1.8,interval:190,automatic:true,color:0x7df9ff,ability:"arc"},
+{id:"scatter",name:"STAR SPLITTER",art:"✴️",description:"A multi-shot burst with several aiming rays.",price:62000,power:1.2,rate:1.1,interval:420,automatic:false,color:0xff9f68,ability:"scatter"},
+{id:"frost",name:"CRYO RAY",art:"❄️",description:"Slows every target hit for a short time.",price:85000,power:1.4,rate:1.5,interval:240,automatic:true,color:0x8beaff,ability:"freeze"},
+{id:"eclipse",name:"ECLIPSE",art:"🌌",description:"Advanced beam with piercing and chain effects.",price:125000,power:2.8,rate:1.7,interval:210,automatic:true,color:0xd68cff,ability:"eclipse"}
 ];
+
 const UPGRADES=[
-{id:"damage",name:"ENERGY OUTPUT",desc:"Deal more damage to targets and bosses.",base:500,max:20},
+{id:"damage",name:"ENERGY OUTPUT",desc:"Increase score earned from each hit.",base:500,max:20},
 {id:"fire",name:"FIRE CONTROL",desc:"Shoot faster with every upgrade.",base:700,max:15},
-{id:"focus",name:"PRECISION SYSTEM",desc:"Increase precision and score bonuses.",base:900,max:15},
+{id:"focus",name:"PRECISION SYSTEM",desc:"Increase score bonuses for accurate hits.",base:900,max:15},
 {id:"reward",name:"COIN MULTIPLIER",desc:"Earn more coins from every target.",base:1200,max:20},
 {id:"xp",name:"XP BOOSTER",desc:"Earn additional experience.",base:1000,max:20},
-{id:"stability",name:"AIM STABILITY",desc:"Reduce visual aiming sensitivity.",base:800,max:10}
+{id:"stability",name:"AIM STABILITY",desc:"Make mouse aiming less sensitive.",base:800,max:10},
+{id:"magnet",name:"TARGET SCANNER",desc:"Slow down moving targets.",base:1500,max:10},
+{id:"chain",name:"ARC AMPLIFIER",desc:"Increase the number of targets affected by electric weapons.",base:2200,max:10},
+{id:"slow",name:"TIME DILATION",desc:"Slow targets briefly after a successful hit.",base:2500,max:10}
 ];
+
 const SHOP_ITEMS=[
 {id:"skin_green",name:"NEON GREEN",type:"skin",art:"🟢",price:500,desc:"A luminous green theme.",color:"#65f5ac"},
 {id:"skin_blue",name:"CYBER BLUE",type:"skin",art:"🔵",price:800,desc:"A cool blue theme.",color:"#61a5ff"},
@@ -322,9 +252,12 @@ const SHOP_ITEMS=[
 {id:"cross_plus",name:"PRECISION PLUS",type:"crosshair",art:"＋",price:500,desc:"A clean precision crosshair.",color:"#61a5ff"},
 {id:"cross_circle",name:"TARGET RING",type:"crosshair",art:"◎",price:750,desc:"A circular aiming reticle.",color:"#ffd166"}
 ];
+
 const DEFAULT_CONFIG={coinsPerKill:15,xpPerKill:10,duration:60,spawnRate:1200};
-function freshSave(){return{name:"PLAYER",coins:0,xp:0,level:1,kills:0,shots:0,hits:0,games:0,best:0,bestStreak:0,streak:0,totalCoinsEarned:0,weapon:"pistol",ownedWeapons:["pistol"],upgrades:{damage:0,fire:0,focus:0,reward:0,xp:0,stability:0},ownedItems:[],equippedSkin:"skin_green",equippedEffect:"effect_spark",equippedCrosshair:"cross_dot",history:[],achievements:[],dailyDate:"",dailyProgress:{kills:0,games:0,score:0},config:{...DEFAULT_CONFIG}}}
-function loadSave(){try{const d=JSON.parse(localStorage.getItem("aimrush_save_v1"));if(!d)return freshSave();const b=freshSave();return{...b,...d,upgrades:{...b.upgrades,...(d.upgrades||{})},config:{...DEFAULT_CONFIG,...(d.config||{})},ownedWeapons:Array.isArray(d.ownedWeapons)?d.ownedWeapons:["pistol"],ownedItems:Array.isArray(d.ownedItems)?d.ownedItems:[],history:Array.isArray(d.history)?d.history:[],achievements:Array.isArray(d.achievements)?d.achievements:[]}}catch{return freshSave()}}
+const DEFAULT_UPGRADES={damage:0,fire:0,focus:0,reward:0,xp:0,stability:0,magnet:0,chain:0,slow:0};
+
+function freshSave(){return{name:"PLAYER",coins:0,xp:0,level:1,kills:0,shots:0,hits:0,games:0,best:0,bestStreak:0,streak:0,totalCoinsEarned:0,weapon:"pistol",ownedWeapons:["pistol"],upgrades:{...DEFAULT_UPGRADES},ownedItems:[],equippedSkin:"skin_green",equippedEffect:"effect_spark",equippedCrosshair:"cross_dot",history:[],achievements:[],dailyDate:"",dailyProgress:{kills:0,games:0,score:0},config:{...DEFAULT_CONFIG}}}
+function loadSave(){try{const d=JSON.parse(localStorage.getItem("aimrush_save_v1"));if(!d)return freshSave();const b=freshSave();return{...b,...d,upgrades:{...DEFAULT_UPGRADES,...(d.upgrades||{})},config:{...DEFAULT_CONFIG,...(d.config||{})},ownedWeapons:Array.isArray(d.ownedWeapons)?d.ownedWeapons:["pistol"],ownedItems:Array.isArray(d.ownedItems)?d.ownedItems:[],history:Array.isArray(d.history)?d.history:[],achievements:Array.isArray(d.achievements)?d.achievements:[]}}catch{return freshSave()}}
 let save=loadSave();
 const number=n=>Math.floor(Number(n)||0).toLocaleString("fr-FR");
 const accuracy=()=>save.shots?Math.round(save.hits/save.shots*100):0;
@@ -332,6 +265,7 @@ const getWeapon=()=>WEAPONS.find(w=>w.id===save.weapon)||WEAPONS[0];
 const getUpgrade=id=>Number(save.upgrades[id])||0;
 const upgradeCost=u=>Math.floor(u.base*Math.pow(1.55,getUpgrade(u.id)));
 const xpNeeded=()=>100+Math.max(0,save.level-1)*65;
+
 function notify(message,error=false){const el=document.createElement("div");el.className="toast"+(error?" error":"");el.textContent=message;document.getElementById("toastContainer").appendChild(el);setTimeout(()=>el.remove(),3000)}
 function persist(){try{localStorage.setItem("aimrush_save_v1",JSON.stringify(save))}catch{notify("Unable to save progress.",true)}updateUI()}
 const today=()=>new Date().toISOString().slice(0,10);
@@ -347,111 +281,663 @@ const ACHIEVEMENTS=[
 {id:"all_weapons",name:"ARSENAL COMPLETE",desc:"Unlock every weapon.",test:()=>WEAPONS.every(w=>save.ownedWeapons.includes(w.id)),reward:3000}
 ];
 function checkAchievements(){ACHIEVEMENTS.forEach(a=>{if(!save.achievements.includes(a.id)&&a.test()){save.achievements.push(a.id);save.coins+=a.reward;save.totalCoinsEarned+=a.reward;notify("ACHIEVEMENT: "+a.name+" · +"+number(a.reward));playSound("level")}})}
-function renderMissions(){refreshDaily();const panel=document.getElementById("extraProgressPanel");panel.innerHTML=`<div class="card-title">DAILY MISSIONS</div><div class="profile-grid" id="missionGrid"></div><div style="height:20px"></div><div class="card-title">ACHIEVEMENTS · ${save.achievements.length}/${ACHIEVEMENTS.length}</div><div id="achievementList"></div>`;const grid=panel.querySelector("#missionGrid");MISSIONS.forEach(m=>{const p=save.dailyProgress[m.id]||0;const done=p>=m.goal;const item=document.createElement("div");item.className="profile-box";item.innerHTML=`<strong style="font-size:11px">${m.name}</strong><p class="muted" style="font-size:10px">${m.desc}</p><div class="progress-track"><div class="progress-fill" style="width:${Math.min(100,p/m.goal*100)}%"></div></div><small>${number(Math.min(p,m.goal))} / ${m.goal} · ${done?"COMPLETED":"+"+m.reward+" COINS"}</small>`;grid.appendChild(item)});const list=panel.querySelector("#achievementList");ACHIEVEMENTS.forEach(a=>{const ok=save.achievements.includes(a.id);const row=document.createElement("div");row.className="profile-stat";row.innerHTML=`<span>${ok?"✓":"◇"} ${a.name}<small class="muted" style="display:block;margin-top:4px">${a.desc}</small></span><span>${ok?"UNLOCKED":"+"+number(a.reward)}</span>`;list.appendChild(row)})}
-window.openPage=function(name){document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));document.querySelectorAll(".nav-tabs button").forEach(b=>b.classList.remove("active"));document.getElementById("page-"+name)?.classList.add("active");document.querySelector('[data-page="'+name+'"]')?.classList.add("active");if(name==="arsenal")renderWeapons();if(name==="upgrades")renderUpgrades();if(name==="shop")renderShop();if(name==="leaderboard")renderLeaderboard();if(name==="profile")renderProfile();if(name==="dashboard")renderMissions();if(name==="admin"&&!adminUnlocked)document.getElementById("adminPassword").value=""};
-function updateUI(){document.getElementById("topCoins").textContent=number(save.coins);document.getElementById("levelPill").textContent="LEVEL "+save.level;document.getElementById("statKills").textContent=number(save.kills);document.getElementById("statAccuracy").textContent=accuracy()+"%";document.getElementById("statBest").textContent=number(save.best);document.getElementById("statXP").textContent=number(save.xp);const w=getWeapon();document.getElementById("sideWeaponArt").textContent=w.art;document.getElementById("sideWeaponName").textContent=w.name;document.getElementById("sideWeaponMeta").textContent=w.automatic?"ENERGY · AUTOMATIC":"ENERGY · SEMI-AUTO";const power=Math.min(100,Math.round(w.power*25+getUpgrade("damage")*3));document.getElementById("sidePower").textContent=power+"%";document.getElementById("sidePowerBar").style.width=power+"%";document.getElementById("sideFireRate").textContent=(w.rate*(1+getUpgrade("fire")*.08)).toFixed(1)+"x";const skin=SHOP_ITEMS.find(x=>x.id===save.equippedSkin);if(skin)document.documentElement.style.setProperty("--green",skin.color);applyCrosshair();updateArenaStats()}
-function addXP(amount){save.xp+=Math.max(0,Math.floor(amount));let up=false;while(save.xp>=xpNeeded()){save.xp-=xpNeeded();save.level++;const bonus=save.level*100;save.coins+=bonus;save.totalCoinsEarned+=bonus;up=true;notify("LEVEL UP! LEVEL "+save.level+" · +"+number(bonus)+" coins")}if(up)playSound("level");checkAchievements()}
-window.changeName=function(){const n=document.getElementById("playerNameInput").value.trim().slice(0,20);if(!n)return notify("Enter a player name.",true);save.name=n;persist();renderProfile();notify("Player name updated.")};
-function renderProfile(){document.getElementById("profileName").textContent=save.name;document.getElementById("playerNameInput").value=save.name;document.getElementById("profileLevel").textContent=save.level;document.getElementById("profileKills").textContent=number(save.kills);document.getElementById("profileAccuracy").textContent=accuracy()+"%";document.getElementById("profileGames").textContent=number(save.games);document.getElementById("profileBest").textContent=number(save.best);document.getElementById("profileCoins").textContent=number(save.coins);document.getElementById("xpLabel").textContent=number(save.xp)+" / "+number(xpNeeded())+" XP";document.getElementById("xpProgress").style.width=Math.min(100,save.xp/xpNeeded()*100)+"%"}
-function renderWeapons(){const grid=document.getElementById("weaponsGrid");grid.innerHTML="";WEAPONS.forEach(w=>{const owned=save.ownedWeapons.includes(w.id),equipped=save.weapon===w.id;const c=document.createElement("div");c.className="item-card"+(equipped?" equipped":"");c.innerHTML=`${equipped?'<div class="item-tag">EQUIPPED</div>':""}<div class="item-art">${w.art}</div><h3>${w.name}</h3><p>${w.description}<br>Damage: ${w.power}x · Fire rate: ${w.rate}x</p><div class="item-price">${owned?"OWNED":number(w.price)+" COINS"}</div><button class="btn ${equipped?"":"btn-primary"}">${equipped?"CURRENT WEAPON":owned?"EQUIP":"UNLOCK"}</button>`;c.querySelector("button").onclick=()=>{if(owned){save.weapon=w.id;persist();renderWeapons();notify(w.name+" equipped.")}else buyWeapon(w)};grid.appendChild(c)})}
-function buyWeapon(w){if(save.coins<w.price)return notify("Not enough coins.",true);save.coins-=w.price;save.ownedWeapons.push(w.id);save.weapon=w.id;checkAchievements();persist();renderWeapons();notify(w.name+" unlocked!");playSound("purchase")}
-function renderUpgrades(){const list=document.getElementById("upgradesList");list.innerHTML="";UPGRADES.forEach(u=>{const level=getUpgrade(u.id),cost=upgradeCost(u),max=level>=u.max;const row=document.createElement("div");row.className="upgrade-row";row.innerHTML=`<div class="upgrade-info"><strong>${u.name}</strong><p>${u.desc}</p><div class="upgrade-level">LEVEL ${level} / ${u.max}</div><div class="progress-track" style="max-width:220px"><div class="progress-fill" style="width:${level/u.max*100}%"></div></div></div><div style="text-align:right"><div class="item-price">${max?"MAX LEVEL":number(cost)+" ◈"}</div><button class="btn btn-primary btn-small" ${max?"disabled":""}>${max?"MAXED":"UPGRADE"}</button></div>`;row.querySelector("button").onclick=()=>buyUpgrade(u);list.appendChild(row)})}
-function buyUpgrade(u){const level=getUpgrade(u.id);if(level>=u.max)return;const cost=upgradeCost(u);if(save.coins<cost)return notify("Not enough coins.",true);save.coins-=cost;save.upgrades[u.id]=level+1;persist();renderUpgrades();notify(u.name+" upgraded.");playSound("purchase")}
-let currentShopFilter="all";
-window.filterShop=function(filter,button){currentShopFilter=filter;document.querySelectorAll(".shop-filters button").forEach(b=>b.classList.remove("active"));button.classList.add("active");renderShop()};
-function renderShop(){const grid=document.getElementById("shopGrid");grid.innerHTML="";SHOP_ITEMS.filter(i=>currentShopFilter==="all"||i.type===currentShopFilter).forEach(item=>{const owned=save.ownedItems.includes(item.id),equipped=save.equippedSkin===item.id||save.equippedEffect===item.id||save.equippedCrosshair===item.id;const c=document.createElement("div");c.className="item-card"+(equipped?" equipped":"");c.innerHTML=`${equipped?'<div class="item-tag">EQUIPPED</div>':""}<div class="item-art">${item.art}</div><h3>${item.name}</h3><p>${item.desc}</p><div class="item-price">${owned?"OWNED":number(item.price)+" COINS"}</div><button class="btn ${owned?"":"btn-primary"}">${owned?(equipped?"EQUIPPED":"EQUIP"):"BUY ITEM"}</button>`;c.querySelector("button").onclick=()=>{if(!owned){if(save.coins<item.price)return notify("Not enough coins.",true);save.coins-=item.price;save.ownedItems.push(item.id)}equipShopItem(item);persist();renderShop();notify(item.name+" equipped.");playSound("purchase")};grid.appendChild(c)})}
-function equipShopItem(item){if(item.type==="skin")save.equippedSkin=item.id;if(item.type==="effect")save.equippedEffect=item.id;if(item.type==="crosshair")save.equippedCrosshair=item.id;applyCrosshair()}
-function applyCrosshair(){const cross=document.getElementById("crosshair");if(!cross)return;const id=save.equippedCrosshair;cross.style.opacity=id==="cross_dot"?"1":".9";cross.style.border=id==="cross_circle"?"2px solid var(--green)":"none";cross.style.borderRadius=id==="cross_circle"?"50%":"0";cross.style.width=id==="cross_circle"?"30px":"28px";cross.style.height=id==="cross_circle"?"30px":"28px";const lines=cross.querySelectorAll(".crosshair-dot");if(lines[0])lines[0].style.display=id==="cross_plus"?"none":"block"}
-function renderLeaderboard(){document.getElementById("recordGames").textContent=number(save.games);document.getElementById("recordStreak").textContent=number(save.bestStreak);document.getElementById("recordShots").textContent=number(save.shots);document.getElementById("recordCoins").textContent=number(save.totalCoinsEarned);const list=document.getElementById("leaderboardList");list.innerHTML="";const history=[...save.history].sort((a,b)=>b.score-a.score);if(!history.length){list.innerHTML='<p class="muted" style="font-size:11px">No games played yet. Start your first training session!</p>';return}history.slice(0,10).forEach((g,i)=>{const row=document.createElement("div");row.className="leaderboard-row";row.innerHTML=`<strong>#${i+1}</strong><span>${g.mode} · ${g.accuracy}% accuracy</span><strong>${number(g.score)} pts</strong>`;list.appendChild(row)})}
+function renderMissions(){
+refreshDaily();const panel=document.getElementById("extraProgressPanel");
+panel.innerHTML=`<div class="card-title">DAILY MISSIONS</div><div class="profile-grid" id="missionGrid"></div><div style="height:20px"></div><div class="card-title">ACHIEVEMENTS · ${save.achievements.length}/${ACHIEVEMENTS.length}</div><div id="achievementList"></div>`;
+const grid=panel.querySelector("#missionGrid");
+MISSIONS.forEach(m=>{const p=save.dailyProgress[m.id]||0,done=p>=m.goal,item=document.createElement("div");item.className="profile-box";item.innerHTML=`<strong style="font-size:11px">${m.name}</strong><p class="muted" style="font-size:10px">${m.desc}</p><div class="progress-track"><div class="progress-fill" style="width:${Math.min(100,p/m.goal*100)}%"></div></div><small>${number(Math.min(p,m.goal))} / ${m.goal} · ${done?"COMPLETED":"+"+m.reward+" COINS"}</small>`;grid.appendChild(item)});
+const list=panel.querySelector("#achievementList");
+ACHIEVEMENTS.forEach(a=>{const ok=save.achievements.includes(a.id),row=document.createElement("div");row.className="profile-stat";row.innerHTML=`<span>${ok?"✓":"◇"} ${a.name}<small class="muted" style="display:block;margin-top:4px">${a.desc}</small></span><span>${ok?"UNLOCKED":"+"+number(a.reward)}</span>`;list.appendChild(row)})
+}
 
+window.openPage=function(name){
+document.querySelectorAll(".page").forEach(p=>p.classList.remove("active"));
+document.querySelectorAll(".nav-tabs button").forEach(b=>b.classList.remove("active"));
+document.getElementById("page-"+name)?.classList.add("active");
+document.querySelector('[data-page="'+name+'"]')?.classList.add("active");
+if(name==="arsenal")renderWeapons();if(name==="upgrades")renderUpgrades();if(name==="shop")renderShop();if(name==="leaderboard")renderLeaderboard();if(name==="profile")renderProfile();if(name==="dashboard")renderMissions();if(name==="admin"&&!adminUnlocked)document.getElementById("adminPassword").value=""
+};
+
+function updateUI(){
+document.getElementById("topCoins").textContent=number(save.coins);
+document.getElementById("levelPill").textContent="LEVEL "+save.level;
+document.getElementById("statKills").textContent=number(save.kills);
+document.getElementById("statAccuracy").textContent=accuracy()+"%";
+document.getElementById("statBest").textContent=number(save.best);
+document.getElementById("statXP").textContent=number(save.xp);
+const w=getWeapon();
+document.getElementById("sideWeaponArt").textContent=w.art;
+document.getElementById("sideWeaponName").textContent=w.name;
+document.getElementById("sideWeaponMeta").textContent=w.automatic?"ENERGY · AUTOMATIC":"ENERGY · SEMI-AUTO";
+const power=Math.min(100,Math.round(w.power*25+getUpgrade("damage")*3));
+document.getElementById("sidePower").textContent=power+"%";
+document.getElementById("sidePowerBar").style.width=power+"%";
+document.getElementById("sideFireRate").textContent=(w.rate*(1+getUpgrade("fire")*.08)).toFixed(1)+"x";
+const skin=SHOP_ITEMS.find(x=>x.id===save.equippedSkin);
+if(skin)document.documentElement.style.setProperty("--green",skin.color);
+applyCrosshair();updateArenaStats()
+}
+
+function addXP(amount){
+save.xp+=Math.max(0,Math.floor(amount));let up=false;
+while(save.xp>=xpNeeded()){save.xp-=xpNeeded();save.level++;const bonus=save.level*100;save.coins+=bonus;save.totalCoinsEarned+=bonus;up=true;notify("LEVEL UP! LEVEL "+save.level+" · +"+number(bonus)+" coins")}
+if(up)playSound("level");checkAchievements()
+}
+
+window.changeName=function(){const n=document.getElementById("playerNameInput").value.trim().slice(0,20);if(!n)return notify("Enter a player name.",true);save.name=n;persist();renderProfile();notify("Player name updated.")};
+function renderProfile(){
+document.getElementById("profileName").textContent=save.name;
+document.getElementById("playerNameInput").value=save.name;
+document.getElementById("profileLevel").textContent=save.level;
+document.getElementById("profileKills").textContent=number(save.kills);
+document.getElementById("profileAccuracy").textContent=accuracy()+"%";
+document.getElementById("profileGames").textContent=number(save.games);
+document.getElementById("profileBest").textContent=number(save.best);
+document.getElementById("profileCoins").textContent=number(save.coins);
+document.getElementById("xpLabel").textContent=number(save.xp)+" / "+number(xpNeeded())+" XP";
+document.getElementById("xpProgress").style.width=Math.min(100,save.xp/xpNeeded()*100)+"%"
+}
+
+function renderWeapons(){
+const grid=document.getElementById("weaponsGrid");grid.innerHTML="";
+WEAPONS.forEach(w=>{
+const owned=save.ownedWeapons.includes(w.id),equipped=save.weapon===w.id,c=document.createElement("div");
+c.className="item-card"+(equipped?" equipped":"");
+c.innerHTML=`${equipped?'<div class="item-tag">EQUIPPED</div>':""}<div class="item-art">${w.art}</div><h3>${w.name}</h3><p>${w.description}<br>Power: ${w.power}x · Fire rate: ${w.rate}x</p><div class="item-price">${owned?"OWNED":number(w.price)+" COINS"}</div><button class="btn ${equipped?"":"btn-primary"}">${equipped?"CURRENT WEAPON":owned?"EQUIP":"UNLOCK"}</button>`;
+c.querySelector("button").onclick=()=>{if(owned){save.weapon=w.id;persist();renderWeapons();notify(w.name+" equipped.")}else buyWeapon(w)};
+grid.appendChild(c)
+})
+}
+function buyWeapon(w){
+if(save.coins<w.price)return notify("Not enough coins.",true);
+save.coins-=w.price;save.ownedWeapons.push(w.id);save.weapon=w.id;
+checkAchievements();persist();renderWeapons();notify(w.name+" unlocked!");playSound("purchase")
+}
+
+function renderUpgrades(){
+const list=document.getElementById("upgradesList");list.innerHTML="";
+UPGRADES.forEach(u=>{
+const level=getUpgrade(u.id),cost=upgradeCost(u),max=level>=u.max,row=document.createElement("div");
+row.className="upgrade-row";
+row.innerHTML=`<div class="upgrade-info"><strong>${u.name}</strong><p>${u.desc}</p><div class="upgrade-level">LEVEL ${level} / ${u.max}</div><div class="progress-track" style="max-width:220px"><div class="progress-fill" style="width:${level/u.max*100}%"></div></div></div><div style="text-align:right"><div class="item-price">${max?"MAX LEVEL":number(cost)+" ◈"}</div><button class="btn btn-primary btn-small" ${max?"disabled":""}>${max?"MAXED":"UPGRADE"}</button></div>`;
+row.querySelector("button").onclick=()=>buyUpgrade(u);list.appendChild(row)
+})
+}
+function buyUpgrade(u){
+const level=getUpgrade(u.id);if(level>=u.max)return;
+const cost=upgradeCost(u);if(save.coins<cost)return notify("Not enough coins.",true);
+save.coins-=cost;save.upgrades[u.id]=level+1;persist();renderUpgrades();notify(u.name+" upgraded.");playSound("purchase")
+}
+
+let currentShopFilter="all";
+window.filterShop=function(filter,button){
+currentShopFilter=filter;document.querySelectorAll(".shop-filters button").forEach(b=>b.classList.remove("active"));button.classList.add("active");renderShop()
+};
+function renderShop(){
+const grid=document.getElementById("shopGrid");grid.innerHTML="";
+SHOP_ITEMS.filter(i=>currentShopFilter==="all"||i.type===currentShopFilter).forEach(item=>{
+const owned=save.ownedItems.includes(item.id),equipped=save.equippedSkin===item.id||save.equippedEffect===item.id||save.equippedCrosshair===item.id,c=document.createElement("div");
+c.className="item-card"+(equipped?" equipped":"");
+c.innerHTML=`${equipped?'<div class="item-tag">EQUIPPED</div>':""}<div class="item-art">${item.art}</div><h3>${item.name}</h3><p>${item.desc}</p><div class="item-price">${owned?"OWNED":number(item.price)+" COINS"}</div><button class="btn ${owned?"":"btn-primary"}">${owned?(equipped?"EQUIPPED":"EQUIP"):"BUY ITEM"}</button>`;
+c.querySelector("button").onclick=()=>{
+if(!owned){if(save.coins<item.price)return notify("Not enough coins.",true);save.coins-=item.price;save.ownedItems.push(item.id)}
+equipShopItem(item);persist();renderShop();notify(item.name+" equipped.");playSound("purchase")
+};
+grid.appendChild(c)
+})
+}
+function equipShopItem(item){
+if(item.type==="skin")save.equippedSkin=item.id;
+if(item.type==="effect")save.equippedEffect=item.id;
+if(item.type==="crosshair")save.equippedCrosshair=item.id;
+applyCrosshair()
+}
+function applyCrosshair(){
+const cross=document.getElementById("crosshair");if(!cross)return;
+const id=save.equippedCrosshair;
+cross.style.opacity=id==="cross_dot"?"1":".9";
+cross.style.border=id==="cross_circle"?"2px solid var(--green)":"none";
+cross.style.borderRadius=id==="cross_circle"?"50%":"0";
+cross.style.width=id==="cross_circle"?"30px":"28px";
+cross.style.height=id==="cross_circle"?"30px":"28px";
+const lines=cross.querySelectorAll(".crosshair-dot");
+if(lines[0])lines[0].style.display=id==="cross_plus"?"none":"block"
+}
+function renderLeaderboard(){
+document.getElementById("recordGames").textContent=number(save.games);
+document.getElementById("recordStreak").textContent=number(save.bestStreak);
+document.getElementById("recordShots").textContent=number(save.shots);
+document.getElementById("recordCoins").textContent=number(save.totalCoinsEarned);
+const list=document.getElementById("leaderboardList");list.innerHTML="";
+const history=[...save.history].sort((a,b)=>b.score-a.score);
+if(!history.length){list.innerHTML='<p class="muted" style="font-size:11px">No games played yet. Start your first training session!</p>';return}
+history.slice(0,10).forEach((g,i)=>{const row=document.createElement("div");row.className="leaderboard-row";row.innerHTML=`<strong>#${i+1}</strong><span>${g.mode} · ${g.accuracy}% accuracy</span><strong>${number(g.score)} pts</strong>`;list.appendChild(row)})
+}
+
+/* SOUND */
 let soundEnabled=true,audioContext=null;
 function audio(){if(!audioContext){const AC=window.AudioContext||window.webkitAudioContext;if(AC)audioContext=new AC()}if(audioContext?.state==="suspended")audioContext.resume();return audioContext}
-function tone(freq,duration,type="sine",volume=.04,endFreq=null){if(!soundEnabled)return;const ctx=audio();if(!ctx)return;const osc=ctx.createOscillator(),gain=ctx.createGain();osc.type=type;osc.frequency.setValueAtTime(freq,ctx.currentTime);if(endFreq)osc.frequency.exponentialRampToValueAtTime(Math.max(1,endFreq),ctx.currentTime+duration);gain.gain.setValueAtTime(volume,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+duration);osc.connect(gain);gain.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+duration)}
-function playSound(type){if(type==="shoot")tone(170,.07,"square",.025,75);if(type==="hit")tone(620,.1,"sine",.05,1100);if(type==="miss")tone(110,.09,"triangle",.025,65);if(type==="purchase"){tone(480,.09,"sine",.04,750);setTimeout(()=>tone(750,.12,"sine",.04,950),80)}if(type==="level"){tone(400,.2,"sine",.04,700);setTimeout(()=>tone(700,.25,"sine",.04,1100),130)}}
+function tone(freq,duration,type="sine",volume=.04,endFreq=null){
+if(!soundEnabled)return;const ctx=audio();if(!ctx)return;
+const osc=ctx.createOscillator(),gain=ctx.createGain();
+osc.type=type;osc.frequency.setValueAtTime(freq,ctx.currentTime);
+if(endFreq)osc.frequency.exponentialRampToValueAtTime(Math.max(1,endFreq),ctx.currentTime+duration);
+gain.gain.setValueAtTime(volume,ctx.currentTime);gain.gain.exponentialRampToValueAtTime(.001,ctx.currentTime+duration);
+osc.connect(gain);gain.connect(ctx.destination);osc.start();osc.stop(ctx.currentTime+duration)
+}
+function playSound(type){
+if(type==="shoot")tone(170,.07,"square",.025,75);
+if(type==="hit")tone(620,.1,"sine",.05,1100);
+if(type==="miss")tone(110,.09,"triangle",.025,65);
+if(type==="purchase"){tone(480,.09,"sine",.04,750);setTimeout(()=>tone(750,.12,"sine",.04,950),80)}
+if(type==="level"){tone(400,.2,"sine",.04,700);setTimeout(()=>tone(700,.25,"sine",.04,1100),130)}
+}
 window.toggleSound=function(){soundEnabled=!soundEnabled;document.getElementById("soundButton").textContent=soundEnabled?"♫ SOUND ON":"♫ SOUND OFF";if(soundEnabled)playSound("purchase")};
 
-/* THREE.JS WORLD */
+/* THREE.JS ARENA */
 const canvas=document.getElementById("gameCanvas");
 const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:false,powerPreference:"high-performance"});
-renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.7));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;
+renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.7));
+renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
+renderer.outputColorSpace=THREE.SRGBColorSpace;
+renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.15;
+
 const scene=new THREE.Scene();scene.background=new THREE.Color(0x08111d);scene.fog=new THREE.Fog(0x08111d,16,55);
-const camera=new THREE.PerspectiveCamera(68,1,.1,100);camera.position.set(0,2.2,9);camera.rotation.order="YXZ";camera.lookAt(0,2,0);
+const camera=new THREE.PerspectiveCamera(68,1,.1,100);
+camera.position.set(0,2.2,9);camera.rotation.order="YXZ";camera.lookAt(0,2,0);
 scene.add(new THREE.HemisphereLight(0xa7c5ff,0x172033,1.5));
 const mainLight=new THREE.DirectionalLight(0xffffff,2.1);mainLight.position.set(-4,9,7);mainLight.castShadow=true;scene.add(mainLight);
 const greenLight=new THREE.PointLight(0x65f5ac,18,18);greenLight.position.set(-7,4,-5);scene.add(greenLight);
 const blueLight=new THREE.PointLight(0x397fff,20,18);blueLight.position.set(7,4,-7);scene.add(blueLight);
+
 const world=new THREE.Group();scene.add(world);
 function material(color,roughness=.7,metalness=.1,emissive=0){return new THREE.MeshStandardMaterial({color,roughness,metalness,emissive,emissiveIntensity:emissive?1.3:0})}
-const floor=new THREE.Mesh(new THREE.PlaneGeometry(70,70),material(0x121d2b,.85,.2));floor.rotation.x=-Math.PI/2;floor.receiveShadow=true;world.add(floor);
+const floorMat=material(0x121d2b,.85,.2);
+const floor=new THREE.Mesh(new THREE.PlaneGeometry(70,70),floorMat);floor.rotation.x=-Math.PI/2;floor.receiveShadow=true;world.add(floor);
 const wallMat=material(0x172335,.8,.15),darkMat=material(0x080f19,.8,.1),neonMat=material(0x65f5ac,.35,.2,0x65f5ac);
 function addBox(x,y,z,sx,sy,sz,mat){const mesh=new THREE.Mesh(new THREE.BoxGeometry(sx,sy,sz),mat);mesh.position.set(x,y,z);mesh.castShadow=true;mesh.receiveShadow=true;world.add(mesh);return mesh}
-addBox(0,5,-14,38,12,1,wallMat);addBox(0,10,-14,38,.3,1,darkMat);addBox(-19,5,-5,.7,10,18,wallMat);addBox(19,5,-5,.7,10,18,wallMat);
+addBox(0,5,-14,38,12,1,wallMat);addBox(0,10,-14,38,.3,1,darkMat);
+addBox(-19,5,-5,.7,10,18,wallMat);addBox(19,5,-5,.7,10,18,wallMat);
 for(let x=-16;x<=16;x+=4){const strip=new THREE.Mesh(new THREE.BoxGeometry(.035,8,.035),neonMat);strip.position.set(x,4,-13.35);world.add(strip)}
 const gridHelper=new THREE.GridHelper(70,70,0x36546d,0x1b3044);gridHelper.position.y=.015;world.add(gridHelper);
 for(let i=0;i<20;i++)addBox((i%2===0?-1:1)*(9+(i%5)*2),2.5,-4-Math.floor(i/2)*1.5,.18,5,.18,material(0x182b3e,.7,.4));
-const decorativeLights=[];for(let i=0;i<8;i++){const l=new THREE.PointLight(i%2?0x61a5ff:0x65f5ac,8,9);l.position.set(-14+i*4,5,-8);scene.add(l);decorativeLights.push(l)}
+const decorativeLights=[];
+for(let i=0;i<8;i++){const l=new THREE.PointLight(i%2?0x61a5ff:0x65f5ac,8,9);l.position.set(-14+i*4,5,-8);scene.add(l);decorativeLights.push(l)}
+
 const targets=[],targetGroup=new THREE.Group();world.add(targetGroup);
 const particles=[],particleGroup=new THREE.Group();world.add(particleGroup);
 const tracers=[],shells=[],projectiles=[];
 const raycaster=new THREE.Raycaster(),pointer=new THREE.Vector2(0,0);
-function createTarget(){const boss=game.bossPending;if(boss)game.bossPending=false;const group=new THREE.Group(),size=boss?1.25:(game.mode==="precision"?.43:.7),hp=boss?Math.ceil(18+game.wave*5):Math.max(1,Math.ceil(1+game.wave*.22));const bodyMat=new THREE.MeshStandardMaterial({color:boss?0xff536a:0xe9f2ff,roughness:.32,metalness:.65,emissive:boss?0x5b0718:0,emissiveIntensity:boss?1.4:0});const body=new THREE.Mesh(new THREE.SphereGeometry(size,32,24),bodyMat);body.castShadow=true;body.userData.target=true;group.add(body);const ring=new THREE.Mesh(new THREE.TorusGeometry(size*.8,.055,10,48),new THREE.MeshStandardMaterial({color:boss?0xff536a:0x65f5ac,emissive:boss?0xff173d:0x65f5ac,emissiveIntensity:1.8,metalness:.5,roughness:.3}));ring.rotation.x=Math.PI/2;group.add(ring);const inner=new THREE.Mesh(new THREE.SphereGeometry(size*.25,16,16),new THREE.MeshStandardMaterial({color:0xffffff,emissive:boss?0xff536a:0x65f5ac,emissiveIntensity:2}));group.add(inner);group.position.set((Math.random()-.5)*11,1.5+Math.random()*3.4,-4-Math.random()*6);group.userData={baseX:group.position.x,baseY:group.position.y,speed:(.5+Math.random()*1.2)*(1+game.wave*.035),phase:Math.random()*6,amplitude:.3+Math.random()*.9,active:true,hp,maxHp:hp,boss,radius:size,ring};group.traverse(o=>{if(o.isMesh)o.userData.parentTarget=group});targetGroup.add(group);targets.push(group);if(boss)notify("BOSS TARGET · "+hp+" HP");return group}
-function removeTarget(t){if(!t)return;targetGroup.remove(t);t.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material){if(Array.isArray(o.material))o.material.forEach(m=>m.dispose());else o.material.dispose()}});const i=targets.indexOf(t);if(i>=0)targets.splice(i,1)}
-function clearTargets(){[...targets].forEach(removeTarget)}
-function spawnParticles(position,color=0x65f5ac,count=15){const item=SHOP_ITEMS.find(x=>x.id===save.equippedEffect);if(item?.id==="effect_plasma")color=0xb28aff;if(item?.id==="effect_fire")color=0xffd166;for(let i=0;i<count;i++){const mesh=new THREE.Mesh(new THREE.SphereGeometry(.035+Math.random()*.045,6,6),new THREE.MeshBasicMaterial({color}));mesh.position.copy(position);particleGroup.add(mesh);particles.push({mesh,velocity:new THREE.Vector3((Math.random()-.5)*5,Math.random()*4,(Math.random()-.5)*4),life:.35+Math.random()*.4})}}
-function updateParticles(delta){for(let i=particles.length-1;i>=0;i--){const p=particles[i];p.life-=delta;p.mesh.position.addScaledVector(p.velocity,delta);p.velocity.y-=8*delta;p.mesh.scale.multiplyScalar(.97);if(p.life<=0){particleGroup.remove(p.mesh);p.mesh.geometry.dispose();p.mesh.material.dispose();particles.splice(i,1)}}}
-function createTracer(from,to,color){const line=new THREE.Line(new THREE.BufferGeometry().setFromPoints([from,to]),new THREE.LineBasicMaterial({color,transparent:true,opacity:.95}));world.add(line);tracers.push({line,life:.09})}
-function createProjectile(from,to,color){const dir=to.clone().sub(from);const length=dir.length();const mesh=new THREE.Mesh(new THREE.CylinderGeometry(.025,.025,Math.min(length,.55),8),new THREE.MeshBasicMaterial({color,transparent:true}));mesh.position.copy(from).add(to).multiplyScalar(.5);mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),dir.normalize());world.add(mesh);projectiles.push({mesh,life:.12})}
-function ejectShell(){const shell=new THREE.Mesh(new THREE.CylinderGeometry(.025,.025,.13,8),new THREE.MeshStandardMaterial({color:0xd6ad56,metalness:.8,roughness:.25}));shell.position.copy(camera.position).add(new THREE.Vector3(.28,-.18,-.45).applyQuaternion(camera.quaternion));shell.rotation.set(Math.random(),Math.random(),Math.random());world.add(shell);shells.push({mesh:shell,life:1.2,velocity:new THREE.Vector3(1.2+Math.random(),1.5+Math.random(),-.2).applyQuaternion(camera.quaternion)})}
-function updateEffects(delta){for(let i=tracers.length-1;i>=0;i--){const t=tracers[i];t.life-=delta;t.line.material.opacity=Math.max(0,t.life/.09);if(t.life<=0){world.remove(t.line);t.line.geometry.dispose();t.line.material.dispose();tracers.splice(i,1)}}for(let i=projectiles.length-1;i>=0;i--){const p=projectiles[i];p.life-=delta;if(p.life<=0){world.remove(p.mesh);p.mesh.geometry.dispose();p.mesh.material.dispose();projectiles.splice(i,1)}}for(let i=shells.length-1;i>=0;i--){const s=shells[i];s.life-=delta;s.mesh.position.addScaledVector(s.velocity,delta);s.velocity.y-=5*delta;s.mesh.rotation.x+=delta*9;s.mesh.rotation.z+=delta*7;if(s.life<=0){world.remove(s.mesh);s.mesh.geometry.dispose();s.mesh.material.dispose();shells.splice(i,1)}}}
 
-/* MODES AND GAME */
-const MODES={classic:{name:"CLASSIC AIM",duration:60,maxTargets:6,reward:1},flick:{name:"FLICK CHALLENGE",duration:45,maxTargets:4,reward:1.35},speed:{name:"SPEED RUSH",duration:30,maxTargets:9,reward:1.5},precision:{name:"PRECISION",duration:60,maxTargets:5,reward:1.65},survival:{name:"SURVIVAL",duration:90,maxTargets:6,reward:1.8}};
+function applyModeLook(){
+const looks={
+classic:{bg:0x08111d,fog:0x08111d,floor:0x121d2b,light:0x65f5ac},
+flick:{bg:0x160d25,fog:0x160d25,floor:0x21132e,light:0xc27bff},
+speed:{bg:0x1a1010,fog:0x1a1010,floor:0x2b1719,light:0xff647c},
+precision:{bg:0x071b25,fog:0x071b25,floor:0x102b35,light:0x61dfff},
+survival:{bg:0x1c080f,fog:0x1c080f,floor:0x2c101b,light:0xff536a},
+micro:{bg:0x101a0b,fog:0x101a0b,floor:0x1b2a12,light:0xb5ff65}
+};
+const v=looks[game.mode]||looks.classic;
+scene.background.setHex(v.bg);scene.fog.color.setHex(v.fog);floorMat.color.setHex(v.floor);
+greenLight.color.setHex(v.light);blueLight.color.setHex(v.light);
+decorativeLights.forEach((l,i)=>l.color.setHex(i%2?v.light:0xffffff))
+}
+
+function createTarget(){
+const boss=game.bossPending;
+if(boss)game.bossPending=false;
+const group=new THREE.Group();
+const mode=game.mode;
+const size=boss?1.25:mode==="micro"?.34:mode==="precision"?.4:mode==="speed"?.53:mode==="flick"?.62:.7;
+const hp=boss?3:1;
+const bodyMat=new THREE.MeshStandardMaterial({color:boss?0xff536a:0xe9f2ff,roughness:.32,metalness:.65,emissive:boss?0x5b0718:0,emissiveIntensity:boss?1.4:0});
+const body=new THREE.Mesh(new THREE.SphereGeometry(size,32,24),bodyMat);
+body.castShadow=true;body.userData.target=true;group.add(body);
+const ring=new THREE.Mesh(new THREE.TorusGeometry(size*.8,.055,10,48),new THREE.MeshStandardMaterial({color:boss?0xff536a:0x65f5ac,emissive:boss?0xff173d:0x65f5ac,emissiveIntensity:1.8,metalness:.5,roughness:.3}));
+ring.rotation.x=Math.PI/2;group.add(ring);
+const inner=new THREE.Mesh(new THREE.SphereGeometry(size*.25,16,16),new THREE.MeshStandardMaterial({color:0xffffff,emissive:boss?0xff536a:0x65f5ac,emissiveIntensity:2}));
+group.add(inner);
+group.position.set((Math.random()-.5)*(mode==="micro"?9:11),1.5+Math.random()*3.4,-4-Math.random()*6);
+const speedFactor=mode==="speed"?2.1:mode==="flick"?1.7:mode==="micro"?1.2:mode==="survival"?1.35:1;
+group.userData={baseX:group.position.x,baseY:group.position.y,speed:(.5+Math.random()*1.2)*speedFactor*(1+game.wave*.035),phase:Math.random()*6,amplitude:mode==="flick"?1.4:mode==="micro"?1.1:.3+Math.random()*.9,active:true,hp,maxHp:hp,boss,radius:size,ring,slowUntil:0};
+group.traverse(o=>{if(o.isMesh)o.userData.parentTarget=group});
+targetGroup.add(group);targets.push(group);
+if(boss)notify("BOSS TARGET · 3 HITS REQUIRED");
+return group
+}
+
+function removeTarget(t){
+if(!t)return;targetGroup.remove(t);
+t.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material){if(Array.isArray(o.material))o.material.forEach(m=>m.dispose());else o.material.dispose()}});
+const i=targets.indexOf(t);if(i>=0)targets.splice(i,1)
+}
+function clearTargets(){[...targets].forEach(removeTarget)}
+
+function spawnParticles(position,color=0x65f5ac,count=15){
+const item=SHOP_ITEMS.find(x=>x.id===save.equippedEffect);
+if(item?.id==="effect_plasma")color=0xb28aff;
+if(item?.id==="effect_fire")color=0xffd166;
+for(let i=0;i<count;i++){
+const mesh=new THREE.Mesh(new THREE.SphereGeometry(.035+Math.random()*.045,6,6),new THREE.MeshBasicMaterial({color}));
+mesh.position.copy(position);particleGroup.add(mesh);
+particles.push({mesh,velocity:new THREE.Vector3((Math.random()-.5)*5,Math.random()*4,(Math.random()-.5)*4),life:.35+Math.random()*.4})
+}
+}
+function updateParticles(delta){
+for(let i=particles.length-1;i>=0;i--){
+const p=particles[i];p.life-=delta;p.mesh.position.addScaledVector(p.velocity,delta);p.velocity.y-=8*delta;p.mesh.scale.multiplyScalar(.97);
+if(p.life<=0){particleGroup.remove(p.mesh);p.mesh.geometry.dispose();p.mesh.material.dispose();particles.splice(i,1)}
+}
+}
+function createTracer(from,to,color){
+const line=new THREE.Line(new THREE.BufferGeometry().setFromPoints([from,to]),new THREE.LineBasicMaterial({color,transparent:true,opacity:.95}));
+world.add(line);tracers.push({line,life:.12})
+}
+function createProjectile(from,to,color){
+const dir=to.clone().sub(from),length=dir.length();
+const mesh=new THREE.Mesh(new THREE.CylinderGeometry(.025,.025,Math.min(length,.55),8),new THREE.MeshBasicMaterial({color,transparent:true}));
+mesh.position.copy(from).add(to).multiplyScalar(.5);mesh.quaternion.setFromUnitVectors(new THREE.Vector3(0,1,0),dir.normalize());
+world.add(mesh);projectiles.push({mesh,life:.12})
+}
+function ejectShell(){
+const shell=new THREE.Mesh(new THREE.CylinderGeometry(.025,.025,.13,8),new THREE.MeshStandardMaterial({color:0xd6ad56,metalness:.8,roughness:.25}));
+shell.position.copy(camera.position).add(new THREE.Vector3(.28,-.18,-.45).applyQuaternion(camera.quaternion));
+shell.rotation.set(Math.random(),Math.random(),Math.random());world.add(shell);
+shells.push({mesh:shell,life:1.2,velocity:new THREE.Vector3(1.2+Math.random(),1.5+Math.random(),-.2).applyQuaternion(camera.quaternion)})
+}
+function updateEffects(delta){
+for(let i=tracers.length-1;i>=0;i--){const t=tracers[i];t.life-=delta;t.line.material.opacity=Math.max(0,t.life/.12);if(t.life<=0){world.remove(t.line);t.line.geometry.dispose();t.line.material.dispose();tracers.splice(i,1)}}
+for(let i=projectiles.length-1;i>=0;i--){const p=projectiles[i];p.life-=delta;if(p.life<=0){world.remove(p.mesh);p.mesh.geometry.dispose();p.mesh.material.dispose();projectiles.splice(i,1)}}
+for(let i=shells.length-1;i>=0;i--){const s=shells[i];s.life-=delta;s.mesh.position.addScaledVector(s.velocity,delta);s.velocity.y-=5*delta;s.mesh.rotation.x+=delta*9;s.mesh.rotation.z+=delta*7;if(s.life<=0){world.remove(s.mesh);s.mesh.geometry.dispose();s.mesh.material.dispose();shells.splice(i,1)}}
+}
+
+/* MODES */
+const MODES={
+classic:{name:"CLASSIC AIM",duration:60,maxTargets:6,reward:1,spawn:1200},
+flick:{name:"FLICK CHALLENGE",duration:45,maxTargets:4,reward:1.35,spawn:850},
+speed:{name:"SPEED RUSH",duration:30,maxTargets:9,reward:1.5,spawn:450},
+precision:{name:"PRECISION",duration:60,maxTargets:3,reward:1.65,spawn:1500},
+survival:{name:"SURVIVAL",duration:90,maxTargets:6,reward:1.8,spawn:1100},
+micro:{name:"MICRO AIM",duration:45,maxTargets:1,reward:2,spawn:500}
+};
 const game={active:false,mode:"classic",score:0,kills:0,shots:0,hits:0,streak:0,bestStreak:0,remaining:60,elapsed:0,lastShot:0,spawnTimer:0,spawnInterval:1200,resultShown:false,wave:1,bossPending:false};
 function modeDuration(){return Math.max(10,Math.round(save.config.duration*(MODES[game.mode].duration/60)))}
-window.selectMode=function(mode){if(game.active)return notify("Finish the current game first.",true);if(!MODES[mode])return;game.mode=mode;document.querySelectorAll(".mode-button").forEach(b=>b.classList.toggle("selected",b.dataset.mode===mode));document.getElementById("arenaMode").textContent=MODES[mode].name;document.getElementById("arenaTimer").textContent="TIME: "+modeDuration()+"s";notify(MODES[mode].name+" selected.")};
-function resetGameState(){clearTargets();game.score=0;game.kills=0;game.shots=0;game.hits=0;game.streak=0;game.bestStreak=0;game.remaining=modeDuration();game.elapsed=0;game.spawnTimer=0;game.lastShot=0;game.resultShown=false;game.wave=1;game.bossPending=false}
+window.selectMode=function(mode){
+if(game.active)return notify("Finish the current game first.",true);
+if(!MODES[mode])return;
+game.mode=mode;
+document.querySelectorAll(".mode-button").forEach(b=>b.classList.toggle("selected",b.dataset.mode===mode));
+document.getElementById("arenaMode").textContent=MODES[mode].name;
+document.getElementById("arenaTimer").textContent="TIME: "+modeDuration()+"s";
+applyModeLook();
+notify(MODES[mode].name+" selected.")
+};
+
+function resetGameState(){
+clearTargets();game.score=0;game.kills=0;game.shots=0;game.hits=0;game.streak=0;game.bestStreak=0;
+game.remaining=modeDuration();game.elapsed=0;game.spawnTimer=0;game.lastShot=0;game.resultShown=false;game.wave=1;game.bossPending=false
+}
 let paused=false,firingInterval=null,pointerLocked=false;
-const pauseButton=document.createElement("button");pauseButton.className="btn";pauseButton.textContent="Ⅱ PAUSE";pauseButton.onclick=()=>{if(!game.active)return;paused=!paused;pauseButton.textContent=paused?"▶ RESUME":"Ⅱ PAUSE";document.getElementById("arenaHint").textContent=paused?"GAME PAUSED":"GAME RESUMED";if(paused)document.exitPointerLock?.()};
+const pauseButton=document.createElement("button");
+pauseButton.className="btn";pauseButton.textContent="Ⅱ PAUSE";
+pauseButton.onclick=()=>{
+if(!game.active)return;
+paused=!paused;pauseButton.textContent=paused?"▶ RESUME":"Ⅱ PAUSE";
+document.getElementById("arenaHint").textContent=paused?"GAME PAUSED":"GAME RESUMED";
+if(paused)document.exitPointerLock?.()
+};
 document.querySelector(".arena-controls").appendChild(pauseButton);
-window.startGame=function(){if(game.active)return;audio();resetGameState();game.active=true;document.getElementById("gameOverlay").classList.add("hidden");document.getElementById("arenaHint").textContent="CLICK / TAP TO SHOOT · AIM WITH MOUSE";for(let i=0;i<Math.min(4,MODES[game.mode].maxTargets);i++)createTarget();notify("Training started.")};
-window.reloadGame=function(){game.active=false;paused=false;clearInterval(firingInterval);resetGameState();document.exitPointerLock?.();document.getElementById("gameOverlay").classList.remove("hidden");document.getElementById("gameOverlay").innerHTML='<div class="eyebrow">AIM RUSH TRAINING SYSTEM</div><h2>READY TO <span class="green">AIM?</span></h2><p>Enter the training arena, hit your targets and earn coins to unlock new equipment.</p><button class="btn btn-primary" onclick="startGame()">START TRAINING →</button>';document.getElementById("arenaHint").textContent="CLICK START TO PLAY";document.getElementById("arenaTimer").textContent="TIME: "+modeDuration()+"s";pauseButton.textContent="Ⅱ PAUSE";notify("Arena reset.")};
+
+window.startGame=function(){
+if(game.active)return;
+audio();resetGameState();game.active=true;paused=false;applyModeLook();
+document.getElementById("gameOverlay").classList.add("hidden");
+document.getElementById("arenaHint").textContent=game.mode==="micro"?"HIT THE SINGLE TARGET · IT REAPPEARS RANDOMLY":"CLICK / TAP TO SHOOT · AIM WITH MOUSE";
+pauseButton.textContent="Ⅱ PAUSE";
+const count=game.mode==="micro"?1:Math.min(4,MODES[game.mode].maxTargets);
+for(let i=0;i<count;i++)createTarget();
+notify("Training started.")
+};
+
+function showLobby(title="READY TO AIM?",description="Choose a training mode, then start a new session."){
+document.getElementById("gameOverlay").classList.remove("hidden");
+document.getElementById("gameOverlay").innerHTML=`<div class="eyebrow">AIM RUSH TRAINING SYSTEM</div><h2>${title}</h2><p>${description}</p><button class="btn btn-primary" onclick="startGame()">START TRAINING →</button>`;
+document.getElementById("arenaHint").textContent="CHOOSE A MODE AND START";
+document.getElementById("arenaTimer").textContent="TIME: "+modeDuration()+"s"
+}
+window.reloadGame=function(){
+game.active=false;paused=false;clearInterval(firingInterval);document.exitPointerLock?.();
+resetGameState();pauseButton.textContent="Ⅱ PAUSE";
+showLobby("READY TO <span class='green'>AIM?</span>","Choose a different training mode or restart your training.");
+notify("Arena reset.")
+};
+
 document.addEventListener("pointerlockchange",()=>{pointerLocked=document.pointerLockElement===canvas});
-canvas.addEventListener("pointerdown",e=>{if(!game.active||paused)return;if(e.pointerType!=="touch"&&!pointerLocked){canvas.requestPointerLock?.()}const rect=canvas.getBoundingClientRect();if(e.pointerType==="touch"||!pointerLocked){pointer.x=((e.clientX-rect.left)/rect.width)*2-1;pointer.y=-((e.clientY-rect.top)/rect.height)*2+1}else pointer.set(0,0);shoot();if(getWeapon().automatic){clearInterval(firingInterval);firingInterval=setInterval(()=>{if(game.active&&!paused)shoot()},Math.max(65,getShotInterval()))}});
+function setAimFromPointer(e){
+const rect=canvas.getBoundingClientRect();
+pointer.x=((e.clientX-rect.left)/rect.width)*2-1;
+pointer.y=-((e.clientY-rect.top)/rect.height)*2+1;
+const cross=document.getElementById("crosshair");
+cross.style.left=(e.clientX-rect.left)+"px";
+cross.style.top=(e.clientY-rect.top)+"px"
+}
+canvas.addEventListener("pointermove",e=>{
+if(pointerLocked&&game.active&&!paused){pointer.set(0,0);const c=document.getElementById("crosshair");c.style.left="50%";c.style.top="50%"}
+else if(e.pointerType!=="touch")setAimFromPointer(e)
+});
+canvas.addEventListener("pointerdown",e=>{
+if(!game.active||paused)return;
+if(e.pointerType==="touch"){setAimFromPointer(e)}
+else if(!pointerLocked){setAimFromPointer(e);canvas.requestPointerLock?.()}
+else pointer.set(0,0);
+shoot();
+if(getWeapon().automatic){
+clearInterval(firingInterval);
+firingInterval=setInterval(()=>{if(game.active&&!paused)shoot()},Math.max(65,getShotInterval()))
+}
+});
 ["pointerup","pointercancel","pointerleave"].forEach(ev=>canvas.addEventListener(ev,()=>clearInterval(firingInterval)));
-document.addEventListener("mousemove",e=>{if(!pointerLocked||!game.active||paused)return;const sensitivity=.0018/(1+getUpgrade("stability")*.045);camera.rotation.y-=e.movementX*sensitivity;camera.rotation.x-=e.movementY*sensitivity;camera.rotation.x=Math.max(-.65,Math.min(.65,camera.rotation.x))});
-document.addEventListener("keydown",e=>{if(e.code==="Escape"&&game.active)document.exitPointerLock?.();if(!game.active||paused)return;if(e.code==="KeyR")window.reloadGame();const i=Number(e.key)-1;if(i>=0&&i<WEAPONS.length){const w=WEAPONS[i];if(save.ownedWeapons.includes(w.id)){save.weapon=w.id;persist();notify(w.name+" equipped.")}}});
+
+document.addEventListener("mousemove",e=>{
+if(!pointerLocked||!game.active||paused)return;
+const sensitivity=.0018/(1+getUpgrade("stability")*.045);
+camera.rotation.y-=e.movementX*sensitivity;
+camera.rotation.x-=e.movementY*sensitivity;
+camera.rotation.x=Math.max(-.65,Math.min(.65,camera.rotation.x));
+pointer.set(0,0)
+});
+document.addEventListener("keydown",e=>{
+if(e.code==="Escape"&&game.active)document.exitPointerLock?.();
+if(!game.active||paused)return;
+if(e.code==="KeyR")window.reloadGame();
+const i=Number(e.key)-1;
+if(i>=0&&i<WEAPONS.length){const w=WEAPONS[i];if(save.ownedWeapons.includes(w.id)){save.weapon=w.id;persist();notify(w.name+" equipped.")}}
+});
+
 function getShotInterval(){return getWeapon().interval/(1+getUpgrade("fire")*.08)}
-function shoot(){if(!game.active||paused)return;const now=performance.now(),weapon=getWeapon();if(now-game.lastShot<getShotInterval())return;game.lastShot=now;game.shots++;save.shots++;playSound("shoot");const origin=camera.position.clone();const direction=new THREE.Vector3();camera.getWorldDirection(direction);const end=origin.clone().add(direction.multiplyScalar(35));raycaster.setFromCamera(pointer,camera);raycaster.far=35;const hits=raycaster.intersectObjects(targetGroup.children,true);if(hits.length){const hit=hits[0],target=hit.object.userData.parentTarget;if(target&&target.userData.active){handleHit(target,hit.point);end.copy(hit.point)}else{game.streak=0;playSound("miss")}}else{game.streak=0;playSound("miss")}createProjectile(origin,end,weapon.color);createTracer(origin,end,weapon.color);ejectShell();updateArenaStats();persist()}
-function handleHit(target,point){if(!target||!target.userData.active)return;const d=target.userData,w=getWeapon(),damage=w.power*(1+getUpgrade("damage")*.28);d.hp=Math.max(0,d.hp-damage);game.hits++;save.hits++;game.streak++;game.bestStreak=Math.max(game.bestStreak,game.streak);const precisionBonus=game.mode==="precision"?1.5:1,streakBonus=1+Math.min(game.streak,30)*.025,scoreGain=Math.floor(35*w.power*precisionBonus*streakBonus*(1+getUpgrade("focus")*.07));game.score+=scoreGain;spawnParticles(point,w.color,d.boss?18:9);playSound("hit");showHitMarker();if(d.hp<=0){d.active=false;game.kills++;save.kills++;const reward=Math.floor(save.config.coinsPerKill*MODES[game.mode].reward*(1+getUpgrade("reward")*.1)*(d.boss?12:1));const xp=Math.floor(save.config.xpPerKill*(1+getUpgrade("xp")*.1)*(d.boss?10:1));save.coins+=reward;save.totalCoinsEarned+=reward;addXP(xp);if(d.boss){notify("BOSS DEFEATED! +"+number(reward)+" coins");game.wave++;game.bossPending=true}else if(game.kills%10===0){game.wave++;game.bossPending=true;notify("WAVE "+game.wave+" · BOSS INCOMING!")}else if(game.streak%5===0)notify(game.streak+" HIT STREAK!");setTimeout(()=>removeTarget(target),80);setTimeout(()=>{if(game.active&&!paused&&targets.length<MODES[game.mode].maxTargets)createTarget()},d.boss?700:180);checkAchievements();refreshDaily();save.dailyProgress.kills++}else{d.ring.scale.setScalar(Math.max(.25,d.hp/d.maxHp));d.ring.material.color.setHex(d.boss?0xff536a:0xffd166);target.scale.setScalar(.94+Math.random()*.12)}updateArenaStats();persist()}
-function showHitMarker(){const m=document.getElementById("hitMarker");m.classList.remove("show");void m.offsetWidth;m.classList.add("show")}
-function updateArenaStats(){document.getElementById("arenaHint").textContent=game.active?"SCORE: "+number(game.score)+" · STREAK: "+game.streak+" · WAVE: "+game.wave:"CLICK START TO PLAY"}
-function endGame(){if(!game.active||game.resultShown)return;game.active=false;paused=false;pauseButton.textContent="Ⅱ PAUSE";game.resultShown=true;clearInterval(firingInterval);document.exitPointerLock?.();const acc=game.shots?Math.round(game.hits/game.shots*100):0,coinReward=Math.floor(game.score/100),xpReward=Math.floor(game.kills*save.config.xpPerKill*(1+getUpgrade("xp")*.1));save.coins+=coinReward;save.totalCoinsEarned+=coinReward;addXP(xpReward);save.games++;save.best=Math.max(save.best,game.score);save.bestStreak=Math.max(save.bestStreak,game.bestStreak);refreshDaily();save.dailyProgress.games++;save.dailyProgress.score+=game.score;save.history.push({mode:MODES[game.mode].name,score:game.score,accuracy:acc,kills:game.kills,date:new Date().toISOString()});save.history=save.history.slice(-50);checkAchievements();persist();renderMissions();document.getElementById("gameOverlay").classList.remove("hidden");document.getElementById("gameOverlay").innerHTML=`<div class="eyebrow">TRAINING SESSION COMPLETE</div><h2>SESSION <span class="green">OVER</span></h2><div class="game-score">${number(game.score)}</div><p>${number(game.kills)} targets destroyed · ${acc}% accuracy<br>${number(coinReward)} coins · ${number(xpReward)} XP<br>Best streak: ${game.bestStreak} · Wave: ${game.wave}</p><button class="btn btn-primary" onclick="startGame()">PLAY AGAIN →</button>`;document.getElementById("arenaHint").textContent="SESSION COMPLETE";document.getElementById("arenaTimer").textContent="TIME: 0s";notify("Session complete!")}
-function updateGame(delta){if(!game.active||paused)return;game.elapsed+=delta;game.remaining-=delta;if(game.remaining<=0){game.remaining=0;endGame();return}game.spawnTimer+=delta*1000;const base=Math.max(300,save.config.spawnRate),difficulty=Math.max(.48,1-game.wave*.025);game.spawnInterval=(game.mode==="speed"?base*.65:base)*difficulty;if(game.spawnTimer>=game.spawnInterval&&targets.length<MODES[game.mode].maxTargets){game.spawnTimer=0;createTarget()}document.getElementById("arenaTimer").textContent="TIME: "+Math.ceil(game.remaining)+"s"}
+function shoot(){
+if(!game.active||paused)return;
+const now=performance.now(),weapon=getWeapon();
+if(now-game.lastShot<getShotInterval())return;
+game.lastShot=now;game.shots++;save.shots++;playSound("shoot");
+const origin=camera.position.clone(),direction=new THREE.Vector3();
+camera.getWorldDirection(direction);
+const end=origin.clone().add(direction.multiplyScalar(35));
+raycaster.setFromCamera(pointer,camera);raycaster.far=35;
+let hitTargets=[];
+if(weapon.ability==="scatter"){
+const offsets=[[-.035,0],[.035,0],[0,.025],[0,-.025],[0,0]];
+for(const [x,y] of offsets){
+raycaster.setFromCamera(new THREE.Vector2(pointer.x+x,pointer.y+y),camera);
+const hit=raycaster.intersectObjects(targetGroup.children,true)[0];
+const t=hit?.object.userData.parentTarget;
+if(t&&t.userData.active&&!hitTargets.includes(t))hitTargets.push(t);
+}
+raycaster.setFromCamera(pointer,camera)
+}else{
+const hits=raycaster.intersectObjects(targetGroup.children,true);
+for(const h of hits){
+const t=h.object.userData.parentTarget;
+if(t&&t.userData.active&&!hitTargets.includes(t)){
+hitTargets.push(t);
+if(!["pierce","quantum","eclipse"].includes(weapon.ability))break;
+if(hitTargets.length>=3+Math.floor(getUpgrade("chain")/3))break
+}
+}
+}
+if(hitTargets.length){
+const first=hitTargets[0];
+end.copy(first.position);
+handleHit(first,end);
+if(weapon.ability==="splash"||weapon.ability==="quantum"){
+targets.filter(t=>t!==first&&t.userData.active&&t.position.distanceTo(first.position)<3.2).slice(0,2+Math.floor(getUpgrade("chain")/4)).forEach(t=>handleHit(t,t.position.clone()))
+}
+if(weapon.ability==="chain"||weapon.ability==="arc"||weapon.ability==="eclipse"){
+let last=first;
+const max=1+Math.floor(getUpgrade("chain")/2)+(weapon.ability==="eclipse"?2:0);
+for(let i=0;i<max;i++){
+const next=targets.filter(t=>t!==last&&t.userData.active&&t.position.distanceTo(last.position)<5).sort((a,b)=>a.position.distanceTo(last.position)-b.position.distanceTo(last.position))[0];
+if(!next)break;
+createTracer(last.position,next.position,weapon.color);handleHit(next,next.position.clone());last=next
+}
+}
+if(weapon.ability==="scatter"){
+hitTargets.slice(1).forEach(t=>handleHit(t,t.position.clone()))
+}
+if(weapon.ability==="freeze"){
+targets.forEach(t=>{if(t.userData.active)t.userData.slowUntil=performance.now()+1200+getUpgrade("slow")*250})
+}
+if(weapon.ability==="quantum"||weapon.ability==="eclipse"){
+hitTargets.slice(1).forEach(t=>{if(t.userData.active)handleHit(t,t.position.clone())})
+}
+}else{game.streak=0;playSound("miss")}
+createProjectile(origin,end,weapon.color);createTracer(origin,end,weapon.color);
+if(weapon.ability!=="arc")ejectShell();
+updateArenaStats();persist()
+}
+
+function handleHit(target,point){
+if(!target||!target.userData.active)return;
+const d=target.userData,w=getWeapon();
+d.hp=Math.max(0,d.hp-1);
+game.hits++;save.hits++;game.streak++;
+game.bestStreak=Math.max(game.bestStreak,game.streak);
+const precisionBonus=game.mode==="precision"?1.5:1;
+const streakBonus=1+Math.min(game.streak,30)*.025;
+const scoreGain=Math.floor(35*w.power*precisionBonus*streakBonus*(1+getUpgrade("focus")*.07)*(1+getUpgrade("damage")*.035));
+game.score+=scoreGain;
+spawnParticles(point,w.color,d.boss?25:12);
+playSound("hit");showHitMarker();
+if(getUpgrade("slow")>0)targets.forEach(t=>{if(t.userData.active)t.userData.slowUntil=performance.now()+250+getUpgrade("slow")*100});
+if(d.hp<=0){
+d.active=false;game.kills++;save.kills++;
+const reward=Math.floor(save.config.coinsPerKill*MODES[game.mode].reward*(1+getUpgrade("reward")*.1)*(d.boss?12:1));
+const xp=Math.floor(save.config.xpPerKill*(1+getUpgrade("xp")*.1)*(d.boss?10:1));
+save.coins+=reward;save.totalCoinsEarned+=reward;addXP(xp);
+if(d.boss){notify("BOSS DEFEATED! +"+number(reward)+" coins");game.wave++;game.bossPending=true}
+else if(game.kills%10===0){game.wave++;game.bossPending=true;notify("WAVE "+game.wave+" · BOSS INCOMING!")}
+else if(game.streak%5===0)notify(game.streak+" HIT STREAK!");
+setTimeout(()=>removeTarget(target),180);
+setTimeout(()=>{
+if(game.active&&!paused){
+if(game.mode==="micro"){if(targets.length===0)createTarget()}
+else if(targets.length<MODES[game.mode].maxTargets)createTarget()
+}
+},d.boss?700:game.mode==="micro"?150:220);
+checkAchievements();refreshDaily();save.dailyProgress.kills++
+}else{
+d.ring.scale.setScalar(.65);
+d.ring.material.color.setHex(0xff536a);
+target.scale.setScalar(.94+Math.random()*.12)
+}
+updateArenaStats();persist()
+}
+
+function showHitMarker(){
+const m=document.getElementById("hitMarker");m.classList.remove("show");void m.offsetWidth;m.classList.add("show")
+}
+function updateArenaStats(){
+document.getElementById("arenaHint").textContent=game.active?"SCORE: "+number(game.score)+" · STREAK: "+game.streak+" · WAVE: "+game.wave:"CHOOSE A MODE AND START"
+}
+
+function endGame(){
+if(!game.active||game.resultShown)return;
+game.active=false;paused=false;pauseButton.textContent="Ⅱ PAUSE";game.resultShown=true;
+clearInterval(firingInterval);document.exitPointerLock?.();
+const acc=game.shots?Math.round(game.hits/game.shots*100):0;
+const coinReward=Math.floor(game.score/100);
+const xpReward=Math.floor(game.kills*save.config.xpPerKill*(1+getUpgrade("xp")*.1));
+save.coins+=coinReward;save.totalCoinsEarned+=coinReward;addXP(xpReward);
+save.games++;save.best=Math.max(save.best,game.score);save.bestStreak=Math.max(save.bestStreak,game.bestStreak);
+refreshDaily();save.dailyProgress.games++;save.dailyProgress.score+=game.score;
+save.history.push({mode:MODES[game.mode].name,score:game.score,accuracy:acc,kills:game.kills,date:new Date().toISOString()});
+save.history=save.history.slice(-50);checkAchievements();persist();renderMissions();
+document.getElementById("gameOverlay").classList.remove("hidden");
+document.getElementById("gameOverlay").innerHTML=`
+<div class="eyebrow">TRAINING SESSION COMPLETE</div>
+<h2>SESSION <span class="green">OVER</span></h2>
+<div class="game-score">${number(game.score)}</div>
+<p>${number(game.kills)} targets destroyed · ${acc}% accuracy<br>${number(coinReward)} coins · ${number(xpReward)} XP<br>Best streak: ${game.bestStreak} · Wave: ${game.wave}</p>
+<button class="btn btn-primary" onclick="reloadGame()">BACK TO MODE SELECT →</button>`;
+document.getElementById("arenaHint").textContent="SESSION COMPLETE";
+document.getElementById("arenaTimer").textContent="TIME: 0s";
+notify("Session complete!")
+}
+
+function updateGame(delta){
+if(!game.active||paused)return;
+game.elapsed+=delta;game.remaining-=delta;
+if(game.remaining<=0){game.remaining=0;endGame();return}
+game.spawnTimer+=delta*1000;
+const base=Math.max(300,save.config.spawnRate),difficulty=Math.max(.48,1-game.wave*.025);
+game.spawnInterval=(game.mode==="speed"?base*.55:game.mode==="micro"?base*.45:game.mode==="flick"?base*.75:base)*difficulty;
+if(game.spawnTimer>=game.spawnInterval&&targets.length<MODES[game.mode].maxTargets){
+game.spawnTimer=0;
+if(game.mode!=="micro"||targets.length===0)createTarget()
+}
+document.getElementById("arenaTimer").textContent="TIME: "+Math.ceil(game.remaining)+"s"
+}
+
 const clock=new THREE.Clock();
-function animate(){requestAnimationFrame(animate);const delta=Math.min(clock.getDelta(),.05),elapsed=clock.elapsedTime;for(const t of targets){if(!t.userData.active)continue;const d=t.userData,s=d.speed*(1+game.wave*.025);if(game.mode==="flick"){t.position.x=d.baseX+Math.sin(elapsed*s*2+d.phase)*d.amplitude;t.position.y=d.baseY+Math.cos(elapsed*s*1.5)*d.amplitude*.5}else{t.position.x=d.baseX+Math.sin(elapsed*s+d.phase)*d.amplitude;t.position.y=d.baseY+Math.sin(elapsed*s*1.3+d.phase)*.3}t.rotation.y+=delta*(d.boss?.45:.65);t.rotation.z=Math.sin(elapsed+d.phase)*.1}updateEffects(delta);updateParticles(delta);updateGame(delta);decorativeLights.forEach((l,i)=>l.intensity=7+Math.sin(elapsed*1.5+i)*2);renderer.render(scene,camera)}
+function animate(){
+requestAnimationFrame(animate);
+const delta=Math.min(clock.getDelta(),.05),elapsed=clock.elapsedTime;
+for(const t of targets){
+if(!t.userData.active)continue;
+const d=t.userData;
+let speed=d.speed*(1+game.wave*.025);
+if(performance.now()<d.slowUntil)speed*=.35;
+speed*=Math.max(.35,1-getUpgrade("magnet")*.045);
+if(game.mode==="flick"){
+t.position.x=d.baseX+Math.sin(elapsed*speed*2+d.phase)*d.amplitude;
+t.position.y=d.baseY+Math.cos(elapsed*speed*1.5)*d.amplitude*.5
+}else if(game.mode==="micro"){
+t.position.x=d.baseX+Math.sin(elapsed*speed*1.7+d.phase)*d.amplitude;
+t.position.y=d.baseY+Math.cos(elapsed*speed*1.4+d.phase)*d.amplitude*.65
+}else{
+t.position.x=d.baseX+Math.sin(elapsed*speed+d.phase)*d.amplitude;
+t.position.y=d.baseY+Math.sin(elapsed*speed*1.3+d.phase)*.3
+}
+t.rotation.y+=delta*(d.boss?.45:.65);
+t.rotation.z=Math.sin(elapsed+d.phase)*.1
+}
+updateEffects(delta);updateParticles(delta);updateGame(delta);
+decorativeLights.forEach((l,i)=>l.intensity=7+Math.sin(elapsed*1.5+i)*2);
+renderer.render(scene,camera)
+}
 animate();
-function resizeGame(){const w=Math.max(1,canvas.clientWidth),h=Math.max(1,canvas.clientHeight);renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}
-new ResizeObserver(resizeGame).observe(document.getElementById("arena"));window.addEventListener("resize",resizeGame);resizeGame();
-window.toggleFullscreen=function(){const a=document.getElementById("arena");if(!document.fullscreenElement)a.requestFullscreen?.().catch(()=>notify("Fullscreen unavailable.",true));else document.exitFullscreen?.()};
+
+function resizeGame(){
+const w=Math.max(1,canvas.clientWidth),h=Math.max(1,canvas.clientHeight);
+renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()
+}
+new ResizeObserver(resizeGame).observe(document.getElementById("arena"));
+window.addEventListener("resize",resizeGame);resizeGame();
+window.toggleFullscreen=function(){
+const a=document.getElementById("arena");
+if(!document.fullscreenElement)a.requestFullscreen?.().catch(()=>notify("Fullscreen unavailable.",true));
+else document.exitFullscreen?.()
+};
 
 /* ADMIN */
 let adminUnlocked=false;
-window.adminLogin=function(){if(document.getElementById("adminPassword").value!=="MOTDEPASSE"){notify("Incorrect administrator password.",true);return}adminUnlocked=true;document.getElementById("adminLogin").style.display="none";document.getElementById("adminTools").classList.add("visible");document.getElementById("configCoins").value=save.config.coinsPerKill;document.getElementById("configXP").value=save.config.xpPerKill;document.getElementById("configDuration").value=save.config.duration;document.getElementById("configSpawn").value=save.config.spawnRate;notify("Administrator console unlocked.")};
-window.adminLogout=function(){adminUnlocked=false;document.getElementById("adminLogin").style.display="block";document.getElementById("adminTools").classList.remove("visible");document.getElementById("adminPassword").value="";notify("Administrator console locked.")};
+window.adminLogin=function(){
+if(document.getElementById("adminPassword").value.trim().toUpperCase()!=="MOTDEPASSE"){
+notify("Incorrect administrator password.",true);return
+}
+adminUnlocked=true;document.getElementById("adminLogin").style.display="none";
+document.getElementById("adminTools").classList.add("visible");
+document.getElementById("configCoins").value=save.config.coinsPerKill;
+document.getElementById("configXP").value=save.config.xpPerKill;
+document.getElementById("configDuration").value=save.config.duration;
+document.getElementById("configSpawn").value=save.config.spawnRate;
+notify("Administrator console unlocked.")
+};
+window.adminLogout=function(){
+adminUnlocked=false;document.getElementById("adminLogin").style.display="block";
+document.getElementById("adminTools").classList.remove("visible");
+document.getElementById("adminPassword").value="";notify("Administrator console locked.")
+};
 function requireAdmin(){if(!adminUnlocked){notify("Administrator authentication required.",true);return false}return true}
-window.adminApply=function(){if(!requireAdmin())return;const v=id=>document.getElementById(id).value;if(v("adminCoins")!=="")save.coins=Math.max(0,save.coins+(Number(v("adminCoins"))||0));if(v("adminLevel")!=="")save.level=Math.max(1,Math.floor(Number(v("adminLevel"))||1));if(v("adminXP")!=="")save.xp=Math.max(0,save.xp+(Number(v("adminXP"))||0));if(v("adminName").trim())save.name=v("adminName").trim().slice(0,20);if(v("adminKills")!=="")save.kills=Math.max(0,save.kills+(Number(v("adminKills"))||0));if(v("adminScore")!=="")save.best=Math.max(0,Number(v("adminScore"))||0);while(save.xp>=xpNeeded()){save.xp-=xpNeeded();save.level++}checkAchievements();persist();renderProfile();notify("Administrator changes applied.");["adminCoins","adminLevel","adminXP","adminName","adminKills","adminScore"].forEach(id=>document.getElementById(id).value="")};
-window.adminUnlockAll=function(){if(!requireAdmin())return;save.ownedWeapons=WEAPONS.map(w=>w.id);save.weapon="quantum";checkAchievements();persist();renderWeapons();notify("All weapons unlocked.")};
-window.adminUnlockShop=function(){if(!requireAdmin())return;save.ownedItems=SHOP_ITEMS.map(i=>i.id);persist();renderShop();notify("All shop items unlocked.")};
-window.adminSaveConfig=function(){if(!requireAdmin())return;const coins=Number(document.getElementById("configCoins").value),xp=Number(document.getElementById("configXP").value),duration=Number(document.getElementById("configDuration").value),spawn=Number(document.getElementById("configSpawn").value);if(![coins,xp,duration,spawn].every(Number.isFinite))return notify("Invalid configuration.",true);save.config={coinsPerKill:Math.max(0,coins),xpPerKill:Math.max(0,xp),duration:Math.max(10,duration),spawnRate:Math.max(300,spawn)};persist();document.getElementById("arenaTimer").textContent="TIME: "+modeDuration()+"s";notify("Game configuration saved.")};
+window.adminApply=function(){
+if(!requireAdmin())return;
+const v=id=>document.getElementById(id).value;
+if(v("adminCoins")!=="")save.coins=Math.max(0,save.coins+(Number(v("adminCoins"))||0));
+if(v("adminLevel")!=="")save.level=Math.max(1,Math.floor(Number(v("adminLevel"))||1));
+if(v("adminXP")!=="")save.xp=Math.max(0,save.xp+(Number(v("adminXP"))||0));
+if(v("adminName").trim())save.name=v("adminName").trim().slice(0,20);
+if(v("adminKills")!=="")save.kills=Math.max(0,save.kills+(Number(v("adminKills"))||0));
+if(v("adminScore")!=="")save.best=Math.max(0,Number(v("adminScore"))||0);
+while(save.xp>=xpNeeded()){save.xp-=xpNeeded();save.level++}
+checkAchievements();persist();renderProfile();notify("Administrator changes applied.");
+["adminCoins","adminLevel","adminXP","adminName","adminKills","adminScore"].forEach(id=>document.getElementById(id).value="")
+};
+window.adminUnlockAll=function(){
+if(!requireAdmin())return;
+save.ownedWeapons=WEAPONS.map(w=>w.id);save.weapon="eclipse";
+checkAchievements();persist();renderWeapons();notify("All weapons unlocked.")
+};
+window.adminUnlockShop=function(){
+if(!requireAdmin())return;
+save.ownedItems=SHOP_ITEMS.map(i=>i.id);persist();renderShop();notify("All shop items unlocked.")
+};
+window.adminSaveConfig=function(){
+if(!requireAdmin())return;
+const coins=Number(document.getElementById("configCoins").value),xp=Number(document.getElementById("configXP").value),duration=Number(document.getElementById("configDuration").value),spawn=Number(document.getElementById("configSpawn").value);
+if(![coins,xp,duration,spawn].every(Number.isFinite))return notify("Invalid configuration.",true);
+save.config={coinsPerKill:Math.max(0,coins),xpPerKill:Math.max(0,xp),duration:Math.max(10,duration),spawnRate:Math.max(300,spawn)};
+persist();document.getElementById("arenaTimer").textContent="TIME: "+modeDuration()+"s";notify("Game configuration saved.")
+};
 
 /* SAVE / IMPORT / RESET */
-window.exportSave=function(){const blob=new Blob([JSON.stringify(save,null,2)],{type:"application/json"}),url=URL.createObjectURL(blob),a=document.createElement("a");a.href=url;a.download="aim-rush-save.json";a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);notify("Save exported.")};
-window.importSave=function(event){const file=event.target.files?.[0];if(!file)return;const reader=new FileReader();reader.onload=()=>{try{const data=JSON.parse(reader.result);if(!data||typeof data!=="object"||!Array.isArray(data.ownedWeapons))throw Error("Invalid save");const base=freshSave();save={...base,...data,upgrades:{...base.upgrades,...(data.upgrades||{})},config:{...DEFAULT_CONFIG,...(data.config||{})},ownedWeapons:data.ownedWeapons.filter(id=>WEAPONS.some(w=>w.id===id)),ownedItems:Array.isArray(data.ownedItems)?data.ownedItems.filter(id=>SHOP_ITEMS.some(i=>i.id===id)):[],history:Array.isArray(data.history)?data.history.slice(-50):[],achievements:Array.isArray(data.achievements)?data.achievements:[]};if(!save.ownedWeapons.includes("pistol"))save.ownedWeapons.unshift("pistol");if(!save.ownedWeapons.includes(save.weapon))save.weapon="pistol";persist();renderProfile();renderMissions();notify("Save imported successfully.")}catch{notify("Unable to import this save.",true)}event.target.value=""};reader.readAsText(file)};
-function showModal(title,description,confirmText,callback){const back=document.getElementById("modalBackdrop"),content=document.getElementById("modalContent");content.innerHTML=`<h2>${title}</h2><p>${description}</p><div class="modal-actions"><button class="btn" id="modalCancel">CANCEL</button><button class="btn btn-danger" id="modalConfirm">${confirmText}</button></div>`;back.classList.add("open");document.getElementById("modalCancel").onclick=()=>back.classList.remove("open");document.getElementById("modalConfirm").onclick=()=>{back.classList.remove("open");callback()}}
-document.getElementById("modalBackdrop").addEventListener("click",e=>{if(e.target.id==="modalBackdrop")e.currentTarget.classList.remove("open")});
-window.confirmReset=function(){showModal("RESET PROGRESSION","Are you sure you want to reset all coins, weapons, levels and statistics? This cannot be undone.","RESET",()=>{save=freshSave();persist();renderProfile();renderMissions();renderWeapons();renderUpgrades();renderShop();renderLeaderboard();notify("Progression reset.")})};
+window.exportSave=function(){
+const blob=new Blob([JSON.stringify(save,null,2)],{type:"application/json"});
+const url=URL.createObjectURL(blob),a=document.createElement("a");
+a.href=url;a.download="aim-rush-save.json";a.click();
+setTimeout(()=>URL.revokeObjectURL(url),1000);notify("Save exported.")
+};
+window.importSave=function(event){
+const file=event.target.files?.[0];if(!file)return;
+const reader=new FileReader();
+reader.onload=()=>{
+try{
+const data=JSON.parse(reader.result);
+if(!data||typeof data!=="object"||!Array.isArray(data.ownedWeapons))throw Error("Invalid save");
+const base=freshSave();
+save={...base,...data,upgrades:{...DEFAULT_UPGRADES,...(data.upgrades||{})},config:{...DEFAULT_CONFIG,...(data.config||{})},ownedWeapons:data.ownedWeapons.filter(id=>WEAPONS.some(w=>w.id===id)),ownedItems:Array.isArray(data.ownedItems)?data.ownedItems.filter(id=>SHOP_ITEMS.some(i=>i.id===id)):[],history:Array.isArray(data.history)?data.history.slice(-50):[],achievements:Array.isArray(data.achievements)?data.achievements:[]};
+if(!save.ownedWeapons.includes("pistol"))save.ownedWeapons.unshift("pistol");
+if(!save.ownedWeapons.includes(save.weapon))save.weapon="pistol";
+persist();renderProfile();renderMissions();notify("Save imported successfully.")
+}catch{notify("Unable to import this save.",true)}
+event.target.value=""
+};
+reader.readAsText(file)
+};
 
-function initialize(){refreshDaily();document.querySelectorAll(".mode-button").forEach(b=>b.classList.toggle("selected",b.dataset.mode===game.mode));document.getElementById("arenaMode").textContent=MODES[game.mode].name;document.getElementById("arenaTimer").textContent="TIME: "+modeDuration()+"s";renderWeapons();renderUpgrades();renderShop();renderLeaderboard();renderProfile();renderMissions();updateUI();console.log("AIM RUSH initialized")}
+function showModal(title,description,confirmText,callback){
+const back=document.getElementById("modalBackdrop"),content=document.getElementById("modalContent");
+content.innerHTML=`<h2>${title}</h2><p>${description}</p><div class="modal-actions"><button class="btn" id="modalCancel">CANCEL</button><button class="btn btn-danger" id="modalConfirm">${confirmText}</button></div>`;
+back.classList.add("open");
+document.getElementById("modalCancel").onclick=()=>back.classList.remove("open");
+document.getElementById("modalConfirm").onclick=()=>{back.classList.remove("open");callback()}
+}
+document.getElementById("modalBackdrop").addEventListener("click",e=>{if(e.target.id==="modalBackdrop")e.currentTarget.classList.remove("open")});
+window.confirmReset=function(){
+showModal("RESET PROGRESSION","Are you sure you want to reset all coins, weapons, levels and statistics? This cannot be undone.","RESET",()=>{
+save=freshSave();persist();renderProfile();renderMissions();renderWeapons();renderUpgrades();renderShop();renderLeaderboard();notify("Progression reset.")
+})
+};
+
+function initialize(){
+refreshDaily();
+document.querySelectorAll(".mode-button").forEach(b=>b.classList.toggle("selected",b.dataset.mode===game.mode));
+document.getElementById("arenaMode").textContent=MODES[game.mode].name;
+document.getElementById("arenaTimer").textContent="TIME: "+modeDuration()+"s";
+applyModeLook();
+renderWeapons();renderUpgrades();renderShop();renderLeaderboard();renderProfile();renderMissions();updateUI();
+console.log("AIM RUSH initialized")
+}
 initialize();
 </script>
 </body>
