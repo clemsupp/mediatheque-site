@@ -1,0 +1,2282 @@
+
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<meta name="theme-color" content="#070910">
+<title>PARTICLES — Satisfying Experience</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+
+:root {
+  --bg:#070910;
+  --panel:rgba(15,19,32,.82);
+  --panel2:rgba(21,27,43,.82);
+  --line:rgba(150,175,255,.12);
+  --text:#f4f6ff;
+  --muted:#7d879e;
+  --accent:#72a7ff;
+  --accent2:#a477ff;
+  --cyan:#61eaff;
+  --green:#71f5bd;
+  --radius:20px;
+}
+
+* {
+  box-sizing:border-box;
+  margin:0;
+  padding:0;
+  -webkit-tap-highlight-color:transparent;
+}
+
+html,body {
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Outfit',sans-serif;
+  overscroll-behavior:none;
+}
+
+body {
+  position:relative;
+  user-select:none;
+}
+
+button,input {
+  font:inherit;
+}
+
+button {
+  color:inherit;
+  cursor:pointer;
+  border:0;
+}
+
+#app {
+  position:relative;
+  width:100%;
+  height:100%;
+  overflow:hidden;
+  isolation:isolate;
+  background:
+    radial-gradient(ellipse at 50% 45%,#11152b 0%,#090c17 45%,#06080e 100%);
+}
+
+#space {
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  z-index:0;
+}
+
+#backgroundGlow {
+  position:absolute;
+  inset:-20%;
+  z-index:0;
+  pointer-events:none;
+  background:
+    radial-gradient(ellipse at 22% 30%,rgba(60,85,220,.13),transparent 40%),
+    radial-gradient(ellipse at 78% 70%,rgba(155,55,230,.12),transparent 42%),
+    radial-gradient(ellipse at 50% 50%,rgba(35,130,190,.08),transparent 55%);
+  animation:ambient 14s ease-in-out infinite alternate;
+}
+
+@keyframes ambient {
+  from {transform:scale(1) rotate(0deg);filter:hue-rotate(0deg)}
+  to {transform:scale(1.13) rotate(5deg);filter:hue-rotate(35deg)}
+}
+
+#vignette {
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  z-index:2;
+  background:radial-gradient(ellipse at center,transparent 40%,rgba(0,0,0,.42) 100%);
+}
+
+#grain {
+  position:absolute;
+  inset:0;
+  z-index:3;
+  pointer-events:none;
+  opacity:.13;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.92' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.3'/%3E%3C/svg%3E");
+}
+
+.topbar {
+  position:absolute;
+  z-index:10;
+  top:0;
+  left:0;
+  right:0;
+  height:76px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 30px;
+  border-bottom:1px solid rgba(255,255,255,.055);
+  background:linear-gradient(180deg,rgba(7,9,16,.82),rgba(7,9,16,.15));
+  backdrop-filter:blur(12px);
+}
+
+.brand {
+  display:flex;
+  align-items:center;
+  gap:12px;
+}
+
+.brandIcon {
+  width:37px;
+  height:37px;
+  border-radius:12px;
+  display:grid;
+  place-items:center;
+  background:linear-gradient(135deg,#6b9dff,#9d64f9);
+  box-shadow:0 0 28px rgba(100,130,255,.32);
+  font-size:19px;
+}
+
+.brandName {
+  font-size:17px;
+  font-weight:800;
+  letter-spacing:3px;
+}
+
+.brandSub {
+  color:var(--muted);
+  font-family:'DM Mono',monospace;
+  font-size:9px;
+  letter-spacing:2px;
+  margin-top:2px;
+}
+
+.topRight {
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.status {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+  color:#9ba8c2;
+  letter-spacing:1px;
+  padding:10px 14px;
+  border:1px solid var(--line);
+  border-radius:30px;
+  background:rgba(255,255,255,.025);
+}
+
+.statusDot {
+  width:7px;
+  height:7px;
+  background:#72efae;
+  border-radius:50%;
+  box-shadow:0 0 12px #72efae;
+  animation:pulse 1.8s infinite;
+}
+
+@keyframes pulse {
+  50% {opacity:.4;transform:scale(.75)}
+}
+
+.iconButton {
+  width:39px;
+  height:39px;
+  display:grid;
+  place-items:center;
+  background:rgba(255,255,255,.055);
+  border:1px solid var(--line);
+  border-radius:12px;
+  font-size:16px;
+  transition:.2s;
+}
+
+.iconButton:hover {
+  background:rgba(110,145,255,.16);
+  border-color:rgba(120,155,255,.4);
+  transform:translateY(-2px);
+}
+
+.backButton {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 15px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:rgba(255,255,255,.045);
+  color:#dbe2f6;
+  font-size:12px;
+  font-weight:600;
+  transition:.2s;
+  text-decoration:none;
+}
+
+.backButton:hover {
+  background:rgba(255,255,255,.12);
+  border-color:rgba(255,255,255,.25);
+}
+
+.main {
+  position:absolute;
+  inset:76px 0 0;
+  z-index:5;
+  pointer-events:none;
+}
+
+.hero {
+  position:absolute;
+  top:30px;
+  left:50%;
+  transform:translateX(-50%);
+  text-align:center;
+  width:min(90%,600px);
+  pointer-events:none;
+  transition:opacity .4s;
+}
+
+.eyebrow {
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:7px 13px;
+  border-radius:30px;
+  border:1px solid rgba(125,153,255,.2);
+  background:rgba(100,120,255,.075);
+  color:#a8baff;
+  font-family:'DM Mono',monospace;
+  font-size:9px;
+  letter-spacing:2px;
+}
+
+.eyebrow span {
+  width:5px;
+  height:5px;
+  border-radius:50%;
+  background:#83aaff;
+  box-shadow:0 0 9px #83aaff;
+}
+
+.hero h1 {
+  font-size:clamp(34px,6vw,66px);
+  line-height:1;
+  letter-spacing:9px;
+  font-weight:900;
+  margin-top:18px;
+  background:linear-gradient(110deg,#fff 10%,#a7c5ff 48%,#c29cff 90%);
+  -webkit-background-clip:text;
+  background-clip:text;
+  color:transparent;
+  filter:drop-shadow(0 0 28px rgba(125,145,255,.16));
+}
+
+.hero p {
+  color:#8995ae;
+  font-size:13px;
+  margin-top:12px;
+  letter-spacing:.4px;
+}
+
+.hint {
+  position:absolute;
+  bottom:35px;
+  left:50%;
+  transform:translateX(-50%);
+  color:rgba(190,202,232,.55);
+  font-size:10px;
+  letter-spacing:2px;
+  text-transform:uppercase;
+  white-space:nowrap;
+  pointer-events:none;
+  animation:hintPulse 3s infinite;
+}
+
+@keyframes hintPulse {
+  50% {opacity:.4}
+}
+
+.panel {
+  position:absolute;
+  top:24px;
+  left:24px;
+  bottom:24px;
+  width:270px;
+  display:flex;
+  flex-direction:column;
+  gap:13px;
+  overflow-y:auto;
+  scrollbar-width:none;
+  pointer-events:auto;
+  padding:16px;
+  border:1px solid rgba(160,180,255,.12);
+  border-radius:22px;
+  background:var(--panel);
+  backdrop-filter:blur(25px);
+  box-shadow:0 15px 60px rgba(0,0,0,.25);
+}
+
+.panel::-webkit-scrollbar {display:none}
+
+.panelHeader {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:2px 2px 9px;
+  border-bottom:1px solid var(--line);
+}
+
+.panelHeader strong {
+  font-size:12px;
+  letter-spacing:1.6px;
+}
+
+.panelHeader span {
+  font-size:9px;
+  color:var(--muted);
+  font-family:'DM Mono',monospace;
+}
+
+.sectionTitle {
+  color:#8491ac;
+  font-family:'DM Mono',monospace;
+  font-size:9px;
+  letter-spacing:1.8px;
+  text-transform:uppercase;
+  margin-bottom:10px;
+}
+
+.modeGrid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.modeButton {
+  position:relative;
+  min-height:67px;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:flex-start;
+  gap:5px;
+  padding:11px;
+  border:1px solid rgba(255,255,255,.07);
+  border-radius:13px;
+  background:rgba(255,255,255,.035);
+  transition:.2s;
+  text-align:left;
+}
+
+.modeButton:hover {
+  background:rgba(110,145,255,.1);
+  border-color:rgba(120,150,255,.3);
+}
+
+.modeButton.active {
+  border-color:rgba(117,151,255,.65);
+  background:linear-gradient(135deg,rgba(94,130,255,.2),rgba(151,94,255,.1));
+  box-shadow:inset 0 0 20px rgba(105,130,255,.06),0 0 18px rgba(105,130,255,.08);
+}
+
+.modeButton.active:after {
+  content:"";
+  position:absolute;
+  right:9px;
+  top:9px;
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:#8eafff;
+  box-shadow:0 0 8px #8eafff;
+}
+
+.modeIcon {font-size:18px}
+
+.modeName {
+  font-size:11px;
+  font-weight:700;
+}
+
+.modeDesc {
+  color:#77849d;
+  font-size:9px;
+}
+
+.controlGroup {
+  padding:2px 0;
+}
+
+.controlHead {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:10px;
+  font-size:11px;
+  color:#c7d0e5;
+}
+
+.controlValue {
+  color:#92b5ff;
+  font-family:'DM Mono',monospace;
+  font-size:10px;
+}
+
+input[type=range] {
+  width:100%;
+  height:4px;
+  appearance:none;
+  border-radius:10px;
+  outline:none;
+  background:linear-gradient(90deg,#729fff,#a27aff);
+  cursor:pointer;
+}
+
+input[type=range]::-webkit-slider-thumb {
+  appearance:none;
+  width:14px;
+  height:14px;
+  border-radius:50%;
+  background:#fff;
+  border:3px solid #8daeff;
+  box-shadow:0 0 12px rgba(120,160,255,.7);
+}
+
+input[type=range]::-moz-range-thumb {
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  background:#fff;
+  border:3px solid #8daeff;
+}
+
+.colorRow {
+  display:flex;
+  align-items:center;
+  gap:8px;
+  flex-wrap:wrap;
+}
+
+.colorButton {
+  width:24px;
+  height:24px;
+  border-radius:50%;
+  border:2px solid transparent;
+  outline:1px solid rgba(255,255,255,.1);
+  transition:.2s;
+}
+
+.colorButton.active {
+  outline:2px solid white;
+  outline-offset:3px;
+  transform:scale(1.05);
+}
+
+.palette1 {background:linear-gradient(135deg,#5a9cff,#a06cff)}
+.palette2 {background:linear-gradient(135deg,#55eaff,#4e9fff)}
+.palette3 {background:linear-gradient(135deg,#ff70c7,#a46bff)}
+.palette4 {background:linear-gradient(135deg,#6df5b0,#c6f77b)}
+.palette5 {background:linear-gradient(135deg,#ffb85e,#ff667c)}
+.palette6 {background:linear-gradient(135deg,#ffffff,#8ca3c7)}
+.palette7 {background:linear-gradient(135deg,#ffea75,#ff8d4e)}
+
+.actionGrid {
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+}
+
+.actionButton {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:7px;
+  padding:11px 7px;
+  border:1px solid var(--line);
+  border-radius:12px;
+  background:rgba(255,255,255,.045);
+  color:#cbd5eb;
+  font-size:10px;
+  font-weight:600;
+  transition:.2s;
+}
+
+.actionButton:hover {
+  background:rgba(110,145,255,.14);
+  border-color:rgba(110,145,255,.35);
+}
+
+.actionButton.primary {
+  background:linear-gradient(110deg,#638cf4,#9669ec);
+  border:0;
+  color:white;
+  box-shadow:0 5px 20px rgba(105,120,255,.2);
+}
+
+.actionButton.primary:hover {
+  filter:brightness(1.15);
+  transform:translateY(-2px);
+}
+
+.toggleRow {
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-size:11px;
+  color:#c1cce2;
+  padding:3px 0;
+}
+
+.switch {
+  position:relative;
+  width:35px;
+  height:19px;
+  border-radius:20px;
+  background:#293247;
+  transition:.2s;
+}
+
+.switch:after {
+  content:"";
+  position:absolute;
+  top:3px;
+  left:3px;
+  width:13px;
+  height:13px;
+  border-radius:50%;
+  background:#9aa8c2;
+  transition:.2s;
+}
+
+.switch.on {
+  background:#657fe9;
+}
+
+.switch.on:after {
+  left:19px;
+  background:white;
+}
+
+.stats {
+  position:absolute;
+  right:25px;
+  top:25px;
+  display:flex;
+  gap:9px;
+  pointer-events:none;
+}
+
+.stat {
+  min-width:91px;
+  padding:11px 13px;
+  border:1px solid var(--line);
+  border-radius:13px;
+  background:rgba(12,17,29,.65);
+  backdrop-filter:blur(15px);
+}
+
+.statLabel {
+  color:#78859f;
+  font-family:'DM Mono',monospace;
+  font-size:8px;
+  letter-spacing:1px;
+}
+
+.statValue {
+  font-size:17px;
+  font-weight:700;
+  margin-top:4px;
+  color:#e8edff;
+  font-variant-numeric:tabular-nums;
+}
+
+.bottomTools {
+  position:absolute;
+  right:25px;
+  bottom:24px;
+  display:flex;
+  gap:9px;
+  pointer-events:auto;
+}
+
+.toolButton {
+  display:flex;
+  align-items:center;
+  gap:7px;
+  padding:11px 15px;
+  background:rgba(13,18,31,.8);
+  border:1px solid var(--line);
+  border-radius:13px;
+  backdrop-filter:blur(15px);
+  color:#b7c4df;
+  font-size:10px;
+  font-weight:600;
+  transition:.2s;
+}
+
+.toolButton:hover {
+  background:rgba(90,115,200,.2);
+  border-color:rgba(140,160,255,.4);
+}
+
+.toolButton.danger:hover {
+  border-color:rgba(255,100,120,.4);
+  background:rgba(255,70,100,.1);
+}
+
+#cursorGlow {
+  position:absolute;
+  z-index:1;
+  width:180px;
+  height:180px;
+  border-radius:50%;
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  background:radial-gradient(circle,rgba(100,135,255,.13),rgba(130,80,255,.04) 40%,transparent 70%);
+  opacity:0;
+  transition:opacity .3s;
+}
+
+#cursorRing {
+  position:absolute;
+  z-index:4;
+  width:40px;
+  height:40px;
+  border:1px solid rgba(160,190,255,.35);
+  border-radius:50%;
+  pointer-events:none;
+  transform:translate(-50%,-50%);
+  opacity:0;
+  transition:width .2s,height .2s,opacity .2s;
+}
+
+#cursorRing.active {
+  width:85px;
+  height:85px;
+  opacity:1;
+  border-color:rgba(150,180,255,.6);
+  box-shadow:0 0 25px rgba(110,150,255,.13),inset 0 0 15px rgba(110,150,255,.1);
+}
+
+.toast {
+  position:absolute;
+  z-index:20;
+  left:50%;
+  top:90px;
+  transform:translate(-50%,-15px);
+  padding:10px 18px;
+  border:1px solid rgba(130,160,255,.25);
+  border-radius:30px;
+  background:rgba(15,21,38,.94);
+  color:#dbe6ff;
+  font-size:11px;
+  opacity:0;
+  pointer-events:none;
+  transition:.3s;
+  backdrop-filter:blur(15px);
+}
+
+.toast.show {
+  opacity:1;
+  transform:translate(-50%,0);
+}
+
+.modalOverlay {
+  position:absolute;
+  inset:0;
+  z-index:30;
+  display:none;
+  align-items:center;
+  justify-content:center;
+  background:rgba(0,0,0,.6);
+  backdrop-filter:blur(10px);
+  padding:20px;
+}
+
+.modalOverlay.show {display:flex}
+
+.modal {
+  width:min(420px,100%);
+  padding:25px;
+  border:1px solid rgba(160,180,255,.2);
+  border-radius:23px;
+  background:#111727;
+  box-shadow:0 30px 100px rgba(0,0,0,.5);
+}
+
+.modal h2 {
+  font-size:22px;
+  margin-bottom:9px;
+}
+
+.modal p {
+  color:#8e9bb5;
+  font-size:12px;
+  line-height:1.7;
+  margin-bottom:20px;
+}
+
+.modalClose {
+  width:100%;
+  padding:12px;
+  border-radius:11px;
+  background:linear-gradient(110deg,#638cf4,#9669ec);
+  font-weight:700;
+  font-size:12px;
+}
+
+.mobilePanelButton {
+  display:none;
+}
+
+@media(max-width:900px) {
+  .panel {
+    width:235px;
+    left:12px;
+    top:15px;
+    bottom:15px;
+  }
+  .stats {
+    right:12px;
+    top:15px;
+  }
+  .stat {min-width:75px;padding:9px}
+  .statValue {font-size:14px}
+  .bottomTools {right:12px;bottom:12px}
+  .hero {top:22px}
+  .hero h1 {font-size:43px}
+}
+
+@media(max-width:650px) {
+  .topbar {
+    height:60px;
+    padding:0 13px;
+  }
+  .brandIcon {width:32px;height:32px}
+  .brandName {font-size:14px;letter-spacing:2px}
+  .brandSub {font-size:8px}
+  .status {display:none}
+  .backButton {padding:9px 10px;font-size:10px}
+  .main {inset:60px 0 0}
+  .hero {
+    top:18px;
+    width:90%;
+  }
+  .hero h1 {
+    font-size:35px;
+    letter-spacing:6px;
+    margin-top:12px;
+  }
+  .hero p {font-size:10px}
+  .eyebrow {font-size:8px}
+  .stats {
+    top:auto;
+    bottom:73px;
+    left:12px;
+    right:12px;
+    justify-content:center;
+  }
+  .stat {
+    flex:1;
+    min-width:0;
+    text-align:center;
+    padding:8px 4px;
+  }
+  .statLabel {font-size:7px}
+  .statValue {font-size:14px}
+  .panel {
+    top:auto;
+    left:0;
+    right:0;
+    bottom:0;
+    width:100%;
+    height:0;
+    padding:0 15px;
+    border-radius:22px 22px 0 0;
+    transform:translateY(100%);
+    transition:transform .35s,height .35s;
+    z-index:15;
+    max-height:77%;
+  }
+  .panel.mobileOpen {
+    height:72%;
+    padding:16px;
+    transform:translateY(0);
+  }
+  .mobilePanelButton {
+    position:absolute;
+    z-index:16;
+    display:flex;
+    align-items:center;
+    gap:7px;
+    left:13px;
+    bottom:15px;
+    padding:12px 16px;
+    border-radius:13px;
+    background:rgba(20,27,46,.9);
+    border:1px solid var(--line);
+    font-size:11px;
+    font-weight:700;
+    backdrop-filter:blur(15px);
+  }
+  .bottomTools {
+    right:13px;
+    bottom:15px;
+  }
+  .toolButton {padding:12px;font-size:10px}
+  .hint {bottom:123px;font-size:8px}
+  .panelHeader {margin-bottom:3px}
+}
+
+@media(max-height:600px) {
+  .hero {display:none}
+  .panel {gap:9px}
+  .main {inset:60px 0 0}
+  .hint {bottom:10px}
+}
+
+@media(prefers-reduced-motion:reduce) {
+  *,*:before,*:after {
+    animation-duration:.01ms!important;
+    transition-duration:.01ms!important;
+  }
+}
+</style>
+</head>
+
+<body>
+<div id="app">
+
+  <div id="backgroundGlow"></div>
+  <canvas id="space"></canvas>
+  <div id="cursorGlow"></div>
+  <div id="cursorRing"></div>
+  <div id="vignette"></div>
+  <div id="grain"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="brandIcon">✦</div>
+      <div>
+        <div class="brandName">PARTICLES</div>
+        <div class="brandSub">SATISFYING EXPERIENCE</div>
+      </div>
+    </div>
+
+    <div class="topRight">
+      <div class="status">
+        <span class="statusDot"></span>
+        SIMULATION ACTIVE
+      </div>
+      <button class="iconButton" id="soundTop" title="Son">♫</button>
+      <a href="/" class="backButton">← MENU</a>
+    </div>
+  </header>
+
+  <main class="main">
+
+    <div class="hero" id="hero">
+      <div class="eyebrow"><span></span> INTERACTIVE PARTICLE ENGINE</div>
+      <h1>PARTICLES</h1>
+      <p>Déplace ton doigt et observe les particules réagir.</p>
+    </div>
+
+    <aside class="panel" id="panel">
+
+      <div class="panelHeader">
+        <strong>CONTROL CENTER</strong>
+        <span>V1.0</span>
+      </div>
+
+      <section>
+        <div class="sectionTitle">01 / Interaction</div>
+        <div class="modeGrid">
+
+          <button class="modeButton active" data-mode="attract">
+            <span class="modeIcon">🧲</span>
+            <span class="modeName">Attraction</span>
+            <span class="modeDesc">Attire les particules</span>
+          </button>
+
+          <button class="modeButton" data-mode="repel">
+            <span class="modeIcon">💫</span>
+            <span class="modeName">Répulsion</span>
+            <span class="modeDesc">Repousse tout</span>
+          </button>
+
+          <button class="modeButton" data-mode="orbit">
+            <span class="modeIcon">🌀</span>
+            <span class="modeName">Vortex</span>
+            <span class="modeDesc">Crée un tourbillon</span>
+          </button>
+
+          <button class="modeButton" data-mode="gravity">
+            <span class="modeIcon">🌌</span>
+            <span class="modeName">Gravité</span>
+            <span class="modeDesc">Courbe les trajectoires</span>
+          </button>
+
+          <button class="modeButton" data-mode="wave">
+            <span class="modeIcon">〰️</span>
+            <span class="modeName">Ondes</span>
+            <span class="modeDesc">Ondulations fluides</span>
+          </button>
+
+          <button class="modeButton" data-mode="explosion">
+            <span class="modeIcon">✨</span>
+            <span class="modeName">Impulsion</span>
+            <span class="modeDesc">Impulsions lumineuses</span>
+          </button>
+
+        </div>
+      </section>
+
+      <section class="controlGroup">
+        <div class="sectionTitle">02 / Particle settings</div>
+
+        <div class="controlGroup">
+          <div class="controlHead">
+            <label for="count">Quantité</label>
+            <span class="controlValue" id="countValue">1000</span>
+          </div>
+          <input id="count" type="range" min="100" max="2500" step="50" value="1000">
+        </div>
+
+        <div class="controlGroup">
+          <div class="controlHead">
+            <label for="speed">Vitesse</label>
+            <span class="controlValue" id="speedValue">1.0x</span>
+          </div>
+          <input id="speed" type="range" min=".2" max="3" step=".1" value="1">
+        </div>
+
+        <div class="controlGroup">
+          <div class="controlHead">
+            <label for="size">Taille</label>
+            <span class="controlValue" id="sizeValue">2.0</span>
+          </div>
+          <input id="size" type="range" min=".5" max="5" step=".1" value="2">
+        </div>
+
+        <div class="controlGroup">
+          <div class="controlHead">
+            <label for="force">Force d'interaction</label>
+            <span class="controlValue" id="forceValue">1.0x</span>
+          </div>
+          <input id="force" type="range" min=".2" max="3" step=".1" value="1">
+        </div>
+
+        <div class="controlGroup">
+          <div class="controlHead">
+            <label for="trail">Traînées lumineuses</label>
+            <span class="controlValue" id="trailValue">0.18</span>
+          </div>
+          <input id="trail" type="range" min=".03" max=".6" step=".01" value=".18">
+        </div>
+      </section>
+
+      <section>
+        <div class="sectionTitle">03 / Color palette</div>
+        <div class="colorRow">
+          <button class="colorButton palette1 active" data-palette="0" title="Cosmic"></button>
+          <button class="colorButton palette2" data-palette="1" title="Ocean"></button>
+          <button class="colorButton palette3" data-palette="2" title="Neon"></button>
+          <button class="colorButton palette4" data-palette="3" title="Nature"></button>
+          <button class="colorButton palette5" data-palette="4" title="Sunset"></button>
+          <button class="colorButton palette6" data-palette="5" title="Ice"></button>
+          <button class="colorButton palette7" data-palette="6" title="Gold"></button>
+        </div>
+      </section>
+
+      <section>
+        <div class="sectionTitle">04 / Visual effects</div>
+
+        <div class="toggleRow">
+          <span>Glow effect</span>
+          <button class="switch on" data-toggle="glow"></button>
+        </div>
+
+        <div class="toggleRow">
+          <span>3D perspective</span>
+          <button class="switch on" data-toggle="depth"></button>
+        </div>
+
+        <div class="toggleRow">
+          <span>Connections</span>
+          <button class="switch" data-toggle="connections"></button>
+        </div>
+
+        <div class="toggleRow">
+          <span>Background stars</span>
+          <button class="switch on" data-toggle="stars"></button>
+        </div>
+
+        <div class="toggleRow">
+          <span>Interactive sound</span>
+          <button class="switch on" data-toggle="sound"></button>
+        </div>
+      </section>
+
+      <section>
+        <div class="sectionTitle">05 / Quick actions</div>
+        <div class="actionGrid">
+          <button class="actionButton primary" id="burst">✦ Burst</button>
+          <button class="actionButton" id="reset">↻ Reset</button>
+          <button class="actionButton" id="scatter">⠿ Scatter</button>
+          <button class="actionButton" id="freeze">Ⅱ Pause</button>
+        </div>
+      </section>
+
+    </aside>
+
+    <div class="stats">
+      <div class="stat">
+        <div class="statLabel">PARTICLES</div>
+        <div class="statValue" id="statCount">1000</div>
+      </div>
+      <div class="stat">
+        <div class="statLabel">FPS</div>
+        <div class="statValue" id="statFPS">60</div>
+      </div>
+      <div class="stat">
+        <div class="statLabel">MODE</div>
+        <div class="statValue" id="statMode">ATTRACT</div>
+      </div>
+    </div>
+
+    <div class="hint" id="hint">✦ MOVE YOUR CURSOR TO INTERACT ✦</div>
+
+    <div class="bottomTools">
+      <button class="toolButton" id="fullscreen">⛶ Fullscreen</button>
+      <button class="toolButton danger" id="clear">✕ Clear</button>
+    </div>
+
+    <button class="mobilePanelButton" id="mobilePanel">⚙ Controls</button>
+
+  </main>
+
+  <div class="toast" id="toast"></div>
+
+  <div class="modalOverlay" id="modal">
+    <div class="modal">
+      <h2>PARTICLES</h2>
+      <p>Une expérience interactive de particules. Explore les différents modes, modifie les couleurs et expérimente avec les forces physiques.</p>
+      <button class="modalClose" id="modalClose">CONTINUER</button>
+    </div>
+  </div>
+
+</div>
+
+<script>
+"use strict";
+
+/* =========================================
+   PARTICLES ENGINE
+========================================= */
+
+const canvas = document.getElementById("space");
+const ctx = canvas.getContext("2d", {alpha:true});
+
+const app = document.getElementById("app");
+const panel = document.getElementById("panel");
+
+const cursorGlow = document.getElementById("cursorGlow");
+const cursorRing = document.getElementById("cursorRing");
+
+const W = () => window.innerWidth;
+const H = () => window.innerHeight;
+
+let width = W();
+let height = H();
+let dpr = Math.min(window.devicePixelRatio || 1,2);
+
+let particles = [];
+let stars = [];
+let bursts = [];
+
+let running = true;
+let frame = 0;
+let fps = 60;
+let fpsFrames = 0;
+let fpsStart = performance.now();
+
+let mouse = {
+  x:-1000,
+  y:-1000,
+  px:-1000,
+  py:-1000,
+  down:false,
+  active:false,
+  vx:0,
+  vy:0
+};
+
+let settings = {
+  count:1000,
+  speed:1,
+  size:2,
+  force:1,
+  trail:.18,
+  glow:true,
+  depth:true,
+  connections:false,
+  stars:true,
+  sound:true,
+  mode:"attract",
+  palette:0
+};
+
+const palettes = [
+  ["#65a5ff","#8b79ff","#c17cff","#62eaff","#ffffff"],
+  ["#4be8ff","#48a8ff","#6d7dff","#b5f5ff","#ffffff"],
+  ["#ff65ce","#bd72ff","#7e8dff","#ffb3e4","#ffffff"],
+  ["#68f5ae","#a5f278","#53d9c6","#d5ff9a","#ffffff"],
+  ["#ffb45d","#ff6f78","#ff9cce","#ffe09a","#ffffff"],
+  ["#ffffff","#a6d7ff","#9baeff","#d9f4ff","#ffffff"],
+  ["#ffe56e","#ffb44e","#ff875e","#fff3b0","#ffffff"]
+];
+
+let audioContext = null;
+let masterGain = null;
+let lastSound = 0;
+
+/* =========================================
+   CANVAS SETUP
+========================================= */
+
+function resizeCanvas() {
+  width = W();
+  height = H();
+  dpr = Math.min(window.devicePixelRatio || 1,2);
+
+  canvas.width = Math.floor(width*dpr);
+  canvas.height = Math.floor(height*dpr);
+
+  canvas.style.width = width+"px";
+  canvas.style.height = height+"px";
+
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+
+  createStars();
+
+  if(particles.length === 0) {
+    createParticles(settings.count);
+  }
+}
+
+window.addEventListener("resize",resizeCanvas);
+
+/* =========================================
+   RANDOM HELPERS
+========================================= */
+
+function random(min,max) {
+  return Math.random()*(max-min)+min;
+}
+
+function choose(array) {
+  return array[Math.floor(Math.random()*array.length)];
+}
+
+function clamp(value,min,max) {
+  return Math.max(min,Math.min(max,value));
+}
+
+function distance(x1,y1,x2,y2) {
+  return Math.hypot(x2-x1,y2-y1);
+}
+
+function lerp(a,b,t) {
+  return a+(b-a)*t;
+}
+
+/* =========================================
+   PARTICLE CREATION
+========================================= */
+
+function createParticle(x,y,randomPosition=true) {
+  const palette = palettes[settings.palette];
+
+  const angle = random(0,Math.PI*2);
+  const radius = randomPosition ? random(0,Math.max(width,height)*.48) : random(0,30);
+
+  const px = randomPosition
+    ? width/2+Math.cos(angle)*radius
+    : x+random(-12,12);
+
+  const py = randomPosition
+    ? height/2+Math.sin(angle)*radius
+    : y+random(-12,12);
+
+  return {
+    x:px,
+    y:py,
+    vx:random(-.5,.5),
+    vy:random(-.5,.5),
+    z:random(.25,1),
+    size:random(.5,1.5),
+    color:choose(palette),
+    alpha:random(.45,1),
+    phase:random(0,Math.PI*2),
+    orbit:random(.2,1.2),
+    life:1,
+    targetX:px,
+    targetY:py
+  };
+}
+
+function createParticles(count) {
+  particles = [];
+
+  for(let i=0;i<count;i++) {
+    particles.push(createParticle(0,0,true));
+  }
+
+  updateStats();
+}
+
+function resizeParticleCount(count) {
+  count = Math.floor(count);
+  settings.count = count;
+
+  if(count > particles.length) {
+    const extra = count-particles.length;
+
+    for(let i=0;i<extra;i++) {
+      particles.push(createParticle(
+        random(0,width),
+        random(0,height),
+        true
+      ));
+    }
+  } else {
+    particles.length = count;
+  }
+
+  updateStats();
+}
+
+/* =========================================
+   BACKGROUND STARS
+========================================= */
+
+function createStars() {
+  stars = [];
+
+  const amount = Math.min(180,Math.floor(width*height/8500));
+
+  for(let i=0;i<amount;i++) {
+    stars.push({
+      x:random(0,width),
+      y:random(0,height),
+      size:random(.3,1.5),
+      alpha:random(.1,.6),
+      phase:random(0,Math.PI*2),
+      speed:random(.005,.02)
+    });
+  }
+}
+
+function drawStars() {
+  if(!settings.stars) return;
+
+  for(const star of stars) {
+    const alpha = star.alpha*(.65+.35*Math.sin(frame*star.speed+star.phase));
+
+    ctx.fillStyle=`rgba(180,200,255,${alpha})`;
+
+    ctx.beginPath();
+    ctx.arc(star.x,star.y,star.size,0,Math.PI*2);
+    ctx.fill();
+  }
+}
+
+/* =========================================
+   INTERACTION PHYSICS
+========================================= */
+
+function applyInteraction(p) {
+  if(!mouse.active) return;
+
+  const dx = mouse.x-p.x;
+  const dy = mouse.y-p.y;
+
+  const dist = Math.sqrt(dx*dx+dy*dy);
+
+  const radius = 180*settings.force;
+
+  if(dist > radius || dist < 1) return;
+
+  const normalized = 1-dist/radius;
+  const strength = normalized*normalized*settings.force;
+
+  const nx = dx/dist;
+  const ny = dy/dist;
+
+  switch(settings.mode) {
+
+    case "attract":
+      p.vx += nx*strength*.17;
+      p.vy += ny*strength*.17;
+      break;
+
+    case "repel":
+      p.vx -= nx*strength*.45;
+      p.vy -= ny*strength*.45;
+      break;
+
+    case "orbit":
+      p.vx += -ny*strength*.25+nx*strength*.025;
+      p.vy += nx*strength*.25+ny*strength*.025;
+      break;
+
+    case "gravity":
+      p.vx += nx*strength*.11;
+      p.vy += ny*strength*.11+strength*.035;
+      break;
+
+    case "wave":
+      const wave = Math.sin(dist*.045-frame*.07)*strength;
+      p.vx += -ny*wave*.22;
+      p.vy += nx*wave*.22;
+      break;
+
+    case "explosion":
+      if(mouse.down) {
+        p.vx -= nx*strength*.65;
+        p.vy -= ny*strength*.65;
+      }
+      break;
+  }
+}
+
+/* =========================================
+   NATURAL MOVEMENT
+========================================= */
+
+function updateParticle(p,index) {
+  const t = frame*.008;
+
+  p.phase += .009;
+
+  const drift = settings.speed;
+
+  p.vx += Math.sin(t+p.phase)*.006;
+  p.vy += Math.cos(t*.8+p.phase)*.006;
+
+  applyInteraction(p);
+
+  if(settings.mode === "orbit" && !mouse.active) {
+    const dx = width/2-p.x;
+    const dy = height/2-p.y;
+    const d = Math.max(1,Math.hypot(dx,dy));
+
+    p.vx += -dy/d*.012;
+    p.vy += dx/d*.012;
+  }
+
+  if(settings.mode === "gravity" && !mouse.active) {
+    p.vy += .012;
+  }
+
+  if(settings.mode === "wave") {
+    p.vx += Math.sin(p.y*.012+t)*.014;
+    p.vy += Math.cos(p.x*.01+t)*.012;
+  }
+
+  const damping = .985;
+
+  p.vx *= damping;
+  p.vy *= damping;
+
+  p.x += p.vx*drift;
+  p.y += p.vy*drift;
+
+  const speed = Math.hypot(p.vx,p.vy);
+  const maxSpeed = 8;
+
+  if(speed > maxSpeed) {
+    p.vx = p.vx/speed*maxSpeed;
+    p.vy = p.vy/speed*maxSpeed;
+  }
+
+  if(p.x < -20) p.x = width+20;
+  if(p.x > width+20) p.x = -20;
+
+  if(p.y < -20) p.y = height+20;
+  if(p.y > height+20) p.y = -20;
+
+  if(settings.depth) {
+    p.z += Math.sin(frame*.003+p.phase)*.0006;
+    p.z = clamp(p.z,.2,1.3);
+  } else {
+    p.z = 1;
+  }
+
+  p.alpha = clamp(.5+speed*.08,.35,1);
+}
+
+/* =========================================
+   PARTICLE DRAWING
+========================================= */
+
+function drawParticle(p) {
+  const depth = settings.depth ? p.z : 1;
+
+  const size = settings.size*p.size*depth;
+  const glowSize = size*5;
+
+  if(settings.glow) {
+    const gradient = ctx.createRadialGradient(
+      p.x,p.y,0,
+      p.x,p.y,glowSize
+    );
+
+    gradient.addColorStop(0,p.color);
+    gradient.addColorStop(.2,p.color+"88");
+    gradient.addColorStop(1,"transparent");
+
+    ctx.globalAlpha = p.alpha*.45;
+    ctx.fillStyle = gradient;
+
+    ctx.beginPath();
+    ctx.arc(p.x,p.y,glowSize,0,Math.PI*2);
+    ctx.fill();
+  }
+
+  ctx.globalAlpha = p.alpha;
+
+  ctx.fillStyle = p.color;
+  ctx.beginPath();
+  ctx.arc(p.x,p.y,size,0,Math.PI*2);
+  ctx.fill();
+
+  if(size>2.5) {
+    ctx.globalAlpha = p.alpha*.7;
+    ctx.fillStyle="#ffffff";
+
+    ctx.beginPath();
+    ctx.arc(p.x-size*.2,p.y-size*.2,size*.28,0,Math.PI*2);
+    ctx.fill();
+  }
+
+  ctx.globalAlpha = 1;
+}
+
+/* =========================================
+   PARTICLE CONNECTIONS
+========================================= */
+
+function drawConnections() {
+  if(!settings.connections) return;
+
+  const maxDistance = 75;
+
+  for(let i=0;i<particles.length;i+=2) {
+    const a = particles[i];
+
+    for(let j=i+1;j<particles.length;j+=3) {
+      const b = particles[j];
+
+      const d = distance(a.x,a.y,b.x,b.y);
+
+      if(d < maxDistance) {
+        const alpha = (1-d/maxDistance)*.16;
+
+        ctx.strokeStyle=`rgba(130,165,255,${alpha})`;
+        ctx.lineWidth=.6;
+
+        ctx.beginPath();
+        ctx.moveTo(a.x,a.y);
+        ctx.lineTo(b.x,b.y);
+        ctx.stroke();
+      }
+    }
+  }
+}
+
+/* =========================================
+   PARTICLE TRAILS
+========================================= */
+
+function drawTrails() {
+  ctx.fillStyle=`rgba(7,9,16,${settings.trail})`;
+  ctx.fillRect(0,0,width,height);
+}
+
+/* =========================================
+   BURST SYSTEM
+========================================= */
+
+function createBurst(x,y,power=1) {
+  const amount = Math.floor(100*power);
+
+  for(let i=0;i<amount;i++) {
+    const angle = random(0,Math.PI*2);
+    const speed = random(2,12)*power;
+
+    bursts.push({
+      x,
+      y,
+      vx:Math.cos(angle)*speed,
+      vy:Math.sin(angle)*speed,
+      life:1,
+      size:random(1,4),
+      color:choose(palettes[settings.palette])
+    });
+  }
+
+  if(bursts.length>1500) {
+    bursts.splice(0,bursts.length-1500);
+  }
+
+  playSound(220,.1,"sine",.025);
+}
+
+function updateBursts() {
+  for(let i=bursts.length-1;i>=0;i--) {
+    const b = bursts[i];
+
+    b.x += b.vx;
+    b.y += b.vy;
+
+    b.vx *= .97;
+    b.vy *= .97;
+
+    b.life -= .018;
+
+    if(b.life<=0) {
+      bursts.splice(i,1);
+    }
+  }
+}
+
+function drawBursts() {
+  for(const b of bursts) {
+    ctx.globalAlpha=b.life;
+    ctx.fillStyle=b.color;
+
+    if(settings.glow) {
+      ctx.shadowBlur=12;
+      ctx.shadowColor=b.color;
+    }
+
+    ctx.beginPath();
+    ctx.arc(b.x,b.y,b.size*b.life,0,Math.PI*2);
+    ctx.fill();
+
+    ctx.shadowBlur=0;
+  }
+
+  ctx.globalAlpha=1;
+}
+
+/* =========================================
+   CURSOR EFFECTS
+========================================= */
+
+function updateCursor() {
+  if(!mouse.active) return;
+
+  cursorGlow.style.left=mouse.x+"px";
+  cursorGlow.style.top=mouse.y+"px";
+
+  cursorRing.style.left=mouse.x+"px";
+  cursorRing.style.top=mouse.y+"px";
+
+  cursorGlow.style.opacity=".8";
+  cursorRing.classList.add("active");
+}
+
+function hideCursor() {
+  mouse.active=false;
+  mouse.down=false;
+
+  cursorGlow.style.opacity="0";
+  cursorRing.classList.remove("active");
+}
+
+/* =========================================
+   AUDIO ENGINE
+========================================= */
+
+function initAudio() {
+  if(audioContext) return;
+
+  const AudioCtx = window.AudioContext || window.webkitAudioContext;
+
+  if(!AudioCtx) return;
+
+  audioContext = new AudioCtx();
+
+  masterGain = audioContext.createGain();
+  masterGain.gain.value=.16;
+
+  masterGain.connect(audioContext.destination);
+}
+
+function playSound(freq=440,duration=.1,type="sine",volume=.04) {
+  if(!settings.sound) return;
+
+  const now = performance.now();
+
+  if(now-lastSound<40) return;
+
+  lastSound=now;
+
+  initAudio();
+
+  if(!audioContext) return;
+
+  if(audioContext.state==="suspended") {
+    audioContext.resume();
+  }
+
+  const oscillator=audioContext.createOscillator();
+  const gain=audioContext.createGain();
+
+  oscillator.type=type;
+  oscillator.frequency.setValueAtTime(freq,audioContext.currentTime);
+  oscillator.frequency.exponentialRampToValueAtTime(
+    Math.max(50,freq*.65),
+    audioContext.currentTime+duration
+  );
+
+  gain.gain.setValueAtTime(volume,audioContext.currentTime);
+  gain.gain.exponentialRampToValueAtTime(
+    .001,
+    audioContext.currentTime+duration
+  );
+
+  oscillator.connect(gain);
+  gain.connect(masterGain);
+
+  oscillator.start();
+  oscillator.stop(audioContext.currentTime+duration);
+}
+
+function playModeSound() {
+  playSound(480,.12,"sine",.035);
+}
+
+/* =========================================
+   MAIN RENDER LOOP
+========================================= */
+
+function render() {
+  requestAnimationFrame(render);
+
+  if(!running) return;
+
+  frame++;
+
+  drawTrails();
+  drawStars();
+
+  for(let i=0;i<particles.length;i++) {
+    const p=particles[i];
+
+    updateParticle(p,i);
+  }
+
+  drawConnections();
+
+  for(const p of particles) {
+    drawParticle(p);
+  }
+
+  updateBursts();
+  drawBursts();
+
+  updateFPS();
+}
+
+function updateFPS() {
+  fpsFrames++;
+
+  const now=performance.now();
+
+  if(now-fpsStart>=500) {
+    fps=Math.round(fpsFrames*1000/(now-fpsStart));
+
+    fpsFrames=0;
+    fpsStart=now;
+
+    document.getElementById("statFPS").textContent=fps;
+  }
+}
+
+/* =========================================
+   STATISTICS
+========================================= */
+
+function updateStats() {
+  document.getElementById("statCount").textContent=particles.length.toLocaleString("fr-FR");
+  document.getElementById("countValue").textContent=particles.length;
+}
+
+function updateModeStats() {
+  document.getElementById("statMode").textContent=settings.mode.toUpperCase();
+}
+
+/* =========================================
+   POINTER EVENTS
+========================================= */
+
+function pointerMove(e) {
+  const x=e.clientX;
+  const y=e.clientY;
+
+  mouse.px=mouse.x;
+  mouse.py=mouse.y;
+
+  mouse.x=x;
+  mouse.y=y;
+
+  mouse.vx=x-mouse.px;
+  mouse.vy=y-mouse.py;
+
+  mouse.active=true;
+
+  updateCursor();
+}
+
+function pointerDown(e) {
+  if(e.target.closest(".panel") ||
+     e.target.closest(".topbar") ||
+     e.target.closest(".bottomTools") ||
+     e.target.closest(".mobilePanelButton")) {
+    return;
+  }
+
+  pointerMove(e);
+
+  mouse.down=true;
+
+  if(settings.mode==="explosion") {
+    createBurst(mouse.x,mouse.y,1.2);
+  }
+
+  if(settings.mode==="repel") {
+    playSound(160,.12,"triangle",.025);
+  }
+}
+
+function pointerUp() {
+  mouse.down=false;
+}
+
+window.addEventListener("pointermove",pointerMove);
+window.addEventListener("pointerdown",pointerDown);
+window.addEventListener("pointerup",pointerUp);
+window.addEventListener("pointercancel",pointerUp);
+
+window.addEventListener("pointerleave",e=>{
+  if(e.pointerType==="mouse") hideCursor();
+});
+
+/* =========================================
+   MODE SELECTION
+========================================= */
+
+function setMode(mode) {
+  settings.mode=mode;
+
+  document.querySelectorAll(".modeButton").forEach(button=>{
+    button.classList.toggle("active",button.dataset.mode===mode);
+  });
+
+  updateModeStats();
+  playModeSound();
+
+  const messages={
+    attract:"Mode attraction activé",
+    repel:"Mode répulsion activé",
+    orbit:"Mode vortex activé",
+    gravity:"Mode gravité activé",
+    wave:"Mode ondes activé",
+    explosion:"Mode impulsion activé"
+  };
+
+  showToast(messages[mode] || mode);
+}
+
+document.querySelectorAll(".modeButton").forEach(button=>{
+  button.addEventListener("click",()=>{
+    setMode(button.dataset.mode);
+  });
+});
+
+/* =========================================
+   PALETTE SELECTION
+========================================= */
+
+function setPalette(index) {
+  settings.palette=index;
+
+  document.querySelectorAll(".colorButton").forEach(button=>{
+    button.classList.toggle(
+      "active",
+      Number(button.dataset.palette)===index
+    );
+  });
+
+  const palette=palettes[index];
+
+  for(const p of particles) {
+    p.color=choose(palette);
+  }
+
+  playSound(560,.16,"sine",.025);
+  showToast("Palette modifiée");
+}
+
+document.querySelectorAll(".colorButton").forEach(button=>{
+  button.addEventListener("click",()=>{
+    setPalette(Number(button.dataset.palette));
+  });
+});
+
+/* =========================================
+   RANGE CONTROLS
+========================================= */
+
+function bindRange(id,key,output,format=value=>value) {
+  const element=document.getElementById(id);
+  const label=document.getElementById(output);
+
+  element.addEventListener("input",()=>{
+    const value=Number(element.value);
+
+    settings[key]=value;
+    label.textContent=format(value);
+
+    if(key==="count") {
+      resizeParticleCount(value);
+    }
+  });
+}
+
+bindRange("count","count","countValue",v=>v);
+bindRange("speed","speed","speedValue",v=>v.toFixed(1)+"x");
+bindRange("size","size","sizeValue",v=>v.toFixed(1));
+bindRange("force","force","forceValue",v=>v.toFixed(1)+"x");
+bindRange("trail","trail","trailValue",v=>v.toFixed(2));
+
+/* =========================================
+   VISUAL TOGGLES
+========================================= */
+
+document.querySelectorAll(".switch").forEach(button=>{
+  button.addEventListener("click",()=>{
+    const key=button.dataset.toggle;
+
+    settings[key]=!settings[key];
+
+    button.classList.toggle("on",settings[key]);
+
+    if(key==="sound") {
+      if(settings.sound) {
+        playSound(600,.1);
+      }
+      updateSoundButton();
+    }
+
+    showToast(
+      key==="sound"
+      ? (settings.sound?"Son activé":"Son désactivé")
+      : (settings[key]?"Option activée":"Option désactivée")
+    );
+  });
+});
+
+/* =========================================
+   TOAST NOTIFICATIONS
+========================================= */
+
+let toastTimer=null;
+
+function showToast(message) {
+  const toast=document.getElementById("toast");
+
+  toast.textContent=message;
+  toast.classList.add("show");
+
+  clearTimeout(toastTimer);
+
+  toastTimer=setTimeout(()=>{
+    toast.classList.remove("show");
+  },1800);
+}
+
+/* =========================================
+   QUICK ACTIONS
+========================================= */
+
+document.getElementById("burst").addEventListener("click",()=>{
+  createBurst(width/2,height/2,2);
+  showToast("Cosmic burst !");
+});
+
+document.getElementById("reset").addEventListener("click",()=>{
+  createParticles(settings.count);
+  bursts=[];
+  showToast("Simulation réinitialisée");
+  playSound(380,.15);
+});
+
+document.getElementById("scatter").addEventListener("click",()=>{
+  for(const p of particles) {
+    const angle=random(0,Math.PI*2);
+    const speed=random(3,12);
+
+    p.vx=Math.cos(angle)*speed;
+    p.vy=Math.sin(angle)*speed;
+  }
+
+  showToast("Particules dispersées");
+  playSound(190,.2,"triangle");
+});
+
+document.getElementById("freeze").addEventListener("click",()=>{
+  running=!running;
+
+  document.getElementById("freeze").textContent=
+    running?"Ⅱ Pause":"▶ Reprendre";
+
+  if(running) {
+    requestAnimationFrame(render);
+  }
+
+  showToast(running?"Simulation reprise":"Simulation en pause");
+});
+
+document.getElementById("clear").addEventListener("click",()=>{
+  createParticles(0);
+  bursts=[];
+  showToast("Espace vidé");
+});
+
+document.getElementById("fullscreen").addEventListener("click",async()=>{
+  try {
+    if(!document.fullscreenElement) {
+      await document.documentElement.requestFullscreen();
+    } else {
+      await document.exitFullscreen();
+    }
+  } catch(e) {
+    showToast("Plein écran indisponible");
+  }
+});
+
+/* =========================================
+   SOUND BUTTON
+========================================= */
+
+function updateSoundButton() {
+  const button=document.getElementById("soundTop");
+  button.textContent=settings.sound?"♫":"♪";
+}
+
+document.getElementById("soundTop").addEventListener("click",()=>{
+  settings.sound=!settings.sound;
+
+  const toggle=document.querySelector('[data-toggle="sound"]');
+
+  toggle.classList.toggle("on",settings.sound);
+
+  updateSoundButton();
+
+  if(settings.sound) {
+    playSound(620,.15);
+  }
+
+  showToast(settings.sound?"Son activé":"Son désactivé");
+});
+
+/* =========================================
+   MOBILE CONTROL PANEL
+========================================= */
+
+document.getElementById("mobilePanel").addEventListener("click",()=>{
+  panel.classList.toggle("mobileOpen");
+
+  const open=panel.classList.contains("mobileOpen");
+
+  document.getElementById("mobilePanel").textContent=
+    open?"✕ Fermer":"⚙ Controls";
+});
+
+document.addEventListener("click",e=>{
+  if(window.innerWidth>650) return;
+
+  if(
+    !panel.contains(e.target) &&
+    !e.target.closest("#mobilePanel")
+  ) {
+    panel.classList.remove("mobileOpen");
+    document.getElementById("mobilePanel").textContent="⚙ Controls";
+  }
+});
+
+/* =========================================
+   KEYBOARD SHORTCUTS
+========================================= */
+
+window.addEventListener("keydown",e=>{
+  if(e.key===" " && !e.target.matches("input")) {
+    e.preventDefault();
+
+    running=!running;
+
+    if(running) requestAnimationFrame(render);
+
+    document.getElementById("freeze").textContent=
+      running?"Ⅱ Pause":"▶ Reprendre";
+  }
+
+  if(e.key==="r" || e.key==="R") {
+    createParticles(settings.count);
+    bursts=[];
+  }
+
+  if(e.key==="b" || e.key==="B") {
+    createBurst(width/2,height/2,2);
+  }
+
+  if(e.key==="Escape") {
+    panel.classList.remove("mobileOpen");
+  }
+
+  const modes={
+    "1":"attract",
+    "2":"repel",
+    "3":"orbit",
+    "4":"gravity",
+    "5":"wave",
+    "6":"explosion"
+  };
+
+  if(modes[e.key]) {
+    setMode(modes[e.key]);
+  }
+});
+
+/* =========================================
+   TOUCH OPTIMIZATION
+========================================= */
+
+canvas.style.touchAction="none";
+
+canvas.addEventListener("contextmenu",e=>{
+  e.preventDefault();
+});
+
+/* =========================================
+   INITIALIZATION
+========================================= */
+
+function initialize() {
+  resizeCanvas();
+
+  createParticles(settings.count);
+
+  ctx.fillStyle="#070910";
+  ctx.fillRect(0,0,width,height);
+
+  updateModeStats();
+  updateSoundButton();
+
+  render();
+
+  setTimeout(()=>{
+    showToast("Welcome to PARTICLES");
+  },700);
+}
+
+initialize();
+
+/* =========================================
+   VISIBILITY MANAGEMENT
+========================================= */
+
+document.addEventListener("visibilitychange",()=>{
+  if(document.hidden) {
+    running=false;
+  } else {
+    if(!running) {
+      running=true;
+      fpsStart=performance.now();
+      fpsFrames=0;
+      requestAnimationFrame(render);
+    }
+  }
+});
+
+/* =========================================
+   PERFORMANCE CLEANUP
+========================================= */
+
+window.addEventListener("beforeunload",()=>{
+  if(audioContext) {
+    audioContext.close();
+  }
+});
+
+/* =========================================
+   EXTRA VISUAL BEHAVIORS
+========================================= */
+
+function setParticleColor(color) {
+  for(const p of particles) {
+    p.color=color;
+  }
+}
+
+function changeParticleSize(multiplier) {
+  settings.size=clamp(settings.size*multiplier,.5,5);
+
+  document.getElementById("size").value=settings.size;
+  document.getElementById("sizeValue").textContent=settings.size.toFixed(1);
+}
+
+function changeParticleSpeed(multiplier) {
+  settings.speed=clamp(settings.speed*multiplier,.2,3);
+
+  document.getElementById("speed").value=settings.speed;
+  document.getElementById("speedValue").textContent=settings.speed.toFixed(1)+"x";
+}
+
+function calmParticles() {
+  for(const p of particles) {
+    p.vx*=.2;
+    p.vy*=.2;
+  }
+}
+
+function accelerateParticles() {
+  for(const p of particles) {
+    p.vx*=1.8;
+    p.vy*=1.8;
+  }
+}
+
+function randomizeParticles() {
+  for(const p of particles) {
+    p.color=choose(palettes[settings.palette]);
+    p.phase=random(0,Math.PI*2);
+    p.z=random(.3,1.2);
+  }
+}
+
+function createCircleBurst(x,y,radius=130) {
+  for(let i=0;i<particles.length;i++) {
+    const p=particles[i];
+
+    const d=distance(x,y,p.x,p.y);
+
+    if(d<radius) {
+      const dx=p.x-x;
+      const dy=p.y-y;
+      const length=Math.max(1,Math.hypot(dx,dy));
+
+      p.vx+=dx/length*random(3,8);
+      p.vy+=dy/length*random(3,8);
+    }
+  }
+}
+
+function createRipple(x,y) {
+  let radius=0;
+
+  const timer=setInterval(()=>{
+    radius+=12;
+
+    ctx.save();
+    ctx.strokeStyle=`rgba(135,170,255,${Math.max(0,1-radius/350)*.6})`;
+    ctx.lineWidth=1.5;
+
+    ctx.beginPath();
+    ctx.arc(x,y,radius,0,Math.PI*2);
+    ctx.stroke();
+
+    ctx.restore();
+
+    if(radius>350) clearInterval(timer);
+  },16);
+}
+
+/* =========================================
+   SPECIAL DOUBLE CLICK
+========================================= */
+
+canvas.addEventListener("dblclick",e=>{
+  createBurst(e.clientX,e.clientY,1.5);
+  createCircleBurst(e.clientX,e.clientY,220);
+});
+
+/* =========================================
+   PARTICLE PRESETS
+========================================= */
+
+function presetCosmic() {
+  setPalette(0);
+  setMode("orbit");
+  settings.glow=true;
+  settings.depth=true;
+  randomizeParticles();
+}
+
+function presetOcean() {
+  setPalette(1);
+  setMode("wave");
+  settings.glow=true;
+  settings.depth=true;
+  randomizeParticles();
+}
+
+function presetFire() {
+  setPalette(4);
+  setMode("explosion");
+  settings.speed=1.5;
+  randomizeParticles();
+}
+
+function presetGalaxy() {
+  setPalette(2);
+  setMode("attract");
+  settings.connections=true;
+  randomizeParticles();
+}
+
+/* =========================================
+   INTERACTION FEEDBACK
+========================================= */
+
+let lastRipple=0;
+
+function maybeCreateRipple() {
+  if(!mouse.down) return;
+
+  const now=performance.now();
+
+  if(now-lastRipple>500) {
+    createRipple(mouse.x,mouse.y);
+    lastRipple=now;
+  }
+}
+
+/* =========================================
+   END OF ENGINE
+========================================= */
+</script>
+</body>
+</html>
